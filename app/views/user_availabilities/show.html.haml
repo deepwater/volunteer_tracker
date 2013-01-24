@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Day:
+  = @user_availability.day
+%p
+  %b Time block:
+  = @user_availability.time_block
+%p
+  %b User:
+  = @user_availability.user_id
+
+= link_to 'Edit', edit_user_availability_path(@user_availability)
+\|
+= link_to 'Back', user_availabilities_path
