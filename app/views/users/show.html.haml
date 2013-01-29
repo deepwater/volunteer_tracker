@@ -1,0 +1,25 @@
+%p#notice= notice
+
+%p
+	%b First Name:
+	= @user.first_name
+%p
+	%b Last Name:
+	= @user.last_name
+%p
+	%b Email:
+	= @user.email
+%p
+	%b Tshirt Size:
+	= @user.tshirt_size
+%p
+	%b User availability:
+	%ul
+		- @user.user_availabilities.each do |user_availability|
+			%li
+				= user_availability.return_day
+				= user_availability.return_time_block
+
+/ = link_to 'Edit', edit_user(@user)
+/ \|
+= link_to 'Back', users_path

@@ -1,0 +1,24 @@
+%h1 Listing Users
+
+%table
+  %tr
+    %th Email
+    %th First Name
+    %th Last Name
+    %th T Shirt Size
+    %th
+    %th
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td= user.email
+      %td= user.first_name
+      %td= user.last_name
+      %td= user.tshirt_size
+
+      %td= link_to 'Show', user
+      %td= link_to 'Edit', edit_user_path(user)
+      %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
