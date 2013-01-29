@@ -1,0 +1,21 @@
+%h1 Listing user_charities
+
+%table
+  %tr
+    %th User
+    %th Charity
+    %th
+    %th
+    %th
+
+  - @user_charities.each do |user_charity|
+    %tr
+      %td= user_charity.user_id
+      %td= user_charity.charity_id
+      %td= link_to 'Show', user_charity
+      %td= link_to 'Edit', edit_user_charity_path(user_charity)
+      %td= link_to 'Destroy', user_charity, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New User charity', new_user_charity_path

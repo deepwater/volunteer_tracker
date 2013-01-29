@@ -1,6 +1,6 @@
 class UserAvailability < ActiveRecord::Base
 	belongs_to :user
-
+	
 	def return_day
 		dayNum = 20 + self.day
 		return dayNum.ordinalize + " July"

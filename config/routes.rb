@@ -1,4 +1,8 @@
 VolunteerTracker::Application.routes.draw do
+  resources :user_charities
+
+  resources :charities
+
   get "user/index"
 
   get "user/show"

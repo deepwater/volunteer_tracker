@@ -1,0 +1,16 @@
+= form_for @user_charity do |f|
+  - if @user_charity.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user_charity.errors.count, "error")} prohibited this user_charity from being saved:"
+      %ul
+        - @user_charity.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :user_id
+    = f.number_field :user_id
+  .field
+    = f.label :charity_id
+    = f.number_field :charity_id
+  .actions
+    = f.submit 'Save'
