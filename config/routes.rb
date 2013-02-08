@@ -7,11 +7,14 @@ VolunteerTracker::Application.routes.draw do
 
   get "user/show"
 
+
   resources :user_availabilities
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "registrations"}
 
   resources :users
+
+  match ':controller/:action'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
