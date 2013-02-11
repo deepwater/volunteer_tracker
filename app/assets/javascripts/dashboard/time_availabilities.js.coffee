@@ -9,25 +9,9 @@ $ ->
 	# Keeps track of the current day
 	dayListIndex = 0;
 
-	# Holds a list of all the dates 
-	dayList = [
-		"Sunday, July 21st, 2013", 
-		"Monday, July 22nd, 2013", 
-		"Tuesday, July 23rd, 2013", 
-		"Wednesday, July 24th, 2013", 
-		"Thursday, July 25th, 2013", 
-		"Friday, July 26th, 2013", 
-		"Saturday, July 27th, 2013", 
-		"Sunday, July 28th, 2013", 
-		"Monday, July 29th, 2013",
-		"Tuesday, July 30th, 2013",
-		"Wednesday, July 31st, 2013",
-		"Thursday, August 1st, 2013",
-	]
-
 	# Day Object
 	class Day
-		constructor: (@dayName) ->
+		constructor: (@dayName,@timeSlots) ->
 			@allDay = 0
 			@availableTimes = []	
 			@index = dayListIndex
@@ -52,22 +36,34 @@ $ ->
 					error: (jqXHR, textStatus, errorThrown) ->
 
 					success: (data, textStatus, jqXHR) ->
-	
-	createDay = ->
 
-		# Creates a New Day Object
-		newDay = new Day(dayList[dayListIndex])
+	fetchDays = ->
+		$.get '/dashboard/time_availabilities/get_time_slots', (data) ->
 
-		# Adds the new day object to the list of available days
-		availabilityList.push(newDay)
+			$.each data, (i) ->	
+				# Creates a New Day Object
 
-		# Shows the day
-		showDay()
+				console.log data[i]
+				newDay = new Day(data[i].date, data[i].time_slots)
+
+				# Adds the new day object to the list of available days
+				availabilityList.push(newDay)
+			
+			# Shows the day
+			showDay()
 
 	showDay = ->
 		# Changes the name of the day in the pagination
 		$('.time-availability-wrapper .pagination .active a').html(availabilityList[dayListIndex].dayName)
 		
+		# Gets the list of time slots that are available for that day
+		time_slots = availabilityList[dayListIndex].timeSlots
+
+		if time_slots.length > 0
+			$('.time-availability-wrapper tr').remove()
+			$.each time_slots, (i) ->	
+				$('#time-availability').append('<tr><th class="span1">' + time_slots[i] + '</th><td class="span1"></td>')
+
 		# Checks for slots the user is already available for on new day
 		listOfTimes = availabilityList[dayListIndex].availableTimes
 
@@ -99,16 +95,16 @@ $ ->
 			$('.available-all-day').removeClass('btn-warning').addClass 'btn-primary'
 			switchAvailabilityButton()
 
-	# Create the first day
-	createDay()
-
+	# Fetches all the days from the DB
+	fetchDays()
+	
 	# Used for mouse interactions when dragging across time slots
 	isMouseDown = false
 	isHighlighted = 0
 
 	# Event handlers for time slot selection
-	$('#time-availability td')
-		.mousedown ->
+	$('#time-availability')
+		.on 'mousedown', 'td', ->
 			isMouseDown = true
 
 			# Select the parent
@@ -122,7 +118,7 @@ $ ->
 			
 			# Stop default action: highlighting text
 			return false
-		.mouseover ->
+		.on 'mouseover', 'td', ->
 			# Check if the user is dragging
 			if isMouseDown
 				# Select the parent
@@ -155,15 +151,11 @@ $ ->
 			availabilityList[dayListIndex].saveDay()
 
 			# Incremement the index so that we can go to the next day
-			if dayListIndex+1 <= dayList.length
+			if dayListIndex+1 <= availabilityList.length
 				dayListIndex++
 
-				# Create the day if it hasn't already been created
-				if !availabilityList[dayListIndex]
-					createDay()
-
 			# If there are no more days after this, disable the next button
-			if dayListIndex == dayList.length-1
+			if dayListIndex == availabilityList.length-1
 				$(@).parent().addClass 'disabled'	
 
 			# Show the day

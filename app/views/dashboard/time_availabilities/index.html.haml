@@ -1,0 +1,27 @@
+.row
+  .span6
+    %br
+    %h3 Choose your hours of availability:
+    %br
+    
+.row.time-availability-wrapper
+  .span8
+    .pagination.span4
+      %ul
+        %li.disabled
+          %a{:href=>"#", :class => "prev-day"}
+            Prev
+        %li.active
+          %a 
+        %li
+          %a{:href=>"#", :class => "next-day"}
+            Next
+
+    .span3.offset1
+      %button.btn.btn-primary.available-all-day
+        %i.icon-ok-sign.icon-white
+        I'm Available All Day
+
+  .span7
+    %table#time-availability.table.table-bordered
+      %tbody

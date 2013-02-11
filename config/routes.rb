@@ -17,7 +17,8 @@ VolunteerTracker::Application.routes.draw do
   resources :users
 
   namespace :dashboard do
-    resource :time_availabilities
+    match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
+    resources :time_availabilities
   end
 
   # The priority is based upon order of creation:
