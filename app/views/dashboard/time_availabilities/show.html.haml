@@ -1,0 +1,175 @@
+.row
+  .span6
+    %br
+    %h3 Choose your hours of availability:
+    %br
+    
+.row.time-availability-wrapper
+  .span8
+    .pagination.span4
+      %ul
+        %li.disabled
+          %a{:href=>"#", :class => "prev-day"}
+            Prev
+        %li.active
+          %a 
+        %li
+          %a{:href=>"#", :class => "next-day"}
+            Next
+
+    .span3.offset1
+      %button.btn.btn-primary.available-all-day
+        %i.icon-ok-sign.icon-white
+        I'm Available All Day
+
+  .span7
+    %table#time-availability.table.table-bordered
+      %tbody
+        %tr
+          %th.span1 12.00am
+          %td.span1
+        %tr
+          %th 12.30am
+          %td
+        %tr
+          %th 1.00am
+          %td
+        %tr
+          %th 1.30am
+          %td
+        %tr
+          %th 2.00am
+          %td
+        %tr
+          %th 2.30am
+          %td
+        %tr
+          %th 3.00am
+          %td
+        %tr
+          %th 3.30am
+          %td
+        %tr
+          %th 4.00am
+          %td
+        %tr
+          %th 4.30am
+          %td
+        %tr
+          %th 5.00am
+          %td
+        %tr
+          %th 5.30am
+          %td
+        %tr
+          %th 6.00am
+          %td
+        %tr
+          %th 6.30am
+          %td
+        %tr
+          %th 7.00am
+          %td
+        %tr
+          %th 7.30am
+          %td
+        %tr
+          %th 8.00am
+          %td
+        %tr
+          %th 8.30am
+          %td
+        %tr
+          %th 9.00am
+          %td
+        %tr
+          %th 9.30am
+          %td
+        %tr
+          %th 10.00am
+          %td
+        %tr
+          %th 10.30am
+          %td
+        %tr
+          %th 11.00am
+          %td
+        %tr
+          %th 11.30am
+          %td
+        %tr
+          %th 12.00pm
+          %td
+        %tr
+          %th 12.30pm
+          %td
+        %tr
+          %th 1.00pm
+          %td
+        %tr
+          %th 1.30pm
+          %td
+        %tr
+          %th 2.00pm
+          %td
+        %tr
+          %th 2.30pm
+          %td
+        %tr
+          %th 3.00pm
+          %td
+        %tr
+          %th 3.30pm
+          %td
+        %tr
+          %th 4.00pm
+          %td
+        %tr
+          %th 4.30pm
+          %td
+        %tr
+          %th 5.00pm
+          %td
+        %tr
+          %th 5.30pm
+          %td
+        %tr
+          %th 6.00pm
+          %td
+        %tr
+          %th 6.30pm
+          %td
+        %tr
+          %th 7.00pm
+          %td
+        %tr
+          %th 7.30pm
+          %td
+        %tr
+          %th 8.00pm
+          %td
+        %tr
+          %th 8.30pm
+          %td
+        %tr
+          %th 9.00pm
+          %td
+        %tr
+          %th 9.30pm
+          %td
+        %tr
+          %th 10.00pm
+          %td
+        %tr
+          %th 10.30pm
+          %td
+        %tr
+          %th 11.00pm
+          %td
+        %tr
+          %th 11.30pm
+          %td
+
+          / .form-actions
+          /   %button.btn.btn-primary{:type => "submit"} Save changes
+          /   %button.btn{:type => "reset"} Cancel

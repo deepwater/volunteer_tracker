@@ -1,4 +1,6 @@
 VolunteerTracker::Application.routes.draw do
+  get "time_availabilities/show"
+
   resources :user_charities
 
   resources :charities
@@ -14,7 +16,9 @@ VolunteerTracker::Application.routes.draw do
 
   resources :users
 
-  match ':controller/:action'
+  namespace :dashboard do
+    resource :time_availabilities
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
