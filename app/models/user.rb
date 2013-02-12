@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   ROLES = %w[event_admin event_coordinator lt_coordinator volunteer_coordinator volunteer]
+  TSHIRT_SIZES = %w[S M L XL XXL XXXL]
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
