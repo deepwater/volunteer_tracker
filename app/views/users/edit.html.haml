@@ -1,0 +1,42 @@
+.container-fluid
+  .row-fluid
+    %noscript
+      .alert.alert-block.span11
+        %h4.alert-heading Warning!
+        %p
+          You need to have
+          %a{:href => "http://en.wikipedia.org/wiki/JavaScript", :target => "_blank"} JavaScript
+          enabled to use this site.
+    / start: Content
+    #content.span11
+      .row-fluid.sortable
+        .box.span12
+          .box-header{"data-original-title" => ""}
+            %h2
+              %i.halflings-icon.edit
+              Edit User
+          .box-content
+            = form_for(@user, :html => {:class => 'form-horizontal'}) do |f|
+              %fieldset
+                .control-group
+                  = f.label(:first_name, :class => 'control-label')
+                  .controls
+                    = f.text_field(:first_name, :class => 'input-xlarge focused')
+                .control-group
+                  = f.label(:last_name, :class => 'control-label')
+                  .controls
+                    = f.text_field(:last_name, :class => 'input-xlarge focused')
+                .control-group
+                  = f.label(:email, :class => 'control-label')
+                  .controls
+                    = f.email_field(:email, :class => 'input-xlarge focused')
+                .control-group
+                  = f.label(:tshirt_size, :class => 'control-label')
+                  .controls
+                    = f.select(:tshirt_size, options_for_select(['S', 'M', 'L', 'XL', 'XXL']))
+                .control-group
+                  = f.label(:role, :class => 'control-label')
+                  .controls
+                    = f.select(:role, options_for_select(User::ROLES, @user.role))
+                .form-actions
+                  = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

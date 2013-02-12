@@ -20,6 +20,10 @@
 				= user_availability.return_day
 				= user_availability.return_time_block
 
+%p
+	%b User Role
+	= @user.role
+
 / = link_to 'Edit', edit_user(@user)
 / \|
 = link_to 'Back', users_path

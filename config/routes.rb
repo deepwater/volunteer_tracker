@@ -1,20 +1,14 @@
 VolunteerTracker::Application.routes.draw do
-  get "time_availabilities/show"
-
+  
   resources :user_charities
-
   resources :charities
-
-  get "user/index"
-
-  get "user/show"
-
-
   resources :user_availabilities
 
   devise_for :users, :controllers => { :registrations => "registrations"}
 
-  resources :users
+  scope "/admin" do
+    resources :users
+  end
 
   namespace :dashboard do
     match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
