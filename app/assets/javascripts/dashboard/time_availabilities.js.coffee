@@ -43,7 +43,6 @@ $ ->
 			$.each data, (i) ->	
 				# Creates a New Day Object
 
-				console.log data[i]
 				newDay = new Day(data[i].date, data[i].time_slots)
 
 				# Adds the new day object to the list of available days
@@ -137,12 +136,24 @@ $ ->
 		.mouseup ->
 			isMouseDown = false;
 
+	# Click handler for next button
 	$('.next-day').on 'click', ->
+		# If there are no allocated time slots then show the modal
+		if $('tr.success').length == 0 then $('#confirmNextDay').modal() else navigateToNextDay()
+
+	$('#confirmNextDay .btn-danger, #confirmNextDay .close').on 'click', ->
+		navigateToNextDay()
+
+
+	navigateToNextDay = ->
+		# Save copy of the next button
+		$el = $('.next-day')
+
 		# If the user goes to the next day, activate previous button
 		$('.prev-day').parent().removeClass 'disabled'
 
 		# Make sure that there is actually a next day to go to
-		if !$(@).parent().hasClass 'disabled'
+		if !$el.parent().hasClass 'disabled'
 
 			# Clear the timetable
 			$('tr.success').removeClass 'success'
@@ -156,7 +167,7 @@ $ ->
 
 			# If there are no more days after this, disable the next button
 			if dayListIndex == availabilityList.length-1
-				$(@).parent().addClass 'disabled'	
+				$el.parent().addClass 'disabled'	
 
 			# Show the day
 			showDay()

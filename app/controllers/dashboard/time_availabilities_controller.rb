@@ -17,7 +17,7 @@ class Dashboard::TimeAvailabilitiesController < ApplicationController
     event_time_slots.collect do |date, time_slots|
       list_of_time_slots = []
       time_slots.each do |time_slot|
-        list_of_time_slots << Time.at(time_slot.utc_date).in_time_zone.strftime("%H:%M%P")
+        list_of_time_slots << Time.at(time_slot.utc_date).in_time_zone.strftime("%l.%M%P")
       end
 
       {

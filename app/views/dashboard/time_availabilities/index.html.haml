@@ -25,3 +25,15 @@
   .span7
     %table#time-availability.table.table-bordered
       %tbody
+
+#confirmNextDay.modal.hide.fade
+  .modal-header
+    %button.close{:type=>"button", :data =>{ :dismiss =>"modal"}}
+      ×
+    %h3.text-error
+      Warning
+  .modal-body
+    %p You have not allocated any time slots for this day, are you sure you can't help out at all?
+  .modal-footer
+    %button.btn.btn-danger{:data => {:dismiss=>"modal"}} Close
+    %button.btn.btn-success{:data => {:dismiss=>"modal"}} Reallocate Time
