@@ -1,12 +1,12 @@
 VolunteerTracker::Application.routes.draw do
-  
+
   resources :user_charities
   resources :charities
   resources :user_availabilities
 
   devise_for :users, :controllers => { :registrations => "registrations"}
 
-  scope "/admin" do
+  namespace :admin do
     resources :users
   end
 

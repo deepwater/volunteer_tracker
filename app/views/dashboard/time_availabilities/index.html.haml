@@ -5,8 +5,8 @@
     %br
     
 .row.time-availability-wrapper
-  .span8
-    .pagination.span4
+  .span10
+    .pagination.span5
       %ul
         %li.disabled
           %a{:href=>"#", :class => "prev-day"}
@@ -17,12 +17,13 @@
           %a{:href=>"#", :class => "next-day"}
             Next
 
-    .span3.offset1
+    .span3.offset
       %button.btn.btn-primary.available-all-day
         %i.icon-ok-sign.icon-white
         I'm Available All Day
 
-  .span7
+.row
+  .span8
     %table#time-availability.table.table-bordered
       %tbody
 

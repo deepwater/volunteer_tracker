@@ -25,6 +25,6 @@
           %td= user.last_name
           %td= user.tshirt_size
           %td= user.role
-          %td= link_to 'Show', user
-          %td= link_to 'Edit', edit_user_path(user)
-          %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+          %td= link_to 'Show', admin_user_path(user)
+          %td= link_to 'Edit', edit_admin_user_path(user)
+          %td= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }
