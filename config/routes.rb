@@ -1,13 +1,14 @@
 VolunteerTracker::Application.routes.draw do
 
   resources :user_charities
-  resources :charities
+  resources :charities, :only => [:index,:show]
   resources :user_availabilities
 
   devise_for :users, :controllers => { :registrations => "registrations"}
 
   namespace :admin do
     resources :users
+    resources :charities
   end
 
   namespace :dashboard do

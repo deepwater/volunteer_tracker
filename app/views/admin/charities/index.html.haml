@@ -1,0 +1,31 @@
+.row-fluid
+  .span12
+    .span10
+      %h2
+        %i.halflings-icon.edit 
+        Charity List
+
+    .span2
+      %br
+      = link_to(new_admin_charity_path) do
+        %button.btn.btn-primary{:type=>"button"} 
+          New Charity
+
+.row-fluid
+  .span12
+    %br
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Name
+        %th Alloted Hours
+        %th
+        %th
+        %th
+
+      - @charities.each do |charity|
+        %tr
+          %td= charity.name
+          %td= charity.alloted_hours
+          %td= link_to 'Show', admin_charity_path(charity)
+          %td= link_to 'Edit', edit_admin_charity_path(charity)
+          %td= link_to 'Destroy', admin_charity_path(charity), method: :delete, data: { confirm: 'Are you sure?' }
