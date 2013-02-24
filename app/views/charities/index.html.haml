@@ -9,11 +9,9 @@
     %table.table.table-bordered.table-striped
       %tr
         %th Name
-        %th Alloted Hours
         %th
 
       - @charities.each do |charity|
         %tr
           %td= charity.name
-          %td= charity.alloted_hours
           %td= link_to 'Show', charity

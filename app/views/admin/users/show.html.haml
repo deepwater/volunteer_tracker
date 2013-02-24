@@ -2,7 +2,10 @@
 	.span12
 		%h2
 			%i.halflings-icon.edit 
-			Viewing Profile
+			="#{@user.first_name} #{@user.last_name} "
+		%h4
+			= "#{@user.charities.first.name}"
+		%br
 
 - if notice
 	.row-fluid
@@ -22,13 +25,6 @@
 	%p
 		%b Tshirt Size:
 		= @user.tshirt_size
-	%p
-		%b User availability:
-		%ul
-			- @user.user_availabilities.each do |user_availability|
-				%li
-					= user_availability.return_day
-					= user_availability.return_time_block
 	%p
 		%b User Role
 		= @user.role

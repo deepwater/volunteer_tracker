@@ -1,4 +1,4 @@
-class Admin::CharitiesController < ApplicationController
+class Admin::CharitiesController < AdminController
   # GET /charities
   # GET /charities.json
   def index

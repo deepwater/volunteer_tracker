@@ -8,21 +8,27 @@
 	= csrf_meta_tags
 
 	%body
-		.container-fluid
+		.container
       
 			%noscript
-				.row-fluid
+				.row
 					.alert.alert-block.span11
 						%h4.alert-heading Warning!
 						%p
 							You need to have
 							%a{:href => "http://en.wikipedia.org/wiki/JavaScript", :target => "_blank"} JavaScript
 							enabled to use this site.
-			
+							
 			.row
-				.span4
-					%ul.nav.nav-pills.nav-stacked
-						%li
-							= link_to("User Management", admin_users_path)
+				.span3
+					%br
+					%br
+					%br
+					%br
+					%ul.nav.nav-tabs.nav-stacked
+						= nav_link("Home", admin_index_path)
+						= nav_link("User Management", admin_users_path)
+						= nav_link("Charity Management", admin_charities_path)
 
-			= yield
+				.span9
+					= yield

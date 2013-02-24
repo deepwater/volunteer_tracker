@@ -11,13 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212013535) do
+ActiveRecord::Schema.define(:version => 20130224230149) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
-    t.integer  "alloted_hours"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "event_timeslots", :force => true do |t|
@@ -27,11 +26,10 @@ ActiveRecord::Schema.define(:version => 20130212013535) do
   end
 
   create_table "user_availabilities", :force => true do |t|
-    t.integer  "day"
-    t.integer  "time_block"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.integer  "event_timeslot_id"
   end
 
   create_table "user_charities", :force => true do |t|

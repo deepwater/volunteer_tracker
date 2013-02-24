@@ -14,13 +14,12 @@ $ ->
 		constructor: (@dayName,@timeSlots) ->
 			@allDay = 0
 			@availableTimes = []	
-			@index = dayListIndex
 
-		addAvailability: (dayIndex) ->
-			@availableTimes.push(dayIndex);
+		addAvailability: (time_slot_id) ->
+			@availableTimes.push(time_slot_id);
 
-		removeAvailability: (dayIndex) ->
-			@availableTimes.splice(@availableTimes.indexOf(dayIndex), 1);
+		removeAvailability: (time_slot_id) ->
+			@availableTimes.splice(@availableTimes.indexOf(time_slot_id), 1);
 
 		resetAvailabilities: ->
 			@availableTimes.length = 0
@@ -61,15 +60,16 @@ $ ->
 		if time_slots.length > 0
 			$('.time-availability-wrapper tr').remove()
 			$.each time_slots, (i) ->	
-				$('#time-availability').append('<tr><th class="span1">' + time_slots[i] + '</th><td class="span1"></td>')
+				$('#time-availability').append('<tr><th class="span1">' + time_slots[i].readable_time + '</th><td class="span1" data-time-slot-id="' + time_slots[i].time_slot_id + '"></td>')
 
 		# Checks for slots the user is already available for on new day
 		listOfTimes = availabilityList[dayListIndex].availableTimes
 
 		# If the user is available for time slots then display them all
 		if listOfTimes.length > 0
-			$.each listOfTimes, (i) ->	
-				$('.time-availability-wrapper tr').eq(listOfTimes[i]).addClass 'success'
+
+			$.each listOfTimes, (i) ->
+				$('[data-time-slot-id="' + listOfTimes[i] + '"]').parent().addClass 'success'
 
 	switchAvailabilityButton = ->
 		# Find the button element
@@ -113,7 +113,7 @@ $ ->
 			isHighlighted = $parent.hasClass 'success'
 
 			# If the user highlighted the cell then add the index of the row to the day object as an available time
-			if isHighlighted then availabilityList[dayListIndex].addAvailability($parent.index()) else availabilityList[dayListIndex].removeAvailability($parent.index())
+			if isHighlighted then availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) else availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
 			
 			# Stop default action: highlighting text
 			return false
@@ -124,7 +124,7 @@ $ ->
 				$parent = $(@).parent()
 
 				# If the user highlighted the cell then add the index of the row to the day object as an available time
-				if isHighlighted then availabilityList[dayListIndex].addAvailability($parent.index()) else availabilityList[dayListIndex].removeAvailability($parent.index())
+				if isHighlighted then availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) else availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
 				
 				# Toggle the class based on whether the user is highlighting or unhighlighting cells
 				$parent.toggleClass('success', isHighlighted)
@@ -153,7 +153,7 @@ $ ->
 		$('.prev-day').parent().removeClass 'disabled'
 
 		# Make sure that there is actually a next day to go to
-		if !$el.parent().hasClass 'disabled'
+		if !$el.parent().hasClass 'finish'
 
 			# Clear the timetable
 			$('tr.success').removeClass 'success'
@@ -167,13 +167,18 @@ $ ->
 
 			# If there are no more days after this, disable the next button
 			if dayListIndex == availabilityList.length-1
-				$el.parent().addClass 'disabled'	
+				$el.parent().addClass 'finish'
+				$el.html("Finish");	
 
 			# Show the day
 			showDay()
 
 			# Check if the user has said they can do all day for the new day
 			checkAllDay()
+		else
+			check = confirm 'Are you sure you are finished adding your time availability?'
+			if check then window.location.href = "/dashboard/user_charities"
+
 
 
 	$('.prev-day').on 'click', ->

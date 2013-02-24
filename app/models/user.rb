@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :tshirt_size, :role
 
   has_many :user_availabilities
+
   has_many :user_charities
   has_many :charities, :through => :user_charities
 
