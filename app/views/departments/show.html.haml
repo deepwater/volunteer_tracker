@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Department manager:
+  = @department.department_manager_id
+%p
+  %b Name:
+  = @department.name
+%p
+  %b Budgeted hours:
+  = @department.budgeted_hours
+
+= link_to 'Edit', edit_department_path(@department)
+\|
+= link_to 'Back', departments_path

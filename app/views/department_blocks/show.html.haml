@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Start time:
+  = @department_block.start_time_id
+%p
+  %b End time:
+  = @department_block.end_time_id
+%p
+  %b Suggested number of workers:
+  = @department_block.suggested_number_of_workers
+
+= link_to 'Edit', edit_department_block_path(@department_block)
+\|
+= link_to 'Back', department_blocks_path

@@ -7,8 +7,7 @@ task :import => [:environment] do
 
   CSV.foreach(file, :headers => false) do |row|
     Charity.create({
-      :name => row[0],
-      :alloted_hours => 0
+      :name => row[0]
     })
   end
 

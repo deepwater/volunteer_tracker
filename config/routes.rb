@@ -1,5 +1,7 @@
 VolunteerTracker::Application.routes.draw do
 
+  resources :departments, :only => [:index,:show]
+
   resources :charities, :only => [:index,:show]
 
   devise_for :users, :controllers => { :registrations => "registrations"}
@@ -8,6 +10,7 @@ VolunteerTracker::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :charities
+    resources :departments
   end
 
   resources :dashboard, :only => :index
@@ -16,6 +19,7 @@ VolunteerTracker::Application.routes.draw do
     match '/registration_complete' => "dashboard#registration_complete"
     resources :time_availabilities
     resources :user_charities
+    resources :department_blocks
   end
 
   # The priority is based upon order of creation:

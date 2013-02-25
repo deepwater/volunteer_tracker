@@ -8,7 +8,8 @@ task :import => [:environment] do
   CSV.foreach(file, :headers => false) do |row|
     Department.create({
       :name => row[0],
-      :alloted_hours => 0
+      :budgeted_hours => row[1],
+      :department_manager_id => 0
     })
   end
 

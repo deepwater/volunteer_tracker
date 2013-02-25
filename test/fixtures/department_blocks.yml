@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_time_id: 1
+  end_time_id: 1
+  suggested_number_of_workers: 1
+
+two:
+  start_time_id: 1
+  end_time_id: 1
+  suggested_number_of_workers: 1

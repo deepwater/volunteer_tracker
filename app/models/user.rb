@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
   has_many :user_charities
   has_many :charities, :through => :user_charities
 
+  has_one :department_manager
+  has_one :department, :through => :department_manager
+
+
   before_save :default_values
 
   def default_values

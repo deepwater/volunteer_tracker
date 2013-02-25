@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  department_manager_id: 1
+  name: MyText
+  budgeted_hours: 1
+
+two:
+  department_manager_id: 1
+  name: MyText
+  budgeted_hours: 1
