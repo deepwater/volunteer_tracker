@@ -1,0 +1,28 @@
+.box-content
+  = form_for(@department_block, :url => dashboard_department_blocks_path, :html => {:class => 'form-horizontal'}) do |f|
+    - if @department_block.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@department_block.errors.count, "error")} prohibited this department_block from being saved:"
+        %ul
+          - @department_block.errors.full_messages.each do |msg|
+            %li= msg
+
+    %fieldset
+      .control-group
+        = f.label(:department_id, :class => 'control-label')
+        .controls
+          = f.collection_select(:department_id, Department.all, :id, :name)
+      .control-group
+        = f.label(:start_time_id, :class => 'control-label')
+        .controls
+          = f.collection_select(:start_time_id, EventTimeslot.all, :id, :readable_time)
+      .control-group
+        = f.label(:end_time_id, :class => 'control-label')
+        .controls
+          = f.collection_select(:end_time_id, EventTimeslot.all, :id, :readable_time)
+      .control-group
+        = f.label(:suggested_number_of_workers, :class => 'control-label')
+        .controls
+          = f.number_field(:suggested_number_of_workers, :class => 'input-xlarge focused')
+      .form-actions
+        = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

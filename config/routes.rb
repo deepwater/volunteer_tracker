@@ -11,12 +11,14 @@ VolunteerTracker::Application.routes.draw do
     resources :users
     resources :charities
     resources :departments
+    resources :department_managers
   end
 
-  resources :dashboard, :only => :index
+  resources :dashboard, :only => [:index, :registration_complete]
   namespace :dashboard do
     match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
     match '/registration_complete' => "dashboard#registration_complete"
+    
     resources :time_availabilities
     resources :user_charities
     resources :department_blocks

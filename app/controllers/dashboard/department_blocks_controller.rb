@@ -1,4 +1,4 @@
-class Dashboard::DepartmentBlocksController < ApplicationController
+class Dashboard::DepartmentBlocksController < DashboardController
   # GET /department_blocks
   # GET /department_blocks.json
   def index
@@ -44,7 +44,7 @@ class Dashboard::DepartmentBlocksController < ApplicationController
 
     respond_to do |format|
       if @department_block.save
-        format.html { redirect_to @department_block, notice: 'Department block was successfully created.' }
+        format.html { redirect_to dashboard_department_block_path(@department_block), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
       else
         format.html { render action: "new" }

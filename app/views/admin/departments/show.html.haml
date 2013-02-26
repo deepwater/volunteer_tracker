@@ -1,0 +1,25 @@
+%p#notice= notice
+
+%p
+	%b Name:
+	= @department.name
+%p
+	%b Budgeted hours:
+	= @department.budgeted_hours
+
+%p
+	%b 
+		Manager:
+
+	- if !@department.user.nil?
+		= link_to"#{@department.user.first_name} #{@department.user.last_name}",  admin_user_path(@department.user)
+	- else
+		= link_to(edit_admin_department_path(@department)) do
+			%button.btn.btn-small.btn-success{:type=>"button"} 
+				Assign Manager
+
+= link_to 'Edit', edit_admin_department_path(@department)
+\|
+= link_to 'Destroy', admin_department_path(@department), method: :delete, data: { confirm: 'Are you sure?' }
+\|
+= link_to 'Back', admin_departments_path

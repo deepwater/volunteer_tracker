@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  ROLES = %w[event_admin event_coordinator lt_coordinator volunteer_coordinator volunteer]
+  ROLES = %w[volunteer volunteer_coordinator department_coordinator department_manager event_admin]
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
 
   # Include default devise modules. Others available are:
@@ -24,5 +24,13 @@ class User < ActiveRecord::Base
 
   def default_values
     self.role ||= 'volunteer'
+  end
+
+  def role?(base_role)
+    ROLES.index(base_role.to_s) <= ROLES.index(role)
+  end
+
+  def full_name 
+    "#{self.first_name} #{self.last_name}"
   end
 end

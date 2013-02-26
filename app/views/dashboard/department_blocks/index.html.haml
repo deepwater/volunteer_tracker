@@ -1,0 +1,35 @@
+.row-fluid
+  .span12
+    .span8
+      %h2
+        %i.halflings-icon.edit 
+        Department Block List
+
+    .span4
+      %br
+      = link_to(new_dashboard_department_block_path) do
+        %button.btn.btn-primary{:type=>"button"} 
+          Create Department Block
+
+.row-fluid
+  .span12
+    %br
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Department
+        %th Start Time
+        %th End Time
+        %th Suggested Number of Workers
+        %th
+        %th
+        %th
+
+      - @department_blocks.each do |department_block|
+        %tr
+          %td= department_block.department.name
+          %td= department_block.start_time.readable_time
+          %td= department_block.end_time.readable_time
+          %td= department_block.suggested_number_of_workers
+          %td= link_to 'Show', dashboard_department_block_path(department_block)
+          %td= link_to 'Edit', edit_dashboard_department_block_path(department_block)
+          %td= link_to 'Destroy', dashboard_department_block_path(department_block), method: :delete, data: { confirm: 'Are you sure?' }

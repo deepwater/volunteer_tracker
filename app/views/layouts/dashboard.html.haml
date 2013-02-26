@@ -1,7 +1,7 @@
 !!!
 %html
 	%head
-	%title VolunteerTracker Admin
+	%title VolunteerTracker Dashboard
 
 	= stylesheet_link_tag    "application", :media => "all"
 	= javascript_include_tag "application"
@@ -26,11 +26,13 @@
 					%br
 					%br
 					%ul.nav.nav-pills.nav-stacked
-						= nav_link("Home", admin_index_path)
-						= nav_link("Your Dashboard", dashboard_index_path)
-						= nav_link("User Management", admin_users_path)
-						= nav_link("Charity Management", admin_charities_path)
-						= nav_link("Department Management", admin_departments_path)
+						= nav_link("Home", dashboard_index_path)
+
+						- if can? :manage, :all
+							= nav_link("Admin Panel", admin_index_path)
+
+						- if can? :manage, DepartmentBlock
+							= nav_link("Manage Blocks", dashboard_department_blocks_path)
 
 				.span9
 					= yield
