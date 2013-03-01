@@ -1,5 +1,7 @@
 VolunteerTracker::Application.routes.draw do
 
+  root :to => 'dashboard#index'
+
   resources :departments, :only => [:index,:show]
 
   resources :charities, :only => [:index,:show]
