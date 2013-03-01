@@ -5,31 +5,71 @@
         %i.halflings-icon.edit 
         Department Block List
 
-    .span4
-      %br
-      = link_to(new_dashboard_department_block_path) do
-        %button.btn.btn-primary{:type=>"button"} 
-          Create Department Block
-
 .row-fluid
   .span12
-    %br
-    %table.table.table-bordered.table-striped
-      %tr
-        %th Department
-        %th Start Time
-        %th End Time
-        %th Suggested Number of Workers
-        %th
-        %th
-        %th
+    %ul.nav.nav-tabs
+      - ordered_days = get_day_ordered
+      - ordered_days.each_with_index do |day, index|
+        %li{:class => index == 0 ? "active" : ""}
+          %a{:href=>"##{day[:safe_short_date]}", :data=> {:toggle=>"tab"}}
+            = day[:short_date]
 
-      - @department_blocks.each do |department_block|
-        %tr
-          %td= department_block.department.name
-          %td= department_block.start_time.readable_time
-          %td= department_block.end_time.readable_time
-          %td= department_block.suggested_number_of_workers
-          %td= link_to 'Show', dashboard_department_block_path(department_block)
-          %td= link_to 'Edit', edit_dashboard_department_block_path(department_block)
-          %td= link_to 'Destroy', dashboard_department_block_path(department_block), method: :delete, data: { confirm: 'Are you sure?' }
+    .tab-content
+      - ordered_days.each_with_index do |day, index|
+        %div{:id => "#{day[:safe_short_date]}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
+          %br
+          %table.table.table-bordered.table-striped
+            %tr
+              %th Start Time
+              %th End Time
+              %th Suggested Number of Workers
+              %th
+
+            - day[:time_slots].each do |timeslot|
+              - @department_blocks = DepartmentBlock.where(:start_time_id => timeslot[:time_slot_id])
+              - @department_blocks.each do |department_block|
+                %tr
+                  %td= department_block.start_time.readable_short_time
+                  %td= department_block.end_time.readable_short_time
+                  %td= department_block.suggested_number_of_workers
+                  %td= link_to 'View', dashboard_department_block_path(department_block)
+
+          = link_to(new_dashboard_department_block_path) do
+            %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day[:safe_short_date]}", :data => {:toggle => "modal"}} 
+              Create Department Block
+
+
+          %div{:class =>"modal hide fade", :id => "modal_#{day[:safe_short_date]}"}
+            .modal-header
+              %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+                &times;
+              %h3 Create a Department Block
+            .modal-body
+              = render 'form'
+              / = form_for(@department_block, :url => dashboard_department_blocks_path, :html => {:class => 'form-horizontal'}) do |f|
+              /   - if @department_block.errors.any?
+              /     #error_explanation
+              /       %h2= "#{pluralize(@department_block.errors.count, "error")} prohibited this department_block from being saved:"
+              /       %ul
+              /         - @department_block.errors.full_messages.each do |msg|
+              /           %li= msg
+
+              /   %fieldset
+              /     .control-group
+              /       = f.label(:department_id, :class => 'control-label')
+              /       .controls
+              /         = f.collection_select(:department_id, Department.all, :id, :name)
+              /     .control-group
+              /       = f.label(:start_time_id, :class => 'control-label')
+              /       .controls
+              /         = f.collection_select(:start_time_id, day[:timeslot], :id, day[:readable_time])
+              /     .control-group
+              /       = f.label(:end_time_id, :class => 'control-label')
+              /       .controls
+              /         = f.collection_select(:end_time_id, EventTimeslot.all, :id, :readable_time)
+              /     .control-group
+              /       = f.label(:suggested_number_of_workers, :class => 'control-label')
+              /       .controls
+              /         = f.number_field(:suggested_number_of_workers, :class => 'input-xlarge focused')
+              /     .form-actions
+              /       = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

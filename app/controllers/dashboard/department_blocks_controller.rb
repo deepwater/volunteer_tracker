@@ -3,6 +3,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
   # GET /department_blocks.json
   def index
     @department_blocks = DepartmentBlock.all
+    @department_block = DepartmentBlock.new
 
     respond_to do |format|
       format.html # index.html.erb
