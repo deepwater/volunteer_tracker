@@ -38,7 +38,7 @@
               %th
 
             - day[:time_slots].each do |timeslot|
-              - @department_blocks = DepartmentBlock.where(:start_time_id => timeslot[:time_slot_id])
+              - @department_blocks = DepartmentBlock.where(:department_id => @department.id, :start_time_id => timeslot[:time_slot_id])
               - @department_blocks.each do |department_block|
                 %tr
                   %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
