@@ -1,0 +1,11 @@
+.row-fluid
+  .span12
+    .span9
+      %h2
+        %i.halflings-icon.edit 
+        Departments List
+%br
+.row
+  .span9
+    %p Choose a Department, to view Department Scheduling information:  
+    = select_tag("department_block_department_chooser", options_from_collection_for_select(@departments, "id", "name"), :include_blank => true)

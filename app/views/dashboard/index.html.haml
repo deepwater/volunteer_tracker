@@ -1,4 +1,34 @@
-Welcome to the Dashboard Home
+%h2
+	= current_user.full_name
+%h3
+	= current_user.role.camelize
+%br
+%br
 
-%br
-%br
+%ul.thumbnails
+	- if can? :manage, :all
+		.span3
+			.thumbnail
+				.caption
+					%h4 Manage Time Blocks
+					%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+					%p 
+						= link_to("Setup Blocks", dashboard_departments_path, :class => "btn btn-block btn-primary")
+	-else
+		- if can? :manage, DepartmentBlock  
+			- if current_user.department_manager
+				.span3
+					.thumbnail
+						.caption
+							%h4 Manage Time Blocks
+							%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+							%p 
+								= link_to("Setup Blocks", dashboard_department_path(current_user.department), :class => "btn btn-block btn-primary")
+			- else 
+				.span3
+					.thumbnail
+						.caption
+							%h4 Manage Time Blocks
+							%p You are a Department Manager but have not yet been assigned a Department. Please contact an Event Admin.
+		
+

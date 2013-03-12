@@ -19,15 +19,36 @@
 							%a{:href => "http://en.wikipedia.org/wiki/JavaScript", :target => "_blank"} JavaScript
 							enabled to use this site.
 							
+
+			.row
+				.navbar.navbar-inverse.navbar-fixed-top
+					.navbar-inner
+						.container
+							%a.btn.btn-navbar{:data=>{:toggle=>"collapse", :target=>".nav-collapse"}}
+								%span.icon-bar"
+								%span.icon-bar"
+								%span.icon-bar"
+							= link_to("Eventus", "#", :class=>"brand")
+
+							.nav-collapse.collapse
+								%ul.nav.pull-right
+									= nav_link("Dashboard", dashboard_index_path)
+									= nav_link("My Profile", edit_user_registration_path)
+									%li
+										= link_to("Logout", destroy_user_session_path, :method => :delete)
 			.row
 				.span3
-					%h3 Admin
+					%br
+					%br
+					%br
 					%ul.nav.nav-pills.nav-stacked
 						= nav_link("Home", admin_index_path)
-						= nav_link("Your Dashboard", dashboard_index_path)
 						= nav_link("User Management", admin_users_path)
 						= nav_link("Charity Management", admin_charities_path)
 						= nav_link("Department Management", admin_departments_path)
 
 				.span9
+					%br
+					%br
+					%br
 					= yield

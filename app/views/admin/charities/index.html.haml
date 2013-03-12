@@ -17,7 +17,11 @@
     %table.table.table-bordered.table-striped
       %tr
         %th Name
+        %th
+        %th
 
       - @charities.each do |charity|
         %tr
           %td= link_to charity.name, admin_charity_path(charity)
+          %td= link_to 'Edit', edit_admin_charity_path(charity)
+          %td= link_to('Destroy', admin_charity_path(charity), :method=> :delete, data: { confirm: 'Are you sure?' })

@@ -8,18 +8,22 @@
             %li= msg
 
     %fieldset
+      - if @department_block.department
+        = f.hidden_field :department_id
+      - else
+        = f.hidden_field :department_id, :value => @department.id     
       .control-group
-        = f.label(:department_id, :class => 'control-label')
+        = f.label(:name, :class => 'control-label')
         .controls
-          = f.collection_select(:department_id, Department.all, :id, :name)
+          = f.text_field(:name, :class => 'input-xlarge focused')
       .control-group
         = f.label(:start_time_id, :class => 'control-label')
         .controls
-          = f.collection_select(:start_time_id, EventTimeslot.all, :id, :readable_time)
+          = f.select(:start_time_id, EventTimeslot.all)
       .control-group
         = f.label(:end_time_id, :class => 'control-label')
         .controls
-          = f.collection_select(:end_time_id, EventTimeslot.all, :id, :readable_time)
+          = f.select(:end_time_id, time_list.collect {|time_list| [time_list[:readable_time], time_list[:time_slot_id]]})
       .control-group
         = f.label(:suggested_number_of_workers, :class => 'control-label')
         .controls

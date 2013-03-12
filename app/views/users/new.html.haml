@@ -26,6 +26,14 @@
                 .controls
                   = f.text_field(:last_name, :class => 'input-xlarge focused')
               .control-group
+                = f.label(:cell_phone, :class => 'control-label')
+                .controls
+                  = f.text_field(:cell_phone, :class => 'input-xlarge focused')
+              .control-group
+                = f.label(:home_phone, :class => 'control-label')
+                .controls
+                  = f.text_field(:home_phone, :class => 'input-xlarge focused')
+              .control-group
                 = f.label(:email, :class => 'control-label')
                 .controls
                   = f.email_field(:email, :class => 'input-xlarge focused')

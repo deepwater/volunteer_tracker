@@ -1,11 +1,21 @@
-.row-fluid
+.row
   .span12
-    .span8
+    .span6
       %h2
         %i.halflings-icon.edit 
-        Department Block List
+        = "Department: #{@department.name}"
 
-.row-fluid
+    - if can? :manage, :all
+      .span5
+        %p.span2 
+          %br
+          Quick Jump:
+        %br
+        = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.all, "id", "name"), :class => "span3", :include_blank => true)
+
+
+.row
+  %br
   .span12
     %ul.nav.nav-tabs
       - ordered_days = get_day_ordered
@@ -42,11 +52,10 @@
             %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day[:safe_short_date]}", :data => {:toggle => "modal"}} 
               Create Department Block
 
-
           %div{:class =>"modal hide fade", :id => "modal_#{day[:safe_short_date]}"}
             .modal-header
               %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
                 &times;
               %h3 Create a Department Block
             .modal-body
-              = render 'form', :time_list => day[:time_slots]
+              = render 'dashboard/department_blocks/new', :time_list => day[:time_slots], :department_id => "@department.id"

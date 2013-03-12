@@ -1,10 +1,17 @@
 .row
-  .span9
+  .span6
     %h2
       %i.halflings-icon.edit 
       Users List
 
+  .span3
+    %br
+    = link_to(new_admin_user_path) do
+      %button.btn.btn-primary{:type=>"button"} 
+        New User
+
 .row
+  %br
   .span9
     %table.table.table-bordered.table-striped
       %tr
@@ -12,6 +19,8 @@
         %th Email
         %th T Shirt Size
         %th Role
+        %th
+        %th
 
       - @users.each do |user|
         %tr
@@ -19,3 +28,5 @@
           %td= user.email
           %td= user.tshirt_size
           %td= user.role
+          %td= link_to 'Edit', edit_admin_user_path(user)
+          %td= link_to 'Destroy', admin_user_path(user), :method => :delete

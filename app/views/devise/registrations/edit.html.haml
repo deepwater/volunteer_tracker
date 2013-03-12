@@ -7,6 +7,18 @@
     %br/
     = f.email_field :email
   %div
+    = f.label(:cell_phone, :class => 'control-label')
+    %br
+    = f.text_field(:cell_phone, :class => 'input-xlarge focused')
+  %div
+    = f.label(:home_phone, :class => 'control-label')
+    %br
+    = f.text_field(:home_phone, :class => 'input-xlarge focused')
+  %div
+    = f.label(:tshirt_size, :class => 'control-label')
+    %br
+    = f.select(:tshirt_size, options_for_select(User::TSHIRT_SIZES, @user.tshirt_size))
+  %div
     = f.label :password
     %i (leave blank if you don't want to change it)
     %br/
@@ -22,7 +34,7 @@
     = f.password_field :current_password
     
   %div= f.submit "Update"
-%h3 Cancel my account
-%p
-  Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
-= link_to "Back", :back
+/ %h3 Cancel my account
+/ %p
+/   Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
+/ = link_to "Back", :back

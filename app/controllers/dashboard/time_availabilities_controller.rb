@@ -42,7 +42,7 @@ class Dashboard::TimeAvailabilitiesController < ApplicationController
   def create
   	@user_id = current_user.id
 
-  	UserAvailability.where(:user_id => @user_id).delete_all
+  	UserAvailability.where(:user_id => @user_id, :event_timeslot_id => [params[:data][:firstTimeslot]...params[:data][:secondTimeslot]]).delete_all
 
   	params[:data][:availableTimes].each do |availableTime|
   		UserAvailability.create(:user_id => @user_id, :event_timeslot_id => availableTime)

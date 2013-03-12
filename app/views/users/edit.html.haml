@@ -16,13 +16,21 @@
             .controls
               = f.text_field(:last_name, :class => 'input-xlarge focused')
           .control-group
+            = f.label(:cell_phone, :class => 'control-label')
+            .controls
+              = f.text_field(:cell_phone, :class => 'input-xlarge focused')
+          .control-group
+            = f.label(:home_phone, :class => 'control-label')
+            .controls
+              = f.text_field(:home_phone, :class => 'input-xlarge focused')
+          .control-group
             = f.label(:email, :class => 'control-label')
             .controls
               = f.email_field(:email, :class => 'input-xlarge focused')
           .control-group
             = f.label(:tshirt_size, :class => 'control-label')
             .controls
-              = f.select(:tshirt_size, options_for_select(['S', 'M', 'L', 'XL', 'XXL']))
+              = f.select(:tshirt_size, options_for_select(User::TSHIRT_SIZES, @user.tshirt_size)
           .control-group
             = f.label(:role, :class => 'control-label')
             .controls

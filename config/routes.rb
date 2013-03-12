@@ -1,5 +1,9 @@
 VolunteerTracker::Application.routes.draw do
 
+  get "department_schedule/index"
+
+  get "department_schedule/show"
+
   root :to => 'dashboard#index'
 
   resources :departments, :only => [:index,:show]
@@ -20,7 +24,8 @@ VolunteerTracker::Application.routes.draw do
   namespace :dashboard do
     match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
     match '/registration_complete' => "registration#index"
-  
+
+    resources :departments, :only => [:index,:show]
     resources :time_availabilities
     resources :user_charities
     resources :department_blocks

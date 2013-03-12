@@ -13,7 +13,7 @@ class Ability
 
     end
     if user.role? :department_manager
-        can :manage, :department_blocks
+        can :manage, DepartmentBlock
     end
     if user.role? :event_admin
         can :manage, :all

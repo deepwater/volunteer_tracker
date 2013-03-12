@@ -20,16 +20,28 @@
 							enabled to use this site.
 							
 			.row
-				.span3
-					%h3 Dashboard
-					%ul.nav.nav-pills.nav-stacked
-						= nav_link("Home", dashboard_index_path)
+				.navbar.navbar-inverse.navbar-fixed-top
+					.navbar-inner
+						.container
+							%a.btn.btn-navbar{:data=>{:toggle=>"collapse", :target=>".nav-collapse"}}
+								%span.icon-bar"
+								%span.icon-bar"
+								%span.icon-bar"
+							= link_to("Eventus", "#", :class=>"brand")
 
-						- if can? :manage, :all
-							= nav_link("Admin Panel", admin_index_path)
+							.nav-collapse.collapse
+								%ul.nav.pull-right
+									= nav_link("Dashboard", dashboard_index_path)
+									= nav_link("My Profile", edit_user_registration_path)
+									- if can? :manage, :all
+										= nav_link("Admin Panel", admin_index_path)
+									%li
+										= link_to("Logout", destroy_user_session_path, :method => :delete)
 
-						- if can? :manage, DepartmentBlock
-							= nav_link("Manage Blocks", dashboard_department_blocks_path)
+			.row
+				%br
+				%br
+				%br
 
-				.span9
+				.span12
 					= yield
