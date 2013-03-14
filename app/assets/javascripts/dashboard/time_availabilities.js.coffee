@@ -52,6 +52,8 @@ $ ->
 			# Shows the day
 			showDay()
 
+			$('.total-days').html(availabilityList.length);
+
 	showDay = ->
 		# Changes the name of the day in the pagination
 		$('.time-availability-wrapper .pagination .active a').html(availabilityList[dayListIndex].dayName)
@@ -88,6 +90,8 @@ $ ->
 
 			$.each listOfTimes, (i) ->
 				$('[data-time-slot-id="' + listOfTimes[i] + '"]').parent().addClass 'success'
+
+		$('.current-day').html(dayListIndex+1);
 
 	switchAvailabilityButton = ->
 		# Find the button element

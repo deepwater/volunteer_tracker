@@ -10,13 +10,15 @@
     %ul.nav.nav-tabs
       - ordered_days = get_day_ordered
       - ordered_days.each_with_index do |day, index|
-        %li{:class => index == 0 ? "active" : ""}
+        %li 
+          / {:class => index == 0 ? "active" : ""}
           %a{:href=>"##{day[:safe_short_date]}", :data=> {:toggle=>"tab"}}
             = day[:short_date]
 
     .tab-content
       - ordered_days.each_with_index do |day, index|
-        %div{:id => "#{day[:safe_short_date]}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
+        %div{:id => "#{day[:safe_short_date]}", :class => "tab-pane"}
+          / index == 0 ? "active tab-pane" : 
           %br
           %table.table.table-bordered.table-striped
             %tr
@@ -36,7 +38,7 @@
                   %td= department_block.end_time.readable_short_time
                   %td= department_block.suggested_number_of_workers
                   %td= link_to 'Edit', edit_dashboard_department_block_path(department_block)
-                  %td= link_to('Destroy', dashboard_department_block_path(department_block), :method => :delete, data: { confirm: 'Are you sure?' })
+                  %td= link_to('Delete', dashboard_department_block_path(department_block), :method => :delete, data: { confirm: 'Are you sure?' })
 
           = link_to(new_dashboard_department_block_path) do
             %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day[:safe_short_date]}", :data => {:toggle => "modal"}} 

@@ -8,6 +8,8 @@
           %li= msg
 
   %fieldset
+    = hidden_field_tag 'day_hash', :value => 'null'
+
     - if @department_block.department
       = f.hidden_field :department_id
     - else
@@ -25,7 +27,7 @@
       .controls
         = f.select(:end_time_id, time_list.collect {|time_list| [time_list[:readable_time], time_list[:time_slot_id]]})
     .control-group
-      = f.label(:suggested_number_of_workers, :class => 'control-label')
+      = f.label(:suggested_number_of_workers, "Volunteers", :class => 'control-label')
       .controls
         = f.number_field(:suggested_number_of_workers, :class => 'input-xlarge focused')
     .form-actions

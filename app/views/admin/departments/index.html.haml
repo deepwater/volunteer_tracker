@@ -33,4 +33,4 @@
                 %button.btn.btn-small.btn-success{:type=>"button"} 
                   Assign Manager
           %td= link_to 'Edit', edit_admin_department_path(department)
-          %td= link_to('Destroy', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
+          %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })

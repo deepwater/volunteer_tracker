@@ -45,7 +45,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
 
     respond_to do |format|
       if @department_block.save
-        format.html { redirect_to dashboard_department_path(@department_block.department), notice: 'Department block was successfully created.' }
+        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + params[:day_hash]), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
       else
         format.html { render action: "new" }
@@ -61,7 +61,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
 
     respond_to do |format|
       if @department_block.update_attributes(params[:department_block])
-        format.html { redirect_to @department_block, notice: 'Department block was successfully updated.' }
+        format.html { redirect_to dashboard_department_path(@department_block), notice: 'Department block was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -77,7 +77,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
     @department_block.destroy
 
     respond_to do |format|
-      format.html { redirect_to dashboard_department_blocks_url }
+      format.html { redirect_to dashboard_department_url(@department_block.department) }
       format.json { head :no_content }
     end
   end

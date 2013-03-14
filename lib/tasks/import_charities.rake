@@ -1,7 +1,7 @@
 require 'csv'
 
 desc "Import Charities from csv file"
-task :import => [:environment] do
+task :import_charities => [:environment] do
 
   file = "db/charities.csv"
 
