@@ -1,11 +1,11 @@
 $ ->
+	$('#department_block_department_chooser').change ->
+		newVal = $(@).val()
+		window.location = "/dashboard/departments/" + newVal
+
 	if $('#new_department_block').length > 0
 		firstHash = $('li.active a').attr('href')
 		$(firstHash + '#day_hash:hidden').val firstHash.replace('#','')
-
-		$('#department_block_department_chooser').change ->
-			newVal = $(@).val()
-			window.location = "/dashboard/departments/" + newVal
 
 		if window.location.hash
 	 		$('a[href="' + window.location.hash + '"]').click()	
