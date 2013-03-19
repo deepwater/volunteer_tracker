@@ -14,7 +14,7 @@
     %br
     .progress
       - estimated_hours = get_estimated_hours(@department.id)
-      .bar{:style => "width: #{(estimated_hours / @department.budgeted_hours) * 100};"}
+      .bar{:style => "width: #{(estimated_hours / @department.budgeted_hours) * 100}%;"}
     %table.table.table-bordered.table-striped
       %tr
         %th Estimated Hours
