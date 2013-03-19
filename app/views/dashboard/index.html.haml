@@ -13,7 +13,7 @@
 					%h4 Manage Time Blocks
 					%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
 					%p 
-						= link_to("Setup Blocks", dashboard_departments_path, :class => "btn btn-block btn-primary")
+						= link_to("Setup Blocks", dashboard_department_path(Department.first), :class => "btn btn-block btn-primary")
 	-else
 		- if can? :manage, DepartmentBlock  
 			- if current_user.department_manager
