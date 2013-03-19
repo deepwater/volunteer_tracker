@@ -5,7 +5,7 @@ $ ->
 
 	if $('#new_department_block').length > 0
 		firstHash = $('li.active a').attr('href')
-		$(firstHash + '#day_hash:hidden').val firstHash.replace('#','')
+		$(firstHash + ' #day_hash:hidden').val firstHash.replace('#','')
 
 		if window.location.hash
 	 		$('a[href="' + window.location.hash + '"]').click()	

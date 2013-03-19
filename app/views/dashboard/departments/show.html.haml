@@ -1,18 +1,29 @@
 .row
-  .span12
-    .span6
-      %h2
-        %i.halflings-icon.edit 
-        = "Department: #{@department.name}"
+  .span6
+    %h2
+      %i.halflings-icon.edit 
+      = "Department: #{@department.name}"
 
     - if can? :manage, :all
-      .span5
-        %p.span2 
-          %br
-          Quick Jump:
-        %br
-        = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.all, "id", "name"), :class => "span3", :include_blank => true)
+      %br
+      %p.quick-jump
+        Quick Jump:
+      = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.all, "id", "name"), :class => "span3", :include_blank => true)
 
+  .span4.offset2
+    %br
+    .progress
+      - estimated_hours = get_estimated_hours(@department.id)
+      .bar{:style => "width: #{(estimated_hours / @department.budgeted_hours) * 100};"}
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Estimated Hours
+        %th Budgeted Hours
+      %tr
+        %td 
+          = estimated_hours
+        %td 
+          =@department.budgeted_hours
 
 .row
   %br
