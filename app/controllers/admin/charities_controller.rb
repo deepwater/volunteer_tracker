@@ -44,7 +44,7 @@ class Admin::CharitiesController < AdminController
 
     respond_to do |format|
       if @charity.save
-        format.html { redirect_to @charity, notice: 'Charity was successfully created.' }
+        format.html { redirect_to admin_charity_path(@charity), notice: 'Charity was successfully created.' }
         format.json { render json: @charity, status: :created, location: @charity }
       else
         format.html { render action: "new" }
