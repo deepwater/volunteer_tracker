@@ -1,15 +1,14 @@
 .row
-  .box.span12
-    .box-header
-      %h2
-        Choose the charity you want to volunteer for
-    .box-content
-      = form_for(@user_charity, :url => dashboard_user_charities_path(), :html => {:class => 'form-horizontal'}) do |f|
-        %fieldset
-          = f.hidden_field :user_id, :value => current_user.id
-          .control-group
-            = f.label(:charity_id, :class => 'control-label')
-            .controls
-              = f.collection_select(:charity_id, Charity.all, :id, :name)
-          .form-actions
-            = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
+  .span12
+    %h2
+      Choose the charity you want to volunteer for
+      %br
+    = form_for(@user_charity, :url => dashboard_user_charities_path(), :html => {:class => 'form-horizontal'}) do |f|
+      %fieldset
+        = f.hidden_field :user_id, :value => current_user.id
+        .control-group
+          = f.label(:charity_id, :class => 'control-label')
+          .controls
+            = f.collection_select(:charity_id, Charity.all, :id, :name)
+        .form-actions
+          = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

@@ -1,15 +1,22 @@
-%p#notice= notice
+.row
+	.span9
+		%h2
+			= @department.name
 
-%p
-  %b Department manager:
-  = @department.department_manager_id
-%p
-  %b Name:
-  = @department.name
-%p
-  %b Budgeted hours:
-  = @department.budgeted_hours
+		- if notice
+			.row
+				.alert.alert-block.span11
+					%p.alert-heading= notice
+					%p#notice= notice
+		%p
+			%b Department manager:
+			- if !@department.user.nil?
+				%td= "#{@department.user.first_name} #{@department.user.last_name}"
+			- else
+				%td Unassigned
+		%p
+			%b Budgeted hours:
+			= @department.budgeted_hours
 
-= link_to 'Edit', edit_department_path(@department)
-\|
 = link_to 'Back', departments_path
+  

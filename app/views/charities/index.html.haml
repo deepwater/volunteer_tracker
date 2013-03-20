@@ -1,17 +1,13 @@
-.row-fluid
+.row
   .span12
     %h2
       %i.halflings-icon.edit 
       Charity List
 
-.row-fluid
-  .span8
     %table.table.table-bordered.table-striped
       %tr
         %th Name
-        %th
 
       - @charities.each do |charity|
         %tr
-          %td= charity.name
-          %td= link_to 'Show', charity
+          %td= link_to charity.name, charity

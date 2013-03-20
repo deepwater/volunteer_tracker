@@ -1,49 +1,47 @@
 .row
   .span12
-    .span8
-      %br
-      %h3 
-        Choose your hours of availability ( Step
-        %span.current-day 1
-        out of 
-        %span.total-days 12
-        )
-      %br
+    %br
+    %h3 
+      Choose your hours of availability ( Step
+      %span.current-day 1
+      out of 
+      %span.total-days 12
+      )
+    %br
     
 .row.time-availability-wrapper
   .span12
-    .span12
-      .pagination.span6
-        %ul
-          %li.disabled
-            %a{:href=>"#", :class => "prev-day"}
-              Prev
-          %li.active
-            %a 
-          %li
-            %a{:href=>"#", :class => "next-day"}
-              Next
+    .pagination.span6
+      %ul
+        %li.disabled
+          %a{:href=>"#", :class => "prev-day"}
+            Prev
+        %li.active
+          %a 
+        %li
+          %a{:href=>"#", :class => "next-day"}
+            Next
 
-      .span3
-        %button.btn.btn-primary.available-all-day
-          %i.icon-ok-sign.icon-white
-          I'm Available All Day
+    .span3
+      %button.btn.btn-primary.available-all-day
+        %i.icon-ok-sign.icon-white
+        I'm Available All Day
 
-      .span3
-        %button.btn.btn-danger.not-available-all-day
-          %i.icon-remove-sign.icon-white
-          I'm Not Available This Day
+    .span3
+      %button.btn.btn-danger.not-available-all-day
+        %i.icon-remove-sign.icon-white
+        I'm Not Available This Day
 
 .row
-  .span12
-    .span4
-      %h3 Morning
-      %table.time-availability.morning.table.table-bordered
-        %tbody
-    .span4.offset2
-      %h3 Afternoon
-      %table.time-availability.afternoon.table.table-bordered
-        %tbody
+  .span4
+    %h3 Morning
+    %table.time-availability.morning.table.table-bordered
+      %tbody
+      
+  .span4.offset2
+    %h3 Afternoon
+    %table.time-availability.afternoon.table.table-bordered
+      %tbody
 
 #confirmNextDay.modal.hide.fade
   .modal-header

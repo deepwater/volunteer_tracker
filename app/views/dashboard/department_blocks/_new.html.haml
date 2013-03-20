@@ -1,4 +1,3 @@
-.box-content
 = form_for(@department_block, :url => dashboard_department_blocks_path, :html => {:class => 'form-horizontal'}) do |f|
   - if @department_block.errors.any?
     #error_explanation
@@ -17,7 +16,7 @@
     .control-group
       = f.label(:name, :class => 'control-label')
       .controls
-        = f.text_field(:name, :class => 'input-xlarge focused')
+        = f.text_field(:name)
     .control-group
       = f.label(:start_time_id, :class => 'control-label')
       .controls
@@ -29,6 +28,6 @@
     .control-group
       = f.label(:suggested_number_of_workers, "Volunteers", :class => 'control-label')
       .controls
-        = f.number_field(:suggested_number_of_workers, :class => 'input-xlarge focused')
+        = f.number_field(:suggested_number_of_workers)
     .form-actions
       = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

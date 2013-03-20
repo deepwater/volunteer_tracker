@@ -14,6 +14,5 @@ $ ->
 	 		window.location.hash = $(@).attr 'href'
 	 		
 	 		hash = $(@).attr 'href'
-	 		hash = hash.replace('#','')
 
-	 		$("#modal_" + hash + ' #day_hash:hidden').val hash
+	 		$(hash + ' #day_hash:hidden').val hash.replace('#','')

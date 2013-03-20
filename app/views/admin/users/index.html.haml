@@ -1,13 +1,11 @@
 .row
-  .span6
-    %h2
-      %i.halflings-icon.edit 
-      Users List
-
   .span3
+    %h2 Users List
+
+  .span3.offset3
     %br
     = link_to(new_admin_user_path) do
-      %button.btn.btn-primary{:type=>"button"} 
+      %button.btn.btn-primary{:type=>"button", :class =>"right-floated-btn"} 
         New User
 
 .row

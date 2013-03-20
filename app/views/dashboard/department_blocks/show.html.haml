@@ -1,7 +1,14 @@
-%p#notice= notice
-%p
-  %b Block Name
-  = @department_block.name
+.row
+  .span12
+    %h2
+      = @department_block.name
+
+- if notice
+  .row
+    .alert.alert-block.span11
+      %p.alert-heading= notice
+      %p#notice= notice
+      
 %p
   %b Department
   = @department_block.department.name

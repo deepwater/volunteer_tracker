@@ -1,18 +1,15 @@
-.row-fluid
-  .span12
-    .span10
-      %h2
-        %i.halflings-icon.edit 
-        Charity List
+.row
+  .span5
+    %h2 Charity List
 
-    .span2
-      %br
-      = link_to(new_admin_charity_path) do
-        %button.btn.btn-primary{:type=>"button"} 
-          New Charity
+  .span4
+    %br
+    = link_to(new_admin_charity_path) do
+      %button.btn.btn-primary{:type=>"button", :class=>"right-floated-btn"} 
+        New Charity
 
-.row-fluid
-  .span12
+.row
+  .span9
     %br
     %table.table.table-bordered.table-striped
       %tr

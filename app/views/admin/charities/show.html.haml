@@ -1,8 +1,13 @@
-%p#notice= notice
+.row
+	.span9
+		%h2
+			= @charity.name
 
-%p
-  %b Name:
-  = @charity.name
+- if notice
+	.row
+		.alert.alert-block.span11
+			%p.alert-heading= notice
+			%p#notice= notice
 
 = link_to 'Edit', edit_admin_charity_path(@charity)
 \|

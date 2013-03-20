@@ -112,4 +112,4 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display
  * http://jquery.org/license
  *
  * http://docs.jquery.com/UI/Theming
- */#time-availability{margin-left:0}#time-availability td:hover{cursor:pointer}.time-availability-wrapper .pagination{margin-top:2px}#department_block_department_chooser{float:left}.quick-jump{float:left;margin:3px 20px 0 0}
+ */.right-floated-btn{float:right}#time-availability{margin-left:0}#time-availability td:hover{cursor:pointer}.time-availability-wrapper .pagination{margin-top:2px}#department_block_department_chooser{float:left}.quick-jump{float:left;margin:3px 20px 0 0}.left-floated-check-box{float:left}.left-floated-label{float:left;margin-left:10px}
