@@ -10,9 +10,9 @@
  * Use require_tree .
  *
  *= require_self
- *= require twitter/bootstrap
+ *= require bootstrap.css
  *= require twitter/bootstrap/_responsive
- 
+
  *= require jquery.ui.all
  *= require_tree .
 */

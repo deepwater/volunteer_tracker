@@ -77,9 +77,9 @@ $ ->
 						afternoon.push time_slots[i]
 
 			$.each morning, (i) ->	
-				$('.time-availability.morning').append('<tr><th class="span1">' + morning[i].readable_time + '</th><td class="span1" data-time-slot-id="' + morning[i].time_slot_id + '"></td>')
+				$('.time-availability.morning').append('<tr><th class="span1">' + morning[i].readable_time + '</th><td class="span1" data-time-slot-id="' + morning[i].time_slot_id + '">Click to Schedule</td>')
 			$.each afternoon, (i) ->	
-				$('.time-availability.afternoon').append('<tr><th class="span1">' + afternoon[i].readable_time + '</th><td class="span1" data-time-slot-id="' + afternoon[i].time_slot_id + '"></td>')
+				$('.time-availability.afternoon').append('<tr><th class="span1">' + afternoon[i].readable_time + '</th><td class="span1" data-time-slot-id="' + afternoon[i].time_slot_id + '">Click to Schedule</td>')
 
 		# Checks for slots the user is already available for on new day
 		listOfTimes = availabilityList[dayListIndex].availableTimes
@@ -89,7 +89,7 @@ $ ->
 		if listOfTimes.length > 0
 
 			$.each listOfTimes, (i) ->
-				$('[data-time-slot-id="' + listOfTimes[i] + '"]').parent().addClass 'success'
+				$('[data-time-slot-id="' + listOfTimes[i] + '"]').parent().addClass('success').find('td').html('Scheduled!')
 
 		$('.current-day').html(dayListIndex+1);
 
@@ -136,7 +136,12 @@ $ ->
 			isHighlighted = $parent.hasClass 'success'
 
 			# If the user highlighted the cell then add the index of the row to the day object as an available time
-			if isHighlighted then availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) else availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
+			if isHighlighted 
+				availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) 
+				$(@).html('Scheduled!')
+			else 
+				availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
+				$(@).html('Click to schedule')
 			
 			# Stop default action: highlighting text
 			return false
@@ -150,7 +155,12 @@ $ ->
 				isHighlighted = $parent.hasClass 'success'
 
 				# If the user highlighted the cell then add the index of the row to the day object as an available time
-				if isHighlighted then availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) else availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
+				if isHighlighted  
+					availabilityList[dayListIndex].addAvailability($(this).attr("data-time-slot-id")) 
+					$(@).html('Scheduled!')
+				else 
+					availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
+					$(@).html('Click to schedule')
 				
 				# Toggle the class based on whether the user is highlighting or unhighlighting cells
 		.bind 'selectstart', ->

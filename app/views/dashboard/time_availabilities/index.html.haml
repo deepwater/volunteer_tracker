@@ -10,27 +10,26 @@
     %br
     
 .row.time-availability-wrapper
-  .span12
-    .pagination.span6
-      %ul
-        %li.disabled
-          %a{:href=>"#", :class => "prev-day"}
-            Prev
-        %li.active
-          %a 
-        %li
-          %a{:href=>"#", :class => "next-day"}
-            Next
+  .pagination.span6
+    %ul
+      %li.disabled
+        %a{:href=>"#", :class => "prev-day"}
+          Prev
+      %li.active
+        %a 
+      %li
+        %a{:href=>"#", :class => "next-day"}
+          Next
 
-    .span3
-      %button.btn.btn-primary.available-all-day
-        %i.icon-ok-sign.icon-white
-        I'm Available All Day
+  .span3
+    %button.btn.btn-primary.available-all-day
+      %i.icon-ok-sign.icon-white
+      I'm Available All Day
 
-    .span3
-      %button.btn.btn-danger.not-available-all-day
-        %i.icon-remove-sign.icon-white
-        I'm Not Available This Day
+  .span3
+    %button.btn.btn-danger.not-available-all-day
+      %i.icon-remove-sign.icon-white
+      I'm Not Available This Day
 
 .row
   .span4
