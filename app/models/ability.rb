@@ -6,10 +6,10 @@ class Ability
     if user.role? :volunteer
 
     end
-    if user.role? :volunteer_coordinator
+    if user.role? :volunteer_manager
 
     end
-    if user.role? :department_coordinator
+    if user.role? :department_assistant
 
     end
     if user.role? :department_manager

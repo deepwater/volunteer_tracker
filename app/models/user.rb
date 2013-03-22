@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  ROLES = %w[volunteer volunteer_coordinator department_coordinator department_manager event_administrator]
+  ROLES = %w[volunteer volunteer_manager department_assistant department_manager event_administrator]
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
 
   # Include default devise modules. Others available are:
