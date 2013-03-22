@@ -1,7 +1,8 @@
 .row
   .span12
     %h2
-      Edit #{resource_name.to_s.humanize}
+      / #{resource_name.to_s.humanize} Profile
+      My Profile
 
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class=> 'form-horizontal' }) do |f|
       = devise_error_messages!

@@ -15,7 +15,7 @@ class Ability
     if user.role? :department_manager
         can :manage, DepartmentBlock
     end
-    if user.role? :event_admin
+    if user.role? :event_administrator
         can :manage, :all
     end
          

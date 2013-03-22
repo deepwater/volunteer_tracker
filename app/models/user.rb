@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  ROLES = %w[volunteer volunteer_coordinator department_coordinator department_manager event_admin]
+  ROLES = %w[volunteer volunteer_coordinator department_coordinator department_manager event_administrator]
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
 
   # Include default devise modules. Others available are:
@@ -31,6 +31,6 @@ class User < ActiveRecord::Base
   end
 
   def full_name 
-    "#{self.first_name} #{self.last_name}"
+    "#{self.first_name.capitalize} #{self.last_name.capitalize}"
   end
 end
