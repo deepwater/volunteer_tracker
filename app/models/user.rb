@@ -9,16 +9,19 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :tshirt_size, :role, :cell_phone, :home_phone
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :user_id, :department_block_id
 
   has_many :user_availabilities
+  has_many :event_timeslots, :through => :user_availabilities
+
+  has_many :user_schedules
+  has_many :department_blocks, :through => :user_schedules
 
   has_many :user_charities
   has_many :charities, :through => :user_charities
 
   has_one :department_manager
   has_one :department, :through => :department_manager
-
 
   before_save :default_values
 

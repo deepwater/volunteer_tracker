@@ -141,7 +141,7 @@ $ ->
 				$(@).html('Scheduled!')
 			else 
 				availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
-				$(@).html('Click to schedule')
+				$(@).html('Click to Schedule')
 			
 			# Stop default action: highlighting text
 			return false
@@ -160,7 +160,7 @@ $ ->
 					$(@).html('Scheduled!')
 				else 
 					availabilityList[dayListIndex].removeAvailability($(this).attr("data-time-slot-id"))
-					$(@).html('Click to schedule')
+					$(@).html('Click to Schedule')
 				
 				# Toggle the class based on whether the user is highlighting or unhighlighting cells
 		.bind 'selectstart', ->
@@ -252,7 +252,7 @@ $ ->
 		# If the user cant do all day
 		if $(@).hasClass('btn-warning')
 			# Clear the timetable
-			$('.time-availability tr').removeClass 'success'
+			$('.time-availability tr').removeClass('success').find('td').html('Click to Schedule')
 
 			# Store this in the object
 			availabilityList[dayListIndex].allDay = 0
@@ -265,7 +265,7 @@ $ ->
 			availabilityList[dayListIndex].resetAvailabilities()
 
 			# Fill the timetable
-			$('.time-availability tr').addClass 'success'
+			$('.time-availability tr').addClass('success').find('td').html('Scheduled!')
 
 			# Store this in the object
 			availabilityList[dayListIndex].allDay = 1

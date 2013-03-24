@@ -1,0 +1,2 @@
+module Dashboard::UserSchedulesHelper
+end

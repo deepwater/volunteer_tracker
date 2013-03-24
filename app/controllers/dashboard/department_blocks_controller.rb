@@ -81,5 +81,4 @@ class Dashboard::DepartmentBlocksController < DashboardController
       format.json { head :no_content }
     end
   end
-
 end

@@ -25,6 +25,7 @@ VolunteerTracker::Application.routes.draw do
     match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
     match '/registration_complete' => "registration#index"
 
+    resources :user_schedules
     resources :departments, :only => [:index,:show]
     resources :time_availabilities
     resources :user_charities

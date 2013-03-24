@@ -1,5 +1,5 @@
 class EventTimeslot < ActiveRecord::Base
-	has_many :users
+	has_many :user_availabilities
 	has_many :users, :through => :user_availabilities
 	has_many :department_block
 
