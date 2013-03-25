@@ -45,7 +45,7 @@ class Dashboard::UserSchedulesController < ApplicationController
     respond_to do |format|
       if @user_schedule.save
         format.html { redirect_to [:dashboard, @user_schedule], notice: 'User schedule was successfully created.' }
-        format.json { render :json => {:full_name => @user_schedule.user.full_name }}
+        format.json { render json: {:template => render_to_string("dashboard/user_schedules/show.json")}}
       else
         format.html { render action: "new" }
         format.json { render json: @user_schedule.errors, status: :unprocessable_entity }

@@ -1,0 +1,4 @@
+%tr
+	%td= @user_schedule.user.full_name 
+	%td
+		= link_to 'Unschedule User', dashboard_user_schedule_path(@user_schedule), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :class=>'unschedule-user', :"data-type" => "json"

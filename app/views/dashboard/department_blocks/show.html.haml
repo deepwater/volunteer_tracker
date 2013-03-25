@@ -37,19 +37,26 @@
       - @department_block.users.each do |user|
         %tr
           %td= user.full_name
-          %td Unschedule User
+          %td
+            = link_to 'Unschedule User', dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :class=>'unschedule-user', :"data-type" => "json"
 .row
-  .span4
+  .span5
     %h2 Schedule a User
 
     %table.table.table-bordered.table-striped.schedule-user-table
       %tr
         %th Name
-        %th 
+        %th Availability %
+        %th
+        %th Availability Details  
 
       - get_perfect_fit_users(@department_block).each do |user|
         %tr.info
           %td.full_name= user.full_name
+          %td
+            100%
+          %td
+            Full Block
           %td 
             = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
               = f.hidden_field :user_id, value: user.id
@@ -57,14 +64,19 @@
 
               = submit_tag 'Schedule User', :class => 'btn btn-primary'
 
-      / - get_semi_fit_users(@department_block).each do |user|
-      /   %tr.warning
-      /     %td.full_name= user.full_name
-      /     %td 
-      /       = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
-      /         = f.hidden_field :user_id, value: user.id
-      /         = f.hidden_field :department_block_id, value: @department_block.id
+      - get_semi_fit_users(@department_block).each do |user|
+        %tr.warning
+          %td.full_name= user[0].full_name
+          %td
+            = "#{user[2]}\%"
+          %td
+            - user[1].each do |event_timeslot|
+              = event_timeslot.readable_short_time 
+              \ -
+              = EventTimeslot.find(event_timeslot.id + 1).readable_short_time
+          %td 
+            = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
+              = f.hidden_field :user_id, value: user[0].id
+              = f.hidden_field :department_block_id, value: @department_block.id
 
-      /         = submit_tag 'Schedule User', :class => 'btn btn-primary'
-
-
+              = submit_tag 'Schedule User', :class => 'btn btn-primary'

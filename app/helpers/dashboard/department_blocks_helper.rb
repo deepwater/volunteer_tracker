@@ -41,31 +41,18 @@ module Dashboard::DepartmentBlocksHelper
   		# Create a array of the EventTimeslots between DepartmentBlock start_time and end_time
   		event_timeslots = EventTimeslot.where(id: [department_block.start_time.id..department_block.end_time.id])
 
-  		logger.info "USERS: #{@users}"
   		# Loop through the set of users
   		@users.each do |user|
   			# Check if user is eligible for each of the EventTimeslots
-  			is_eligible = 0
-  			is_available = 0
+  			is_eligible = false
+  			is_available = false
 
-  			eligibility_errors = 0
   			availability_errors = 0
 
-  			eligibility_check = user.event_timeslots.each_cons(event_timeslots.size).include? event_timeslots
-
-  			# user.event_timeslots.each do |event_timeslot|
-  			# 	# If their availability is not in the list of eligible EventTimeslots
-  			# 	if !event_timeslots.include?(event_timeslot)
-  			# 		eligibility_errors += 1
-  			# 	end
-  			# end
-
-  			if eligibility_check == true
-  				is_eligible = 1
-  			end
+  			is_eligible = true if user.event_timeslots.each_cons(event_timeslots.size).include? event_timeslots
 
   			# If they passed the eligibility check
-  			if is_eligible == 1
+  			if is_eligible
 
   				availability_errors = 0;
   				# Loop through user schedules
@@ -74,21 +61,12 @@ module Dashboard::DepartmentBlocksHelper
   					#Get an array of EventTimeslots for each Department Block and check for clashes
 			  		other_department_block_event_timeslots = EventTimeslot.where(id: [dep_block.start_time.id..dep_block.end_time.id])
 			  		availability_errors += 1 if other_department_block_event_timeslots & event_timeslots
-			  		
-			  		# logger.info "Intersections #{intersections}"
-			  		# if intersections.length > 0
-	  				# 	availability_errors += 1
-	  				# end
   				end
   			end
 
-  			if availability_errors == 0 && is_eligible == 1
-  				is_available = 1
-  			end
-
-  			if is_eligible == 1 && is_available == 1
-  				perfect_users << user
-  			end
+  			is_available = true if availability_errors == 0 && is_eligible == true
+  			
+  			perfect_users << user if is_eligible && is_available
   		end
 
   		perfect_users
@@ -99,9 +77,7 @@ module Dashboard::DepartmentBlocksHelper
   		semi_perfect_users = []
 
   		# Gets a list of users who have a time availability at the start of the block
-  		@users = User.includes(:event_timeslots).where("event_timeslots.id" => [department_block.start_time.id..department_block.end_time.id])
-
-  		logger.info "TEST {@users}"
+  		@users = User.includes(:event_timeslots).where("event_timeslots.id" => [department_block.start_time.id..department_block.end_time.id]).all
 
   		# Create a array of the EventTimeslots between DepartmentBlock start_time and end_time
   		event_timeslots = EventTimeslot.where(id: [department_block.start_time.id..department_block.end_time.id])
@@ -109,52 +85,33 @@ module Dashboard::DepartmentBlocksHelper
   		# Loop through the set of users
   		@users.each do |user|
   			# Check if user is eligible for each of the EventTimeslots
-  			is_eligible = 0
-  			is_available = 0
+  			is_eligible = false
+  			is_available = false
 
-  			eligibility_errors = 0
-  			availability_errors = 0
+  			intersections = user.event_timeslots & event_timeslots
 
-  			user.event_timeslots.each do |event_timeslot|
-  				# If their availability is not in the list of eligible EventTimeslots
-  				if !event_timeslots.include?(event_timeslot)
-  					eligibility_errors += 1
-  				end
-  			end
-
-  			if eligibility_errors == 0
-  				is_eligible = 1
-  			end
+  			is_eligible = true if intersections.length != event_timeslots.length && intersections.length > 0
 
   			# If they passed the eligibility check
-  			if is_eligible == 1
+  			if is_eligible
 
   				availability_errors = 0;
   				# Loop through user schedules
 
-  				logger.info "Number of User.DepartmentBlocks #{user.department_blocks}"
-
   				user.department_blocks.each do |dep_block|
   					#Get an array of EventTimeslots for each Department Block and check for clashes
 			  		other_department_block_event_timeslots = EventTimeslot.where(id: [dep_block.start_time.id..dep_block.end_time.id])
-			  		intersections = other_department_block_event_timeslots & event_timeslots
-			  		
-			  		logger.info "Intersections #{intersections}"
-			  		if intersections.length > 0
-	  					availability_errors += 1
-	  				end
+			  		availability_errors += 1 if other_department_block_event_timeslots & event_timeslots
   				end
   			end
 
-  			if availability_errors == 0 && is_eligible == 1
-  				is_available = 1
-  			end
+  			is_available = true if availability_errors == 0 && is_eligible == true
+  			
+  			availability_percentage = (intersections.length.to_f / event_timeslots.length.to_f) * 100
+  			semi_perfect_users << [user,intersections, availability_percentage] if is_eligible && is_available
 
-  			if is_eligible == 1 && is_available == 1
-  				semi_perfect_users << user
-  			end
   		end
 
-  		semi_perfect_users
+  		semi_perfect_users.sort_by{|e| e[2]}.reverse
   	end
 end
