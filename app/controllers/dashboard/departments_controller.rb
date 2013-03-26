@@ -22,5 +22,10 @@ class Dashboard::DepartmentsController < DashboardController
       format.json { render json: @department }
     end
   end
-  
+
+  # GET /departments/1/edit
+  def edit
+    @lt_department_manager = LtDepartmentManager.new
+    @department = Department.find(params[:id])
+  end
 end

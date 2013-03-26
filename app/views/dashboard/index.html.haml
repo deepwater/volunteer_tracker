@@ -22,7 +22,14 @@
 						%h4 Manage Time Blocks
 						%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
 						%p 
-							= link_to("Setup Blocks", dashboard_department_path(current_user.department), :class => "btn btn-block btn-primary")
+							= link_to("Setup Blocks", [:dashboard,current_user.department_manager.department], :class => "btn btn-block btn-primary")
+			%li.span3
+				.thumbnail
+					.caption
+						%h4 Manage Your Department
+						%p Assign a Lt. Department Manager for your department
+						%p 
+							= link_to("Manage", [:edit, :dashboard, current_user.department_manager.department], :class => "btn btn-block btn-primary")
 		- else 
 			%li.span3
 				.thumbnail
@@ -30,7 +37,7 @@
 						%h4 Manage Time Blocks
 						%p You are a Department Manager but have not yet been assigned a Department. Please contact an Event Admin.
 
-		%li.span9
+		%li.span6
 			.thumbnail
 				.caption
 					%h4 Flag Messages

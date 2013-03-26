@@ -21,7 +21,8 @@ class User < ActiveRecord::Base
   has_many :charities, :through => :user_charities
 
   has_one :department_manager
-  has_one :department, :through => :department_manager
+  has_one :lt_department_manager
+  has_one :volunteer_manager
 
   before_save :default_values
 

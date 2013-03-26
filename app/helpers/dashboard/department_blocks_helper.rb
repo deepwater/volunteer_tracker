@@ -108,7 +108,7 @@ module Dashboard::DepartmentBlocksHelper
   			is_available = true if availability_errors == 0 && is_eligible == true
   			
   			availability_percentage = (intersections.length.to_f / event_timeslots.length.to_f) * 100
-  			semi_perfect_users << [user,intersections, availability_percentage] if is_eligible && is_available
+  			semi_perfect_users << [user,intersections, availability_percentage.to_i] if is_eligible && is_available
 
   		end
 

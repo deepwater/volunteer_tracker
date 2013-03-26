@@ -1,82 +1,143 @@
 .row
-  .span12
-    %h2
-      = @department_block.name
-
-    - if notice
-      .row
-        .alert.alert-block.span11
-          %p= notice
-      
-    %p
-      %b Department
-      = @department_block.department.name
-    %p
-      %b Start time:
-      = @department_block.start_time.readable_time
-    %p
-      %b End time:
-      = @department_block.end_time.readable_time
-    %p
-      %b Suggested number of workers:
-      = @department_block.suggested_number_of_workers
-
-    = link_to 'Edit', edit_dashboard_department_block_path(@department_block)
-    \|
-    = link_to 'Back', dashboard_department_blocks_path
-
-.row
-  .span4
-    %h2 Scheduled Users
-
-    %table.table.table-bordered.table-striped.scheduled-user-table
-      %tr
-        %th Name
-        %th 
-
-      - @department_block.users.each do |user|
-        %tr
-          %td= user.full_name
-          %td
-            = link_to 'Unschedule User', dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :class=>'unschedule-user', :"data-type" => "json"
-.row
   .span5
-    %h2 Schedule a User
+    .row
+      %h2
+        = @department_block.name
 
-    %table.table.table-bordered.table-striped.schedule-user-table
+        = link_to 'Edit', edit_dashboard_department_block_path(@department_block),class: 'btn btn-mini'
+
+      %br
+      
+      - if notice
+        .alert.alert-block
+          %p= notice
+
+      %p
+        %b Department
+        = @department_block.department.name
+      %p
+        %b Start time:
+        = @department_block.start_time.readable_time
+      %p
+        %b End time:
+        = @department_block.end_time.readable_time
+      %p
+        %b Suggested number of volunteers:
+        %span.number_of_workers= @department_block.suggested_number_of_workers
+    
+    .row
+      %h3 Volunteer Managers
+
+      - if @department_block.volunteer_managers.length == 0
+        .alert.alert-error
+          %strong Warning!
+          No Volunteer Managers Assigned 
+        %button.btn.btn-primary{:type=>"button", :href=> "#assign_volunteer_managers", :data => {:toggle => "modal"}} 
+          Assign Volunteer Managers
+
+      - else 
+        %table.table.table-bordered.table-striped
+          %tr
+            %th Name
+            %th Actions
+          - @department_block.volunteer_managers.each do |volunteer_manager|
+            %tr
+              %td= volunteer_manager.user.full_name
+              %td
+                = link_to dashboard_volunteer_manager_path(VolunteerManager.where(department_block_id: @department_block.id, user_id: volunteer_manager.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-volunteer-manager btn btn-danger' do
+                  %i.icon-remove-sign.icon-white
+                  Unassign
+    .row
+  .span6.offset1
+    .row
+      %h3 Scheduled Users
+
+      %p 
+        %b Current User Allocation:
+        - current_allocation = @department_block.users.length
+        ="(#{current_allocation}/#{@department_block.suggested_number_of_workers})"  
+      .progress
+        .bar{:class => current_allocation > @department_block.suggested_number_of_workers ? "bar-danger" : "", :style => "width: #{(current_allocation.to_f / @department_block.suggested_number_of_workers.to_f) * 100}%;"}
+
+      %table.table.table-bordered.table-striped.scheduled-user-table
+        %tr
+          %th Name
+          %th Actions
+
+        - @department_block.users.each do |user|
+          %tr
+            %td= user.full_name
+            %td
+              = link_to dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
+                %i.icon-remove-sign.icon-white
+                Unschedule
+    .row
+      %h3 Available Users
+
+      %table.table.table-bordered.table-striped.schedule-user-table
+        %tr
+          %th Name
+          %th Availability %
+          %th Availability Details  
+          %th.span2 Actions
+
+        - get_perfect_fit_users(@department_block).each do |user|
+          %tr.info
+            %td.full_name= user.full_name
+            %td
+              100%
+            %td
+              Full Block
+            %td 
+              = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
+                = f.hidden_field :user_id, value: user.id
+                = f.hidden_field :department_block_id, value: @department_block.id
+
+                = button_tag type: "submit", class: 'btn btn-primary' do 
+                  %i.icon-ok-sign.icon-white
+                  Schedule
+
+        - get_semi_fit_users(@department_block).each do |user|
+          %tr.warning
+            %td.full_name= user[0].full_name
+            %td
+              = "#{user[2]}\%"
+            %td
+              - user[1].each do |event_timeslot|
+                = event_timeslot.readable_short_time 
+                \ -
+                = EventTimeslot.find(event_timeslot.id + 1).readable_short_time
+            %td 
+              = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
+                = f.hidden_field :user_id, value: user[0].id
+                = f.hidden_field :department_block_id, value: @department_block.id
+
+                = button_tag type: "submit", class: 'btn btn-primary' do 
+                  %i.icon-ok-sign.icon-white
+                  Schedule
+
+%div{:class =>"modal hide fade", :id => "assign_volunteer_managers"}
+  .modal-header
+    %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+      &times;
+    %h3 Assign Volunteer Managers
+  .modal-body
+    %p Here is a list of potential volunteer managers that are already scheduled to this block.
+
+    %table.table.table-bordered.table-striped
       %tr
         %th Name
-        %th Availability %
-        %th
-        %th Availability Details  
+        %th Assign as Volunteer Manager
+      
+      - @department_block.users.each do |user|
+        - if user.role == "volunteer_manager"
+          %tr
+            %td= user.full_name
+            %td
+              = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
+                = f.hidden_field :user_id, value: user.id
+                = f.hidden_field :department_block_id, value: @department_block.id
 
-      - get_perfect_fit_users(@department_block).each do |user|
-        %tr.info
-          %td.full_name= user.full_name
-          %td
-            100%
-          %td
-            Full Block
-          %td 
-            = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
-              = f.hidden_field :user_id, value: user.id
-              = f.hidden_field :department_block_id, value: @department_block.id
-
-              = submit_tag 'Schedule User', :class => 'btn btn-primary'
-
-      - get_semi_fit_users(@department_block).each do |user|
-        %tr.warning
-          %td.full_name= user[0].full_name
-          %td
-            = "#{user[2]}\%"
-          %td
-            - user[1].each do |event_timeslot|
-              = event_timeslot.readable_short_time 
-              \ -
-              = EventTimeslot.find(event_timeslot.id + 1).readable_short_time
-          %td 
-            = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
-              = f.hidden_field :user_id, value: user[0].id
-              = f.hidden_field :department_block_id, value: @department_block.id
-
-              = submit_tag 'Schedule User', :class => 'btn btn-primary'
+                = button_tag type: "submit", class: 'btn btn-success' do 
+                  %i.icon-ok-sign.icon-white
+                  Assign

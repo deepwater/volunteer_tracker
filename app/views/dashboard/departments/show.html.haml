@@ -44,6 +44,7 @@
               %th Start Time
               %th End Time
               %th Suggested Number of Volunteers
+              %th Scheduled Volunteers
               %th
               %th
 
@@ -55,6 +56,10 @@
                   %td= department_block.start_time.readable_short_time
                   %td= department_block.end_time.readable_short_time
                   %td= department_block.suggested_number_of_workers
+                  %td
+                    = department_block.users.length
+                    \/ 
+                    = department_block.suggested_number_of_workers
                   %td= link_to 'Edit', edit_dashboard_department_block_path(department_block)
                   %td= link_to('Delete', dashboard_department_block_path(department_block), :method => :delete, data: { confirm: 'Are you sure?' })
 

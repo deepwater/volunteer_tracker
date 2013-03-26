@@ -26,10 +26,13 @@ VolunteerTracker::Application.routes.draw do
     match '/registration_complete' => "registration#index"
 
     resources :user_schedules
-    resources :departments, :only => [:index,:show]
+    resources :departments, :only => [:index,:show, :edit]
     resources :time_availabilities
     resources :user_charities
     resources :department_blocks
+    resources :lt_department_managers
+    resources :volunteer_managers
+
   end
 
   # The priority is based upon order of creation:

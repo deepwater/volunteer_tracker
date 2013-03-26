@@ -6,6 +6,11 @@ class Admin::DepartmentManagersController < AdminController
     DepartmentManager.where(:department_id => params[:department_manager][:department_id]).delete_all
     @department_manager = DepartmentManager.new(params[:department_manager])
 
+    # Update user role
+    @user = @department_manager.user
+    @user.role = "department_manager"
+    @user.save
+
     respond_to do |format|
       if @department_manager.save
         format.html { redirect_to admin_department_path(@department_manager.department), notice: 'Department Manager was successfully created.' }
