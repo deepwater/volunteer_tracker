@@ -108,7 +108,7 @@
 						%table.table
 							%thead
 								%tr
-									%th Username
+									%th Full Name
 									%th Scheduled
 									%th Check In?
 							%tbody
@@ -261,3 +261,46 @@
 										%i.icon-flag.icon-white
 						%p
 							%a.btn.btn-large.btn-block.btn-primary{:href => "#"} View All Past Volunteers
+
+	-# if current_user.role == "volunteer"	
+		%li.span4
+			.thumbnail
+				.caption
+					%h4 Upcoming Assignments
+
+					.well.pendingVol
+						%table.table
+							%thead
+								%tr
+									%th Time
+									%th Department 
+							%tbody
+								- current_user.user_schedules.each do |user_schedule|
+									%tr
+										%td=user_schedule.department_block.start_time.readable_time 
+										%td=user_schedule.department_block.department.name				
+
+	- if current_user.role == "volunteer_manager"
+		%li.span4
+			.thumbnail
+				.caption
+					%h4 Upcoming Assignments
+
+					.well.pendingVol
+						%table.table
+							%thead
+								%tr
+									%th Full Name
+									%th Scheduled
+									%th Check In?
+							%tbody
+								- if current_user.volunteer_manager
+									- current_user.volunteer_manager.department_block.user_schedules.each do |user_schedule|
+										%tr
+											%td=user_schedule.user.full_name
+											%td 10:30 AM
+											%td
+												%button.btn-mini.btn-success.pull-right{:type => "button"}
+													%i.icon-check.icon-white
+						%p
+							%a.btn.btn-block.btn-primary{:href => "#"} Show All Scheduled Volunteers

@@ -4,7 +4,6 @@ class Ability
   def initialize(user)
 
     if user.role? :volunteer
-
     end
     if user.role? :volunteer_manager
 
