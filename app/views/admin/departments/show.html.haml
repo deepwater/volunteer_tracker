@@ -19,8 +19,9 @@
 		%p
 			%b Manager:
 
-			- if !@department.department_manager.user.nil?
-				= link_to"#{@department.department_manager.user.first_name} #{@department.department_manager.user.last_name}",  admin_user_path(@department.department_manager.user)
+			- if !@department.department_managers.nil?
+              - @department.department_managers.each do |department_manager|
+				= link_to department_manager.user.full_name,  admin_user_path(@department.department_manager.user)
 			- else
 				= link_to(edit_admin_department_path(@department)) do
 					%button.btn.btn-small.btn-success{:type=>"button"} 
