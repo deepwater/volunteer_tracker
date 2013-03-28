@@ -22,7 +22,7 @@
         %tr
           %td= link_to department.name, admin_department_path(department)
           %td= department.budgeted_hours
-          - if !department.department_manager.nil?
+          - if department.department_manager.length > 0
             %td= link_to"#{department.department_manager.user.first_name} #{department.department_manager.user.last_name}",  admin_user_path(department.department_manager.user)
           - else
             %td
