@@ -29,7 +29,7 @@
                   Assign Manager
           - else
             %td
-              - deparment.department_managers.each do |department_manager|
+              - department.department_managers.each do |department_manager|
                 = link_to"#{department_manager.user.full_name}",  admin_user_path(department_manager.user)
                  
           %td= link_to 'Edit', edit_admin_department_path(department)
