@@ -22,12 +22,15 @@
         %tr
           %td= link_to department.name, admin_department_path(department)
           %td= department.budgeted_hours
-          - if department.department_manager.present?
-            %td= link_to"#{department.department_manager.user.full_name}",  admin_user_path(department.department_manager.user)
-          - else
+          - if department.department_managers.empty?
             %td
               = link_to(edit_admin_department_path(department)) do
                 %button.btn.btn-small.btn-success{:type=>"button"} 
                   Assign Manager
+          - else
+            %td
+              - deparment.department_managers.each do |department_manager|
+                = link_to"#{department_manager.user.full_name}",  admin_user_path(department_manager.user)
+                 
           %td= link_to 'Edit', edit_admin_department_path(department)
           %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
