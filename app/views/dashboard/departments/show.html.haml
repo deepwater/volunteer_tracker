@@ -13,6 +13,7 @@
     %br
     .progress
       - estimated_hours = get_estimated_hours(@department)
+      = print(estimated_hours / @department.budgeted_hours)
       .bar{:class => estimated_hours > @department.budgeted_hours ? "bar-danger" : "", :style => "width: #{(estimated_hours / @department.budgeted_hours) * 100}%;"}
     %table.table.table-bordered.table-striped
       %tr
