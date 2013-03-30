@@ -2,7 +2,7 @@
   .span12
     %h2 Editing Department Block
 
-    = form_for(@department_block, :url => dashboard_department_blocks_path, :html => {:class => 'form-horizontal'}) do |f|
+    = form_for(@department_block, :url => dashboard_department_block_path, :html => {:class => 'form-horizontal'}) do |f|
       - if @department_block.errors.any?
         #error_explanation
           %h2= "#{pluralize(@department_block.errors.count, "error")} prohibited this department_block from being saved:"
