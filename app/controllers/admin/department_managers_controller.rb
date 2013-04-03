@@ -21,4 +21,14 @@ class Admin::DepartmentManagersController < AdminController
       end
     end
   end
+
+  def destroy
+    @department_manager = DepartmentManager.find(params[:id])
+    @department_manager.destroy
+
+    respond_to do |format|
+      format.html { redirect_to [:dashboard, @department_manager.department] }
+      format.json { head :no_content }
+    end
+  end
 end

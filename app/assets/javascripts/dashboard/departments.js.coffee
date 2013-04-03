@@ -16,3 +16,10 @@ $ ->
 	 		hash = $(@).attr 'href'
 
 	 		$(hash + ' #day_hash:hidden').val hash.replace('#','')
+
+
+	$('.delete-department-block')
+		.on 'click', ->
+			setTimeout ->
+				window.location.reload()
+			, 200

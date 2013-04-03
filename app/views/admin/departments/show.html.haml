@@ -2,6 +2,10 @@
 	.span9
 		%h2 
 			= @department.name
+		
+			= link_to 'Edit', edit_admin_department_path(@department), class: 'btn btn-mini'
+
+			= link_to 'Delete', admin_department_path(@department), class: 'btn btn-mini btn-danger', method: :delete, data: { confirm: 'Are you sure?' }
 
 - if notice
 	.row
@@ -11,24 +15,59 @@
 .row
 	.span9
 		%p
-			%b Name:
-			= @department.name
-		%p
 			%b Budgeted Hours:
 			= @department.budgeted_hours
-		%p
-			%b Manager:
+		%br
+.row
+	.span5
+		%h3
+			%i.halflings-icon.edit
+			Department Managers
 
-			- if !@department.department_managers.nil?
+		- if @department.department_managers.length == 0
+			.alert.alert-error
+				%strong Warning!
+				No Department Managers Assigned 
+			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_managers", :data => {:toggle => "modal"}} 
+				Assign Department Managers
+
+		- else 
+			%table.table.table-bordered.table-striped
+				%tr
+					%th Name
+					%th Actions
 				- @department.department_managers.each do |department_manager|
-					= link_to department_manager.user.full_name,  admin_user_path(department_manager.user)
-			- else
-				= link_to(edit_admin_department_path(@department)) do
-					%button.btn.btn-small.btn-success{:type=>"button"} 
-						Assign Manager
+					%tr
+						%td= department_manager.user.full_name
+						%td
+							= link_to admin_department_manager_path(DepartmentManager.where(department_id: @department.id, user_id: department_manager.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-manager btn btn-danger' do
+								%i.icon-remove-sign.icon-white
+								Unassign
 
-		= link_to 'Edit', edit_admin_department_path(@department)
-		\|
-		= link_to 'Delete', admin_department_path(@department), method: :delete, data: { confirm: 'Are you sure?' }
-		\|
-		= link_to 'Back', admin_departments_path
+			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_managers", :data => {:toggle => "modal"}} 
+				Assign Department Managers
+
+%div{:class =>"modal hide fade", :id => "assign_department_managers"}
+	.modal-header
+		%button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+			&times;
+		%h3 Assign Department Managers
+	.modal-body
+		%p Here is a list of users you can add as a Department Manager
+
+		%table.table.table-bordered.table-striped
+			%tr
+				%th Name
+				%th Assign as Department Manager
+
+			- User.where(role: "department_manager").each do |user|
+				%tr
+					%td= user.full_name
+					%td
+						= form_for [:admin, DepartmentManager.new], html: {:"data-type" => "json"} do |f|
+							= f.hidden_field :user_id, value: user.id
+							= f.hidden_field :department_id, value: @department.id
+
+							= button_tag type: "submit", class: 'btn btn-success' do 
+								%i.icon-ok-sign.icon-white
+								Assign

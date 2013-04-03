@@ -18,7 +18,7 @@ module Dashboard::DepartmentsHelper
 
 	def get_department_usage(estimated_hours, allocated_hours)
 
-		if allocated_hours && estimated_hours == 0
+		if allocated_hours == 0 && estimated_hours == 0
 			return 100
 		elsif allocated_hours == 0
 			return 100

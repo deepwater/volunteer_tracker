@@ -36,7 +36,7 @@ module Dashboard::DepartmentBlocksHelper
   		perfect_users = []
 
   		# Gets a list of users who have a time availability at the start of the block
-  		@users = department_block.start_time.users
+  		@users = department_block.start_time.users.where("role != ?","department_manager") #Added in this line to avoid department_managers
 
   		# Create a array of the EventTimeslots between DepartmentBlock start_time and end_time
   		event_timeslots = EventTimeslot.where(id: [department_block.start_time.id..department_block.end_time.id])
