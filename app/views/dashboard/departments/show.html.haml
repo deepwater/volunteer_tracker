@@ -12,15 +12,15 @@
   .span4.offset2
     %br
     .progress
-      - estimated_hours = get_estimated_hours(@department)
-      .bar{:class => get_department_usage_class(estimated_hours, @department.budgeted_hours), :style => "width: #{get_department_usage(estimated_hours, @department.budgeted_hours)}%;"}
+
+      .bar{:class => get_department_usage_class(@department.estimated_hours, @department.budgeted_hours), :style => "width: #{get_department_usage(@department.estimated_hours, @department.budgeted_hours)}%;"}
     %table.table.table-bordered.table-striped
       %tr
         %th Estimated Hours
         %th Budgeted Hours
       %tr
         %td 
-          = estimated_hours
+          =@department.estimated_hours
         %td 
           =@department.budgeted_hours
 
@@ -28,15 +28,15 @@
   %br
   .span12
     %ul.nav.nav-tabs
-      - ordered_days = get_day_ordered
-      - ordered_days.each_with_index do |day, index|
+      - @days.each_with_index do |day, index|
         %li{:class => index == 0 ? "active" : ""}
-          %a{:href=>"##{day[:safe_short_date]}", :data=> {:toggle=>"tab"}}
-            = day[:short_date]
+          %a{:href=>"##{day.safe_short_date}", :data=> {:toggle=>"tab"}}
+            = day.day_name
+            = day.short_date
 
     .tab-content
-      - ordered_days.each_with_index do |day, index|
-        %div{:id => "#{day[:safe_short_date]}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
+      - @days.each_with_index do |day, index|
+        %div{:id => "#{day.safe_short_date}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
           %br
           %table.table.table-bordered.table-striped
             %tr
@@ -48,13 +48,12 @@
               %th
               %th
 
-            - day[:time_slots].each do |timeslot|
-              - @department_blocks = DepartmentBlock.where(:department_id => @department.id, :start_time_id => timeslot[:time_slot_id])
-              - @department_blocks.each do |department_block|
+
+              - day.department_blocks.each do |department_block|
                 %tr
                   %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
-                  %td= department_block.start_time.readable_short_time
-                  %td= department_block.end_time.readable_short_time
+                  %td= in_twelve_hour_time(department_block.start_time)
+                  %td= in_twelve_hour_time(department_block.end_time)
                   %td= department_block.suggested_number_of_workers
                   %td
                     = department_block.users.length
@@ -64,13 +63,13 @@
                   %td= link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
 
           = link_to(new_dashboard_department_block_path) do
-            %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day[:safe_short_date]}", :data => {:toggle => "modal"}} 
+            %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}} 
               Create Department Block
 
-          %div{:class =>"modal hide fade", :id => "modal_#{day[:safe_short_date]}"}
+          %div{:class =>"modal hide fade", :id => "modal_#{day.safe_short_date}"}
             .modal-header
               %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
                 &times;
               %h3 Create a Department Block
             .modal-body
-              = render 'dashboard/department_blocks/new', :time_list => day[:time_slots], :department_id => "@department.id"
+              = render 'dashboard/department_blocks/new', :department => @department, :current_day => day

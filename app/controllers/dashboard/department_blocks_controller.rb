@@ -43,9 +43,15 @@ class Dashboard::DepartmentBlocksController < DashboardController
   def create
     @department_block = DepartmentBlock.new(params[:department_block])
 
+    start_time = Time.parse(@department_block.start_time)
+    @department_block.start_time = start_time.strftime("%H:%M")
+
+    end_time = Time.parse(@department_block.end_time)
+    @department_block.end_time = end_time.strftime("%H:%M")
+
     respond_to do |format|
       if @department_block.save
-        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + params[:day_hash]), notice: 'Department block was successfully created.' }
+        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
       else
         format.html { render action: "new" }

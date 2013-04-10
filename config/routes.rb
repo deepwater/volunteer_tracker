@@ -1,13 +1,9 @@
 VolunteerTracker::Application.routes.draw do
 
-  get "department_schedule/index"
-
-  get "department_schedule/show"
-
   root :to => 'dashboard#index'
 
+  # PUBLIC FACING
   resources :departments, :only => [:index,:show]
-
   resources :charities, :only => [:index,:show]
 
   devise_for :users, :controllers => { :registrations => "registrations"}
@@ -22,17 +18,21 @@ VolunteerTracker::Application.routes.draw do
 
   resources :dashboard, :only => [:index, :registration_complete]
   namespace :dashboard do
-    match '/time_availabilites/get_time_slots' => "time_availabilities#get_time_slots"
     match '/registration_complete' => "registration#index"
 
-    resources :user_schedules
-    resources :departments, :only => [:index,:show, :edit]
-    resources :time_availabilities
+    # VIEWING ONLY
+    resources :departments, :only => [:show, :edit]
     resources :user_charities
-    resources :department_blocks
+
+    # ROLES
     resources :lt_department_managers
     resources :volunteer_managers
 
+    # TIME RELATED
+    resources :days
+    resources :user_availabilities
+    resources :department_blocks
+    resources :user_schedules
   end
 
   # The priority is based upon order of creation:

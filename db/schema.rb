@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130325221527) do
+ActiveRecord::Schema.define(:version => 20130409050134) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -19,14 +19,23 @@ ActiveRecord::Schema.define(:version => 20130325221527) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "days", :force => true do |t|
+    t.integer  "mday"
+    t.integer  "month"
+    t.integer  "year"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "department_blocks", :force => true do |t|
-    t.integer  "start_time_id"
-    t.integer  "end_time_id"
     t.integer  "suggested_number_of_workers"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
     t.integer  "department_id"
     t.text     "name"
+    t.integer  "day_id"
+    t.string   "start_time"
+    t.string   "end_time"
   end
 
   create_table "department_managers", :force => true do |t|
@@ -58,9 +67,10 @@ ActiveRecord::Schema.define(:version => 20130325221527) do
 
   create_table "user_availabilities", :force => true do |t|
     t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.integer  "event_timeslot_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "day_id"
+    t.string   "time"
   end
 
   create_table "user_charities", :force => true do |t|

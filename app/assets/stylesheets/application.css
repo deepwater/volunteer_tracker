@@ -12,6 +12,7 @@
  *= require_self
  *= require bootstrap.css
  *= require twitter/bootstrap/_responsive
+ *= require bootstrap-timepicker
 
  *= require jquery.ui.all
  *= require_tree .

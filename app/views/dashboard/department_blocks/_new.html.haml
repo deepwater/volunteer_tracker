@@ -7,24 +7,30 @@
           %li= msg
 
   %fieldset
-    = hidden_field_tag 'day_hash', :value => 'null'
+    = f.hidden_field :day_id, :value => current_day.id
+    = f.hidden_field :department_id, :value => @department.id     
 
-    - if @department_block.department
-      = f.hidden_field :department_id
-    - else
-      = f.hidden_field :department_id, :value => @department.id     
     .control-group
       = f.label(:name, :class => 'control-label')
       .controls
         = f.text_field(:name)
+
     .control-group
-      = f.label(:start_time_id, :class => 'control-label')
+      = f.label(:start_time, :class => 'control-label')
       .controls
-        = f.select(:start_time_id, time_list.collect {|time_list| [time_list[:readable_time], time_list[:time_slot_id]]})
+        .input-append.bootstrap-timepicker
+          =f.text_field(:start_time, class:"timepicker timepicker-first input-small", value: "00:00")
+          %span.add-on
+            %i.icon-time
+
     .control-group
-      = f.label(:end_time_id, :class => 'control-label')
+      = f.label(:end_time, :class => 'control-label')
       .controls
-        = f.select(:end_time_id, time_list.collect {|time_list| [time_list[:readable_time], time_list[:time_slot_id]]})
+        .input-append.bootstrap-timepicker
+          =f.text_field(:end_time, class:"timepicker timepicker-second input-small", value: "00:00")
+          %span.add-on
+            %i.icon-time
+
     .control-group
       = f.label(:suggested_number_of_workers, "Volunteers", :class => 'control-label')
       .controls

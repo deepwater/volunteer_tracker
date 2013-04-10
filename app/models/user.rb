@@ -11,13 +11,12 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :user_id, :department_block_id
 
-  has_many :user_availabilities
-  has_many :event_timeslots, :through => :user_availabilities
+  has_many :user_availabilities, dependent: :destroy
 
-  has_many :user_schedules
+  has_many :user_schedules, dependent: :destroy
   has_many :department_blocks, :through => :user_schedules
 
-  has_many :user_charities
+  has_many :user_charities, dependent: :destroy
   has_many :charities, :through => :user_charities
 
   has_one :department_manager

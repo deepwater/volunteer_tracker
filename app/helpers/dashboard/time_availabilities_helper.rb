@@ -1,3 +1,2 @@
 module Dashboard::TimeAvailabilitiesHelper
-
 end

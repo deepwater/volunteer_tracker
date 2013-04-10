@@ -1,14 +1,5 @@
 class Dashboard::DepartmentsController < DashboardController
 
-  def index
-    @departments = Department.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @departments }
-    end
-  end
-
   # GET /departments/1
   # GET /departments/1.json
   def show
@@ -16,6 +7,7 @@ class Dashboard::DepartmentsController < DashboardController
     @department_blocks = DepartmentBlock.where(:department_id => @department.id)
     @department_block = DepartmentBlock.new
 
+    @days = Day.all
 
     respond_to do |format|
       format.html # show.html.erb

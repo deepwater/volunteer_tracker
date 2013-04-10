@@ -14,6 +14,7 @@ group :production do
 end
 
 gem 'bootstrap-sass-rails'
+gem 'bootstrap-timepicker-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

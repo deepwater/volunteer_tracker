@@ -1,4 +1,10 @@
 module ApplicationHelper
+
+	def in_twelve_hour_time(time)
+		t = Time.parse(time)
+		return t.strftime("%I:%M%P")
+	end
+	
 	def nav_link(text, link)
 	    recognized = Rails.application.routes.recognize_path(link)
 	    if recognized[:controller] == params[:controller] && recognized[:action] == params[:action]
