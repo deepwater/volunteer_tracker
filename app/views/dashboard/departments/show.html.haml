@@ -49,7 +49,7 @@
               %th
 
 
-              - day.department_blocks.each do |department_block|
+              - day.department_blocks.where(department_id: @department.id).all.each do |department_block|
                 %tr
                   %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
                   %td= in_twelve_hour_time(department_block.start_time)
