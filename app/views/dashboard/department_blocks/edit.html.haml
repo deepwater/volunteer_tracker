@@ -20,13 +20,19 @@
           .controls
             = f.text_field(:name)
         .control-group
-          = f.label(:start_time_id, :class => 'control-label')
+          = f.label(:start_time, :class => 'control-label')
           .controls
-            = f.collection_select(:start_time_id, EventTimeslot.all, :id, :readable_time)
+            .input-append.bootstrap-timepicker
+              =f.text_field(:start_time, class:"timepicker input-small", value: in_twelve_hour_time(@department_block.start_time))
+              %span.add-on
+                %i.icon-time
         .control-group
-          = f.label(:end_time_id, :class => 'control-label')
+          = f.label(:end_time, :class => 'control-label')
           .controls
-            = f.collection_select(:end_time_id, EventTimeslot.all, :id, :readable_time)
+            .input-append.bootstrap-timepicker
+              =f.text_field(:end_time, class:"timepicker input-small", value: in_twelve_hour_time(@department_block.end_time))
+              %span.add-on
+                %i.icon-time
         .control-group
           = f.label(:suggested_number_of_workers, :class => 'control-label')
           .controls

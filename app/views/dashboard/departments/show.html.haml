@@ -66,6 +66,10 @@
             %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}} 
               Create Department Block
 
+          = link_to(new_dashboard_department_block_path) do
+            %button.btn.btn-info{:type=>"button", :href=> "#copy_schedule_modal_#{day.id}", :data => {:toggle => "modal"}} 
+              Copy Blocks to Another Day
+
           %div{:class =>"modal hide fade", :id => "modal_#{day.safe_short_date}"}
             .modal-header
               %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
@@ -73,3 +77,11 @@
               %h3 Create a Department Block
             .modal-body
               = render 'dashboard/department_blocks/new', :department => @department, :current_day => day
+
+          %div{:class =>"modal hide fade", :id => "copy_schedule_modal_#{day.id}"}
+            .modal-header
+              %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+                &times;
+              %h3 Choose Day to Copy To
+            .modal-body
+              = render 'dashboard/department_blocks/copy', :day_to_copy => day, :department => @department

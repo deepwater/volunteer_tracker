@@ -33,6 +33,8 @@ VolunteerTracker::Application.routes.draw do
     resources :user_availabilities
     resources :department_blocks
     resources :user_schedules
+
+    match 'department_blocks/:id/copy/' => "department_blocks#copy"
   end
 
   # The priority is based upon order of creation:

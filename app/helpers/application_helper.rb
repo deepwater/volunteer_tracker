@@ -2,7 +2,7 @@ module ApplicationHelper
 
 	def in_twelve_hour_time(time)
 		t = Time.parse(time)
-		return t.strftime("%I:%M%P")
+		return t.strftime("%I:%M %p")
 	end
 	
 	def nav_link(text, link)

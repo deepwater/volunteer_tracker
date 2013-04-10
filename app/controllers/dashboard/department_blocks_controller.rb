@@ -76,6 +76,23 @@ class Dashboard::DepartmentBlocksController < DashboardController
     end
   end
 
+  def copy
+    @day = Day.find(params[:id])
+
+    @day_to_copy_to = Day.find(params[:day_to_copy_to])
+
+    @department = Department.find(params[:department_id])
+
+    @department.department_blocks.where("day_id = ?", @day.id).all.each do |department_block|
+      new_record = department_block.dup
+      new_record.day_id = @day_to_copy_to.id
+      new_record.save
+    end
+
+    redirect_to ("/dashboard/departments/" + @department.id.to_s + "#" + @day_to_copy_to.safe_short_date), notice: 'Department blocks were successfully copied.'
+
+  end
+
   # DELETE /department_blocks/1
   # DELETE /department_blocks/1.json
   def destroy

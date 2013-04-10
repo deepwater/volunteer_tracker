@@ -3,17 +3,20 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-	$('.timepicker').timepicker({
-	})
+	$('.timepicker').timepicker();
 
-	$('.timepicker-first').on 'changeTime.timepicker', (e) ->
+	$('.timepicker').on 'blur', (e) ->
 
-		$second = $('.timepicker-second')
+		val = $(@).val()
 
-		hours = e.time.hours
-		minutes = e.time.minutes
-		meridian = e.time.meridian
+		split = val.split " "
+		time = split[0]
+		meridian = split[1]
 
-		if hours < 10 then hours = "0" + hours
+		time_split = time.split ":"
+		hours = parseInt time_split[0]
+		minutes = parseInt time_split[1]
 
-		$second.timepicker('setTime', hours + ":" + minutes + " " + meridian)
+		if minutes != "15" && minutes != "30" && minutes != "45" && minutes != "00"
+			minutes = (parseInt((minutes + 7.5)/15) * 15) % 60
+			$(@).timepicker('setTime', hours + ":" + minutes + " " + meridian)
