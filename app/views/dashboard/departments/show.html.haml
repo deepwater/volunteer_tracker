@@ -7,7 +7,7 @@
       %br
       %p.quick-jump
         Quick Jump:
-      = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.all, "id", "name", @department.id), :class => "span3")
+      = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.order("name"), "id", "name", @department.id), :class => "span3")
 
   .span4.offset2
     %br
