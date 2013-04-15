@@ -42,7 +42,7 @@
           %tr
             %th.span1
               = t.strftime("%I:%M%P")
-            %td.span1{data: {time: t.strftime("%H:%M")}}
+            %td.span1{data: {time: t.strftime("%H:%M %p")}}
               Click to Schedule
           - t = t + (60 * 15)
       
@@ -54,7 +54,7 @@
           %tr
             %th.span1
               = t.strftime("%I:%M%P")
-            %td.span1{data: {time: t.strftime("%H:%M")}}
+            %td.span1{data: {time: t.strftime("%H:%M %p")}}
               Click to Schedule
           - t = t + (60 * 15)
 

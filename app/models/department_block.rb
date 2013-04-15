@@ -20,6 +20,7 @@ class DepartmentBlock < ActiveRecord::Base
   		duration = (end_time - start_time) / 60
   		numberOfUserBlocks = duration / 15
 
+      logger.debug "#{@users}"
   		# Loop through the set of users
   		@users.each do |user|
   			# Check if user is eligible for each of the EventTimeslots
@@ -31,6 +32,7 @@ class DepartmentBlock < ActiveRecord::Base
   			num_availabilities = user.user_availabilities.where(time: [self.start_time...self.end_time]).length
 
   			is_eligible = true if num_availabilities == numberOfUserBlocks
+        logger.debug "num_availabilities: #{num_availabilities} numberOfUserBlocks: #{numberOfUserBlocks}"
 
   			# If they passed the eligibility check
   			if is_eligible
