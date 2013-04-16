@@ -6,6 +6,8 @@ class MailgunMailer
 
   def self.deliver_schedule_notification_email(user_schedule)
 
+    logger.debug "COMES TO SEND AN EMAIL"
+
   	@user = user_schedule.user
   	@department_block = user_schedule.department_block
   	@department = @department_block.department
