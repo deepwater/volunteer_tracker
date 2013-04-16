@@ -7,6 +7,18 @@ class DepartmentBlock < ActiveRecord::Base
 
 	has_many :volunteer_managers
 
+  def readable_start_time 
+    t = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+
+    return t.strftime("%l.%M%P %A %-d %B")
+  end
+
+  def readable_end_time 
+    t = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+
+    return t.strftime("%l.%M%P %A %-d %B")
+  end
+
 	def get_perfect_fit_users
   		# Stores eligible and available users
   		perfect_users = []
