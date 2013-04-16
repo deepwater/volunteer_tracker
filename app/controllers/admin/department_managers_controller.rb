@@ -3,7 +3,6 @@ class Admin::DepartmentManagersController < AdminController
   # POST /department_managers
   # POST /department_managers.json
   def create
-    DepartmentManager.where(:department_id => params[:department_manager][:department_id]).delete_all
     @department_manager = DepartmentManager.new(params[:department_manager])
 
     # Update user role
