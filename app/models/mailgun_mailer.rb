@@ -17,7 +17,7 @@ class MailgunMailer
 
   	emails.each do |email|
 	  	RestClient.post API_URL+"/messages", 
-	      :from => "omgmediagroup",
+	      :from => "omgmediagroup@secret-inlet-9787.herokuapp.com",
 	      :to => "#{email}",
 	      :subject => "Garlic Gilroy Festival - You have been scheduled",
 	      :text => "You have been scheduled to a block at the Gilroy Garlic Festival, here are the details: \n \n Department: #{@department.name} \n Block Name: #{@department_block.name} \n Starting: #{@department_block.readable_start_time} \n Ending: #{@department_block.readable_start_time}"
