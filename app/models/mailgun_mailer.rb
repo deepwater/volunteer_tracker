@@ -11,7 +11,7 @@ class MailgunMailer
   	@department = @department_block.department
 
   	emails = [@user.email]
-  	emails << @user.secondary_email if !@user.secondary_email.empty?
+  	emails << @user.secondary_email if @user.secondary_email.to_s.strip.length == 0
 
   	emails.each do |email|
 	  	RestClient.post API_URL+"/messages", 
