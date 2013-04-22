@@ -41,8 +41,7 @@ $ ->
 			$.each data, (i) ->	
 				# Creates a New Day Object
 
-				date = new Date(data[i].year, data[i].month, data[i].mday)
-				newDay = new Day(data[i].id, date.toDateString())
+				newDay = new Day(data[i].id, data[i].name)
 
 				# Adds the new day object to the list of available days
 				availabilityList.push(newDay)
@@ -61,7 +60,7 @@ $ ->
 		if listOfTimes.length > 0
 
 			$.each listOfTimes, (i) ->
-				$('[data-time="' + listOfTimes[i] + '"]').parent().addClass('success').find('td').html('Scheduled!')
+				$('[data-time="' + listOfTimes[i] + '"]').parent().addClass('success').find('td').html('Available!')
 
 		$('.current-day').html(dayListIndex+1);
 
@@ -90,7 +89,8 @@ $ ->
 			switchAvailabilityButton()
 
 	# Fetches all the days from the DB
-	fetchDays()
+	if $('.time-availability-wrapper').length > 0
+		fetchDays()
 	
 	# Used for mouse interactions when dragging across time slots
 	isMouseDown = false
@@ -110,10 +110,10 @@ $ ->
 			# If the user highlighted the cell then add the index of the row to the day object as an available time
 			if isHighlighted 
 				availabilityList[dayListIndex].addAvailability($(this).attr("data-time")) 
-				$(@).html('Scheduled!')
+				$(@).html('Available!')
 			else 
 				availabilityList[dayListIndex].removeAvailability($(this).attr("data-time"))
-				$(@).html('Click to Schedule')
+				$(@).html('Not Available')
 			
 			# Stop default action: highlighting text
 			return false
@@ -129,10 +129,10 @@ $ ->
 				# If the user highlighted the cell then add the index of the row to the day object as an available time
 				if isHighlighted  
 					availabilityList[dayListIndex].addAvailability($(this).attr("data-time")) 
-					$(@).html('Scheduled!')
+					$(@).html('Available!')
 				else 
 					availabilityList[dayListIndex].removeAvailability($(this).attr("data-time"))
-					$(@).html('Click to Schedule')
+					$(@).html('Not Available')
 				
 				# Toggle the class based on whether the user is highlighting or unhighlighting cells
 		.bind 'selectstart', ->
@@ -170,7 +170,7 @@ $ ->
 		if !$el.parent().hasClass 'finish'
 
 			# Clear the timetable
-			$('tr.success td').html 'Click to Schedule'
+			$('tr.success td').html 'Not Available'
 			$('tr.success').removeClass 'success'
 
 			# Save the day
@@ -225,7 +225,7 @@ $ ->
 		# If the user cant do all day
 		if $(@).hasClass('btn-warning')
 			# Clear the timetable
-			$('.time-availability tr').removeClass('success').find('td').html('Click to Schedule')
+			$('.time-availability tr').removeClass('success').find('td').html('Not Available')
 
 			# Store this in the object
 			availabilityList[dayListIndex].allDay = 0
@@ -238,7 +238,7 @@ $ ->
 			availabilityList[dayListIndex].resetAvailabilities()
 
 			# Fill the timetable
-			$('.time-availability tr').addClass('success').find('td').html('Scheduled!')
+			$('.time-availability tr').addClass('success').find('td').html('Available!')
 
 			# Store this in the object
 			availabilityList[dayListIndex].allDay = 1

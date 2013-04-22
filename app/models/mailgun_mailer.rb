@@ -1,8 +1,4 @@
-class MailgunMailer
-  require 'rest_client'
-
-  API_KEY = ENV['MAILGUN_API_KEY']
-  API_URL = "https://api:#{API_KEY}@api.mailgun.net/v2/mailgun.net"
+class MailgunMailer < ActionMailer::Base
 
   def self.deliver_schedule_notification_email(user_schedule)
 
@@ -14,6 +10,8 @@ class MailgunMailer
   	emails << @user.secondary_email if @user.secondary_email.to_s.strip.length == 0
 
   	emails.each do |email|
+          mail(:to => "#{email}", :subject => "Garlic Gilroy Festival - You have been scheduled")
+
 	  	RestClient.post API_URL+"/messages", 
 	      :from => "omgmediagroup@secret-inlet-9787.herokuapp.com",
 	      :to => "#{email}",

@@ -37,3 +37,11 @@ $ ->
 			if $volunteers.val().length == 0
 			 alert "Please Enter a Number of Volunteers"
 			 return false	
+
+			first_time = $('.timepicker-first').val()
+			second_time = $('.timepicker-second').val()
+			difference = Date.parse("01/01/2013 " +second_time) - Date.parse("01/01/2013 " +first_time)
+
+			if difference == 0 or difference < 0
+				alert "Please enter an End time that is after the Start time"
+				return false 

@@ -17,5 +17,9 @@ class Day < ActiveRecord::Base
    		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)
 		return t.strftime('%m%d')
 	end
-	
+
+	def long_date
+   		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)
+   		return t.strftime("%a %b %e %Y")
+	end	
 end

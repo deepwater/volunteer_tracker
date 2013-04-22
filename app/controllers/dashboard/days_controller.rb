@@ -3,7 +3,9 @@ class Dashboard::DaysController < DashboardController
 	  @days = Day.all
 
       respond_to do |format|
-        format.json { render json: @days }
+        format.json { render :json => @days.map { |day| {:id => day.id, :name => day.long_date} }
+ }
+          
 	  end
 	end
 end
