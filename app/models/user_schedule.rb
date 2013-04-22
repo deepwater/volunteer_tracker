@@ -6,6 +6,6 @@ class UserSchedule < ActiveRecord::Base
 	after_create :deliver_email
 
 	def deliver_email
-		UserScheduleMailer.schedule_email(self)
+		UserScheduleMailer.schedule_email(self).deliver
 	end
 end

@@ -12,8 +12,8 @@ ActionMailer::Base.smtp_settings = {
     :password       => ENV['MAILGUN_SMTP_PASSWORD'],
     :domain         => 'secret-inlet-9787.heroku.com',
     :authentication => :plain,
-  }
-  
+  	}
+
 ActionMailer::Base.raise_delivery_errors = true
 
 ActionMailer::Base.delivery_method = :smtp
