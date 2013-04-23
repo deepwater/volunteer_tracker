@@ -5,6 +5,6 @@ class UserScheduleMailer < ActionMailer::Base
   	@department_block = user_schedule.department_block
   	@department = @department_block.department
 
-    mail(to: @user.email, from: "Gilroy Garlic Festival", subject: "You have been scheduled")
+    mail(to: @user.email, from: "schedule@gilroygarlicfestival.com", subject: "You have been scheduled")
   end
 end
