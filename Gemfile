@@ -10,8 +10,6 @@ group :production do
 	gem 'pg'
 end
 
-gem 'rest-client'
-
 gem 'bootstrap-sass-rails'
 gem 'bootstrap-timepicker-rails'
 
