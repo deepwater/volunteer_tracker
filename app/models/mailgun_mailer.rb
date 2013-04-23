@@ -2,7 +2,7 @@ class MailgunMailer < ActionMailer::Base
 
   require 'rest_client'
 
-  API_KEY = 'ENV['MAILGUN_API_KEY']'
+  API_KEY = ENV['MAILGUN_API_KEY']
   API_URL = "https://api:#{API_KEY}@api.mailgun.net/v2/mailgun.net"
 
   def self.schedule_email(user_schedule)
