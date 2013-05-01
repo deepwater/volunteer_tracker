@@ -45,3 +45,6 @@ $ ->
 			if difference == 0 or difference < 0
 				alert "Please enter an End time that is after the Start time"
 				return false 
+
+		#Available Users DataTable		
+		$('#department_blocks_available_users').dataTable()

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: departments
+#
+#  id             :integer          not null, primary key
+#  name           :text
+#  budgeted_hours :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
 class Department < ActiveRecord::Base
 	has_many :department_managers
 	has_many :lt_department_managers

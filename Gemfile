@@ -4,6 +4,7 @@ gem 'rails', '3.2.2'
 
 group :development do 
 	gem 'sqlite3'
+	gem 'annotate'
 end
 
 group :production do
@@ -31,6 +32,7 @@ gem 'jquery-ui-rails'
 
 gem 'devise'
 gem 'cancan'
+gem 'jquery-datatables-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
