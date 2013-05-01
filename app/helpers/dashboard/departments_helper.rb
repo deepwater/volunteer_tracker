@@ -9,7 +9,9 @@ module Dashboard::DepartmentsHelper
 			duration_in_minutes = (end_time.to_f - start_time) / 60 
 			duration_in_hours = duration_in_minutes / 60
 
-			total += department_block.suggested_number_of_workers * duration_in_hours
+			if department_block.suggested_number_of_workers
+				total += department_block.suggested_number_of_workers * duration_in_hours
+			end
 		end
 
 		return total
