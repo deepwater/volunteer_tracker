@@ -11,20 +11,21 @@
 .row
   %br
   .span9
-    %table.table.table-bordered.table-striped
-      %tr
-        %th Full Name
-        %th Email
-        %th T Shirt Size
-        %th Role
-        %th
-        %th
-
-      - @users.each do |user|
+    %table.table.table-bordered.table-striped#users_list_table
+      %thead
         %tr
-          %td= link_to user.full_name, admin_user_path(user)
-          %td= user.email
-          %td= user.tshirt_size
-          %td= user.role
-          %td= link_to 'Edit', edit_admin_user_path(user)
-          %td= link_to 'Delete', admin_user_path(user), :method => :delete
+          %th Full Name
+          %th Email
+          %th T Shirt Size
+          %th Role
+          %th
+          %th
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td= link_to user.full_name, admin_user_path(user)
+            %td= user.email
+            %td= user.tshirt_size
+            %td= user.role
+            %td= link_to 'Edit', edit_admin_user_path(user)
+            %td= link_to 'Delete', admin_user_path(user), :method => :delete

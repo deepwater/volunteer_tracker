@@ -28,6 +28,7 @@ end
 gem 'haml'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'	
+gem 'jquery-datatables-rails'
 
 gem 'devise'
 gem 'cancan'
