@@ -55,9 +55,16 @@
       %p 
         %b Current User Allocation:
         - current_allocation = @department_block.users.length
-        ="(#{current_allocation}/#{@department_block.suggested_number_of_workers})"  
+        - if @department_block.suggested_number_of_workers
+          ="(#{current_allocation}/#{@department_block.suggested_number_of_workers})" 
+        - else
+          ="0/0" 
       .progress
-        .bar{:class => current_allocation > @department_block.suggested_number_of_workers ? "bar-danger" : "", :style => "width: #{(current_allocation.to_f / @department_block.suggested_number_of_workers.to_f) * 100}%;"}
+        - if @department_block.suggested_number_of_workers
+          .bar{:class => current_allocation > @department_block.suggested_number_of_workers ? "bar-danger" : "", :style => "width: #{(current_allocation.to_f / @department_block.suggested_number_of_workers.to_f) * 100}%;"}
+        - else
+          .bar{:class => "bar-danger", :style => "width: 100%;"}
+
 
       %table.table.table-bordered.table-striped.scheduled-user-table
         %tr
