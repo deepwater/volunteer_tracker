@@ -3,6 +3,7 @@ class UserAvailabilitiesController < ApplicationController
   # GET /user_availabilities.json
   def index
     @user_availabilities = UserAvailability.all
+    @days = Day.all
 
     respond_to do |format|
       format.html # index.html.erb
