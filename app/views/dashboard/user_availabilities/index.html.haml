@@ -1,18 +1,35 @@
 .row
+  .span6.help-event-setup
+    %br
+    %h3 Would you like to help out with set up?
+    %p Event setup runs from July 21st to July 25th
+    %br
+    %p
+      %button.btn.btn-success.yes{type:"button"} Yes
+      %button.btn.btn-danger.no{type:"button"} No
+
+.row
+  .span6.help-event-tear-down
+    %br
+    %h3 Would you like to help out with tear down?
+    %p Event tear down runs from July 29th to August 1st
+    %br
+    %p
+      %button.btn.btn-success.yes{type:"button"} Yes
+      %button.btn.btn-danger.no{type:"button"} No
+
+.row.time-availability-wrapper
   .span6
     %br
-    %h3 
-      Add your time availability
+    %h3 Add your time availability
     %br
-    
-.row.time-availability-wrapper
 
   #accordion.accordion.span12
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"}
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#setup"}
           Event Setup
-      #collapseOne.accordion-body.collapse
+      #setup.accordion-body.collapse
         .accordion-inner
           .pagination
             %h4 Choose a day
@@ -22,15 +39,15 @@
                   «
               / %ul.nav.nav-tabs.span12
               %li 
-                %a{:href=>"#", :class => "prev-day"} 07/21
+                %a{:href=>"#"} 07/21
               %li 
-                %a{:href=>"#", :class => "prev-day"} 07/22
+                %a{:href=>"#"} 07/22
               %li 
-                %a{:href=>"#", :class => "prev-day"} 07/23
+                %a{:href=>"#"} 07/23
               %li 
-                %a{:href=>"#", :class => "prev-day"} 07/24
+                %a{:href=>"#"} 07/24
               %li 
-                %a{:href=>"#", :class => "prev-day"} 07/25
+                %a{:href=>"#"} 07/25
               %li
                 %a{:href=>"#", :class => "next-day"}
                   »
@@ -73,9 +90,9 @@
                         %button.btn.btn.btn-success{:type => "button"} Add
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseTwo"}
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#festival"}
           Festival
-      #collapseTwo.accordion-body.collapse
+      #festival.accordion-body.collapse
         .accordion-inner
           .pagination
             %h4 Choose a day
@@ -131,9 +148,9 @@
 
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseThree"}
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#tear-down"}
           Event Tear Down
-      #collapseThree.accordion-body.collapse
+      #tear-down.accordion-body.collapse
         .accordion-inner
           .pagination
             %h4 Choose a day

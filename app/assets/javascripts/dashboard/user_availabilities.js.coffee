@@ -3,6 +3,32 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->	
+
+	helpEventSetup = false
+	helpEventTearDown = false
+
+	$('.help-event-tear-down').hide()
+	$('.time-availability-wrapper').hide()
+
+	$('.help-event-setup button').on 'click', ->
+		if $(@).hasClass 'yes' then helpEventSetup = true
+		$('.help-event-setup').fadeOut()
+		setTimeout ( ->
+  			$('.help-event-tear-down').fadeIn()
+		), 1000
+
+	$('.help-event-tear-down button').on 'click', ->
+		if $(@).hasClass 'yes' then helpEventTearDown = true
+		$('.help-event-tear-down').fadeOut()
+
+		if helpEventSetup == false then $('#setup').parent().remove()
+		if helpEventTearDown == false then $('#tear-down').parent().remove()
+
+		setTimeout ( ->
+			$('.time-availability-wrapper').show()
+		), 1000
+
+
 	# Holds all the day objects
 	availabilityList = []
 
