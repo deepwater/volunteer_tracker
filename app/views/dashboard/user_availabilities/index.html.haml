@@ -1,62 +1,175 @@
 .row
-  .span12
+  .span6.help-event-setup
     %br
-    %h3 
-      Choose your hours of availability ( Step
-      %span.current-day 1
-      out of 
-      %span.total-days= Day.all.length
-      )
+    %h3 Would you like to help out with set up?
+    %p Event setup runs from July 21st to July 25th
     %br
-    
-.row.time-availability-wrapper
-  .pagination.span6
-    %ul
-      %li.disabled
-        %a{:href=>"#", :class => "prev-day"}
-          Prev
-      %li.active
-        %a 
-      %li
-        %a{:href=>"#", :class => "next-day"}
-          Next
-
-  .span3
-    %button.btn.btn-primary.available-all-day
-      %i.icon-ok-sign.icon-white
-      I'm Available All Day
-
-  .span3
-    %button.btn.btn-danger.not-available-all-day
-      %i.icon-remove-sign.icon-white
-      I'm Not Available This Day
+    %p
+      %button.btn.btn-success.yes{type:"button"} Yes
+      %button.btn.btn-danger.no{type:"button"} No
 
 .row
-  .span4
-    %h3 Morning
-    %table.time-availability.morning.table.table-bordered
-      %tbody
-        - t = Time.new(@first_day.year,@first_day.month,@first_day.mday, 0, 0, 0)
+  .span6.help-event-tear-down
+    %br
+    %h3 Would you like to help out with tear down?
+    %p Event tear down runs from July 29th to August 1st
+    %br
+    %p
+      %button.btn.btn-success.yes{type:"button"} Yes
+      %button.btn.btn-danger.no{type:"button"} No
 
-        - 48.times do |i|
-          %tr
-            %th.span1
-              = t.strftime("%I:%M%P")
-            %td.span1{data: {time: t.strftime("%H:%M %p")}}
-              Click to Schedule
-          - t = t + (60 * 15)
+.row.time-availability-wrapper
+  .span6
+    %br
+    %h3 Add your time availability
+    %p 
+      When you are finished click
+      =link_to "here", dashboard_user_charities_path
+      to choose a charity
+    %br
+
+  #accordion.accordion.span12
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#setup"}
+          Event Setup
+      #setup.accordion-body.collapse
+        .accordion-inner
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @setup_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @setup_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#festival"}
+          Festival
+      #festival.accordion-body.collapse
+        .accordion-inner
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @festival_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @festival_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
+
+    .accordion-group
+      .accordion-heading
+        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#tear-down"}
+          Event Tear Down
+      #tear-down.accordion-body.collapse
+        .accordion-inner
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @tear_down_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @tear_down_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
+  
+
+        
+  /   %button.btn.btn-primary.available-all-day
+  /     %i.icon-ok-sign.icon-white
+  /     I'm Available All Day
+
+  / .span3
+  /   %button.btn.btn-danger.not-available-all-day
+  /     %i.icon-remove-sign.icon-white
+  /     I'm Not Available This Day
+
+/ .row
+/   .span4
+/     %h3 Morning
+/     %table.time-availability.morning.table.table-bordered
+/       %tbody
+/         - t = Time.new(@first_day.year,@first_day.month,@first_day.mday, 0, 0, 0)
+
+/         - 48.times do |i|
+/           %tr
+/             %th.span1
+/               = t.strftime("%I:%M%P")
+/             %td.span1{data: {time: t.strftime("%H:%M %p")}}
+/               Click to Schedule
+/           - t = t + (60 * 15)
       
-  .span4.offset2
-    %h3 Afternoon
-    %table.time-availability.afternoon.table.table-bordered
-      %tbody
-        - 48.times do |i|
-          %tr
-            %th.span1
-              = t.strftime("%I:%M%P")
-            %td.span1{data: {time: t.strftime("%H:%M %p")}}
-              Not Available
-          - t = t + (60 * 15)
+/   .span4.offset2
+/     %h3 Afternoon
+/     %table.time-availability.afternoon.table.table-bordered
+/       %tbody
+/         - 48.times do |i|
+/           %tr
+/             %th.span1
+/               = t.strftime("%I:%M%P")
+/             %td.span1{data: {time: t.strftime("%H:%M %p")}}
+/               Not Available
+/           - t = t + (60 * 15)
 
 #confirmNextDay.modal.hide.fade
   .modal-header

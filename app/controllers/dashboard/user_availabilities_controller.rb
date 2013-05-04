@@ -3,19 +3,29 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
   respond_to :html, :json
 
   def index
-    @first_day = Day.first
+    @user_availability = UserAvailability.new
+
+    @setup_days = Day.where(day_type: 0)
+    @festival_days = Day.where(day_type: 1)
+    @tear_down_days = Day.where(day_type: 2)
   end
 
   def create
-  	@user_id = current_user.id
+    @user_availability = UserAvailability.new(params[:user_availability])
 
-  	UserAvailability.where(user_id: @user_id, day_id: params[:data][:day_id]).delete_all
+    respond_to do |format|
+      if @user_availability.save
+        format.json { render json: {:template => render_to_string("dashboard/user_availabilities/show.json")}}
+      else
+        format.json { render json: @user_availability.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
-  	params[:data][:availableTimes].each do |availableTime|
-      time = Time.parse(availableTime)
-      formatted_time = time.strftime("%H:%M")
+  def destroy
+    @user_availability = UserAvailability.find(params[:id])
+    @user_availability.destroy
 
-  		UserAvailability.create(user_id: @user_id, time: formatted_time, day_id: params[:data][:day_id])
-  	end
+    render :nothing => true
   end
 end

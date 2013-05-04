@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130415043705) do
+ActiveRecord::Schema.define(:version => 20130504050744) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130415043705) do
     t.integer  "mday"
     t.integer  "month"
     t.integer  "year"
+    t.integer  "day_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -70,7 +71,8 @@ ActiveRecord::Schema.define(:version => 20130415043705) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "day_id"
-    t.string   "time"
+    t.text     "start_time"
+    t.text     "end_time"
   end
 
   create_table "user_charities", :force => true do |t|
@@ -120,3 +122,4 @@ ActiveRecord::Schema.define(:version => 20130415043705) do
   end
 
 end
+>>>>>>> new-user-availabilities
