@@ -1,0 +1,24 @@
+=form_for(@user_availability, :url => [:dashboard, UserAvailability], :html => {:class => 'new_user_availability form form-inline'}, remote: true, :"data-type" => "json") do |f|
+
+  - if @user_availability.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user_availability.errors.count, "error")} prohibited this department from being saved:"
+      %ul
+        - @user_availability.errors.full_messages.each do |msg|
+          %li= msg
+
+  =f.hidden_field(:day_id, value: day_id)
+
+  Start Time:
+  .input-append.bootstrap-timepicker
+    =f.text_field(:start_time, value: "00:00", class:"timepicker timepicker-first input-small" )
+    %span.add-on
+      %i.icon-time
+
+  End Time:
+  .input-append.bootstrap-timepicker
+    =f.text_field(:end_time, value: "00:00", class:"timepicker timepicker-second input-small" )
+    %span.add-on
+      %i.icon-time
+
+  = f.submit(:class => 'btn btn-success', :value => "Add")
