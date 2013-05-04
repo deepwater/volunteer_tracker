@@ -31,120 +31,68 @@
           Event Setup
       #setup.accordion-body.collapse
         .accordion-inner
-          .pagination
-            %h4 Choose a day
-            %ul
-              %li.disabled
-                %a{:href=>"#", :class => "prev-day"}
-                  «
-              / %ul.nav.nav-tabs.span12
-              %li 
-                %a{:href=>"#"} 07/21
-              %li 
-                %a{:href=>"#"} 07/22
-              %li 
-                %a{:href=>"#"} 07/23
-              %li 
-                %a{:href=>"#"} 07/24
-              %li 
-                %a{:href=>"#"} 07/25
-              %li
-                %a{:href=>"#", :class => "next-day"}
-                  »
-            %br
-            %br
-
-            .row
-              .span3 
-                %h4 Your availabilities for this day:
-                %table.table
-                  %thead
-                    %tr
-                      %th Start Time
-                      %th End Time
-                      %th
-                  %tbody
-                    %tr
-                      %td 4AM
-                      %td 6AM
-                      %td
-                        %button.btn.btn-mini.btn-danger{:type => "button"} Delete
-                    %tr
-                      %td 4PM
-                      %td 7PM
-                      %td
-                        %button.btn.btn-mini.btn-danger{:type => "button"} Delete
-                    %tr
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small" )
-                          %span.add-on
-                            %i.icon-time
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small")
-                          %span.add-on
-                            %i.icon-time
-
-                      %td
-                        %button.btn.btn.btn-success{:type => "button"} Add
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @setup_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @setup_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
     .accordion-group
       .accordion-heading
         %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#festival"}
           Festival
       #festival.accordion-body.collapse
         .accordion-inner
-          .pagination
-            %h4 Choose a day
-            %ul
-              %li.disabled
-                %a{:href=>"#", :class => "prev-day"}
-                  «
-              / %ul.nav.nav-tabs.span12
-              - Day.all.each do |day,index|
-                %li
-                  %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
-                    =day.short_date
-              %li
-                %a{:href=>"#", :class => "next-day"}
-                  »
-            %br
-            %br
-
-            .row
-              .span3 
-                %h4 Your availabilities for this day:
-                %table.table
-                  %thead
-                    %tr
-                      %th Start Time
-                      %th End Time
-                      %th
-                  %tbody
-                    %tr
-                      %td 4AM
-                      %td 6AM
-                      %td
-                        %button.btn.btn-mini.btn-danger{:type => "button"} Delete
-                    %tr
-                      %td 4PM
-                      %td 7PM
-                      %td
-                        %button.btn.btn-mini.btn-danger{:type => "button"} Delete
-                    %tr
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small" )
-                          %span.add-on
-                            %i.icon-time
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small")
-                          %span.add-on
-                            %i.icon-time
-
-                      %td
-                        %button.btn.btn-success{:type => "button"} Add
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @festival_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @festival_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
 
     .accordion-group
       .accordion-heading
@@ -152,50 +100,34 @@
           Event Tear Down
       #tear-down.accordion-body.collapse
         .accordion-inner
-          .pagination
-            %h4 Choose a day
-            %ul
-              %li.disabled
-                %a{:href=>"#", :class => "prev-day"}
-                  «
-              / %ul.nav.nav-tabs.span12
-              %li 
-                %a{:href=>"#", :class => "prev-day"} 07/26
-              %li 
-                %a{:href=>"#", :class => "prev-day"} 07/27
-              %li 
-                %a{:href=>"#", :class => "prev-day"} 07/28
-              %li
-                %a{:href=>"#", :class => "next-day"}
-                  »
-            %br
-            %br
-
-            .row
-              .span3 
-                %h4 Your availabilities for this day:
-                %table.table
-                  %thead
-                    %tr
-                      %th Start Time
-                      %th End Time
-                      %th
-                  %tbody
-                    %tr
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small" )
-                          %span.add-on
-                            %i.icon-time
-                      %td
-                        .input-append.bootstrap-timepicker
-                          =text_field_tag('Start Time', "00:00", class:"timepicker timepicker-first input-small")
-                          %span.add-on
-                            %i.icon-time
-
-                      %td
-                        %button.btn.btn-success{:type => "button"} Add
-
+          %h4 Choose a day
+          %ul.nav.nav-tabs
+            - @tear_down_days.each_with_index do |day, index|
+              %li{:class => index == 0 ? "active" : ""} 
+                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
+                  =day.short_date
+          .tab-content
+            - @tear_down_days.each_with_index do |day, index|
+              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
+                .row
+                  .span5
+                    %h4 Your availabilities for this day:
+                    %table.table
+                      %thead
+                        %tr
+                          %th Start Time
+                          %th End Time
+                          %th
+                      %tbody
+                        - day.user_availabilities.each do |user_availability|
+                          %tr
+                            %td= user_availability.start_time
+                            %td= user_availability.end_time
+                            %td
+                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                Delete
+                        %tr
+                    = render 'form', day_id: day.id
   
 
         
