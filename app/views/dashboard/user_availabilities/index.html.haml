@@ -24,9 +24,10 @@
     %br
     %h3 Add your time availability
     %p 
-      When you are finished click
-      =link_to "here", dashboard_user_charities_path
-      to choose a charity
+      - if @user_availabilities.empty?
+        When you are finished click
+        =link_to "here", dashboard_user_charities_path
+        to choose a charity
     %br
 
   #accordion.accordion.span12
