@@ -1,24 +1,25 @@
-.row
-  .span6.help-event-setup
-    %br
-    %h3 Would you like to help out with set up?
-    %p Event setup runs from July 21st to July 25th
-    %br
-    %p
-      %button.btn.btn-success.yes{type:"button"} Yes
-      %button.btn.btn-danger.no{type:"button"} No
+- if @user_availabilities.empty?
+  .row
+    .span6.help-event-setup
+      %br
+      %h3 Would you like to help out with set up?
+      %p Event setup runs from July 21st to July 25th
+      %br
+      %p
+        %button.btn.btn-success.yes{type:"button"} Yes
+        %button.btn.btn-danger.no{type:"button"} No
 
-.row
-  .span6.help-event-tear-down
-    %br
-    %h3 Would you like to help out with tear down?
-    %p Event tear down runs from July 29th to August 1st
-    %br
-    %p
-      %button.btn.btn-success.yes{type:"button"} Yes
-      %button.btn.btn-danger.no{type:"button"} No
+  .row
+    .span6.help-event-tear-down
+      %br
+      %h3 Would you like to help out with tear down?
+      %p Event tear down runs from July 29th to August 1st
+      %br
+      %p
+        %button.btn.btn-success.yes{type:"button"} Yes
+        %button.btn.btn-danger.no{type:"button"} No
 
-.row.time-availability-wrapper
+.row.time-availability-wrapper{:class => @user_availabilities.empty? ? "hidden" : ""} 
   .span6
     %br
     %h3 Add your time availability
@@ -133,43 +134,6 @@
                         %tr
                     = render 'form', day_id: day.id
   
-
-        
-  /   %button.btn.btn-primary.available-all-day
-  /     %i.icon-ok-sign.icon-white
-  /     I'm Available All Day
-
-  / .span3
-  /   %button.btn.btn-danger.not-available-all-day
-  /     %i.icon-remove-sign.icon-white
-  /     I'm Not Available This Day
-
-/ .row
-/   .span4
-/     %h3 Morning
-/     %table.time-availability.morning.table.table-bordered
-/       %tbody
-/         - t = Time.new(@first_day.year,@first_day.month,@first_day.mday, 0, 0, 0)
-
-/         - 48.times do |i|
-/           %tr
-/             %th.span1
-/               = t.strftime("%I:%M%P")
-/             %td.span1{data: {time: t.strftime("%H:%M %p")}}
-/               Click to Schedule
-/           - t = t + (60 * 15)
-      
-/   .span4.offset2
-/     %h3 Afternoon
-/     %table.time-availability.afternoon.table.table-bordered
-/       %tbody
-/         - 48.times do |i|
-/           %tr
-/             %th.span1
-/               = t.strftime("%I:%M%P")
-/             %td.span1{data: {time: t.strftime("%H:%M %p")}}
-/               Not Available
-/           - t = t + (60 * 15)
 
 #confirmNextDay.modal.hide.fade
   .modal-header

@@ -24,7 +24,7 @@ class DepartmentBlock < ActiveRecord::Base
   		perfect_users = []
 
   		# Gets a list of users who have a time availability at the start of the block
-  		@users = User.joins(:user_availabilities).where(user_availabilities: {time: self.start_time, day_id: self.day.id}).all
+  		# @users = User.joins(:user_availabilities).where(user_availabilities: {time: self.start_time, day_id: self.day.id}).all
 
   		# Find length of time 
   		start_time = Time.parse(self.start_time)

@@ -7,7 +7,6 @@ $ ->
 	helpEventTearDown = false
 
 	$('.help-event-tear-down').hide()
-	$('.time-availability-wrapper').hide()
 
 	$('.help-event-setup button').on 'click', ->
 		if $(@).hasClass 'yes' then helpEventSetup = true
@@ -24,7 +23,7 @@ $ ->
 		if helpEventTearDown == false then $('#tear-down').parent().remove()
 
 		setTimeout ( ->
-			$('.time-availability-wrapper').show()
+			$('.time-availability-wrapper').hide().removeClass('hidden').fadeIn()
 		), 1000
 
 	toggleLoading = () ->
@@ -34,7 +33,6 @@ $ ->
 		.bind("ajax:loading", toggleLoading)
 		.bind("ajax:complete", toggleLoading)
 		.bind "ajax:success", (event, data, status, xhr) ->
-			alert 'test'
 			$(@).siblings("table").append(data.template)
 
 	$('.remove-user-availability').on 'click', ->

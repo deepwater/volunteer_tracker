@@ -6,6 +6,13 @@
 %br
 
 %ul.thumbnails
+	%li.span3
+		.thumbnail
+			.caption
+				%h4 View Your Time Availabilitiy
+				%p View and edit your volunteer time availability 
+				%p 
+					= link_to("View Availability", "/dashboard/user_availabilities", :class => "btn btn-block btn-primary")
 	- if can? :manage, DepartmentBlock  
 		- if can? :manage, :all
 			%li.span3
