@@ -15,6 +15,12 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
   def create
     @user_availability = UserAvailability.new(params[:user_availability])
 
+    start_time = Time.parse(@user_availability.start_time)
+    @user_availability.start_time = start_time.strftime("%H:%M")
+
+    end_time = Time.parse(@user_availability.end_time)
+    @user_availability.end_time = end_time.strftime("%H:%M")
+
     respond_to do |format|
       if @user_availability.save
         format.json { render json: {:template => render_to_string("dashboard/user_availabilities/show.json")}}
