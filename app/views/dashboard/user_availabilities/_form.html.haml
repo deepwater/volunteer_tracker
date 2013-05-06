@@ -8,6 +8,7 @@
           %li= msg
 
   =f.hidden_field(:day_id, value: day_id)
+  =f.hidden_field(:user_id, value: current_user.id)
 
   Start Time:
   .input-append.bootstrap-timepicker
