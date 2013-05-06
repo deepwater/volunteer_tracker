@@ -56,14 +56,13 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.each do |user_availability|
+                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
                             %td
                               = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
                                 Delete
-                        %tr
                     = render 'form', day_id: day.id
     .accordion-group
       .accordion-heading
@@ -90,7 +89,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.each do |user_availability|
+                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
@@ -125,7 +124,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.each do |user_availability|
+                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)

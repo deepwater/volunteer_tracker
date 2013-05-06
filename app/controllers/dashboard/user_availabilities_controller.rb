@@ -5,7 +5,7 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
   def index
     @user_availability = UserAvailability.new
 
-    @user_availabilities = UserAvailability.all
+    @user_availabilities = UserAvailability.where(user_id: current_user.id)
 
     @setup_days = Day.where(day_type: 0)
     @festival_days = Day.where(day_type: 1)

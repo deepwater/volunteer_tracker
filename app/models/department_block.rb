@@ -21,9 +21,21 @@ class DepartmentBlock < ActiveRecord::Base
 
 	def get_perfect_fit_users
   		# Stores eligible and available users
-  		perfect_users = []
+  		users = []
 
   		# Gets a list of users who have a time availability at the start of the block
+      @list_of_availabilities = self.day.user_availabilities
+
+      user_availabilities.each do |user_availability|
+        start_time = Time.parse(self.start_time)
+        end_time = Time.parse(self.end_time)
+
+        block_time_range = Time.parse(self.start_time).. Time.parse(self.end_time)
+
+        availabilityRange = Time.parse(user_availability.start_time).. Time.parse(user)
+
+        # start_check =
+      end
   		# @users = User.joins(:user_availabilities).where(user_availabilities: {time: self.start_time, day_id: self.day.id}).all
 
   		# Find length of time 
