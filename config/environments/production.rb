@@ -20,6 +20,9 @@ VolunteerTracker::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.action_mailer.default_url_options = { :host => 'secret-inlet-9787.herokuapp.com' }
+
+
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 

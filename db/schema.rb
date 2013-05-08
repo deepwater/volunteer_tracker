@@ -122,4 +122,3 @@ ActiveRecord::Schema.define(:version => 20130504050744) do
   end
 
 end
->>>>>>> new-user-availabilities
