@@ -1,3 +1,11 @@
+.container
+	.alert-container
+		- flash.each do |type, message|
+			%div{:class => flash_class(type) }
+				%button{ :class => 'close', :data_dismiss => 'alert' }
+					x
+				= message
+
 %h2
 	= current_user.full_name
 %h3
