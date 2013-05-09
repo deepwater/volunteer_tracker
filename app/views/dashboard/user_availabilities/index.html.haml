@@ -23,12 +23,6 @@
   .span6
     %br
     %h3 Add your time availability
-    %p 
-      - if @user_availabilities.empty?
-        When you are finished click
-        =link_to "here", dashboard_user_charities_path
-        to choose a charity
-    %br
 
   #accordion.accordion.span12
     .accordion-group
@@ -133,7 +127,13 @@
                                 Delete
                         %tr
                     = render 'form', day_id: day.id
-  
+
+    - if @user_availabilities.empty?
+      %p.pull-right
+        Finished and ready to select your charity affiliation?
+        = link_to "Save Availability", dashboard_user_charities_path, class: "btn btn-success pull-right"
+        %br/
+        %small.pull-right (Don't worry, you can always come back to this section later to edit your time availability.
 
 #confirmNextDay.modal.hide.fade
   .modal-header
