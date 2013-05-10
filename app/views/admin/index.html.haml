@@ -1,1 +1,23 @@
-Welcome to the Admin Panel Home
+.page-header
+  %h1 Admin Panel
+
+%ul#section-tab-navigation.nav.nav-tabs
+  %li.active
+    %a{:href => "#users"} Users
+  %li
+    %a{:href => "#departments"} Departments
+  %li 
+    %a{:href => "#charities"} Charities 
+
+  #section-tabs
+    #users.section-tab
+      .clearfix
+      = render :partial => "admin/users"
+
+    #departments.section-tab{:style=>"display:none;"}
+      .clearfix
+      = render :partial => "admin/departments"
+
+    #charities.section-tab{:style=>"display:none;"}
+      .clearfix
+      = render :partial => "admin/charities"
