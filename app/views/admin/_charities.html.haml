@@ -1,0 +1,24 @@
+.row
+  .span5
+    %h2 Charity List
+
+  .span4
+    %br
+    = link_to(new_admin_charity_path) do
+      %button.btn.btn-primary{:type=>"button", :class=>"right-floated-btn"} 
+        New Charity
+
+.row
+  .span9
+    %br
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Name
+        %th
+        %th
+
+      - @charities.each do |charity|
+        %tr
+          %td= link_to charity.name, admin_charity_path(charity)
+          %td= link_to 'Edit', edit_admin_charity_path(charity)
+          %td= link_to('Delete', admin_charity_path(charity), :method=> :delete, data: { confirm: 'Are you sure?' })
