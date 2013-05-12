@@ -15,4 +15,6 @@
 						- if can? :manage, :all
 							= nav_link("Admin Panel", admin_index_path)
 					%li
+						%a{:href => "http://dev.omgmediagroup.com/ggfHelp", :target => "_blank"} Help
+					%li 
 						= link_to("Logout", destroy_user_session_path, :method => :delete, confirm: "Are you sure you want to logout?")
