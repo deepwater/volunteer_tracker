@@ -5,6 +5,12 @@
       = "#{current_user.full_name} (#{current_user.role.camelize})"
       %br
 
+    %p
+      Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
+    %br
+    %br
+
+
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class=> 'form-horizontal' }) do |f|
       = devise_error_messages!
       %fieldset
