@@ -134,7 +134,12 @@
         = link_to "Save Availability", dashboard_user_charities_path, class: "btn btn-success pull-right"
         %br/
         %small.pull-right (Don't worry, you can always come back to this section later to edit your time availability.
-
+    - else 
+      %p.pull-right
+        Finished adding your availabilities?
+        = link_to "Return to Dashboard", dashboard_index_path, class: "btn btn-success pull-right"
+        %br/
+        %small.pull-right (Don't worry, your availabilities will automatically be saved)
 #confirmNextDay.modal.hide.fade
   .modal-header
     %button.close{:type=>"button", :data =>{ :dismiss =>"modal"}}
