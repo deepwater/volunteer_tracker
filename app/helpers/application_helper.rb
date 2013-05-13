@@ -5,16 +5,21 @@ module ApplicationHelper
 		return t.strftime("%I:%M %p")
 	end
 	
-	def nav_link(text, link)
+	# def nav_link(text, link, icon_class)
+	def nav_link(link)
 	    recognized = Rails.application.routes.recognize_path(link)
 	    if recognized[:controller] == params[:controller] && recognized[:action] == params[:action]
-	        content_tag(:li, :class => "active") do
-	            link_to( text, link)
-	        end
+	        return "active"
+	        # content_tag(:li, :class => "active") do
+	        # 	content_tag(:a, text, href: link) do 
+	        # 		content_tag(:i, "",class: "icon_class")
+	        # 	end
+	        # end
 	    else
-	        content_tag(:li) do
-	            link_to( text, link)
-	        end
+	    	return ""
+	        # content_tag(:li) do
+	        #     link_to( text, link)
+	        # end
 	    end
 	end
 
