@@ -30,4 +30,4 @@
             %td= user.role
             %td= user.charities.any? ? user.charities.first.name : "Not assigned"
             %td= link_to 'Edit', edit_admin_user_path(user)
-            %td= link_to 'Delete', admin_user_path(user), :method => :delete
+            %td= link_to 'Delete', admin_user_path(user), :method => :delete, confirm: "Are you sure you want to delete this user?"
