@@ -6,8 +6,9 @@ VolunteerTracker::Application.routes.draw do
   resources :departments, :only => [:index,:show]
   resources :charities, :only => [:index,:show]
 
-  devise_for :users, :controllers => { :registrations => "registrations", confirmations: "confirmations"}
-
+  # devise_for :users, :controllers => { confirmations: "confirmations"}
+  devise_for :users
+  
   resources :admin, :only => :index
   namespace :admin do
     resources :users
