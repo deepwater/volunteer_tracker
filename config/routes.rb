@@ -6,9 +6,11 @@ VolunteerTracker::Application.routes.draw do
   resources :departments, :only => [:index,:show]
   resources :charities, :only => [:index,:show]
 
-  # devise_for :users, :controllers => { confirmations: "confirmations"}
+  devise_for :users, :controllers => { registrations: "registrations"}
   devise_for :users
-  
+
+  match '/welcome' => "welcome#index"
+
   resources :admin, :only => :index
   namespace :admin do
     resources :users
@@ -19,8 +21,6 @@ VolunteerTracker::Application.routes.draw do
 
   resources :dashboard, :only => [:index, :registration_complete]
   namespace :dashboard do
-    match '/registration_complete' => "registration#index"
-
     # VIEWING ONLY
     resources :departments, :only => [:show, :edit]
     resources :user_charities
