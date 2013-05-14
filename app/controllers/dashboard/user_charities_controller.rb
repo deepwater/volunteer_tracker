@@ -12,7 +12,7 @@ class Dashboard::UserCharitiesController < ApplicationController
     @user_charity = UserCharity.new(params[:user_charity])
     
   	if @user_charity.save
-  		redirect_to "/dashboard/registration_complete"
+  		redirect_to dashboard_index
   	end
   end
 end
