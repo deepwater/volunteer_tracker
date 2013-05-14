@@ -11,21 +11,21 @@
 				%ul.nav.pull-right
 					%li{class: nav_link(dashboard_index_path)}
 						= link_to dashboard_index_path do
-							%i.icon-home
+							%i.icon-home.icon-white
 							Dashboard
 					%li{class: nav_link(edit_user_registration_path)}
 						= link_to edit_user_registration_path do
-							%i.icon-user
+							%i.icon-user.icon-white
 							My Profile
 					- if user_signed_in?
 						- if can? :manage, :all
 							%li{class: nav_link(admin_index_path)}
 								= link_to admin_index_path do
-									%i.icon-wrench
+									%i.icon-wrench.icon-white
 									Admin Panel
 					%li
 						%a{:href => "http://dev.omgmediagroup.com/ggfHelp", :target => "_blank"} 
-							%i.icon-question-sign
+							%i.icon-question-sign.icon-white
 							Help
 					%li 
 						= link_to("Logout", destroy_user_session_path, :method => :delete, confirm: "Are you sure you want to logout?")
