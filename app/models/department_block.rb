@@ -67,7 +67,7 @@ class DepartmentBlock < ActiveRecord::Base
           user_schedule_block = user_schedule.department_block
           duration = user_schedule_block.duration
 
-          overlap = user_schedule_block.overlap(user_availability)
+          overlap = user_schedule_block.overlaps(user_availability)
           overlap_percentage = (overlap / duration) * 100
 
           if overlap_percentage > 50
