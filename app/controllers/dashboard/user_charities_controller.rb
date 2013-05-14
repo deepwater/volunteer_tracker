@@ -12,7 +12,7 @@ class Dashboard::UserCharitiesController < ApplicationController
     @user_charity = UserCharity.new(params[:user_charity])
     
   	if @user_charity.save
-  		redirect_to dashboard_index
+  		redirect_to dashboard_index_path
   	end
   end
 end
