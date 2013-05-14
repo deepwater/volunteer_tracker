@@ -81,32 +81,28 @@
     .row
       %h3 Available Users
       %p 
-        User scheduling is currently unavailable
+        / User scheduling is currently unavailable
 
 
-        / %table.table.table-bordered.table-striped.schedule-user-table#department_blocks_available_users
-        / %thead 
-        /   %tr
-        /     %th Name
-        /     %th Availability %
-        /     %th Availability Details  
-        /     %th.span2 Actions
-        / %tbody
-        /   - @department_block.get_perfect_fit_users.each do |user|
-        /     %tr.info
-        /       %td.full_name= user.full_name
-        /       %td
-        /         100%
-        /       %td
-        /         Full Block
-        /       %td 
-        /         = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
-        /           = f.hidden_field :user_id, value: user.id
-        /           = f.hidden_field :edepartment_block_id, value: @department_block.id
+      %table.table.table-bordered.table-striped.schedule-user-table#department_blocks_available_users
+        %thead 
+          %tr
+            %th Name
+            %th Availability Time
+            %th.span2 Actions
+        %tbody
+          - @department_block.get_user_availabilities.each do |user_availability|
+            %tr.info
+              %td.full_name= user_availability.user.full_name
+              %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
+              %td 
+                = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
+                  = f.hidden_field :user_id, value: user_availability.user.id
+                  = f.hidden_field :department_block_id, value: @department_block.id
 
-        /           = button_tag type: "submit", class: 'btn btn-primary' do 
-        /             %i.icon-ok-sign.icon-white
-        /             Schedule
+                  = button_tag type: "submit", class: 'btn btn-primary' do 
+                    %i.icon-ok-sign.icon-white
+                    Schedule
 
 
 %div{:class =>"modal hide fade", :id => "assign_volunteer_managers"}
