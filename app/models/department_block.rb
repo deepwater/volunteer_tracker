@@ -77,16 +77,31 @@ class DepartmentBlock < ActiveRecord::Base
           user_schedule_block = user_schedule.department_block
           duration = user_schedule_block.duration
 
-          overlap = user_schedule_block.overlap(user_availability)
-          overlap_percentage = (overlap / duration) * 100
+          # overlap = user_schedule_block.overlap(user_availability)
+          # overlap_percentage = (overlap / duration) * 100
 
-          if overlap_percentage > 50
+          # logger.debug "OVERLAP: #{overlap}"
+          # logger.debug "DURATION: #{duration}"
+          # logger.debug "OVERLAP_PERCENTAGE: #{overlap_percentage}"
+
+          if user_schedule_block.overlaps?(user_availability)
+            eligibility_errors += 1
+          end
+
+          # logger.debug "SELF.ID: #{self.id}"
+          # logger.debug "USER_SCHEDULE_BLOCK.ID: #{user_schedule_block.id}"
+
+          if self.id == user_schedule_block.id
+            # logger.debug "TEST SUCCEEDS"
             eligibility_errors += 1
           end
         end
 
+        # logger.debug "ELIGIBLITY_ERRORS: #{eligibility_errors}"
         user_availabilities << user_availability if eligibility_errors == 0 
       end
+
+      user_availabilities
  
   	end
 end
