@@ -51,10 +51,10 @@
       .row
     .span6.offset1
       .row
-        %h3 Scheduled Users
+        %h3 Scheduled Volunteers
 
         %p 
-          %b Current User Allocation:
+          %b Current Volunteer Allocation:
           - current_allocation = @department_block.users.length
           - if @department_block.suggested_number_of_workers
             ="(#{current_allocation}/#{@department_block.suggested_number_of_workers})" 
@@ -80,7 +80,7 @@
                   %i.icon-remove-sign.icon-white
                   Unschedule
       .row
-        %h3 Available Users
+        %h3 Available Volunteers
         %p 
           / User scheduling is currently unavailable
 
