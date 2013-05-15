@@ -2,6 +2,9 @@ $ ->
 	toggleLoading = () ->
 		console.log 'test'
 
+	$('.new_user_schedule .btn').on 'click', ->
+		$(@).addClass('disabled')
+
 	$('.new_user_schedule')
 		.bind("ajax:loading", toggleLoading)
 		.bind("ajax:complete", toggleLoading)
