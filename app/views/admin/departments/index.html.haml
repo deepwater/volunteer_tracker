@@ -20,6 +20,8 @@
       - @departments.each do |department|
         %tr
           %td= link_to department.name, admin_department_path(department)
-          %td= department.budgeted_hours
+          %td
+            .bar{:class => get_department_usage_class(department.estimated_hours, department.budgeted_hours), :style => "width: #{get_department_usage(department.estimated_hours, department.budgeted_hours)}%;"}
+            #{department.budgeted_hours} / #{department.estimated_hours}
           %td= link_to 'Edit', edit_admin_department_path(department)
           %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
