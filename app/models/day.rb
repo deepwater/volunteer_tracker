@@ -2,6 +2,7 @@ class Day < ActiveRecord::Base
 
 	has_many :user_availabilities
 	has_many :department_blocks
+	has_many :user_schedules, :through => :department_blocks
 
 	def day_name
    		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)

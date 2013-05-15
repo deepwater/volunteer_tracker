@@ -74,8 +74,9 @@ class DepartmentBlock < ActiveRecord::Base
         if !user.role?(:department_manager) && !user.role?(:event_administrator)
 
           eligibility_errors = 0
-
-          user.user_schedules.each do |user_schedule|
+Category.find :all, :conditions => 'id in (select distinct category_id from categories_events)'
+          @user_schedules = Day.find(user_availability.day.id).user_schedules.where("user_id = ?", user.id)
+          @user_schedules.each do |user_schedule|
             user_schedule_block = user_schedule.department_block
             duration = user_schedule_block.duration
 
