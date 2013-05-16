@@ -1,6 +1,6 @@
 .span12
   .row
-    .span5
+    .span4
       .row
         %h2
           = @department_block.name
@@ -49,7 +49,7 @@
                     %i.icon-remove-sign.icon-white
                     Unassign
       .row
-    .span6.offset1
+    .span7.offset1
       .row
         %h3 Scheduled Volunteers
 
@@ -89,15 +89,19 @@
           %thead 
             %tr
               %th Name
+              %th Email
               %th Availability Time
               %th Charity
+              %th Role
               %th.span2 Actions
           %tbody
             - @department_block.get_user_availabilities.each do |user_availability|
               %tr.info
                 %td.full_name= user_availability.user.full_name
+                %td.email= user_availability.user.email
                 %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
                 %td= user_availability.user.charities.first.name
+                %td= user_availability.user.role
                 %td 
                   = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
                     = f.hidden_field :user_id, value: user_availability.user.id
