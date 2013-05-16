@@ -75,6 +75,8 @@ class DepartmentBlock < ActiveRecord::Base
 
           eligibility_errors = 0
           @user_schedules = Day.find(user_availability.day.id).user_schedules.where("user_id = ?", user.id)
+
+
           @user_schedules.each do |user_schedule|
             user_schedule_block = user_schedule.department_block
             duration = user_schedule_block.duration

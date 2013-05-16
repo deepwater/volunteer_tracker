@@ -2,8 +2,8 @@ class Day < ActiveRecord::Base
 
 	has_many :user_availabilities
 	has_many :department_blocks
-	has_many :user_schedules
-	
+	has_many :user_schedules, through: :department_blocks
+
 	# scope :user_schedules, Day.joins(:department_blocks => :model3).where('model3.label' => 'label')
 
 	def user_scheduled?(user)
