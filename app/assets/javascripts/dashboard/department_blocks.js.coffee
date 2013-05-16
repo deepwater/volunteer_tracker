@@ -4,7 +4,7 @@ $ ->
 
 	$('.new_user_schedule .btn').on 'click', ->
 		return false if $(@).hasClass 'disabled'
-		$(@).addClass('disabled')
+		$('.new_user_schedule .btn').addClass('disabled')
 
 	$('.new_user_schedule')
 		.bind("ajax:loading", toggleLoading)
