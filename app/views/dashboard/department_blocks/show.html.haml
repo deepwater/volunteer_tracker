@@ -18,10 +18,15 @@
           = @department_block.department.name
         %p
           %b Start time:
-          = in_twelve_hour_time(@department_block.start_time)
+          = in_twelve_hour_time(@department_block.start_time) 
+          \-
+          = @department_block.day.short_date_with_day
         %p
           %b End time:
           = in_twelve_hour_time(@department_block.end_time)
+          \-
+          = @department_block.day.short_date_with_day
+
         %p
           %b Suggested number of volunteers:
           %span.number_of_workers= @department_block.suggested_number_of_workers

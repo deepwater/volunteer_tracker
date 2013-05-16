@@ -24,6 +24,11 @@
     %br
     %h3 Add your time availability
 
+    %p 
+      %strong Volunteer shifts average about 4 hours at a minimum so we ask that you volunteer at least 4 hours or more for each day you are willing to volunteer.
+
+    %br
+
   #accordion.accordion.span12
     .accordion-group
       .accordion-heading
@@ -39,10 +44,15 @@
                   =day.short_date
           .tab-content
             - @setup_days.each_with_index do |day, index|
+              - schedule_check = day.user_scheduled?(current_user)
               .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
                 .row
                   .span5
                     %h4 Your availabilities for this day:
+                    - if schedule_check
+                      .alert
+                        %strong Note
+                        You can not edit your availabilities for this day because you have been scheduled
                     %table.table
                       %thead
                         %tr
@@ -51,12 +61,13 @@
                           %th
                       %tbody
                         - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
-                          %tr
+                          %tr{class: schedule_check ? "warning" : ""}
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
                             %td
-                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
-                                Delete
+                              - if !schedule_check
+                                = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
+                                  Delete
                     = render 'form', day_id: day.id
     .accordion-group
       .accordion-heading
