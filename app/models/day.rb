@@ -2,7 +2,6 @@ class Day < ActiveRecord::Base
 
 	has_many :user_availabilities
 	has_many :department_blocks
-	has_many :user_schedules, primary_key: "id", foreign_key: "department_block.day_id"
 
 	# scope :user_schedules, Day.joins(:department_blocks => :model3).where('model3.label' => 'label')
 
