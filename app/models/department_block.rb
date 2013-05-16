@@ -14,7 +14,7 @@ class DepartmentBlock < ActiveRecord::Base
   end
 
   def readable_end_time 
-    t = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    t = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
 
     return t.strftime("%l.%M%P %A %-d %B")
   end
