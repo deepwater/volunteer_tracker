@@ -2,6 +2,27 @@ class Dashboard::UserSchedulesController < ApplicationController
 
   # POST /user_schedules
   # POST /user_schedules.json
+
+  def index
+    @user_schedules = current_user.user_schedules
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @user_schedules }
+    end
+  end
+
+  # GET /department_blocks/1
+  # GET /department_blocks/1.json
+  def show
+    @user_schedule = UserSchedule.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @user_schedule }
+    end
+  end
+
   def create
     @user_schedule = UserSchedule.new(params[:user_schedule])
 

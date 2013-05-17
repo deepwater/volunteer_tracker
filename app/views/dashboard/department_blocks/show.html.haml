@@ -105,7 +105,7 @@
                 %td.full_name= user_availability.user.full_name
                 %td.email= user_availability.user.email
                 %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
-                %td= user_availability.user.charities.first.name
+                %td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
                 %td= user_availability.user.role
                 %td 
                   = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|

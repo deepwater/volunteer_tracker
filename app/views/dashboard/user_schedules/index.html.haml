@@ -1,0 +1,27 @@
+.row
+  .span12
+    %h2
+      %i.halflings-icon.edit 
+      Assignment Details
+      %br
+
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Date
+        %th Time
+        %th Department
+        %th Point of Contact
+        %th Phone
+        %th Email
+
+      - @user_schedules.each do |user_schedule|
+        %tr
+          %td=user_schedule.department_block.day.long_date
+          %td=user_schedule.department_block
+          %td
+            =in_twelve_hour_time(@user_availability.start_time)
+            \-
+            =in_twelve_hour_time(@user_availability.end_time)
+          %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.full_name : "Not assigned"
+          %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.cell_phone : "NA"
+          %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.email : "NA"
