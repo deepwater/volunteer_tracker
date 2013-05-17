@@ -58,6 +58,10 @@
           = label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'
           .controls
             = check_box_tag 'age_check'
+            %br
+            %hr
+            %p If you're registering for more than one person, please use a separate e-mail address.
+            =link_to "Need help doing this?", "http://dev.omgmediagroup.com/ggfHelp/helpDocMultiAcct.html"
         .form-actions
           = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
           %br
