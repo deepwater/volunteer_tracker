@@ -17,11 +17,11 @@
       - @user_schedules.each do |user_schedule|
         %tr
           %td=user_schedule.department_block.day.long_date
-          %td=user_schedule.department_block
           %td
             =in_twelve_hour_time(user_schedule.department_block.start_time)
             \-
             =in_twelve_hour_time(user_schedule.department_block.end_time)
+          %td=user_schedule.department_block.name
           %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.full_name : "Not assigned"
           %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.cell_phone : "NA"
           %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.email : "NA"
