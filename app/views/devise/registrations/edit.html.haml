@@ -6,7 +6,10 @@
       %br
 
     %p
-      Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
+      - if current_user.charities.any?  
+        Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
+      - else
+        You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
     %br
     %br
 

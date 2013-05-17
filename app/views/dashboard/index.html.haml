@@ -15,10 +15,36 @@
 	%li.span3
 		.thumbnail
 			.caption
-				%h4 View Your Time Availabilitiy
-				%p View and edit your volunteer time availability 
-				%p 
+				%h4 View Your Time Availability
+				%p View and edit your volunteer time availability. We'll let you know when you have been scheduled to help out.
+				%br 
+				%br
+				%p
 					= link_to("View Availability", "/dashboard/user_availabilities", :class => "btn btn-block btn-primary")
+	%li.span4
+		.thumbnail
+			.caption
+				%h4 Upcoming Assignments
+				- if @user_schedules.empty?
+					%p You have not been scheduled yet. Make sure you have entered your time availability so that you are eligible to be scheduled to help out!
+				- else
+					.well
+						%table.table
+							%tr
+								%th Time 
+								%th Department
+							- @user_schedules.each do |user_schedule|
+								%tr
+									%td
+										=user_schedule.department_block.day.short_date
+										%br
+										=in_twelve_hour_time(user_schedule.department_block.start_time)
+										\-
+										=in_twelve_hour_time(user_schedule.department_block.end_time)
+									%td=user_schedule.department_block.department.name
+				%p
+					%br
+					= link_to("View All", dashboard_user_schedules_path, :class => "btn btn-block btn-primary")
 	- if can? :manage, DepartmentBlock  
 		- if can? :manage, :all
 			%li.span3
@@ -26,6 +52,7 @@
 					.caption
 						%h4 Manage Time Blocks
 						%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+						%br
 						%p 
 							= link_to("Setup Blocks", dashboard_department_path(Department.first), :class => "btn btn-block btn-primary")
 		- elsif current_user.department_manager
@@ -34,6 +61,7 @@
 					.caption
 						%h4 Manage Time Blocks
 						%p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+						%br
 						%p 
 							= link_to("Setup Blocks", [:dashboard,current_user.department_manager.department], :class => "btn btn-block btn-primary")
 			%li.span3
