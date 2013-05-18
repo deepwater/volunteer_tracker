@@ -8,4 +8,5 @@ class UserSchedule < ActiveRecord::Base
 	def deliver_email
 		UserScheduleMailer.schedule_email(self).deliver
 	end
+
 end
