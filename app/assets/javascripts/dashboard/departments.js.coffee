@@ -23,3 +23,13 @@ $ ->
 			setTimeout ->
 				window.location.reload()
 			, 200
+
+	$('.create_department_block').on 'click', ->
+		modal = $(@).attr('href')
+		console.log modal
+		$el = $(modal + " #department_block_name")
+		
+		setTimeout ->
+			$el.focus()
+		, 300
+
