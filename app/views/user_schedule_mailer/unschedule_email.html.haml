@@ -1,0 +1,13 @@
+Hi #{@user.full_name},
+%br
+You have been unscheduled from a block at the Gilroy Garlic Festival, 
+here are the details:
+%br
+%br
+="Department: #{@department.name}"
+%br
+="Block Name: #{@department_block.name}" 
+%br
+="Starting: #{@department_block.readable_start_time}"
+%br
+="Ending: #{@department_block.readable_end_time}"
