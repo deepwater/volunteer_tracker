@@ -17,7 +17,7 @@ class Dashboard::DepartmentsController < DashboardController
 
   # GET /departments/1/edit
   def edit
-    @lt_department_manager = LtDepartmentManager.new
+    @department_assistant = DepartmentAssistant.new
     @department = Department.find(params[:id])
   end
 end

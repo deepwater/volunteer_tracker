@@ -47,7 +47,42 @@
 			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_managers", :data => {:toggle => "modal"}} 
 				Assign Department Managers
 
-%div{:class =>"modal hide fade", :id => "assign_department_managers"}
+		%br
+		%br
+		%hr
+
+.row
+	.span5
+		%h3
+			%i.halflings-icon.edit
+			Department Assistants
+
+		- if @department.department_assistants.length == 0
+			.alert.alert-error
+				%strong Warning!
+				No Department Assistants Assigned 
+			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
+				Assign Department Assistants
+
+		- else 
+			%table.table.table-bordered.table-striped
+				%tr
+					%th Name
+					%th Actions
+				- @department.department_assistants.each do |department_assistant|
+					%tr
+						%td= department_assistant.user.full_name
+						%td
+							= link_to admin_department_assistant_path(DepartmentAssistant.where(department_id: @department.id, user_id: department_assistant.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger' do
+								%i.icon-remove-sign.icon-white
+								Unassign
+
+			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
+				Assign Department Assistants
+
+
+
+%div{:class =>"modal large hide fade", :id => "assign_department_managers"}
 	.modal-header
 		%button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
 			&times;
@@ -55,8 +90,8 @@
 	.modal-body
 		%p Here is a list of users you can add as a Department Manager
 
-		%table.table.table-bordered.table-striped
-			%tr
+		%table.table.table-bordered.table-striped.dataTables
+			%thead
 				%th Name
 				%th Assign as Department Manager
 
@@ -71,3 +106,29 @@
 							= button_tag type: "submit", class: 'btn btn-success' do 
 								%i.icon-ok-sign.icon-white
 								Assign
+
+%div{:class =>"modal large hide fade", :id => "assign_department_assistants"}
+	.modal-header
+		%button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+			&times;
+		%h3 Assign Department Assistants
+	.modal-body
+		%p Here is a list of users you can add as a Department Assistant
+
+		%table.table.table-bordered.table-striped.dataTables
+			%thead
+				%th Name
+				%th Assign as Department Assistant
+
+			- User.where(role: "department_assistant").each do |user|
+				%tr
+					%td= user.full_name
+					%td
+						= form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
+							= f.hidden_field :user_id, value: user.id
+							= f.hidden_field :department_id, value: @department.id
+
+							= button_tag type: "submit", class: 'btn btn-success' do 
+								%i.icon-ok-sign.icon-white
+								Assign
+

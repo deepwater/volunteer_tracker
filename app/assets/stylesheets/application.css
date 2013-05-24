@@ -17,3 +17,8 @@
  *= require jquery.ui.all
  *= require_tree .
 */
+
+.modal.large{
+    width: 50%; /* respsonsive width */
+    margin-left:-25%; /* width/2) */
+}

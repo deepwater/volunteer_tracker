@@ -1,7 +1,6 @@
 class Dashboard::VolunteerManagersController < DashboardController
 
   def create
-    # LtDepartmentManager.where(:department_id => params[:lt_department_manager][:department_id]).delete_all
     @volunteer_manager = VolunteerManager.new(params[:volunteer_manager])
 
     # Update user role

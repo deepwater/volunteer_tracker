@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508225554) do
+ActiveRecord::Schema.define(:version => 20130523235856) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(:version => 20130508225554) do
     t.integer  "day_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "department_assistants", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "department_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "department_blocks", :force => true do |t|
@@ -57,13 +64,6 @@ ActiveRecord::Schema.define(:version => 20130508225554) do
     t.integer  "utc_date"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "lt_department_managers", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "department_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
   end
 
   create_table "user_availabilities", :force => true do |t|

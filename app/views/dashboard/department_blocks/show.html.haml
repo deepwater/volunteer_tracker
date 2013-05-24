@@ -53,6 +53,11 @@
                   = link_to dashboard_volunteer_manager_path(VolunteerManager.where(department_block_id: @department_block.id, user_id: volunteer_manager.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-volunteer-manager btn btn-danger' do
                     %i.icon-remove-sign.icon-white
                     Unassign
+        %br
+        %br
+        %hr
+        %br
+        =link_to "Save and Return to Blocks", [:dashboard, @department_block.department], class: "btn btn-primary"
       .row
     .span7.offset1
       .row
@@ -87,10 +92,8 @@
       .row
         %h3 Available Volunteers
         %p 
-          / User scheduling is currently unavailable
 
-
-        %table.table.table-bordered.table-striped.schedule-user-table#department_blocks_available_users
+        %table.table.table-bordered.table-striped.schedule-user-table.dataTables
           %thead 
             %tr
               %th Name

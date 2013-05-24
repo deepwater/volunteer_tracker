@@ -38,30 +38,32 @@
       - @days.each_with_index do |day, index|
         %div{:id => "#{day.safe_short_date}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
           %br
-          %table.table.table-bordered.table-striped
-            %tr
+          %table.table.table-bordered.table-striped.dataTables
+            %thead
               %th Name
               %th Start Time
               %th End Time
               %th Suggested Number of Volunteers
               %th Scheduled Volunteers
-              %th
-              %th
+              %th Actions
 
 
-              - day.department_blocks.where(department_id: @department.id).all.each do |department_block|
-                %tr
-                  %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
-                  %td= in_twelve_hour_time(department_block.start_time)
-                  %td= in_twelve_hour_time(department_block.end_time)
-                  %td= department_block.suggested_number_of_workers
-                  %td
-                    = department_block.users.length
-                    \/ 
-                    = department_block.suggested_number_of_workers
-                  %td= link_to 'Edit', edit_dashboard_department_block_path(department_block)
-                  %td= link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
+            - day.department_blocks.where(department_id: @department.id).all.each do |department_block|
+              %tr
+                %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
+                %td= in_twelve_hour_time(department_block.start_time)
+                %td= in_twelve_hour_time(department_block.end_time)
+                %td= department_block.suggested_number_of_workers
+                %td
+                  = department_block.users.length
+                  \/ 
+                  = department_block.suggested_number_of_workers
+                %td
+                  = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
+                  = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
 
+          %br
+          %br
           = link_to(new_dashboard_department_block_path) do
             %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}, class: "create_department_block"} 
               Create Department Block

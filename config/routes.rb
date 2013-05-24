@@ -17,6 +17,7 @@ VolunteerTracker::Application.routes.draw do
     resources :charities
     resources :departments
     resources :department_managers
+    resources :department_assistants
   end
 
   resources :dashboard, :only => [:index, :registration_complete]
@@ -26,7 +27,7 @@ VolunteerTracker::Application.routes.draw do
     resources :user_charities
 
     # ROLES
-    resources :lt_department_managers
+    resources :department_assistants
     resources :volunteer_managers
 
     # TIME RELATED

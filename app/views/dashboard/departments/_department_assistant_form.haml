@@ -1,9 +1,9 @@
-= form_for(@lt_department_manager, :url => dashboard_lt_department_managers_path(), :html => {:class => 'form-horizontal'}) do |f|
-  - if @lt_department_manager.errors.any?
+= form_for(@department_assistant, :url => dashboard_department_assistants_path(), :html => {:class => 'form-horizontal'}) do |f|
+  - if @department_assistant.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@lt_department_manager.errors.count, "error")} prohibited this lt department manager from being saved:"
+      %h2= "#{pluralize(@department_assistant.errors.count, "error")} prohibited this department assistant from being saved:"
       %ul
-        - @lt_department_manager.errors.full_messages.each do |msg|
+        - @department_assistant.errors.full_messages.each do |msg|
           %li= msg
 
   %fieldset
