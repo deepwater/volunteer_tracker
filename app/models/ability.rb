@@ -9,7 +9,7 @@ class Ability
 
     end
     if user.role? :department_assistant
-
+        can :manage, UserSchedule
     end
     if user.role? :department_manager
         can :manage, DepartmentBlock

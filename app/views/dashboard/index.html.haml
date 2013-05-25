@@ -4,9 +4,9 @@
 			%div{:class => flash_class(type) }
 				= message
 
-%h2
-	= current_user.full_name
 %h3
+	= current_user.full_name
+%h4
 	= current_user.role.camelize
 %br
 %br
@@ -76,8 +76,24 @@
 				.thumbnail
 					.caption
 						%h4 Manage Time Blocks
-						%p You are a Department Manager but have not yet been assigned a Department. Please contact an Event Admin.
+						%p You are a Department Manager but have not yet been assigned a Department. Please contact staff@garlicserver.com
 
+	- if current_user.role == "department_assistant" 
+		- if !current_user.department_assistant.nil?
+			%li.span3
+				.thumbnail
+					.caption
+						%h4 Schedule Volunteers
+						%p Find volunteers and schedule them to Department Blocks
+						%br
+						%p 
+							= link_to("Setup Blocks", [:dashboard, current_user.department_assistant.department], :class => "btn btn-block btn-primary")
+		- else
+			%li.span3
+				.thumbnail
+					.caption
+						%h4 Schedule Volunteers
+						%p You are a Department Assistant but have not yet been assigned a Department. Please contact staff@garlicserver.com
 	/ 	%li.span6
 	/ 		.thumbnail
 	/ 			.caption
