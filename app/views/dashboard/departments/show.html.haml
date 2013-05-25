@@ -38,7 +38,7 @@
       - @days.each_with_index do |day, index|
         %div{:id => "#{day.safe_short_date}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
           %br
-          %table.table.table-bordered.table-striped.dataTables
+          %table.table.table-bordered.table-striped.dataTablesWithoutPagination
             %thead
               %th Name
               %th Start Time
