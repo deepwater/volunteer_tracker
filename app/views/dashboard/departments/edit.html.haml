@@ -37,22 +37,28 @@
 			&times;
 		%h3 Assign Department Assistants
 	.modal-body
-		%p Here is a list of users you can add as a Department Assistant
 
-		%table.table.table-bordered.table-striped.dataTables
-			%thead
-				%th Name
-				%th Assign as Department Assistant
+		- if @department_assistants.length == 0
+			.alert.alert-error
+				%strong Warning!
+				No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
+		- else
+			%p Here is a list of users you can add as a Department Assistant
 
-			- User.where(role: "department_assistant").each do |user|
-				%tr
-					%td= user.full_name
-					%td
-						= form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
-							= f.hidden_field :user_id, value: user.id
-							= f.hidden_field :department_id, value: @department.id
+			%table.table.table-bordered.table-striped.dataTables
+				%thead
+					%th Name
+					%th Assign as Department Assistant
 
-							= button_tag type: "submit", class: 'btn btn-success' do 
-								%i.icon-ok-sign.icon-white
-								Assign
+				- @department_assistants.each do |user|
+					%tr
+						%td= user.full_name
+						%td
+							= form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
+								= f.hidden_field :user_id, value: user.id
+								= f.hidden_field :department_id, value: @department.id
+
+								= button_tag type: "submit", class: 'btn btn-success' do 
+									%i.icon-ok-sign.icon-white
+									Assign
 

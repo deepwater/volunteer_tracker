@@ -3,3 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
 	$('.dataTables').dataTable()		
+
+	$('.new_department_assistant button').on 'click', ->
+		$(@).addClass('disabled')
