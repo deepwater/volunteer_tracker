@@ -21,5 +21,5 @@
             \-
             =in_twelve_hour_time(user_schedule.department_block.end_time)
           %td=user_schedule.department_block.department.name
-          %td=user_schedule.department_block.department.department_managers.any? ? user_schedule.department_block.department.department_managers.first.user.email : "NA"
+          %td=!user_schedule.department_block.department.email.nil? ? user_schedule.department_block.department.email : "staff@garlicserver.com"
           %td=link_to("View",[:dashboard, user_schedule], class: "btn btn-primary")
