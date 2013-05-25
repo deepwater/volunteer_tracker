@@ -37,6 +37,19 @@ class Dashboard::UserSchedulesController < ApplicationController
     end
   end
 
+  def update
+    @user_schedule = UserSchedule.find(params[:id])
+
+    respond_to do |format|
+      if @user_schedule.update_attributes(params[:user_schedule])
+        format.html { redirect_to [:dashboard,@user_schedule], notice: 'User Schedule was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @user_schedule.errors, status: :unprocessable_entity }
+      end
+    end
+  end
   # DELETE /user_schedules/1
   # DELETE /user_schedules/1.json
   def destroy
