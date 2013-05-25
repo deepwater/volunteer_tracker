@@ -43,4 +43,9 @@ class Day < ActiveRecord::Base
    		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)
    		return t.strftime("%a %b %e")
    	end
+
+	def short_date_with_long_day
+   		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)
+   		return t.strftime("%A, %B %e")
+   	end
 end
