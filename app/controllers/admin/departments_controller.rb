@@ -1,7 +1,7 @@
 class Admin::DepartmentsController < AdminController
 
   def index
-    @departments = Department.all
+    @departments = Department.order("name")
 
     respond_to do |format|
       format.html # index.html.erb
