@@ -5,6 +5,6 @@ class AdminController < ApplicationController
 	def index
 	    @users        = User.all
 	    @charities    = Charity.all
-	    @departments  = Department.all
+	    @departments  = Department.order("name")
 	end
 end
