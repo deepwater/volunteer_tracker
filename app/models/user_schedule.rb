@@ -1,5 +1,7 @@
 class UserSchedule < ActiveRecord::Base
 
+	validates_uniqueness_of :user_id, :scope => :department_block_id
+
 	belongs_to :user
 	belongs_to :department_block
 	belongs_to :charity
