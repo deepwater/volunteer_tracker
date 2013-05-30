@@ -3,11 +3,6 @@ class Dashboard::VolunteerManagersController < DashboardController
   def create
     @volunteer_manager = VolunteerManager.new(params[:volunteer_manager])
 
-    # Update user role
-    @user = @volunteer_manager.user
-    @user.role = "volunteer_manager"
-    @user.save
-
     respond_to do |format|
       if @volunteer_manager.save
         format.html { redirect_to dashboard_department_block_path(@volunteer_manager.department_block), notice: 'Volunteer Manager was successfully created.' }

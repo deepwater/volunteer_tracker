@@ -5,11 +5,6 @@ class Dashboard::DepartmentAssistantsController < DashboardController
   def create
     @department_assistant = DepartmentAssistant.new(params[:department_assistant])
 
-    # Update user role
-    @user = @department_assistant.user
-    @user.role = "department_assistant"
-    @user.save
-
     respond_to do |format|
       if @department_assistant.save
         format.html { redirect_to dashboard_department_path(@department_assistant.department), notice: 'Department Assistant was successfully created.' }

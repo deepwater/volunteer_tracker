@@ -29,6 +29,7 @@ VolunteerTracker::Application.routes.draw do
     # ROLES
     resources :department_assistants
     resources :volunteer_managers
+    resources :users
 
     # TIME RELATED
     resources :days

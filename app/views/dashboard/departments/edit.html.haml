@@ -1,9 +1,9 @@
 .row
 	.span9
-		%h2 Edit Department
+		%h2 Edit #{@department.name}
 
 .row
-	.span5
+	.span4
 		%h3
 			%i.halflings-icon.edit
 			Department Assistants
@@ -30,6 +30,58 @@
 
 			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
 				Assign Department Assistants
+
+	.span7.offset1
+		%h3
+			%i.halflings-icon.edit
+			Promote Users
+
+		%table.dataTables.table.table-bordered.table-striped
+			%thead
+				%th Name
+				%th Current Role
+				%th Actions
+			%tbody
+				- @users.each do |user|
+					- if !user.eql?(current_user)
+						%tr
+							%td= user.full_name
+							%td= user.role
+							%td
+								- if user.role == "volunteer_manager" and current_user.role? "department_manager"
+									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+										= f.hidden_field :id, value: user.id
+										= f.hidden_field :role, value: "department_assistant"
+										= button_tag type: "submit", class: 'btn btn-success' do 
+											%i.icon-ok-sign.icon-white
+											Promote to Department Assistant							
+
+								- if user.role == "volunteer" and current_user.role? "department_assistant"
+									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+										= f.hidden_field :id, value: user.id
+										= f.hidden_field :role, value: "volunteer_manager"
+										= button_tag type: "submit", class: 'btn btn-success' do 
+											%i.icon-ok-sign.icon-white
+											Promote to Volunteer Manager
+
+								- if user.role? "department_assistant" and current_user.role? "department_manager"
+									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+										= f.hidden_field :id, value: user.id
+										= f.hidden_field :role, value: "volunteer_manager"
+										= button_tag type: "submit", class: 'btn btn-danger' do 
+											%i.icon-ok-sign.icon-white
+											Demote to Volunteer Manager	
+
+								- if user.role? "volunteer_manager" and user.role != "department_assistant" and current_user.role? "department_assistant"
+									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+										= f.hidden_field :id, value: user.id
+										= f.hidden_field :role, value: "volunteer"
+										= button_tag type: "submit", class: 'btn btn-danger' do 
+											%i.icon-ok-sign.icon-white
+											Demote to Volunteer	
+
+										
+
 
 %div{:class =>"modal large hide fade", :id => "assign_department_assistants"}
 	.modal-header

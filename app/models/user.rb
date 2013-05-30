@@ -29,9 +29,34 @@ class User < ActiveRecord::Base
 
   # FILTERS
   before_save :default_values
+  after_update :reset_role_associations
 
   def default_values
     self.role ||= 'volunteer'
+  end
+
+  def reset_role_associations
+    if self.role_changed?
+      case self.role
+      when 'volunteer'
+        self.volunteer_manager ? self.volunteer_manager : ""
+        self.department_assistant ? self.department_assistant.destroy : ""
+        self.department_manager ? self.department_manager.destroy : ""
+      when 'volunteer_manager'
+        self.department_assistant ? self.department_assistant : "" 
+        self.department_manager ? self.department_manager.destroy : ""
+      when 'department_assistant'
+        self.volunteer_manager ? self.volunteer_manager : ""
+        self.department_manager ? self.department_manager.destroy : ""
+      when 'department_manager'
+        self.volunteer_manager ? self.volunteer_manager : ""
+        self.department_assistant ? self.department_assistant.destroy : ""
+      when 'event_manager'
+        self.volunteer_manager ? self.volunteer_manager : ""
+        self.department_assistant ? self.department_assistant.destroy : ""
+        self.department_manager ? self.department_manager.destroy : ""
+      end
+    end
   end
 
   def role?(base_role)

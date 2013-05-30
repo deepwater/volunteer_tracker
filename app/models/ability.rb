@@ -6,7 +6,6 @@ class Ability
     if user.role? :volunteer
     end
     if user.role? :volunteer_manager
-
     end
     if user.role? :department_assistant
         can :manage, UserSchedule

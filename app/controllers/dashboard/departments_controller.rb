@@ -17,13 +17,24 @@ class Dashboard::DepartmentsController < DashboardController
 
   # GET /departments/1/edit
   def edit
+    @department = Department.find(params[:id])
     @department_assistant = DepartmentAssistant.new
 
+    @users = []
+
+    @users << User.where(role: "volunteer")
+    @users << User.where(role: "volunteer_manager")
     @department_assistants = User.where(role: "department_assistant")
+
     @department_assistants.select!{|user|
       user.department_assistant.nil? && !user.eql?(current_user)
     }
-    
-    @department = Department.find(params[:id])
+
+    if current_user.role? "department_manager"
+      @users << @department_assistants
+    end
+
+    @users.flatten!
+
   end
 end
