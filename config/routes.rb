@@ -37,6 +37,13 @@ VolunteerTracker::Application.routes.draw do
     resources :department_blocks
     resources :user_schedules
 
+    match 'check_ins/scheduled' => "check_ins#scheduled"
+    match 'check_ins/active' => "check_ins#active"
+    match 'check_ins/inactive' => "check_ins#inactive"
+    resources :check_ins
+
+
+
     match 'department_blocks/:id/copy/' => "department_blocks#copy"
   end
 

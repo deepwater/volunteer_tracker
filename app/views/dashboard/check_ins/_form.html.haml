@@ -1,0 +1,16 @@
+= form_for @check_in do |f|
+  - if @check_in.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@check_in.errors.count, "error")} prohibited this check_in from being saved:"
+      %ul
+        - @check_in.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :user_schedule_id
+    = f.number_field :user_schedule_id
+  .field
+    = f.label :user_id
+    = f.number_field :user_id
+  .actions
+    = f.submit 'Save'

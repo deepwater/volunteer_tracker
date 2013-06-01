@@ -1,0 +1,23 @@
+.row
+  .span12
+    %h2
+      %i.halflings-icon.edit 
+      Assignment Details
+      %br
+
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Full Name
+        %th Department Block
+        %th Check In Time
+        %th Check Out Time
+
+      - @check_ins.each do |check_in|
+        %tr
+          %td=check_in.user_schedule.user.full_name
+          %td=link_to "#{check_in.user_schedule.department_block.name}", [:dashboard,check_in.user_schedule.department_block]
+          %td
+            =check_in.created_at.strftime("%l.%M%p")
+          %td
+            =check_in.updated_at.strftime("%l.%M%p")
+        

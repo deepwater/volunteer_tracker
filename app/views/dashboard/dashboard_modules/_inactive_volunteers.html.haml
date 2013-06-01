@@ -1,0 +1,23 @@
+%li.span4
+  .thumbnail
+    .caption
+      %h4 Past Volunteers
+      .well.pastVol
+        %table.table
+          %thead
+            %tr
+              %th Name
+              %th In
+              %th Out
+              / %th Flag?
+          %tbody
+            - @inactive.each do |check_in|
+              %tr
+                %td= check_in.user_schedule.user.full_name
+                %td= check_in.created_at.strftime("%l.%M%p")
+                %td= check_in.updated_at.strftime("%l.%M%p")
+                / %td
+                / %button.btn-mini.btn-warning.pull-right{:type => "button"}
+                / %i.icon-flag.icon-white
+      %p
+        %a.btn.btn-block.btn-primary{:href => "#"} View All Past Volunteers

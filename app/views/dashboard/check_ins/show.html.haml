@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b User schedule:
+  = @check_in.user_schedule_id
+%p
+  %b User:
+  = @check_in.user_id
+
+= link_to 'Edit', edit_check_in_path(@check_in)
+\|
+= link_to 'Back', check_ins_path

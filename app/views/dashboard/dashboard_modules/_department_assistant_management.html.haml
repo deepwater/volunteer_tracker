@@ -1,0 +1,15 @@
+- if !current_user.department_assistant.nil?
+	%li.span4
+		.thumbnail
+			.caption
+				%h4 Schedule Volunteers
+				%p Find volunteers and schedule them to Department Blocks
+				%br
+				%p 
+					= link_to("Setup Blocks", [:dashboard, current_user.department_assistant.department], :class => "btn btn-block btn-primary")
+- else
+	%li.span4
+		.thumbnail
+			.caption
+				%h4 Schedule Volunteers
+				%p You are a Department Assistant but have not yet been assigned a Department. Please contact staff@garlicserver.com
