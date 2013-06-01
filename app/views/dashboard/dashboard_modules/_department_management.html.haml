@@ -7,7 +7,7 @@
 				%br
 				%p 
 					= link_to("Setup Blocks", dashboard_department_path(Department.order("name ASC").first), :class => "btn btn-block btn-primary")
-	- elsif current_user.department_manager
+- elsif current_user.department_manager
 	%li.span4
 		.thumbnail
 			.caption
@@ -23,7 +23,7 @@
 				%p Assign a Department Assistant for your department
 				%p 
 					= link_to("Manage", [:edit, :dashboard, current_user.department_manager.department], :class => "btn btn-block btn-primary")
-	- else 
+- else 
 	%li.span4
 		.thumbnail
 			.caption
