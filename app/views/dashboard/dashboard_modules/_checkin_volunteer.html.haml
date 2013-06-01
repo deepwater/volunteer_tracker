@@ -10,7 +10,7 @@
               %th Scheduled
               %th Check In?
           %tbody
-            - @scheduled.each do |user_schedule|
+            - @scheduled[0..4].each do |user_schedule|
               %tr
                 %td= user_schedule.user.full_name
                 %td= in_twelve_hour_time(user_schedule.department_block.start_time)
