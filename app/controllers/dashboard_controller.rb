@@ -28,8 +28,5 @@ class DashboardController < ApplicationController
 	    @scheduled.sort_by!{ |user_schedule|
 	      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
 	    }
-
-		# if current_user
-		# @check_in_schedules = 
 	end
 end
