@@ -21,20 +21,20 @@ class DepartmentBlock < ActiveRecord::Base
 
   def overlaps?(other)
     dep_block_start = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
-    dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
     
     other_dep_block_start = Time.parse("#{other.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
-    other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
 
     (dep_block_start - other_dep_block_end) * (other_dep_block_start - dep_block_end) >= 0
   end
 
   def overlap(other)
     dep_block_start = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
-    dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
     
     other_dep_block_start = Time.parse("#{other.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
-    other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
 
     (dep_block_start - other_dep_block_end) * (other_dep_block_start - dep_block_end)
   end
