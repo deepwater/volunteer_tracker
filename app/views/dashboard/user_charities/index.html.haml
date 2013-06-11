@@ -9,6 +9,6 @@
         .control-group
           = f.label(:charity_id, :class => 'control-label')
           .controls
-            = f.collection_select(:charity_id, Charity.all, :id, :name)
+            = f.collection_select(:charity_id, Charity.order('name'), :id, :name)
         .form-actions
           = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

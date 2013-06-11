@@ -50,7 +50,7 @@
       %fieldset
         .control-group
           .controls
-            = f.collection_select(:charity_id, Charity.all, :id, :name)
+            = f.collection_select(:charity_id, Charity.order('name'), :id, :name)
             = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
 
     %br

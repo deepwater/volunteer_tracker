@@ -2,7 +2,7 @@ class Dashboard::UserCharitiesController < ApplicationController
 
   def index
   	@user_charity = UserCharity.new
-    @charities = Charity.all
+    @charities = Charity.order('name')
   end
 
 

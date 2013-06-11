@@ -2,7 +2,7 @@ class Admin::CharitiesController < AdminController
   # GET /charities
   # GET /charities.json
   def index
-    @charities = Charity.all
+    @charities = Charity.order('name')
 
     respond_to do |format|
       format.html # index.html.erb

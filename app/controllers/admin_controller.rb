@@ -4,7 +4,7 @@ class AdminController < ApplicationController
 
 	def index
 	    @users        = User.all
-	    @charities    = Charity.all
+	    @charities    = Charity.order("name")
 	    @departments  = Department.order("name")
 	end
 end
