@@ -112,7 +112,7 @@
                 %td.email= user_availability.user.email
                 %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
                 %th
-                  - user_availability.day.user_schedules.each do |user_schedule|
+                  - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|
                     = user_schedule.department_block.start_time
                     \-
                     = user_schedule.department_block.end_time
