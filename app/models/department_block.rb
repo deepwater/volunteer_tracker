@@ -32,9 +32,14 @@ class DepartmentBlock < ActiveRecord::Base
   def overlap(other)
     dep_block_start = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
     dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
-    
+    logger.debug "dep_block_start: #{dep_block_start}, dep_block_end: #{dep_block_end}"
+
     other_dep_block_start = Time.parse("#{other.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
     other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
+    logger.debug "other_dep_block_start: #{other_dep_block_start}, other_dep_block_end: #{other_dep_block_end}"
+    
+    dep_block_range = (dep_block_start.to_i..dep_block_end.to_i)
+    other_dep_block_range = (other_dep_block_start.to_i..other_dep_block_end.to_i)
 
     (dep_block_start - other_dep_block_end) * (other_dep_block_start - dep_block_end)
   end
@@ -46,67 +51,54 @@ class DepartmentBlock < ActiveRecord::Base
     end_time - start_time
   end
 
-	def get_user_availabilities
-  		# Stores eligible and available users
-  		user_availabilities = []
+  def get_user_availabilities
 
-  		# Gets a list of users who have a time availability at the start of the block
-      @list_of_availabilities = self.day.user_availabilities
+    availabilities = []
 
-      # Get duration of department block
-      start_time = Time.parse(self.start_time)
-      end_time = Time.parse(self.end_time)
-      duration = self.duration
+    # Get a list of availabilities 
+    @list_of_availabilities = self.day.user_availabilities
 
-      availabilities = []
+    # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
+    @list_of_availabilities.select! { |user_availability|
+      self.overlaps?(user_availability) && !user_availability.user.role?(:department_manager) && !user_availability.user.role?(:event_administrator)
+    }
 
-      @list_of_availabilities.each do |user_availability|
+    # Loop through remaining availabilities
+    @list_of_availabilities.each do |user_availability|
+      # Get all user schedules on that day for the current user
+      @user_schedules = user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id)
 
-        if self.overlaps?(user_availability)
-          availabilities << user_availability
+      remaining_duration = self.duration
+
+      if self.overlaps?(user_availability)
+        logger.debug "REMAINING_DURATION OF #{remaining_duration}"
+        user_availability_duration = Time.parse(user_availability.end_time) - Time.parse(user_availability.start_time)
+        difference = remaining_duration - user_availability_duration
+
+        logger.debug "USER_AVAILABILITY_DURATION OF #{user_availability_duration} WITH difference: #{difference}"
+        remaining_duration = remaining_duration - difference
+        logger.debug "CAUSING A REM DUR OF: #{remaining_duration}"
+      end
+
+      @user_schedules.each do |user_schedule|
+
+        if self.overlaps?(user_schedule.department_block)
+          logger.debug "FOREIGN DPBLOCK: #{user_schedule.department_block.id} // OVERLAP IS #{self.overlap(user_schedule.department_block)}"
+          remaining_duration = remaining_duration - self.overlap(user_schedule.department_block)
+        end
+
+        if user_schedule.department_block.id == self.id
+          remaining_duration = 0
         end
 
       end
 
-      availabilities.each do |user_availability|
-        user = user_availability.user
-
-        if !user.role?(:department_manager) && !user.role?(:event_administrator)
-
-          eligibility_errors = 0
-          @user_schedules = Day.find(user_availability.day.id).user_schedules.where("user_id = ?", user.id)
 
 
-          @user_schedules.each do |user_schedule|
-            user_schedule_block = user_schedule.department_block
-            duration = user_schedule_block.duration
+      logger.debug "REMAINING: #{remaining_duration}, TOTAL: #{self.duration}"
+      availabilities << [user_availability,((remaining_duration / self.duration) * 100).floor] if remaining_duration > 0
+    end
 
-            # overlap = user_schedule_block.overlap(user_availability)
-            # overlap_percentage = (overlap / duration) * 100
-
-            # logger.debug "OVERLAP: #{overlap}"
-            # logger.debug "DURATION: #{duration}"
-            # logger.debug "OVERLAP_PERCENTAGE: #{overlap_percentage}"
-
-            if user_schedule_block.overlaps?(user_availability)
-              eligibility_errors += 1
-            end
-
-            # logger.debug "SELF.ID: #{self.id}"
-            # logger.debug "USER_SCHEDULE_BLOCK.ID: #{user_schedule_block.id}"
-
-            if self.id == user_schedule_block.id
-              # logger.debug "TEST SUCCEEDS"
-              eligibility_errors += 1
-            end
-          end
-
-          # logger.debug "ELIGIBLITY_ERRORS: #{eligibility_errors}"
-          user_availabilities << user_availability if eligibility_errors == 0 
-        end
-      end
-
-      user_availabilities
- 
-  	end
+    availabilities
+  end
 end
