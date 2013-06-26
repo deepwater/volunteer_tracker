@@ -49,10 +49,17 @@ class Dashboard::DepartmentBlocksController < DashboardController
     end_time = Time.parse(@department_block.end_time)
     @department_block.end_time = end_time.strftime("%H:%M")
 
+
+    duration = end_time-start_time
+
+    redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), :flash => { :error => "Your end time must be after your start time" } if end_time-start_time<=0
+
     respond_to do |format|
-      if @department_block.save
+      if duration>0 && @department_block.save
         format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
+      elsif duration<0
+        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), :flash => { :error => "Your end time must be after your start time" } }
       else
         format.html { render action: "new" }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
