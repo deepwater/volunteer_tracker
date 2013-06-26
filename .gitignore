@@ -13,3 +13,30 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# OS generated files #
+######################
+*/.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.DS_Store
+
+app/.DS_Store
+
+app/assets/.DS_Store
+
+app/assets/.DS_Store
+
+.DS_Store
+
+app/.DS_Store
+
+app/assets/.DS_Store
+
+app/assets/.DS_Store
