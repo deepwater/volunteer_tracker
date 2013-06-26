@@ -3,7 +3,7 @@ class UsersDatatable < AjaxDatatablesRails
   def initialize(view)
     @model_name = User
     @columns =  [ "users.first_name", "users.email", "users.tshirt_size", "users.role", "users.first_name" ] # insert array of column names here
-    @searchable_columns = [ "users.full_name", "users.email", "users.role" ] #insert array of columns that will be searched
+    @searchable_columns = [ "users.first_name", "users.last_name", "users.email", "users.tshirt_size", "users.role", "users.first_name"] #insert array of columns that will be searched
     super(view)
   end
   
