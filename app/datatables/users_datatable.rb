@@ -2,7 +2,7 @@ class UsersDatatable < AjaxDatatablesRails
   
   def initialize(view)
     @model_name = User
-    @columns =  [ "users.first_name", "users.last_name" ] # insert array of column names here
+    @columns =  [ "users.first_name", "users.email", "users.tshirt_size", "users.role", "users.first_name" ] # insert array of column names here
     @searchable_columns = [ "users.full_name", "users.email", "users.role" ] #insert array of columns that will be searched
     super(view)
   end
@@ -27,6 +27,20 @@ private
         ]
       end
     end
+
+
+
+
+    def fetch_users
+      users = User.order("#{sort_column} #{sort_direction}")
+      users = users.page(page).per_page(per_page)
+      if params[:sSearch].present?
+        users = users.where("name like :search or category like :search", search: "%#{params[:sSearch]}%")
+      end
+      users
+    end
+
+
 
     def users
       @users ||= fetch_records
