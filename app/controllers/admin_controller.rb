@@ -3,8 +3,14 @@ class AdminController < ApplicationController
 	before_filter :authenticate_user!
 
 	def index
-	    @users        = User.paginate(:page => params[:page], :per_page => 1)
 	    @charities    = Charity.order("name")
 	    @departments  = Department.order("name")
 	end
+
+	def list
+		respond_to do |format|
+    		format.html
+    		format.json { render json: UsersDatatable.new(view_context)}
+    	end
+    end
 end
