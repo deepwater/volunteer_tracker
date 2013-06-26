@@ -7,5 +7,5 @@ git add .
 git commit -am "$1"
 git push heroku master
 #hb; git add .; git commit -a -m "Random commit message";hd; git push;
-#git push origin
+git push origin
 
