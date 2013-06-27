@@ -51,7 +51,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
 
 
     respond_to do |format|
-      if duration>0 && @department_block.save
+      if @department_block.save
         format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
       else
