@@ -25,12 +25,13 @@ group :assets do
   # gem 'therubyracer'
 
 	gem 'uglifier', '>= 1.0.3'
+	gem 'jquery-datatables-rails'
 end
 
 gem 'haml'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'	
-gem 'jquery-datatables-rails'
+
 
 gem 'devise'
 gem 'cancan'

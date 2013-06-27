@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require dataTables/extras/ZeroClipboard
+//= require dataTables/extras/TableTools
 //= require twitter/bootstrap
 //= require bootstrap-timepicker
 //= require_tree .
