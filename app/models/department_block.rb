@@ -50,46 +50,48 @@ class DepartmentBlock < ActiveRecord::Base
   end
 
   def get_user_availabilities
+    Rails.cache.fetch("department_block_user_availabilities", :expires_in => 5.minutes) do
 
-    availabilities = []
+      availabilities = []
 
-    # Get a list of availabilities 
-    @list_of_availabilities = self.day.user_availabilities
+      # Get a list of availabilities 
+      @list_of_availabilities = self.day.user_availabilities
 
-    # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
-    @list_of_availabilities.select! { |user_availability|
-      self.overlaps?(user_availability) && !user_availability.user.role?(:department_manager) && !user_availability.user.role?(:event_administrator)
-    }
+      # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
+      @list_of_availabilities.select! { |user_availability|
+        self.overlaps?(user_availability) && !user_availability.user.role?(:department_manager) && !user_availability.user.role?(:event_administrator)
+      }
 
-    # Loop through remaining availabilities
-    @list_of_availabilities.each do |user_availability|
-      # Get all user schedules on that day for the current user
-      @user_schedules = user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id)
+      # Loop through remaining availabilities
+      @list_of_availabilities.each do |user_availability|
+        # Get all user schedules on that day for the current user
+        @user_schedules = user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id)
 
-      remaining_duration = self.duration
+        remaining_duration = self.duration
 
-      if self.overlaps?(user_availability)
-        user_availability_duration = Time.parse(user_availability.end_time) - Time.parse(user_availability.start_time)
-        difference = remaining_duration - user_availability_duration
+        if self.overlaps?(user_availability)
+          user_availability_duration = Time.parse(user_availability.end_time) - Time.parse(user_availability.start_time)
+          difference = remaining_duration - user_availability_duration
 
-        remaining_duration = remaining_duration - difference
-      end
-
-      @user_schedules.each do |user_schedule|
-
-        if self.overlaps?(user_schedule.department_block)
-          remaining_duration = remaining_duration - self.overlap(user_schedule.department_block)
+          remaining_duration = remaining_duration - difference
         end
 
-        if user_schedule.department_block.id == self.id
-          remaining_duration = 0
+        @user_schedules.each do |user_schedule|
+
+          if self.overlaps?(user_schedule.department_block)
+            remaining_duration = remaining_duration - self.overlap(user_schedule.department_block)
+          end
+
+          if user_schedule.department_block.id == self.id
+            remaining_duration = 0
+          end
+
         end
 
+        availabilities << [user_availability,((remaining_duration / self.duration) * 100).floor] if remaining_duration > 0
       end
 
-      availabilities << [user_availability,((remaining_duration / self.duration) * 100).floor] if remaining_duration > 0
+      availabilities
     end
-
-    availabilities
   end
 end
