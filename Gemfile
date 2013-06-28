@@ -11,6 +11,7 @@ group :production do
 end
 
 gem 'pg'
+gem 'unicorn'
 
 gem 'bootstrap-sass-rails'
 gem 'bootstrap-timepicker-rails'
