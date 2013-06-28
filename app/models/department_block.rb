@@ -32,11 +32,9 @@ class DepartmentBlock < ActiveRecord::Base
   def overlap(other)
     dep_block_start = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
     dep_block_end = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
-    logger.debug "dep_block_start: #{dep_block_start}, dep_block_end: #{dep_block_end}"
 
     other_dep_block_start = Time.parse("#{other.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
     other_dep_block_end = Time.parse("#{other.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}") - 1
-    logger.debug "other_dep_block_start: #{other_dep_block_start}, other_dep_block_end: #{other_dep_block_end}"
     
     dep_block_range = (dep_block_start.to_i..dep_block_end.to_i)
     other_dep_block_range = (other_dep_block_start.to_i..other_dep_block_end.to_i)
@@ -71,19 +69,15 @@ class DepartmentBlock < ActiveRecord::Base
       remaining_duration = self.duration
 
       if self.overlaps?(user_availability)
-        logger.debug "REMAINING_DURATION OF #{remaining_duration}"
         user_availability_duration = Time.parse(user_availability.end_time) - Time.parse(user_availability.start_time)
         difference = remaining_duration - user_availability_duration
 
-        logger.debug "USER_AVAILABILITY_DURATION OF #{user_availability_duration} WITH difference: #{difference}"
         remaining_duration = remaining_duration - difference
-        logger.debug "CAUSING A REM DUR OF: #{remaining_duration}"
       end
 
       @user_schedules.each do |user_schedule|
 
         if self.overlaps?(user_schedule.department_block)
-          logger.debug "FOREIGN DPBLOCK: #{user_schedule.department_block.id} // OVERLAP IS #{self.overlap(user_schedule.department_block)}"
           remaining_duration = remaining_duration - self.overlap(user_schedule.department_block)
         end
 
@@ -93,9 +87,6 @@ class DepartmentBlock < ActiveRecord::Base
 
       end
 
-
-
-      logger.debug "REMAINING: #{remaining_duration}, TOTAL: #{self.duration}"
       availabilities << [user_availability,((remaining_duration / self.duration) * 100).floor] if remaining_duration > 0
     end
 
