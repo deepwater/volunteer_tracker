@@ -50,7 +50,7 @@ class DepartmentBlock < ActiveRecord::Base
   end
 
   def get_user_availabilities
-    Rails.cache.fetch("department_block_user_availabilities", :expires_in => 5.minutes) do
+    Rails.cache.fetch("department_block_user_availabilities_#{self.id}", :expires_in => 5.minutes) do
 
       availabilities = []
 
