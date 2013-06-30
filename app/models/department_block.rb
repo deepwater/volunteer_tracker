@@ -50,12 +50,12 @@ class DepartmentBlock < ActiveRecord::Base
   end
 
   def get_user_availabilities
-    Rails.cache.fetch([self, "user_availabilities"], :expires_in => 5.minutes) do
+    Rails.cache.fetch([:department_block, self.id, 'get_user_availabilities'], expires_in: 5.minutes) do
 
       availabilities = []
 
       # Get a list of availabilities 
-      @list_of_availabilities = self.day.user_availabilities
+      @list_of_availabilities = UserAvailability.where(day_id: self.day_id)
 
       # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
       @list_of_availabilities.select! { |user_availability|
@@ -91,6 +91,7 @@ class DepartmentBlock < ActiveRecord::Base
         availabilities << [user_availability,((remaining_duration / self.duration) * 100).floor] if remaining_duration > 0
       end
 
+      logger.debug "#{availabilities}"
       availabilities
     end
   end
