@@ -12,6 +12,8 @@ group :production do
 	gem 'memcachier'
 end
 
+gem 'delayed_job_active_record'
+
 gem 'pg'
 gem 'unicorn'
 
