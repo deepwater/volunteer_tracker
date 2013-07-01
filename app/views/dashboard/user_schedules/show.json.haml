@@ -1,6 +1,6 @@
 %tr
 	%td= @user_schedule.user.full_name 
 	%td
-		= link_to dashboard_user_schedule_path(@user_schedule), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unschedue-user btn btn-danger' do
+		= link_to dashboard_user_schedule_path(@user_schedule), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
 			%i.icon-remove-sign.icon-white
 			Unschedule

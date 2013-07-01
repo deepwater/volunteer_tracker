@@ -10,11 +10,14 @@ $ ->
 		.bind("ajax:loading", toggleLoading)
 		.bind("ajax:complete", toggleLoading)
 		.bind "ajax:success", (event, data, status, xhr) ->
+			console.log $(@).parent().parent().remove()
+
+			$('.scheduled-user-table').append(data.template)
 			# window.location.reload()
 
 
-	$('.unschedule-user')
-		.on 'click', ->
+	$('.scheduled-user-table')
+		.on 'click', '.unschedule-user', ->
 			setTimeout ->
 				window.location.reload()
 			, 200
