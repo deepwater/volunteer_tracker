@@ -86,47 +86,48 @@
             %tr
               %td= user.full_name
               %td
-                = link_to dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
+                = link_to dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
                   %i.icon-remove-sign.icon-white
                   Unschedule
-      .row
-        %h3 Available Volunteers
-        %p 
+      - cache do
+        .row
+          %h3 Available Volunteers
+          %p 
 
-        %table.table.table-bordered.table-striped.schedule-user-table.dataTables
-          %thead 
-            %tr
-              %th Name
-              %th Email
-              %th Availability Time
-              %th.span3 User Schedules on Day
-              %th Charity
-              %th Role
-              %th.span2 Actions
-          %tbody
-            - @department_block.get_user_availabilities.each do |a|
-              - user_availability = a[0]
-              - availability_percentage = a[1]
-              %tr.info
-                %td.full_name= user_availability.user.full_name
-                %td.email= user_availability.user.email
-                %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
-                %th
-                  - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|
-                    = user_schedule.department_block.start_time
-                    \-
-                    = user_schedule.department_block.end_time
-                    %hr
-                %td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
-                %td= user_availability.user.role
-                %td 
-                  = form_for [:dashboard, UserSchedule.new], :remote => true, html: {:"data-type" => "json"} do |f|
-                    = f.hidden_field :user_id, value: user_availability.user.id
-                    = f.hidden_field :department_block_id, value: @department_block.id
+          %table.table.table-bordered.table-striped.schedule-user-table.dataTables
+            %thead 
+              %tr
+                %th Name
+                %th Email
+                %th Availability Time
+                %th.span3 User Schedules on Day
+                %th Charity
+                %th Role
+                %th.span2 Actions
+            %tbody
+              - @department_block.get_user_availabilities.each do |a|
+                - user_availability = a[0]
+                - availability_percentage = a[1]
+                %tr.info
+                  %td.full_name= user_availability.user.full_name
+                  %td.email= user_availability.user.email
+                  %td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
+                  %th
+                    - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|
+                      = user_schedule.department_block.start_time
+                      \-
+                      = user_schedule.department_block.end_time
+                      %hr
+                  %td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
+                  %td= user_availability.user.role
+                  %td 
+                    = form_for [:dashboard, UserSchedule.new], html: {:"data-type" => "json"} do |f|
+                      = f.hidden_field :user_id, value: user_availability.user.id
+                      = f.hidden_field :department_block_id, value: @department_block.id
 
-                    = button_tag type: "submit", class: 'btn btn-primary' do 
-                      %i.icon-ok-sign.icon-white
-                      Schedule
+                      = button_tag type: "submit", class: 'btn btn-primary' do 
+                        %i.icon-ok-sign.icon-white
+                        Schedule
 
 
   %div{:class =>"modal hide fade", :id => "assign_volunteer_managers"}

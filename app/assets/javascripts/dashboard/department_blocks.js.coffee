@@ -1,6 +1,6 @@
 $ ->
 	toggleLoading = () ->
-		console.log 'test'
+		# console.log 'test'
 
 	$('.new_user_schedule .btn').on 'click', ->
 		return false if $(@).hasClass 'disabled'
@@ -10,7 +10,7 @@ $ ->
 		.bind("ajax:loading", toggleLoading)
 		.bind("ajax:complete", toggleLoading)
 		.bind "ajax:success", (event, data, status, xhr) ->
-			window.location.reload()
+			# window.location.reload()
 
 
 	$('.unschedule-user')

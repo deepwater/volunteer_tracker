@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2'
+gem 'rails', '3.2.3'
 
 group :development do
 	gem 'sqlite3'
@@ -8,9 +8,12 @@ end
 
 group :production do
 	gem 'newrelic_rpm'
+	gem 'dalli'
+	gem 'memcachier'
 end
 
 gem 'pg'
+gem 'unicorn'
 
 gem 'bootstrap-sass-rails'
 gem 'bootstrap-timepicker-rails'
