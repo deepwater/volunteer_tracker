@@ -55,6 +55,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    fastercsv (1.5.5)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -152,6 +153,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   dalli
   devise
+  fastercsv
   haml
   haml-rails
   jquery-datatables-rails
