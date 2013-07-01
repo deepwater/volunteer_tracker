@@ -11,11 +11,11 @@ class UserSchedule < ActiveRecord::Base
 	after_destroy :unschedule_email
 
 	def deliver_email
-		UserScheduleMailer.delay.schedule_email(self).deliver
+		UserScheduleMailer.delay.schedule_email(self)
 	end
 
 	def unschedule_email
-		UserScheduleMailer.delay.unschedule_email(self).deliver
+		UserScheduleMailer.delay.unschedule_email(self)
 	end
 
 	def add_default_charity
