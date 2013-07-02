@@ -8,7 +8,7 @@ class UserSchedule < ActiveRecord::Base
 
 	before_create :add_default_charity
 	after_create :deliver_email
-	after_destroy :unschedule_email
+	before_destory :unschedule_email
 
 	def deliver_email
 		UserScheduleMailer.delay.schedule_email(self)
