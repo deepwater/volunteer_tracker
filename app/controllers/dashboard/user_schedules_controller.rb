@@ -59,7 +59,7 @@ class Dashboard::UserSchedulesController < ApplicationController
     @user_schedule.destroy
 
     respond_to do |format|
-      format.html { redirect_to [:dashboard, :user_schedules] }
+      format.html { redirect_to :back }
       # format.html { redirect_to [:dashboard, @user_schedule.department_block] }
       format.json { head :no_content }
     end

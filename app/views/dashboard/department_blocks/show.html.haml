@@ -86,7 +86,7 @@
             %tr
               %td= user.full_name
               %td
-                = link_to dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :remote => true, :method => :delete, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
+                = link_to dashboard_user_schedule_path(UserSchedule.where(department_block_id: @department_block.id, user_id: user.id).all), :confirm => 'Are you sure?', :method => :delete, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
                   %i.icon-remove-sign.icon-white
                   Unschedule
       - cache do
