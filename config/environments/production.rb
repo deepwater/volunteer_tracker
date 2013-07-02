@@ -20,6 +20,8 @@ VolunteerTracker::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.assets.compile =true
+
   config.action_mailer.default_url_options = { :host => 'volunteer.gilroygarlicfestival.com' }
 
 
