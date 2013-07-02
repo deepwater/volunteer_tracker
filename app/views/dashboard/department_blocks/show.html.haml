@@ -121,7 +121,7 @@
                   %td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
                   %td= user_availability.user.role
                   %td 
-                    = form_for [:dashboard, UserSchedule.new], html: {:"data-type" => "json"} do |f|
+                    = form_for [:dashboard, UserSchedule.new] do |f|
                       = f.hidden_field :user_id, value: user_availability.user.id
                       = f.hidden_field :department_block_id, value: @department_block.id
 
