@@ -10,6 +10,8 @@ class UserSchedule < ActiveRecord::Base
 	after_create :deliver_email
 	before_destroy :unschedule_email
 
+	has_many :check_ins, foreign_key: :user_schedule_id, primary_key: :id
+
 	def deliver_email
 		UserScheduleMailer.delay.schedule_email(self)
 	end

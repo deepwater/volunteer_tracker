@@ -22,36 +22,134 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
+    @scheduled = []
 
-    # CREATE A BLANK ARRAY FOR STORING SCHEDULES
-    @schedules = []
+    # IF THE USER IS A VOLUNTEER MANAGER & ASSIGNED
+    if current_user.role? :volunteer_manager and !current_user.volunteer_manager.nil?
+      @scheduled = UserSchedule.where(department_block_id: current_user.volunteer_manager.department_block.id)
 
-    # GET ALL THE USER SCHEDULES AND CHECK THEM IN THE ARRAY
-    Day.all.each do |day|
-      @schedules << day.user_schedules
+    # IF THE USER IS A DEPARTMENT ASSISTANT & ASSIGNED
+    elsif current_user.role? :department_assistant and !current_user.department_assistant.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_assistant.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+    #IF THE USER IS A DEPARTMENT MANAGER & ASSIGNED
+    elsif current_user.role? :department_manager and !current_user.department_manager.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_manager.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+    # IF THE USER IS AN EVENT ADMINISTRATOR
+    elsif current_user.role? :event_administrator
+      @scheduled = UserSchedule.all
     end
 
-    # FLATTEN THE ARRAY
-    @schedules.flatten!
+    @scheduled.flatten!
 
     # REMOVE SCHEDULES THAT ARE CHECKED IN
-    @schedules.select!{ |user_schedule|
+    @scheduled.select!{ |user_schedule|
       !CheckIn.find_by_user_schedule_id(user_schedule.id)
     }
 
     # ARRANGE THE USER_SCHEDULES BY DATE
-    @schedules.sort_by!{ |user_schedule|
+    @scheduled.sort_by!{ |user_schedule|
       t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
     }
 
   end
 
   def active
-    @check_ins = CheckIn.where(status: "1")
+
+    @scheduled = []
+
+    # IF THE USER IS A VOLUNTEER MANAGER & ASSIGNED
+    if current_user.role? :volunteer_manager and !current_user.volunteer_manager.nil?
+      @scheduled = UserSchedule.where(department_block_id: current_user.volunteer_manager.department_block.id)
+
+    # IF THE USER IS A DEPARTMENT ASSISTANT & ASSIGNED
+    elsif current_user.role? :department_assistant and !current_user.department_assistant.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_assistant.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+    #IF THE USER IS A DEPARTMENT MANAGER & ASSIGNED
+    elsif current_user.role? :department_manager and !current_user.department_manager.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_manager.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+    # IF THE USER IS AN EVENT ADMINISTRATOR
+    elsif current_user.role? :event_administrator
+      @scheduled = UserSchedule.all
+    end
+
+    @scheduled.flatten!
+
+    @check_ins = []
+
+    @scheduled.each do |user_schedule|
+      user_schedule.check_ins.each do |check_in|
+        @check_ins << check_in if check_in.status == "1"
+      end
+    end
+
+    # ARRANGE THE USER_SCHEDULES BY DATE
+    @check_ins.sort_by!{ |check_in|
+      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
+    }
   end
 
   def inactive
-    @check_ins = CheckIn.where(status: "2")
+    @scheduled = []
+  # IF THE USER IS A VOLUNTEER MANAGER & ASSIGNED
+    if current_user.role? :volunteer_manager and !current_user.volunteer_manager.nil?
+      @scheduled = UserSchedule.where(department_block_id: current_user.volunteer_manager.department_block.id)
+
+    # IF THE USER IS A DEPARTMENT ASSISTANT & ASSIGNED
+    elsif current_user.role? :department_assistant and !current_user.department_assistant.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_assistant.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+    #IF THE USER IS A DEPARTMENT MANAGER & ASSIGNED
+    elsif current_user.role? :department_manager and !current_user.department_manager.nil?
+      @department_blocks = DepartmentBlock.where(department_id: current_user.department_manager.department.id)
+
+      @department_blocks.each do |department_block|
+        @scheduled << department_block.user_schedules
+      end
+
+
+    # IF THE USER IS AN EVENT ADMINISTRATOR
+    elsif current_user.role? :event_administrator
+      @scheduled = UserSchedule.all
+    end
+
+    @scheduled.flatten!
+
+    @check_ins = []
+
+    @scheduled.each do |user_schedule|
+      user_schedule.check_ins.each do |check_in|
+        @check_ins << check_in if check_in.status == "2" 
+      end
+    end
+
+    # ARRANGE THE USER_SCHEDULES BY DATE
+    @check_ins.sort_by!{ |check_in|
+      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
+    }
   end
 
   # GET /check_ins/new
@@ -109,7 +207,7 @@ class Dashboard::CheckInsController < DashboardController
     @check_in.destroy
 
     respond_to do |format|
-      format.html { redirect_to check_ins_url }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

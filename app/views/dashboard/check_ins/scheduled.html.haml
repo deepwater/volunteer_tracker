@@ -14,7 +14,7 @@
         %th Department
         %th Actions
 
-      - @schedules.each do |user_schedule|
+      - @scheduled.each do |user_schedule|
         %tr
           %td=user_schedule.department_block.day.short_date
           %td

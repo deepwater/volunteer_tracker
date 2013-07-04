@@ -11,6 +11,7 @@
         %th Department Block
         %th Check In Time
         %th Check Out Time
+        %th Actions
 
       - @check_ins.each do |check_in|
         %tr
@@ -20,4 +21,12 @@
             =check_in.created_at.strftime("%l.%M%p")
           %td
             =check_in.updated_at.strftime("%l.%M%p")
-        
+          %td
+            - if current_user.role? "department_assistant"      
+              =form_for [:dashboard, check_in], html: {class: "side-by-side"} do |f|
+                = f.hidden_field :id, value: check_in.id
+                = f.hidden_field :status, value: "1"
+                = button_tag type: "submit", class: 'btn btn-mini btn-danger' do 
+                  %i.icon-remove-sign.icon-white
+                  Undo Check Out     
+          

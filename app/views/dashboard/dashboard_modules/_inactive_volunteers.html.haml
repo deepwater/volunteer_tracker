@@ -20,4 +20,4 @@
                 / %button.btn-mini.btn-warning.pull-right{:type => "button"}
                 / %i.icon-flag.icon-white
       %p
-        %a.btn.btn-block.btn-primary{:href => "#"} View All Past Volunteers
+        = link_to "View All Past Volunteers", dashboard_check_ins_inactive_path(), class: "btn btn-block btn-primary"

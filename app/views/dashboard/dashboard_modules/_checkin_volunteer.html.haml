@@ -22,4 +22,4 @@
                     = button_tag type: "submit", class: 'btn btn-success pull-right' do 
                       %i.icon-check.icon-white
       %p
-        %a.btn.btn-block.btn-primary{:href => "#"} Show All Scheduled Volunteers
+        = link_to "Show All Scheduled Volunteers", dashboard_check_ins_scheduled_path(), class: "btn btn-block btn-primary"
