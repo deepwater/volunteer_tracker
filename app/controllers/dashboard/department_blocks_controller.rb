@@ -106,4 +106,41 @@ class Dashboard::DepartmentBlocksController < DashboardController
       format.json { head :no_content }
     end
   end
+
+  def export
+
+    day=DateTime.new(params[:year].to_i,params[:month].to_i,params[:day].to_i)
+    department=Department.find(params[:id].to_i)
+
+    csv_string = CSV.generate do |csv| 
+      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_fullname"] 
+      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block| 
+          department_block.users.each_with_index do |user, index|
+            line=[
+              "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
+              department_block.department.name,
+              department_block.name, 
+              department_block.start_time, 
+              department_block.end_time,
+              user.full_name
+            ]
+            csv << line
+          end 
+          if department_block.users.size<1 
+            line=[
+              "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
+              department_block.department.name,
+              department_block.name, 
+              department_block.start_time, 
+              department_block.end_time
+            ]
+            csv << line
+          end
+
+        end
+    end
+    send_data csv_string, 
+          :type => 'text/csv; charset=iso-8859-1; header=present', 
+          :disposition => "attachment; filename=department_blocks_#{department.name.sub(/\s/,'_')}_#{params[:year].to_i}_#{params[:month].to_i}_#{params[:day].to_i}.csv"
+  end
 end

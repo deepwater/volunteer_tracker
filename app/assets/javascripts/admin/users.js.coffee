@@ -8,4 +8,7 @@ $ ->
 		sAjaxSource: $('#users_list_table').data('source')
 		sDom: 'T<"clear">lfrtip'
 		aLengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+		oTableTools: 
+            "aButtons": [ "copy", "csv", "xls" ]
+        
     #users_list_table datatable
