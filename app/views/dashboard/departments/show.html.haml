@@ -63,7 +63,9 @@
                     = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
                     = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
 
+
           %br
+
           %br
           - if current_user.role? "department_manager"
             = link_to(new_dashboard_department_block_path) do
@@ -73,6 +75,12 @@
             = link_to(new_dashboard_department_block_path) do
               %button.btn.btn-info{:type=>"button", :href=> "#copy_schedule_modal_#{day.id}", :data => {:toggle => "modal"}} 
                 Copy Blocks to Another Day
+
+            
+            = link_to("#{@department.id}/export/#{day.year}/#{day.month}/#{day.mday}") do
+              %button.btn.btn-warn{:type=>"button", :href=> "#modal_#{day.safe_short_date}"}
+                Export Blocks
+
 
             %div{:class =>"modal hide fade", :id => "modal_#{day.safe_short_date}"}
               .modal-header
