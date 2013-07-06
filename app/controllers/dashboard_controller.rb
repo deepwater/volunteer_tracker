@@ -51,13 +51,11 @@ class DashboardController < ApplicationController
 		      !CheckIn.find_by_user_schedule_id(user_schedule.id)
 		    }
 
-		    puts "TEST #{@scheduled}"
-		    puts  "TEST 2 #{@scheduled.length}"
-   		    puts "TEST 3 #{@scheduled.count}"
-
 		    # ARRANGE THE USER_SCHEDULES BY DATE
 		    if @scheduled.length > 0
 			    @scheduled.sort_by!{ |user_schedule|
+			      put "TEST #{user_schedule}"
+			      put "TEST 2 #{user_schedule.department_block}"
 			      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
 			    }
 		   	end
