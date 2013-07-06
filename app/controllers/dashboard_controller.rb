@@ -51,9 +51,9 @@ class DashboardController < ApplicationController
 		      !CheckIn.find_by_user_schedule_id(user_schedule.id)
 		    }
 
-		    logger.debug "TEST #{@scheduled}"
-		    logger.debug "TEST 2 #{@scheduled.length}"
-   		    logger.debug "TEST 3 #{@scheduled.count}"
+		    puts "TEST #{@scheduled}"
+		    puts  "TEST 2 #{@scheduled.length}"
+   		    puts "TEST 3 #{@scheduled.count}"
 
 		    # ARRANGE THE USER_SCHEDULES BY DATE
 		    if @scheduled.length > 0
