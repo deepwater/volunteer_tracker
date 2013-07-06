@@ -54,8 +54,8 @@ class DashboardController < ApplicationController
 		    # ARRANGE THE USER_SCHEDULES BY DATE
 		    if @scheduled.length > 0
 			    @scheduled.sort_by!{ |user_schedule|
-			      put "TEST #{user_schedule}"
-			      put "TEST 2 #{user_schedule.department_block}"
+			      puts "TEST #{user_schedule}"
+			      puts "TEST 2 #{user_schedule.department_block}"
 			      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
 			    }
 		   	end
