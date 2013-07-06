@@ -52,17 +52,23 @@ class DashboardController < ApplicationController
 		    }
 
 		    # ARRANGE THE USER_SCHEDULES BY DATE
-		    @scheduled.sort_by!{ |user_schedule|
-		      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
-		    }
+		    if @scheduled.length > 0
+			    @scheduled.sort_by!{ |user_schedule|
+			      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
+			    }
+		   	end
 
-		    @active.sort_by!{ |check_in|
-		      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
-		    }
+		   	if @active.length > 0
+			    @active.sort_by!{ |check_in|
+			      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
+			    }
+			end
 
-		    @inactive.sort_by!{ |check_in|
-		      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
-		    }
+			if @inactive.length > 0
+			    @inactive.sort_by!{ |check_in|
+			      t = Time.parse("#{check_in.user_schedule.department_block.end_time} #{check_in.user_schedule.department_block.day.mday}/#{check_in.user_schedule.department_block.day.month}/#{check_in.user_schedule.department_block.day.year}")
+			    }
+			end
 		end
 	end
 end
