@@ -10,14 +10,15 @@
               %th In
               %th Out
               / %th Flag?
-          %tbody
-            - @inactive.each do |check_in|
-              %tr
-                %td= check_in.user_schedule.user.full_name
-                %td= check_in.created_at.strftime("%l.%M%p")
-                %td= check_in.updated_at.strftime("%l.%M%p")
-                / %td
-                / %button.btn-mini.btn-warning.pull-right{:type => "button"}
-                / %i.icon-flag.icon-white
+          - cache do 
+            %tbody
+              - @inactive.each do |check_in|
+                %tr
+                  %td= check_in.user_schedule.user.full_name
+                  %td= check_in.created_at.strftime("%l.%M%p")
+                  %td= check_in.updated_at.strftime("%l.%M%p")
+                  / %td
+                  / %button.btn-mini.btn-warning.pull-right{:type => "button"}
+                  / %i.icon-flag.icon-white
       %p
         = link_to "View All Past Volunteers", dashboard_check_ins_inactive_path(), class: "btn btn-block btn-primary"
