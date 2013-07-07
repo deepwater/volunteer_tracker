@@ -1,0 +1,17 @@
+%h1 Listing flags
+
+%table.table.table-bordered.table-striped
+  %tr
+    %th Check In ID
+    %th Flagger
+    %th Description
+    %th
+    %th
+
+  - @flags.each do |flag|
+    %tr
+      %td= flag.check_in.id
+      %td= flag.user.full_name
+      %td= flag.description
+      %td= link_to 'View Check-In', [:edit, :dashboard, flag.check_in], class: "btn btn-success btn-mini "
+      %td= link_to 'Delete', [:dashboard, flag], :method => :delete, class: "btn btn-danger btn-mini", :data => { :confirm => 'Are you sure?' }

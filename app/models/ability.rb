@@ -7,10 +7,11 @@ class Ability
     end
     if user.role? :volunteer_manager
         can :manage, CheckIn if user.check_ins.where(status: "1").length > 0
-        
+        can :flag, CheckIn
     end
     if user.role? :department_assistant
         can :manage, UserSchedule
+        can :manage, CheckIn
     end
     if user.role? :department_manager
         can :manage, DepartmentBlock

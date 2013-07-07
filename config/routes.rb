@@ -1,5 +1,6 @@
 VolunteerTracker::Application.routes.draw do
 
+
   root :to => 'dashboard#index'
 
   # PUBLIC FACING
@@ -44,6 +45,7 @@ VolunteerTracker::Application.routes.draw do
     match 'check_ins/active' => "check_ins#active"
     match 'check_ins/inactive' => "check_ins#inactive"
     resources :check_ins
+    resources :flags
 
     match 'department_blocks/:id/copy/' => "department_blocks#copy"
     match 'departments/:id/export/:year/:month/:day' => "department_blocks#export"

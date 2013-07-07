@@ -16,13 +16,13 @@ class Admin::DepartmentsController < AdminController
 
     @department_managers = User.where(role: "department_manager")
     @department_managers.select!{|user|
-      user.department_manager.nil? && !user.eql?(current_user)
+      user.department_manager.nil? && user.eql?(current_user)
     }
 
 
     @department_assistants = User.where(role: "department_assistant")
     @department_assistants.select!{|user|
-      user.department_assistant.nil? && !user.eql?(current_user)
+      user.department_assistant.nil? && user.eql?(current_user)
     }
 
     respond_to do |format|
