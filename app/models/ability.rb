@@ -6,7 +6,8 @@ class Ability
     if user.role? :volunteer
     end
     if user.role? :volunteer_manager
-        can :manage, CheckIn
+        can :manage, CheckIn if user.check_ins.where(status: "1").length > 0
+        
     end
     if user.role? :department_assistant
         can :manage, UserSchedule

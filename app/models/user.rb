@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   # ASSOCIATIONS
   has_many :user_availabilities, dependent: :destroy
 
+  has_many :check_ins, dependent: :destroy
+
   has_many :user_schedules, dependent: :destroy
   has_many :department_blocks, :through => :user_schedules
 
