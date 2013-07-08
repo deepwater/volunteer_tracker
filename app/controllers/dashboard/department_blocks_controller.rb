@@ -14,7 +14,28 @@ class Dashboard::DepartmentBlocksController < DashboardController
   # GET /department_blocks/1
   # GET /department_blocks/1.json
   def show
-    @department_block = DepartmentBlock.find(params[:id])
+    @department_block = DepartmentBlock.includes(
+      :users, :day, :department, volunteer_managers: :user
+    ).find(params[:id])
+
+    user_ids = @department_block.users.map(&:id)
+    user_schedules = UserSchedule.includes(:user).where(
+      department_block_id: @department_block.id, user_id: user_ids
+    ).to_a if user_ids.present?
+    @user_schedules = Array.wrap(user_schedules).inject({}) do |result, user_schedule|
+      result[user_schedule.user_id] = user_schedule
+      result
+    end
+
+    user_ids = @department_block.volunteer_managers.map(&:user_id)
+    volunteer_managers = VolunteerManager.where(
+      department_block_id: @department_block.id,
+      user_id: user_ids
+    ).to_a if user_ids.present?
+    @volunteer_managers = Array.wrap(volunteer_managers).inject({}) do |result, volunteer_manager|
+      result[volunteer_manager.user_id] = volunteer_manager
+      result
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -112,26 +133,26 @@ class Dashboard::DepartmentBlocksController < DashboardController
     day=DateTime.new(params[:year].to_i,params[:month].to_i,params[:day].to_i)
     department=Department.find(params[:id].to_i)
 
-    csv_string = CSV.generate do |csv| 
-      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_fullname"] 
-      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block| 
+    csv_string = CSV.generate do |csv|
+      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_fullname"]
+      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
           department_block.users.each_with_index do |user, index|
             line=[
               "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
               department_block.department.name,
-              department_block.name, 
-              department_block.start_time, 
+              department_block.name,
+              department_block.start_time,
               department_block.end_time,
               user.full_name
             ]
             csv << line
-          end 
-          if department_block.users.size<1 
+          end
+          if department_block.users.size<1
             line=[
               "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
               department_block.department.name,
-              department_block.name, 
-              department_block.start_time, 
+              department_block.name,
+              department_block.start_time,
               department_block.end_time
             ]
             csv << line
@@ -139,8 +160,8 @@ class Dashboard::DepartmentBlocksController < DashboardController
 
         end
     end
-    send_data csv_string, 
-          :type => 'text/csv; charset=iso-8859-1; header=present', 
+    send_data csv_string,
+          :type => 'text/csv; charset=iso-8859-1; header=present',
           :disposition => "attachment; filename=department_blocks_#{department.name.sub(/\s/,'_')}_#{params[:year].to_i}_#{params[:month].to_i}_#{params[:day].to_i}.csv"
   end
 end
