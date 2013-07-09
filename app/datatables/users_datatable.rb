@@ -18,7 +18,7 @@ private
         [
           # comma separated list of the values for each cell of a table row
           link_to(user.full_name, admin_user_path(user)),
-          user.email,
+          "#{user.email}<br>#{user.secondary_email}",
           user.tshirt_size,
           user.role,
           user.charities.any? ? user.charities.first.name : "Not assigned",
