@@ -49,6 +49,7 @@ VolunteerTracker::Application.routes.draw do
 
     match 'department_blocks/:id/copy/' => "department_blocks#copy"
     match 'departments/:id/export/:year/:month/:day' => "department_blocks#export"
+    match 'departments/:id/schedule/:year/:month/:day' => "departments#schedule"
   end
 
   # The priority is based upon order of creation:

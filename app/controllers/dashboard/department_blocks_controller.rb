@@ -133,9 +133,10 @@ class Dashboard::DepartmentBlocksController < DashboardController
     day=DateTime.new(params[:year].to_i,params[:month].to_i,params[:day].to_i)
     department=Department.find(params[:id].to_i)
 
-    csv_string = CSV.generate do |csv|
-      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_fullname"]
-      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
+
+    csv_string = CSV.generate do |csv| 
+      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name"] 
+      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block| 
           department_block.users.each_with_index do |user, index|
             line=[
               "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
@@ -143,7 +144,10 @@ class Dashboard::DepartmentBlocksController < DashboardController
               department_block.name,
               department_block.start_time,
               department_block.end_time,
-              user.full_name
+              department_block.user_schedules.where(:user_id=>user.id).first.id,
+              user.full_name,
+              department_block.users.where(:id=>user.id).first.charities.first.name
+
             ]
             csv << line
           end

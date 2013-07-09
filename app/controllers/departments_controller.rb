@@ -14,7 +14,7 @@ class DepartmentsController < ApplicationController
   # GET /departments/1.json
   def show
     @department = Department.find(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @department }
@@ -80,4 +80,7 @@ class DepartmentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+
 end
