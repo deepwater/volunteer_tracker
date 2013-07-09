@@ -30,7 +30,7 @@
             #{department.estimated_hours} / #{department.budgeted_hours}
           %td
             .progress
-              .bar{:class => get_department_usage_class(department.fully_scheduled_blocks, department.department_blocks.length), :style => "width: #{get_department_usage(department.fully_scheduled_blocks, department.department_blocks.length)}%;"}
-            #{department.fully_scheduled_blocks} / #{department.department_blocks.size}
+              .bar{:class => get_department_usage_class(@department.scheduled_department_block_slots, @department.total_department_block_slots), :style => "width: #{get_department_usage(@department.scheduled_department_block_slots, @department.total_department_block_slots)}%;"}
+            #{department.scheduled_department_block_slots} / #{department.total_department_block_slots}
           %td= link_to 'Edit', edit_admin_department_path(department)
           %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
