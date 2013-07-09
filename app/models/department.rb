@@ -22,16 +22,25 @@ class Department < ActiveRecord::Base
 		return total
 	end
 
-	def fully_scheduled_blocks
+	def total_department_block_slots
+
 		count = 0
 
 		self.department_blocks.each do |department_block|
-			if department_block.user_schedules.count == department_block.suggested_number_of_workers
-				count= count+1
-			end 
+			count = count + department_block.suggested_number_of_workers
 		end
 
-		logger.debug "COUNT #{count}"
+		count
+	end
+
+	def scheduled_department_block_slots
+
+		count = 0
+
+		self.department_blocks.each do |department_block|
+			count= count + department_block.user_schedules.length
+		end
+
 		count
 	end
 end

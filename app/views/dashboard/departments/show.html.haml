@@ -25,16 +25,16 @@
   .span4
 
     .progress
-      .bar{:class => get_department_usage_class(@department.fully_scheduled_blocks, @department.department_blocks.length), :style => "width: #{get_department_usage(@department.fully_scheduled_blocks, @department.department_blocks.length)}%;"}
+      .bar{:class => get_department_usage_class(@department.scheduled_department_block_slots, @department.total_department_block_slots), :style => "width: #{get_department_usage(@department.scheduled_department_block_slots, @department.total_department_block_slots)}%;"}
     %h4 Block Scheduling Progress
     %p
       %strong
-        Fully Scheduled:
-      =@department.fully_scheduled_blocks
+        Scheduled Slots:
+      =@department.scheduled_department_block_slots
       
       %strong
-        Total:
-      =@department.department_blocks.size
+        Total Slots:
+      =@department.total_department_block_slots
 %hr
 
 .row
