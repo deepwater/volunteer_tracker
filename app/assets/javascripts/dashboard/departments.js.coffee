@@ -1,4 +1,4 @@
-$ ->
+window.initDepartmentsShowPage = ()->
 	reloadSchedule=(dateid)->
 		$.ajax "#{window.location.pathname}/schedule/2013/#{dateid[0..1]}/#{dateid[2..]}",
 			type: 'GET'
@@ -48,5 +48,4 @@ $ ->
 
 
 
-	if $('li.active a').attr('href') is not null
-		reloadSchedule $('li.active a').attr('href').replace('#','')
+	reloadSchedule $('li.active a').attr('href').replace('#','')

@@ -32,7 +32,7 @@
       %strong
         Scheduled Slots:
       =@department.scheduled_department_block_slots
-      
+
       %strong
         Total Slots:
       =@department.total_department_block_slots
@@ -72,7 +72,7 @@
                   %td= department_block.suggested_number_of_workers
                   %td
                     = department_block.users.length
-                    \/ 
+                    \/
                     = department_block.suggested_number_of_workers
                   %td
                     - if current_user.role? "department_manager"
@@ -85,14 +85,14 @@
             %br
             - if current_user.role? "department_manager"
               = link_to(new_dashboard_department_block_path) do
-                %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}, class: "create_department_block"} 
+                %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}, class: "create_department_block"}
                   Create Department Block
 
               = link_to(new_dashboard_department_block_path) do
-                %button.btn.btn-info{:type=>"button", :href=> "#copy_schedule_modal_#{day.id}", :data => {:toggle => "modal"}} 
+                %button.btn.btn-info{:type=>"button", :href=> "#copy_schedule_modal_#{day.id}", :data => {:toggle => "modal"}}
                   Copy Blocks to Another Day
 
-              
+
               = link_to("#{@department.id}/export/#{day.year}/#{day.month}/#{day.mday}") do
                 %button.btn.btn-warn{:type=>"button", :href=> "#modal_#{day.safe_short_date}"}
                   Export Blocks
@@ -113,3 +113,7 @@
                   %h3 Choose Day to Copy To
                 .modal-body
                   = render 'dashboard/department_blocks/copy', :day_to_copy => day, :department => @department
+:javascript
+  $(function() {
+    window.initDepartmentsShowPage();
+  })
