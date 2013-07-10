@@ -2,10 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
-	$('.dataTables').dataTable()	
+	$('.dataTables').dataTable()
 	$('.dataTablesWithoutPagination').dataTable
 		"bPaginate": false
-	
+
 
 	$('.new_department_assistant button').on 'click', ->
 		$(@).addClass('disabled')
