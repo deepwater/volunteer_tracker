@@ -160,6 +160,6 @@
       per_page = $this.val();
       $link = $('#per_page_link');
       $link.attr('href', window.location.pathname + '?per_page=' + per_page);
-      $link.click()
+      $link.trigger('click');
     });
   });

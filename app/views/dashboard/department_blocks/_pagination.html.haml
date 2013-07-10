@@ -1,4 +1,4 @@
 - if @show_action_data.scope.page > 1
-  = link_to "Previous", dashboard_department_block_path(@show_action_data.department_block, {page: @show_action_data.scope.page - 1}), remote: true, class: "paginate_disabled_previous"
+  = link_to "Previous", dashboard_department_block_path(@show_action_data.department_block, {page: @show_action_data.scope.page - 1, per_page: @show_action_data.scope.per_page}), remote: true, class: "paginate_disabled_previous"
 - if @show_action_data.user_availabilities_count > @show_action_data.scope.page * @show_action_data.scope.per_page
-  = link_to "Next", dashboard_department_block_path(@show_action_data.department_block, {page: @show_action_data.scope.page + 1}), remote: true, class: "paginate_disabled_next"
+  = link_to "Next", dashboard_department_block_path(@show_action_data.department_block, {page: @show_action_data.scope.page + 1, per_page: @show_action_data.scope.per_page}), remote: true, class: "paginate_disabled_next"
