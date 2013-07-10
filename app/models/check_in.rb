@@ -5,6 +5,7 @@ class CheckIn < ActiveRecord::Base
 
 	before_save :check_status
 
+	has_many :flags
 	def check_status
 
 		if (self.status_changed? && self.status == "2")
