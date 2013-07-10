@@ -159,47 +159,25 @@
                     Assign
 :javascript
   $(function() {
-    $('#per_page').on('change', function() {
-      $this = $(this);
-      per_page = $this.val();
+    var loadData = function(el) {
+      $this = $(el);
       $link = $('#hidden_link');
       $link.attr('href', window.location.pathname + prepare_query());
       $link.trigger('click');
-    });
-
-    $('#charity').on('change', function() {
-      $this = $(this);
-      value = $this.val();
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
-    });
-
-    $('#role').on('change', function() {
-      $this = $(this);
-      value = $this.val();
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
+    }
+    $('#per_page, #charity, #role').on('change', function() {
+      loadData(this);
     });
 
     $('#search').on('keyup', function(e) {
       if (e.keyCode == 13) {
-        $this = $(this);
-        value = $this.val();
-        $link = $('#hidden_link');
-        $link.attr('href', window.location.pathname + prepare_query());
-        $link.trigger('click');
+        loadData(this);
       }
       return false;
     });
 
     $('#search').on('blur', function(e) {
-      $this = $(this);
-      value = $this.val();
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
+      loadData(this);
       return false;
     });
 
@@ -207,7 +185,7 @@
       charity  = $('#charity').val();
       role     = $('#role').val();
       q        = $('#search').val();
-      per_page = $('#search').val();
+      per_page = $('#per_page').val();
 
       result = "?per_page=" + per_page + "&charity=" + charity + "&role=" + role +
                "&q=" + q + "&order_email=" + window.sortings.order_email +
@@ -250,9 +228,7 @@
       window.sortings["order_" + column] = 'asc';
       $this.removeClass('sorting').addClass('sorting_asc');
 
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
+      loadData($this);
       return false;
     };
 
@@ -262,9 +238,7 @@
       window.sortings["order_" + column] = 'desc';
       $this.removeClass('sorting_asc').addClass('sorting_desc');
 
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
+      loadData($this);
       return false;
     };
 
@@ -274,9 +248,7 @@
       window.sortings["order_" + column] = 'asc';
       $this.removeClass('sorting_desc').addClass('sorting_asc');
 
-      $link = $('#hidden_link');
-      $link.attr('href', window.location.pathname + prepare_query());
-      $link.trigger('click');
+      loadData($this);
       return false;
     };
   });
