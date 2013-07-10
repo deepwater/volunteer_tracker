@@ -1,4 +1,4 @@
-class Dashboard::DepartmentBlocksController < DashboardController
+  class Dashboard::DepartmentBlocksController < DashboardController
 
   DEFAULT_PER_PAGE = 10
 
@@ -135,7 +135,9 @@ class Dashboard::DepartmentBlocksController < DashboardController
 
     csv_string = CSV.generate do |csv|
       csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name"]
-      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
+      Day.where(
+        month: params[:month].to_i, mday: params[:day].to_i, year: params[:year].to_i
+      ).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
           department_block.users.each_with_index do |user, index|
             line=[
               "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
@@ -145,8 +147,7 @@ class Dashboard::DepartmentBlocksController < DashboardController
               department_block.end_time,
               department_block.user_schedules.where(:user_id=>user.id).first.id,
               user.full_name,
-              department_block.users.where(:id=>user.id).first.charities.first.name
-
+              department_block.users.where(id: user.id).first.try(:charities).try(:first).try(:name)
             ]
             csv << line
           end
