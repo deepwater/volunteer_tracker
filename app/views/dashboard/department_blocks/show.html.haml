@@ -107,20 +107,24 @@
                 %option{:value => "100"} 100
               entries
             .hidden
-              = link_to "", "", remote: true, id: "per_page_link"
+              = link_to "", "", remote: true, id: "hidden_link"
           .dataTables_filter
             %label
               Search:
-              %input{:type => "text"}
+              %input{:type => "text", id: 'search'}
           %table.table.table-bordered.table-striped.schedule-user-table
             %thead
               %tr
-                %th Name
-                %th Email
+                %th.sortable.sorting{type: 'name'} Name
+                %th.sortable.sorting{type: 'email'} Email
                 %th Availability Time
                 %th.span3 User Schedules on Day
-                %th Charity
-                %th Role
+                %th.sortable.sorting{type: 'charity'}
+                  Charity
+                  = select_tag :charity, options_for_select([['All', '']] + Charity.all.map {|r| [r.name, r.id]})
+                %th.sortable.sorting{type: 'role'}
+                  Role
+                  = select_tag :role, options_for_select([['All', '']] + User::ROLES.map {|r| [r.humanize, r]})
                 %th.span2 Actions
             %tbody
               = render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}
@@ -158,8 +162,121 @@
     $('#per_page').on('change', function() {
       $this = $(this);
       per_page = $this.val();
-      $link = $('#per_page_link');
-      $link.attr('href', window.location.pathname + '?per_page=' + per_page);
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
       $link.trigger('click');
     });
+
+    $('#charity').on('change', function() {
+      $this = $(this);
+      value = $this.val();
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+    });
+
+    $('#role').on('change', function() {
+      $this = $(this);
+      value = $this.val();
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+    });
+
+    $('#search').on('keyup', function(e) {
+      if (e.keyCode == 13) {
+        $this = $(this);
+        value = $this.val();
+        $link = $('#hidden_link');
+        $link.attr('href', window.location.pathname + prepare_query());
+        $link.trigger('click');
+      }
+      return false;
+    });
+
+    $('#search').on('blur', function(e) {
+      $this = $(this);
+      value = $this.val();
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+      return false;
+    });
+
+    var prepare_query = function() {
+      charity  = $('#charity').val();
+      role     = $('#role').val();
+      q        = $('#search').val();
+      per_page = $('#search').val();
+
+      result = "?per_page=" + per_page + "&charity=" + charity + "&role=" + role +
+               "&q=" + q + "&order_email=" + window.sortings.order_email +
+               "&order_name=" + window.sortings.order_name +
+               "&order_role=" + window.sortings.order_role +
+               "&order_charity=" + window.sortings.order_charity;
+      return result;
+    };
+
+
+    $('th.sortable').on('click', function() {
+      window.sortings = {}
+      $this = $(this);
+      type = $this.attr('type');
+
+      $.each($('.sortable'), function(index, el) {
+        $el = $(el);
+        el_type = $el.attr('type');
+
+        if (type != el_type) {
+          $el.removeClass('sorting');
+          $el.removeClass('sorting_asc');
+          $el.removeClass('sorting_desc');
+          $el.addClass('sorting');
+        }
+      });
+
+      if ($this.hasClass('sorting')) {
+        startSort($this);
+      } else if ($this.hasClass('sorting_asc')){
+        sortAsc($this);
+      }else if ($this.hasClass('sorting_desc')){
+        sortDesc($this);
+      }
+    });
+
+    var startSort = function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'asc';
+      $this.removeClass('sorting').addClass('sorting_asc');
+
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+      return false;
+    };
+
+    var sortAsc =  function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'desc';
+      $this.removeClass('sorting_asc').addClass('sorting_desc');
+
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+      return false;
+    };
+
+    var sortDesc = function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'asc';
+      $this.removeClass('sorting_desc').addClass('sorting_asc');
+
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+      return false;
+    };
   });

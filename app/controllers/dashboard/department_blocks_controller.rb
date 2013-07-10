@@ -19,12 +19,17 @@ class Dashboard::DepartmentBlocksController < DashboardController
   def show
     service = DepartmentBlocksService.new
     scope = OpenStruct.new(
-      id:       params[:id],
-      page:     (params[:page] || 1).to_i,
-      per_page: (params[:per_page] || DEFAULT_PER_PAGE).to_s.to_i,
-      filters:  params[:filters]
+      id:               params[:id],
+      page:             (params[:page] || 1).to_i,
+      per_page:         (params[:per_page] || DEFAULT_PER_PAGE).to_s.to_i,
+      charity:          params[:charity],
+      role:             params[:role],
+      order_charity:    params[:order_charity],
+      order_role:       params[:order_role],
+      order_name:       params[:order_name],
+      order_email:      params[:order_email],
+      q:                params[:q]
     )
-    #raise DepartmentBlock.find(params[:id]).get_user_availabilities.count.inspect
     @show_action_data = service.prepare_data_for_show_action(current_user, scope)
 
     respond_to do |format|
@@ -128,9 +133,9 @@ class Dashboard::DepartmentBlocksController < DashboardController
     department=Department.find(params[:id].to_i)
 
 
-    csv_string = CSV.generate do |csv| 
-      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name"] 
-      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block| 
+    csv_string = CSV.generate do |csv|
+      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name"]
+      Day.where(month:params[:month].to_i, mday:params[:day].to_i, year:params[:year].to_i).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
           department_block.users.each_with_index do |user, index|
             line=[
               "#{params[:year].to_i}/#{params[:month].to_i}/#{params[:day].to_i}",
