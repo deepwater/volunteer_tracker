@@ -6,4 +6,9 @@
   .sorting_asc, .sorting_desc, .sorting {
     cursor: pointer;
   }
+  .sortable {
+    select {
+      width: 105px;
+    }
+  }
 }

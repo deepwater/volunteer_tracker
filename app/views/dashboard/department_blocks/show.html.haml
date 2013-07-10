@@ -120,11 +120,11 @@
                 %th Availability Time
                 %th.span3 User Schedules on Day
                 %th.sortable.sorting{type: 'charity'}
-                  Charity
                   = select_tag :charity, options_for_select([['All', '']] + Charity.all.map {|r| [r.name, r.id]})
+                  Charity
                 %th.sortable.sorting{type: 'role'}
-                  Role
                   = select_tag :role, options_for_select([['All', '']] + User::ROLES.map {|r| [r.humanize, r]})
+                  Role
                 %th.span2 Actions
             %tbody
               = render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}
