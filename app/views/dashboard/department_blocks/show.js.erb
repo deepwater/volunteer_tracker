@@ -1,0 +1,11 @@
+$tbody = $('table.table.table-bordered.table-striped.schedule-user-table tbody');
+$tbody.empty();
+$tbody.append("<%= j(render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}) %>");
+
+$pagination = $('.dataTables_paginate.paging_two_button')
+$pagination.empty();
+$pagination.append('<%= j(render "pagination") %>');
+
+$pagination_info = $('.dataTables_info')
+$pagination_info.empty();
+$pagination_info.append('<%= j(render "pagination_info") %>');

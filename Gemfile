@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.3'
 gem 'psych'
 gem 'thin'
+gem 'kaminari'
 
 group :development do
 	gem 'sqlite3'

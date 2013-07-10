@@ -1,4 +1,7 @@
 class Dashboard::DepartmentBlocksController < DashboardController
+
+  DEFAULT_PER_PAGE = 10
+
   # GET /department_blocks
   # GET /department_blocks.json
   def index
@@ -14,32 +17,23 @@ class Dashboard::DepartmentBlocksController < DashboardController
   # GET /department_blocks/1
   # GET /department_blocks/1.json
   def show
-    @department_block = DepartmentBlock.includes(
-      :users, :day, :department, volunteer_managers: :user
-    ).find(params[:id])
-
-    user_ids = @department_block.users.map(&:id)
-    user_schedules = UserSchedule.includes(:user).where(
-      department_block_id: @department_block.id, user_id: user_ids
-    ).to_a if user_ids.present?
-    @user_schedules = Array.wrap(user_schedules).inject({}) do |result, user_schedule|
-      result[user_schedule.user_id] = user_schedule
-      result
-    end
-
-    user_ids = @department_block.volunteer_managers.map(&:user_id)
-    volunteer_managers = VolunteerManager.where(
-      department_block_id: @department_block.id,
-      user_id: user_ids
-    ).to_a if user_ids.present?
-    @volunteer_managers = Array.wrap(volunteer_managers).inject({}) do |result, volunteer_manager|
-      result[volunteer_manager.user_id] = volunteer_manager
-      result
-    end
+    service = DepartmentBlocksService.new
+    scope = OpenStruct.new(
+      id:       params[:id],
+      page:     (params[:page] || 1).to_i,
+      per_page: (params[:per_page] || DEFAULT_PER_PAGE).to_s.to_i,
+      filters:  params[:filters]
+    )
+    #raise DepartmentBlock.find(params[:id]).get_user_availabilities.count.inspect
+    @show_action_data = service.prepare_data_for_show_action(current_user, scope)
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @department_block }
+      format.html
+      format.json do
+       render json: @show_action_data.department_block
+      end
+      format.js do
+      end
     end
   end
 
