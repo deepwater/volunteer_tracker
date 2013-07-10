@@ -17,5 +17,4 @@
 //= require dataTables/extras/TableTools
 //= require twitter/bootstrap
 //= require bootstrap-timepicker
-//= require_tree ./dashboard/
 //= require_tree .
