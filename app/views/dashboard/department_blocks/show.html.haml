@@ -96,22 +96,38 @@
         %h3 Available Volunteers
         %p
 
-        %table.table.table-bordered.table-striped.schedule-user-table
-          %thead
-            %tr
-              %th Name
-              %th Email
-              %th Availability Time
-              %th.span3 User Schedules on Day
-              %th Charity
-              %th Role
-              %th.span2 Actions
-          %tbody
-            = render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}
-        .dataTables_info
-          = render "pagination_info"
-        .dataTables_paginate.paging_two_button
-          = render 'pagination'
+        .dataTables_wrapper
+          .dataTables_length
+            %label
+              Show
+              %select{:size => "1", :id => "per_page"}
+                %option{:selected => "selected", :value => "10"} 10
+                %option{:value => "25"} 25
+                %option{:value => "50"} 50
+                %option{:value => "100"} 100
+              entries
+            .hidden
+              = link_to "", "", remote: true, id: "per_page_link"
+          .dataTables_filter
+            %label
+              Search:
+              %input{:type => "text"}
+          %table.table.table-bordered.table-striped.schedule-user-table
+            %thead
+              %tr
+                %th Name
+                %th Email
+                %th Availability Time
+                %th.span3 User Schedules on Day
+                %th Charity
+                %th Role
+                %th.span2 Actions
+            %tbody
+              = render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}
+          .dataTables_info
+            = render "pagination_info"
+          .dataTables_paginate.paging_two_button
+            = render 'pagination'
   %div{:class =>"modal hide fade", :id => "assign_volunteer_managers"}
     .modal-header
       %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
@@ -137,3 +153,13 @@
                   = button_tag type: "submit", class: 'btn btn-success' do
                     %i.icon-ok-sign.icon-white
                     Assign
+:javascript
+  $(function() {
+    $('#per_page').on('change', function() {
+      $this = $(this);
+      per_page = $this.val();
+      $link = $('#per_page_link');
+      $link.attr('href', window.location.pathname + '?per_page=' + per_page);
+      $link.click()
+    });
+  });

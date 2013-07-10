@@ -20,7 +20,7 @@ $ ->
 					modal = $(@).attr('href')
 					console.log modal
 					$el = $(modal + " #department_block_name")
-					
+
 					setTimeout ->
 						$el.focus()
 					, 300
@@ -34,12 +34,12 @@ $ ->
 		$(firstHash + ' #day_hash:hidden').val firstHash.replace('#','')
 
 		if window.location.hash
-	 		$('a[href="' + window.location.hash + '"]').click()	
+	 		$('a[href="' + window.location.hash + '"]').click()
 
 		$('.nav.nav-tabs a').click ->
 
 	 		window.location.hash = $(@).attr 'href'
-	 		
+
 	 		reloadSchedule window.location.hash.replace('#','')
 
 	 		hash = $(@).attr 'href'
@@ -48,4 +48,5 @@ $ ->
 
 
 
-	reloadSchedule $('li.active a').attr('href').replace('#','')
+	if $('li.active a').attr('href') is not null
+		reloadSchedule $('li.active a').attr('href').replace('#','')
