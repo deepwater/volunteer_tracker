@@ -10,8 +10,6 @@ class Ability
         can :flag, CheckIn
     end
     if user.role? :department_assistant
-        can :manage, UserSchedule
-        can :manage, CheckIn
         can :manage, DepartmentBlock
     end
     if user.role? :department_manager
