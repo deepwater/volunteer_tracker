@@ -6,11 +6,12 @@ class CheckIn < ActiveRecord::Base
 	before_save :check_status
 
 	has_many :flags
-	def check_status
 
+  private
+
+	def check_status
 		if (self.status_changed? && self.status == "2")
-			self.check_out_time =  Time.now.strftime("%I:%M %p")
+			self.check_out_time =  DateTime.now
 		end
 	end
-
 end	

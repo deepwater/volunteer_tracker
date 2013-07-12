@@ -3,9 +3,9 @@
     %td=check_in.user_schedule.user.full_name
     %td=link_to "#{check_in.user_schedule.department_block.name}", [:dashboard,check_in.user_schedule.department_block]
     %td
-      =check_in.created_at.strftime("%l.%M%p")
+      =check_in.created_at.strftime("%l:%M%p")
     %td
-      =check_in.check_out_time
+      =check_in.check_out_time.strftime("%l:%M%p")
     %td
       - if current_user.role? :department_assistant    
         =form_for [:dashboard, check_in] do |f|

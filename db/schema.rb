@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130707063501) do
+ActiveRecord::Schema.define(:version => 20130712181707) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -24,9 +24,15 @@ ActiveRecord::Schema.define(:version => 20130707063501) do
     t.integer  "user_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
-    t.string   "check_out_time"
     t.text     "status"
+    t.datetime "check_out_time"
   end
+
+  create_table "data_migrations", :id => false, :force => true do |t|
+    t.string "version", :null => false
+  end
+
+  add_index "data_migrations", ["version"], :name => "unique_data_migrations", :unique => true
 
   create_table "days", :force => true do |t|
     t.integer  "mday"
