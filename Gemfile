@@ -4,6 +4,7 @@ gem 'rails', '3.2.3'
 gem 'psych'
 gem 'thin'
 gem 'kaminari'
+gem 'data_migrate'
 
 group :development do
 	gem 'sqlite3'

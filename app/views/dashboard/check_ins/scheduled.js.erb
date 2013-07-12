@@ -1,0 +1,9 @@
+$table = $("#scheduled-check-ins-table");
+$table.find("tbody").empty().append("<%= j(render('scheduled_items', scheduled: @results)) %>");
+
+$pagination = $("#pagination")
+$pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
+
+$pagination_info = $("#pagination-info")
+$pagination_info.empty().append("<%= j(page_entries_info @results)%>")
+

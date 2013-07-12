@@ -1,4 +1,5 @@
 class UserSchedule < ActiveRecord::Base
+	paginates_per 10000
 
 	validates_uniqueness_of :user_id, :scope => :department_block_id
 
