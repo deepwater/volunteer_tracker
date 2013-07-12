@@ -1,5 +1,4 @@
 class UserSchedule < ActiveRecord::Base
-	paginates_per 10000
 
 	validates_uniqueness_of :user_id, :scope => :department_block_id
 
@@ -11,7 +10,7 @@ class UserSchedule < ActiveRecord::Base
 	after_create :deliver_email
 	before_destroy :unschedule_email
 
-	has_many :check_ins, foreign_key: :user_schedule_id, primary_key: :id
+	has_many :check_ins, foreign_key: :user_schedule_id, primary_key: :id, dependent: :destroy
 
 	def deliver_email
 		UserScheduleMailer.delay.schedule_email(self)
