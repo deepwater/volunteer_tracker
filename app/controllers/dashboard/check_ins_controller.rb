@@ -1,6 +1,7 @@
 class Dashboard::CheckInsController < DashboardController
-  # GET /check_ins
-  # GET /check_ins.json
+
+  DEFAULT_PER_PAGE = 10
+
   def index
     @check_ins = CheckIn.all
 
@@ -10,8 +11,6 @@ class Dashboard::CheckInsController < DashboardController
     end
   end
 
-  # GET /check_ins/1
-  # GET /check_ins/1.json
   def show
     @check_in = CheckIn.find(params[:id])
 
@@ -22,45 +21,18 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
-    @scheduled = []
+    scope = {
+      per: (params[:per] || DEFAULT_PER_PAGE).to_i,
+      page: (params[:page] || 1).to_i
+    }
 
-    # IF THE USER IS A VOLUNTEER MANAGER & ASSIGNED
-    if current_user.role? :volunteer_manager and !current_user.volunteer_manager.nil?
-      @scheduled = UserSchedule.where(department_block_id: current_user.volunteer_manager.department_block.id)
+    @results = service.prepare_scheduled_data(scope)
 
-    # IF THE USER IS A DEPARTMENT ASSISTANT & ASSIGNED
-    elsif current_user.role? :department_assistant and !current_user.department_assistant.nil?
-      @department_blocks = DepartmentBlock.where(department_id: current_user.department_assistant.department.id)
-
-      @department_blocks.each do |department_block|
-        @scheduled << department_block.user_schedules
-      end
-
-    #IF THE USER IS A DEPARTMENT MANAGER & ASSIGNED
-    elsif current_user.role? :department_manager and !current_user.department_manager.nil?
-      @department_blocks = DepartmentBlock.where(department_id: current_user.department_manager.department.id)
-
-      @department_blocks.each do |department_block|
-        @scheduled << department_block.user_schedules
-      end
-
-    # IF THE USER IS AN EVENT ADMINISTRATOR
-    elsif current_user.role? :event_administrator
-      @scheduled = UserSchedule.all
+    #raise @results.to_a.count.inspect
+    respond_to do |format|
+      format.html
+      format.js
     end
-
-    @scheduled.flatten!
-
-    # REMOVE SCHEDULES THAT ARE CHECKED IN
-    @scheduled.select!{ |user_schedule|
-      !CheckIn.find_by_user_schedule_id(user_schedule.id)
-    }
-
-    # ARRANGE THE USER_SCHEDULES BY DATE
-    @scheduled.sort_by!{ |user_schedule|
-      t = Time.parse("#{user_schedule.department_block.end_time} #{user_schedule.department_block.day.mday}/#{user_schedule.department_block.day.month}/#{user_schedule.department_block.day.year}")
-    }
-
   end
 
   def active
@@ -210,5 +182,11 @@ class Dashboard::CheckInsController < DashboardController
       format.html { redirect_to :back }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def service
+    @service ||= CheckInsService.new(as: current_user)
   end
 end

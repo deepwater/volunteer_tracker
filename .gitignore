@@ -45,3 +45,7 @@ app/assets/.DS_Store
 app/views/dashboard/.DS_Store
 
 app/views/dashboard/.DS_Store
+
+.DS_Store
+
+.rvmrc

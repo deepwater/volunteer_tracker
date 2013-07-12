@@ -1,3 +1,19 @@
 // Place all the styles related to the user_schedules controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.pagination-wrapper {
+  width: 100%;
+  div {
+    width: 50%;
+    float: left;
+    .pagination {
+      margin: 10px 0;
+    }
+  }
+  #pagination-info {
+    margin: 10px 0;
+    text-align: right;
+  }
+}
