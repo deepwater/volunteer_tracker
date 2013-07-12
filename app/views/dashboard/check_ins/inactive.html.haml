@@ -5,43 +5,22 @@
       Assignment Details
       %br
 
-    %table.table.table-bordered.table-striped
-      %tr
-        %th Full Name
-        %th Department Block
-        %th Check In Time
-        %th Check Out Time
-        %th Actions
-
-      - @check_ins.each do |check_in|
+    %table.table.table-bordered.table-striped#inactive-check-ins-table
+      %thead
         %tr
-          %td=check_in.user_schedule.user.full_name
-          %td=link_to "#{check_in.user_schedule.department_block.name}", [:dashboard,check_in.user_schedule.department_block]
-          %td
-            =check_in.created_at.strftime("%l.%M%p")
-          %td
-            =check_in.check_out_time
-          %td
-            - if current_user.role? :department_assistant    
-              =form_for [:dashboard, check_in] do |f|
-                = f.hidden_field :id, value: check_in.id
-                = f.hidden_field :status, value: "1"
-                = button_tag type: "submit", class: 'btn btn-mini btn-danger' do 
-                  %i.icon-remove-sign.icon-white
-                  Undo Check Out 
+          %th Full Name
+          %th Department Block
+          %th Check In Time
+          %th Check Out Time
+          %th Actions
+      %tbody
+        = render "inactive_items", results: @results
 
-            - if can? :flag, CheckIn
-              %button.flag_form_button.btn.btn-mini.btn-warning{:type => "button"}
-                %i.icon-flag.icon-white
-                Flag
+    %div.pagination-wrapper
+      %div#pagination
+        = paginate @results, remote: true
+      %div#pagination-info
+        = page_entries_info @results
 
-              = form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
-                Description:
-                %br
-                = f.hidden_field :check_in_id, value: check_in.id
-                = f.hidden_field :user_id, value: current_user.id
-                = f.text_area :description, rows: 5
-                .actions
-                  = f.submit 'Save', class: "btn btn-success"
    
         
