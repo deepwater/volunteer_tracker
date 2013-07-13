@@ -1,6 +1,7 @@
 - results.each do |check_in|
   %tr
     %td= check_in.user_schedule.user.full_name
+    %td= check_in.user_schedule.user.email
     %td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
     %td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
     %td= check_in.created_at.strftime("%l:%M%p %b %-d")

@@ -4,6 +4,19 @@
       %i.halflings-icon.edit 
       Assignment Details
       %br
+    .dataTables_length
+      %label
+        Show
+        %select{:size => "1", :id => "per_page"}
+          %option{:selected => "selected", :value => "10"} 10
+          %option{:value => "25"} 25
+          %option{:value => "50"} 50
+          %option{:value => "100"} 100
+        entries
+    .dataTables_filter
+      %label
+        Search:
+        %input{:type => "text", id: 'search'}
 
     %table.table.table-bordered.table-striped#scheduled-check-ins-table
       %thead
@@ -11,8 +24,9 @@
           %th Date
           %th Start Time
           %th Name
-          %th Department Block
+          %th Email
           %th Department
+          %th Department Block
           %th Actions
       %tbody
         = render "scheduled_items", scheduled: @results

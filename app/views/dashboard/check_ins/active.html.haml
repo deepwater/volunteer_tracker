@@ -4,11 +4,26 @@
       %i.halflings-icon.edit 
       Assignment Details
       %br
+    .dataTables_length
+      %label
+        Show
+        %select{:size => "1", :id => "per_page"}
+          %option{:selected => "selected", :value => "10"} 10
+          %option{:value => "25"} 25
+          %option{:value => "50"} 50
+          %option{:value => "100"} 100
+        entries
+    .dataTables_filter
+      %label
+        Search:
+        %input{:type => "text", id: 'search'}
 
     %table.table.table-bordered.table-striped#active-check-ins-table
       %thead
         %tr
-          %th Full Name
+          %th Name
+          %th Email
+          %th Department
           %th Department Block
           %th Start Time
           %th End Time

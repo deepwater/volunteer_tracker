@@ -90,7 +90,8 @@ class Dashboard::CheckInsController < DashboardController
   def set_scope
     @scope = {
       per: (params[:per] || DEFAULT_PER_PAGE).to_i,
-      page: (params[:page] || 1).to_i
+      page: (params[:page] || 1).to_i,
+      q: params[:q]
     }
   end
 

@@ -9,17 +9,14 @@ class ScheduledCheckInsService
     @scope = scope
     query = build_query(accessor.role)
     query = query.group(
-      "days.year, days.month, days.mday, department_blocks.end_time, user_schedules.id"
+      "department_blocks.id, days.id, departments.id, users.id, user_schedules.id"
     ).joins(
       "LEFT OUTER JOIN check_ins ON check_ins.user_schedule_id = user_schedules.id"
     ).having(
       "COUNT(check_ins.*) = 0"
-    ).joins(
-      "LEFT JOIN department_blocks ON department_blocks.id = user_schedules.department_block_id"
-    ).joins(
-      "LEFT JOIN days ON days.id = department_blocks.day_id"
     )
     query = scheduled_sort(query)
+    query = search_results(query)
     query = query.includes(:user, department_block: [:day, :department])
     query = query.page(scope[:page]).per(scope[:per])
   end
@@ -53,9 +50,19 @@ class ScheduledCheckInsService
     UserSchedule
   end
 
-  def scheduled_sort(query)
-    query.order(
-      "CAST((days.year || '-' || days.month || '-' || days.mday || ' ' || department_blocks.end_time) AS timestamp) ASC"
+  def search_results(query)
+    return query unless scope[:q].present?
+    query = query.where(
+      "concat(lower(users.first_name), ' ', lower(users.last_name)) LIKE ? OR lower(users.email) LIKE ?",
+      "%#{scope[:q].to_s.downcase}%",
+      "%#{scope[:q].to_s.downcase}%"
     )
+  end
+
+  def scheduled_sort(query)
+    query
+    # query.order(
+    #   "CAST((days.year || '-' || days.month || '-' || days.mday || ' ' || department_blocks.end_time) AS timestamp) ASC"
+    # )
   end
 end

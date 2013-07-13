@@ -6,11 +6,13 @@ class CheckInsService
   end
 
   def prepare_check_ins_data(type, scope)
+    @scope = scope
     query = build_query
     query = send(:"filter_#{type}", query)
     #query = sort_results(query, scope)
+    query = search_results(query)
     query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
-    paginate_results(query, scope)
+    paginate_results(query)
   end
 
   private
@@ -30,7 +32,7 @@ class CheckInsService
     query
   end
 
-  def sort_results(query, scope)
+  def sort_results(query)
     orderings = %w(ASC DESC)
     sortings = %w(department_id )
 
@@ -39,8 +41,17 @@ class CheckInsService
     end
   end
 
-  def paginate_results(query, scope)
+  def paginate_results(query)
     query.page(scope[:page]).per(scope[:per])
+  end
+
+  def search_results(query)
+    return query unless scope[:q].present?
+    query = query.where(
+      "concat(lower(users.first_name), ' ', lower(users.last_name)) LIKE ? OR lower(users.email) LIKE ?",
+      "%#{scope[:q].to_s.downcase}%",
+      "%#{scope[:q].to_s.downcase}%"
+    )
   end
 
   def filter_active(query)
