@@ -33,6 +33,7 @@ $ ->
 
   $("th.sorting").on 'click', ->
     $this = $(this)
+    $("th.sorting").not($this).removeClass("sorting_asc").removeClass("sorting_desc").data("order", "")
     if $this.hasClass("sorting_asc")
       $this.data "order", "desc"
       $this.addClass("sorting_desc").removeClass("sorting_asc")
