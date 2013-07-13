@@ -9,7 +9,7 @@ class ScheduledCheckInsService
     @scope = scope
     query = build_query(accessor.role)
     query = query.group(
-      "department_blocks.id, days.id, departments.id, users.id, user_schedules.id"
+      "department_blocks.id, days.id, departments.id, users.id, charities.id, user_schedules.id"
     ).joins(
       "LEFT OUTER JOIN check_ins ON check_ins.user_schedule_id = user_schedules.id"
     ).having(
@@ -17,7 +17,7 @@ class ScheduledCheckInsService
     )
     query = scheduled_sort(query)
     query = search_results(query)
-    query = query.includes(:user, department_block: [:day, :department])
+    query = query.includes(user: :charities, department_block: [:day, :department])
     query = query.page(scope[:page]).per(scope[:per])
   end
 
@@ -60,9 +60,21 @@ class ScheduledCheckInsService
   end
 
   def scheduled_sort(query)
-    query
-    # query.order(
-    #   "CAST((days.year || '-' || days.month || '-' || days.mday || ' ' || department_blocks.end_time) AS timestamp) ASC"
-    # )
+    if valid_order?(scope[:order_charity])
+      query = query.order("charities.name #{scope[:order_charity]}")
+    end
+    if valid_order?(scope[:order_department])
+      query = query.order("departments.id #{scope[:order_department]}")
+    end
+    if valid_order?(scope[:order_name])
+      query = query.order("concat(lower(users.first_name), lower(users.last_name)) #{scope[:order_name]}")
+    end
+    query.order(
+      "CAST((days.year || '-' || days.month || '-' || days.mday || ' ' || department_blocks.end_time) AS timestamp) ASC"
+    )
+  end
+
+  def valid_order?(direction)
+    %w[asc desc].include?(direction)
   end
 end

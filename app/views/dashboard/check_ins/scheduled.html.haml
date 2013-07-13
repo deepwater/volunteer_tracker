@@ -23,10 +23,11 @@
         %tr
           %th Date
           %th Start Time
-          %th Name
+          %th.sortable.sorting#name Name
           %th Email
-          %th Department
+          %th.sortable.sorting#department Department
           %th Department Block
+          %th.sortable.sorting#charity Charity
           %th Actions
       %tbody
         = render "scheduled_items", scheduled: @results

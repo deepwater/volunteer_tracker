@@ -7,10 +7,15 @@
     %td=link_to user_schedule.department_block.department.name, [:dashboard, user_schedule.department_block.department]
     %td=link_to "#{user_schedule.department_block.name}", [:dashboard, user_schedule.department_block]
     %td
+      - if user_schedule.user.charities.any?
+        = user_schedule.user.charities.first.name
+      - else
+        Not assigned
+    %td
       =form_for [:dashboard, CheckIn.new], html: {:"data-type" => "json"} do |f|
         = f.hidden_field :user_schedule_id, value: user_schedule.id
         = f.hidden_field :user_id, value: user_schedule.user_id
         = f.hidden_field :status, value: "1"
         = button_tag type: "submit", class: 'btn btn-success' do 
           %i.icon-ok-sign.icon-white
-          Check In       
+          Check In

@@ -9,6 +9,8 @@ class CheckInsService
     @scope = scope
     query = build_query
     query = send(:"filter_#{type}", query)
+    query = sort_common(query)
+    query = send(:"sort_#{type}", query)
     #query = sort_results(query, scope)
     query = search_results(query)
     query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
@@ -60,5 +62,36 @@ class CheckInsService
 
   def filter_inactive(query)
     query.where(status: "2")
+  end
+
+  def valid_order?(direction)
+    %w[asc desc].include?(direction)
+  end
+
+  def sort_common(query)
+    if valid_order?(scope[:order_charity])
+      query = query.order("charities.name #{scope[:order_charity]}")
+    end
+    if valid_order?(scope[:order_department])
+      query = query.order("departments.id #{scope[:order_department]}")
+    end
+    if valid_order?(scope[:order_name])
+      query = query.order("concat(lower(users.first_name), lower(users.last_name)) #{scope[:order_name]}")
+    end
+    if valid_order?(scope[:order_check_in])
+      query = query.order("check_ins.created_at #{scope[:order_check_in]}")
+    end
+    query
+  end
+
+  def sort_active(query)
+    query
+  end
+
+  def sort_inactive(query)   
+    if valid_order?(scope[:order_check_out])
+      query = query.order("check_ins.check_out_time #{scope[:order_check_out]}")
+    end
+    query
   end
 end

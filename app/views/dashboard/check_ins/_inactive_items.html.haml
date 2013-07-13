@@ -9,6 +9,8 @@
     %td
       - if check_in.user_schedule.user.charities.any?
         = check_in.user_schedule.user.charities.first.name
+      - else
+        Not assigned
     %td
       - if current_user.role? :department_assistant    
         =form_for [:dashboard, check_in] do |f|

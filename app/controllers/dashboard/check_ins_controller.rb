@@ -91,7 +91,12 @@ class Dashboard::CheckInsController < DashboardController
     @scope = {
       per: (params[:per] || DEFAULT_PER_PAGE).to_i,
       page: (params[:page] || 1).to_i,
-      q: params[:q]
+      q: params[:q],
+      order_charity: params[:order_charity],
+      order_department: params[:order_department],
+      order_name: params[:order_name],
+      order_check_in: params[:order_check_in],
+      order_check_out: params[:order_check_out]
     }
   end
 

@@ -21,13 +21,14 @@
     %table.table.table-bordered.table-striped#active-check-ins-table
       %thead
         %tr
-          %th Name
+          %th.sortable.sorting#name Name
           %th Email
-          %th Department
+          %th.sortable.sorting#department Department
           %th Department Block
           %th Start Time
           %th End Time
-          %th Check In Time
+          %th.sortable.sorting#check_in Check In Time
+          %th.sortable.sorting#charity Charity
           %th Actions
       %tbody
         = render "active_items", results: @results 
