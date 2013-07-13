@@ -8,7 +8,8 @@ class CheckInsService
   def prepare_check_ins_data(type, scope)
     query = build_query
     query = send(:"filter_#{type}", query)
-    query = query.includes(user_schedule: [:user, :department_block])
+    #query = sort_results(query, scope)
+    query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
     paginate_results(query, scope)
   end
 
@@ -27,6 +28,15 @@ class CheckInsService
       query = query.where(user_schedule_id: user_schedule_ids)
     end
     query
+  end
+
+  def sort_results(query, scope)
+    orderings = %w(ASC DESC)
+    sortings = %w(department_id )
+
+    if scope[:sort_by] && oprderings.includes?(scope[:order])
+      query = ""
+    end
   end
 
   def paginate_results(query, scope)
