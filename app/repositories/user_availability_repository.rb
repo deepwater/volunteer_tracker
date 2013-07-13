@@ -59,7 +59,7 @@ class UserAvailabilityRepository
 
     if scope.q.present?
       criteria = criteria.where(
-        "concat(lower(users.first_name), lower(users.last_name)) LIKE ? OR users.email LIKE ?",
+        "concat(lower(users.first_name), ' ', lower(users.last_name)) LIKE ? OR users.email LIKE ?",
         "%#{scope.q.to_s.downcase}%",
         "%#{scope.q.to_s.downcase}%"
       )
