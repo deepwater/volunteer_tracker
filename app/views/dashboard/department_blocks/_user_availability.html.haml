@@ -11,10 +11,13 @@
   %td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
   %td= user_availability.user.role
   %td
-    = form_for [:dashboard, UserSchedule.new] do |f|
-      = f.hidden_field :user_id, value: user_availability.user.id
-      = f.hidden_field :department_block_id, value: department_block.id
+    - if @show_action_data.user_schedules[user_availability.user_id].blank?
+      = form_for [:dashboard, UserSchedule.new] do |f|
+        = f.hidden_field :user_id, value: user_availability.user.id
+        = f.hidden_field :department_block_id, value: department_block.id
 
-      = button_tag type: "submit", class: 'btn btn-primary' do
-        %i.icon-ok-sign.icon-white
-        Schedule
+        = button_tag type: "submit", class: 'btn btn-primary' do
+          %i.icon-ok-sign.icon-white
+          Schedule
+    - else
+      Scheduled

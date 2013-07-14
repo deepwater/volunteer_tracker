@@ -112,6 +112,7 @@
             %label
               Search:
               %input{:type => "text", id: 'search'}
+              = button_tag 'Search', id: "search_button"
           %table.table.table-bordered.table-striped.schedule-user-table
             %thead
               %tr
@@ -173,6 +174,11 @@
       if (e.keyCode == 13) {
         loadData(this);
       }
+      return false;
+    });
+
+    $('#search_button').on('click', function(e) {
+      loadData($('#search').val());
       return false;
     });
 
