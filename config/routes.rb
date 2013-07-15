@@ -1,6 +1,4 @@
 VolunteerTracker::Application.routes.draw do
-
-
   root :to => 'dashboard#index'
 
   # PUBLIC FACING
