@@ -1,13 +1,13 @@
 - results.each do |check_in|
   %tr
-    %td= check_in.user_schedule.user.try(:full_name) || "User missing"
-    %td= check_in.user_schedule.user.try(:email)
+    %td= check_in.user_schedule.try(:user).try(:full_name) || "User missing"
+    %td= check_in.user_schedule.try(:user).try(:email)
     %td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
     %td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
     %td= check_in.created_at.strftime("%l:%M%p %b %-d")
     %td= check_in.check_out_time.strftime("%l:%M%p %b %-d")
     %td
-      - if check_in.user_schedule.user && check_in.user_schedule.user.charities.any?
+      - if check_in.user_schedule.try(:user) && check_in.user_schedule.user.charities.any?
         = check_in.user_schedule.user.charities.first.name
       - else
         Not assigned
