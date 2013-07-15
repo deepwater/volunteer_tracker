@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130712181707) do
+ActiveRecord::Schema.define(:version => 20130715133531) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.text     "status"
     t.datetime "check_out_time"
   end
+
+  add_index "check_ins", ["status"], :name => "index_check_ins_on_status"
+  add_index "check_ins", ["user_id"], :name => "index_check_ins_on_user_id"
+  add_index "check_ins", ["user_schedule_id"], :name => "index_check_ins_on_user_schedule_id"
+
+  create_table "data_migrations", :id => false, :force => true do |t|
+    t.string "version", :null => false
+  end
+
+  add_index "data_migrations", ["version"], :name => "unique_data_migrations", :unique => true
 
   create_table "days", :force => true do |t|
     t.integer  "mday"
@@ -60,6 +70,9 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "department_assistants", ["department_id"], :name => "index_department_assistants_on_department_id"
+  add_index "department_assistants", ["user_id"], :name => "index_department_assistants_on_user_id"
+
   create_table "department_blocks", :force => true do |t|
     t.integer  "suggested_number_of_workers"
     t.datetime "created_at",                  :null => false
@@ -71,12 +84,18 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.string   "end_time"
   end
 
+  add_index "department_blocks", ["day_id"], :name => "index_department_blocks_on_day_id"
+  add_index "department_blocks", ["department_id"], :name => "index_department_blocks_on_department_id"
+
   create_table "department_managers", :force => true do |t|
     t.integer  "user_id"
     t.integer  "department_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  add_index "department_managers", ["department_id"], :name => "index_department_managers_on_department_id"
+  add_index "department_managers", ["user_id"], :name => "index_department_managers_on_user_id"
 
   create_table "departments", :force => true do |t|
     t.text     "name"
@@ -100,6 +119,9 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "flags", ["check_in_id"], :name => "index_flags_on_check_in_id"
+  add_index "flags", ["user_id"], :name => "index_flags_on_user_id"
+
   create_table "user_availabilities", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at", :null => false
@@ -109,12 +131,18 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.text     "end_time"
   end
 
+  add_index "user_availabilities", ["day_id"], :name => "index_user_availabilities_on_day_id"
+  add_index "user_availabilities", ["user_id"], :name => "index_user_availabilities_on_user_id"
+
   create_table "user_charities", :force => true do |t|
     t.integer  "user_id"
     t.integer  "charity_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "user_charities", ["charity_id"], :name => "index_user_charities_on_charity_id"
+  add_index "user_charities", ["user_id"], :name => "index_user_charities_on_user_id"
 
   create_table "user_schedules", :force => true do |t|
     t.integer  "user_id"
@@ -123,6 +151,10 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.datetime "updated_at",          :null => false
     t.integer  "charity_id"
   end
+
+  add_index "user_schedules", ["charity_id"], :name => "index_user_schedules_on_charity_id"
+  add_index "user_schedules", ["department_block_id"], :name => "index_user_schedules_on_department_block_id"
+  add_index "user_schedules", ["user_id"], :name => "index_user_schedules_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -160,5 +192,8 @@ ActiveRecord::Schema.define(:version => 20130712181707) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
+
+  add_index "volunteer_managers", ["department_block_id"], :name => "index_volunteer_managers_on_department_block_id"
+  add_index "volunteer_managers", ["user_id"], :name => "index_volunteer_managers_on_user_id"
 
 end

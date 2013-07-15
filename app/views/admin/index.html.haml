@@ -10,12 +10,8 @@
     %a{:href => "#charities", "data-loaded" => 0, "data-url" => '/admin/charity_tab' } Charities 
 
   #section-tabs
+    .clearfix
     #users.section-tab
-      .clearfix
       = render :partial => "admin/users"
-
     #departments.section-tab{:style=>"display:none;"}
-      .clearfix
-
     #charities.section-tab{:style=>"display:none;"}
-      .clearfix

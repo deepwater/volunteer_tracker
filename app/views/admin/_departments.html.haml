@@ -34,3 +34,8 @@
               #{department.scheduled_count} / #{department.total_slots}
             %td= link_to 'Edit', edit_admin_department_path(department)
             %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
+    %div.pagination-wrapper
+      %div#pagination
+        = paginate departments, remote: true
+      %div#pagination-info
+        = page_entries_info departments
