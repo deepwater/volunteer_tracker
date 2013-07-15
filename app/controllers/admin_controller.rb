@@ -13,16 +13,13 @@ class AdminController < ApplicationController
   end
 
   def department_tab
-    @departments = Department.joins(:department_blocks)
-    .select(
-      %Q{
-        departments.id, departments.name, departments.budgeted_hours,
-        SUM(department_blocks.suggested_number_of_workers) as total_slots,
-        SUM(extract(epoch from (cast(department_blocks.end_time as time) - cast(department_blocks.start_time as time)))/3600 * department_blocks.suggested_number_of_workers) as estimate_hours_total,
-        SUM((SELECT COUNT(DISTINCT id) FROM user_schedules WHERE department_block_id = department_blocks.id)) as scheduled_count
-      }
+    service = DepartamentService.new
+    select = OpenStruct.new(
+      total_slots: true,
+      estimate_hours: true,
+      scheduled_count: true
     )
-    .group("departments.id").order("departments.name").page(@scope[:page]).per(@scope[:per])
+    @departments = service.prepare_data(select, @scope)
   end
 
 	def list

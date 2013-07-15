@@ -27,7 +27,7 @@
             %td
               .progress
                 .bar{:class => get_department_usage_class(department.estimate_hours_total, department.budgeted_hours), :style => "width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"}
-              #{department.estimate_hours_total.to_f} / #{department.budgeted_hours}
+              #{department.estimate_hours_total} / #{department.budgeted_hours}
             %td
               .progress
                 .bar{:class => get_department_usage_class(department.scheduled_count, department.total_slots), :style => "width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"}

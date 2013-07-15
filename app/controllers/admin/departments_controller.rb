@@ -1,7 +1,9 @@
 class Admin::DepartmentsController < AdminController
 
   def index
-    @departments = Department.order("name")
+    service = DepartamentService.new
+    select = OpenStruct.new(estimate_hours: true)
+    @departments = service.prepare_data(select)
 
     respond_to do |format|
       format.html # index.html.erb
