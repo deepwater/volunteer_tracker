@@ -1,8 +1,13 @@
 ---
 ajax-loader.gif: ajax-loader-1a591eb9479a87626a8ac701de1111c2.gif
 ggf_logo.png: ggf_logo-5713d9380fdab7be91bb9bbaa79cece4.png
+<<<<<<< HEAD
 application.js: application-f47f6c781d1f1f8d0b668ae950d4d37e.js
 application.css: application-d2cafa587b8a49fce31617c0efe1e303.css
+=======
+application.js: application-ea48ec450ec9aaf3c1427e4df66f53ad.js
+application.css: application-83faa7b881a828387576c1c29e3f544b.css
+>>>>>>> 8ed8750a22d87be3277362b1effab3763d8cc339
 img/glyphicons-halflings-white.png: img/glyphicons-halflings-white-13553a5bf21ae3cc374006592488ec64.png
 img/glyphicons-halflings.png: img/glyphicons-halflings-ab3144065a860d198f1d7d9a4882640c.png
 jquery-ui/animated-overlay.gif: jquery-ui/animated-overlay-691b2d4343303de8d214ad5395fd895d.gif

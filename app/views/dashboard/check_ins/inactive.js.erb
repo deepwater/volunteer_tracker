@@ -1,0 +1,9 @@
+$table = $("#inactive-check-ins-table");
+$table.find("tbody").empty().append("<%= j(render('inactive_items', results: @results)) %>");
+
+$pagination = $("#pagination")
+$pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
+
+$pagination_info = $("#pagination-info")
+$pagination_info.empty().append("<%= j(page_entries_info @results)%>")
+

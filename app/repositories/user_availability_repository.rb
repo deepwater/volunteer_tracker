@@ -16,22 +16,21 @@ class UserAvailabilityRepository
       "users.role != 'department_manager' AND users.role != 'event_administrator'"
     ).group(:user_id).pluck(:user_id)
 
+    scheduled_user_ids = UserSchedule.where(department_block_id: department_block.id).pluck(:user_id)
+
     criteria = UserAvailability.where(user_id: user_ids).where(
       day_id: department_block.day_id
     ).includes(
-      user: :charities,
-      #day: {user_schedules: :department_block}
-    ).joins(
-      "left outer join user_schedules on user_schedules.user_id = user_availabilities.user_id"
-    ).joins(
-      "left outer join department_blocks as user_schedule_department_blocks on user_schedules.department_block_id = user_schedule_department_blocks.id"
-    ).where(
-      "(user_schedule_department_blocks.day_id is null OR user_schedule_department_blocks.day_id = #{department_block.day_id})"
-    ).where(
-      "(user_schedules.department_block_id is null or user_schedules.department_block_id != #{department_block.id})"
+      user: :charities
     ).where(
       overlaps_criteria_for_user_availabilities(department_block)
     )
+
+    if scheduled_user_ids.present?
+      criteria = criteria.where(
+        "user_availabilities.user_id NOT IN (#{scheduled_user_ids.join(',')})"
+      )
+    end
 
     if scope.order_charity.present? && valid_order?(scope.order_charity)
       criteria = criteria.order("charities.name #{scope.order_charity}")
@@ -59,7 +58,7 @@ class UserAvailabilityRepository
 
     if scope.q.present?
       criteria = criteria.where(
-        "concat(lower(users.first_name), lower(users.last_name)) LIKE ? OR users.email LIKE ?",
+        "concat(lower(users.first_name), ' ', lower(users.last_name)) LIKE ? OR users.email LIKE ?",
         "%#{scope.q.to_s.downcase}%",
         "%#{scope.q.to_s.downcase}%"
       )
