@@ -1,0 +1,21 @@
+.row
+  .span12
+    %h2
+      Fastpass Check-In
+
+    %p Scan the barcode when you are ready
+
+    = form_for [:dashboard, @check_in], remote: true, data: {type: "json"}  do |f|
+      = f.text_field :user_schedule_id, autofocus: true
+      = f.hidden_field :status, value: "1"
+.row
+  .span4
+    %h3
+      Checked-In
+    %p A list of checked in users this FastPass session
+
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th User Schedule ID
+      %tbody

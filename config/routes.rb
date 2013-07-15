@@ -44,12 +44,15 @@ VolunteerTracker::Application.routes.draw do
     match 'check_ins/scheduled' => "check_ins#scheduled"
     match 'check_ins/active' => "check_ins#active"
     match 'check_ins/inactive' => "check_ins#inactive"
+    match 'check_ins/fastpass' => "check_ins#fastpass"
+
     resources :check_ins
     resources :flags
 
     match 'department_blocks/:id/copy/' => "department_blocks#copy"
     match 'departments/:id/export/:year/:month/:day' => "department_blocks#export"
     match 'departments/:id/schedule/:year/:month/:day' => "departments#schedule"
+    
   end
 
   # The priority is based upon order of creation:

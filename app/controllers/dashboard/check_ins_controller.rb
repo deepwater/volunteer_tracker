@@ -168,10 +168,16 @@ class Dashboard::CheckInsController < DashboardController
     @check_in = CheckIn.find(params[:id])
   end
 
+  def fastpass
+    @check_in = CheckIn.new
+  end
+
   # POST /check_ins
   # POST /check_ins.json
   def create
     @check_in = CheckIn.new(params[:check_in])
+
+    @check_in.user_id = current_user.id
 
     respond_to do |format|
       if @check_in.save
@@ -188,6 +194,7 @@ class Dashboard::CheckInsController < DashboardController
   # PUT /check_ins/1.json
   def update
     @check_in = CheckIn.find(params[:id])
+
 
     respond_to do |format|
       if @check_in.update_attributes(params[:check_in])
