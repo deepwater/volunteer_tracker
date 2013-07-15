@@ -12,7 +12,12 @@ VolunteerTracker::Application.routes.draw do
 
   match '/welcome' => "welcome#index"
 
-  resources :admin, :only => :index
+  resources :admin, :only => :index do
+    collection do
+      get :charity_tab
+      get :department_tab
+    end
+  end
   match 'admin/list' => "admin#list"
   
   namespace :admin do

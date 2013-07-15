@@ -35,9 +35,9 @@ module Dashboard::DepartmentsHelper
 
 	def get_department_usage_class(estimated_hours, allocated_hours)
 
-		if estimated_hours > allocated_hours
+		if estimated_hours.to_f > allocated_hours.to_f
 			return "bar-danger"
-		elsif estimated_hours == allocated_hours
+		elsif estimated_hours.to_f == allocated_hours.to_f
 			return "bar-danger"
 		else
 			return ""

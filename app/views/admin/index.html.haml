@@ -3,11 +3,11 @@
 
 %ul#section-tab-navigation.nav.nav-tabs
   %li.active
-    %a{:href => "#users"} Users
+    %a{:href => "#users", "data-loaded" => 1} Users
   %li
-    %a{:href => "#departments"} Departments
+    %a{:href => "#departments", "data-loaded" => 0, "data-url" => '/admin/department_tab' } Departments
   %li 
-    %a{:href => "#charities"} Charities 
+    %a{:href => "#charities", "data-loaded" => 0, "data-url" => '/admin/charity_tab' } Charities 
 
   #section-tabs
     #users.section-tab
@@ -16,10 +16,6 @@
 
     #departments.section-tab{:style=>"display:none;"}
       .clearfix
-      = render :partial => "admin/departments"
 
     #charities.section-tab{:style=>"display:none;"}
       .clearfix
-      = render :partial => "admin/charities"
-
-      
