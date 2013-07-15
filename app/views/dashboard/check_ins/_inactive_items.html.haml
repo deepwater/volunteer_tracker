@@ -1,35 +1,39 @@
 - results.each do |check_in|
   %tr
-    %td= check_in.user_schedule.try(:user).try(:full_name) || "User missing"
-    %td= check_in.user_schedule.try(:user).try(:email)
-    %td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
-    %td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
-    %td= check_in.created_at.strftime("%l:%M%p %b %-d")
-    %td= check_in.check_out_time.strftime("%l:%M%p %b %-d")
-    %td
-      - if check_in.user_schedule.try(:user) && check_in.user_schedule.user.charities.any?
-        = check_in.user_schedule.user.charities.first.name
-      - else
-        Not assigned
-    %td
-      - if current_user.role? :department_assistant    
-        =form_for [:dashboard, check_in] do |f|
-          = f.hidden_field :id, value: check_in.id
-          = f.hidden_field :status, value: "1"
-          = button_tag type: "submit", class: 'btn btn-mini btn-danger' do 
-            %i.icon-remove-sign.icon-white
-            Undo Check Out 
+    - if check_in.user_schedule
+      %td= check_in.user_schedule.try(:user).try(:full_name) || "User missing"
+      %td= check_in.user_schedule.try(:user).try(:email)
+      %td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
+      %td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
+      %td= check_in.created_at.strftime("%l:%M%p %b %-d")
+      %td= check_in.check_out_time.strftime("%l:%M%p %b %-d")
+      %td
+        - if check_in.user_schedule.try(:user) && check_in.user_schedule.user.charities.any?
+          = check_in.user_schedule.user.charities.first.name
+        - else
+          Not assigned
+      %td
+        - if current_user.role? :department_assistant    
+          =form_for [:dashboard, check_in] do |f|
+            = f.hidden_field :id, value: check_in.id
+            = f.hidden_field :status, value: "1"
+            = button_tag type: "submit", class: 'btn btn-mini btn-danger' do 
+              %i.icon-remove-sign.icon-white
+              Undo Check Out 
 
-      - if can? :flag, CheckIn
-        %button.flag_form_button.btn.btn-mini.btn-warning{:type => "button"}
-          %i.icon-flag.icon-white
-          Flag
+        - if can? :flag, CheckIn
+          %button.flag_form_button.btn.btn-mini.btn-warning{:type => "button"}
+            %i.icon-flag.icon-white
+            Flag
 
-        = form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
-          Description:
-          %br
-          = f.hidden_field :check_in_id, value: check_in.id
-          = f.hidden_field :user_id, value: current_user.id
-          = f.text_area :description, rows: 5
-          .actions
-            = f.submit 'Save', class: "btn btn-success"
+          = form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
+            Description:
+            %br
+            = f.hidden_field :check_in_id, value: check_in.id
+            = f.hidden_field :user_id, value: current_user.id
+            = f.text_area :description, rows: 5
+            .actions
+              = f.submit 'Save', class: "btn btn-success"
+    - else
+      %td{ colspan: 9 }
+        There is some error with this record (ID #{check_in.id})
