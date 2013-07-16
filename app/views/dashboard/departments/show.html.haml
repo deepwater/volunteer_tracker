@@ -13,12 +13,12 @@
 .row
   .span4
     .progress
-      .bar{:class => get_department_usage_class(@department.estimated_hours, @department.budgeted_hours), :style => "width: #{get_department_usage(@department.estimated_hours, @department.budgeted_hours)}%;"}
+      .bar{:class => get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours), :style => "width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"}
 
     %h4 Budgeted Hours Progress
     %p
       %strong Estimated Hours:
-      =@department.estimated_hours
+      =@department.estimate_hours_total
 
       %strong Budgeted Hours:
       =@department.budgeted_hours
@@ -26,16 +26,16 @@
   .span4
 
     .progress
-      .bar{:class => get_department_usage_class(@department.scheduled_department_block_slots, @department.total_department_block_slots), :style => "width: #{get_department_usage(@department.scheduled_department_block_slots, @department.total_department_block_slots)}%;"}
+      .bar{:class => get_department_usage_class(@department.scheduled_count, @department.total_slots), :style => "width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"}
     %h4 Block Scheduling Progress
     %p
       %strong
         Scheduled Slots:
-      =@department.scheduled_department_block_slots
+      =@department.scheduled_count
 
       %strong
         Total Slots:
-      =@department.total_department_block_slots
+      =@department.total_slots
 %hr
 
 .row

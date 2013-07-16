@@ -5,12 +5,19 @@ class DepartamentService
     @accessor = options[:as]
   end
 
+  def prepare_single(select, id)
+    query = Department.joins(:department_blocks)
+    query = build_select(query, select)
+    query = group_and_order(query)
+    query.find(id)
+  end
+
   def prepare_data(select, scope = {})
     @scope = scope
     query = build_query(query)
     query = build_select(query, select)
     query = group_and_order(query)
-    query = paginate(query)
+    paginate(query)
   end
 
   def users_for_promote(scope = {})

@@ -4,8 +4,16 @@ class Dashboard::DepartmentsController < DashboardController
   before_filter :load_department, only: [:assistants, :edit]
 
   def show
-    @department         = Department.find(params[:id])
-    @department_blocks  = DepartmentBlock.where(:department_id => @department.id)
+    service = DepartamentService.new
+    select = OpenStruct.new(
+      total_slots: true,
+      estimate_hours: true,
+      scheduled_count: true
+    )
+
+    
+    @department         = service.prepare_single(select, params[:id])
+    #@department_blocks  = DepartmentBlock.where(department_id: @department.id)
     @department_block   = DepartmentBlock.new
 
     @days = Day.all
