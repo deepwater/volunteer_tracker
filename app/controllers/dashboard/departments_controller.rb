@@ -1,7 +1,8 @@
 class Dashboard::DepartmentsController < DashboardController
+  DEFAULT_PER_PAGE = 10
+  before_filter :prepare_scope, only: [:for_promote, :assistants, :edit]
+  before_filter :load_department, only: [:assistants, :edit]
 
-  # GET /departments/1
-  # GET /departments/1.json
   def show
     @department         = Department.find(params[:id])
     @department_blocks  = DepartmentBlock.where(:department_id => @department.id)
@@ -15,35 +16,44 @@ class Dashboard::DepartmentsController < DashboardController
     end
   end
 
-  # GET /departments/1/edit
   def edit
-    @department = Department.find(params[:id])
     @department_assistant = DepartmentAssistant.new
+    @users = service.users_for_promote(@scope)
+    @department_assistants = service.assistans_for_assignment(@scope)
+  end
 
-    @users = []
+  def for_promote
+    @users = service.users_for_promote(@scope)
+  end
 
-    @users << User.where(role: "volunteer")
-    @users << User.where(role: "volunteer_manager")
-    @department_assistants = User.where(role: "department_assistant")
-
-    @department_assistants.select!{|user|
-      user.department_assistant.nil? && !user.eql?(current_user)
-    }
-
-    if current_user.role? "department_manager"
-      @users << @department_assistants
-    end
-
-    @users.flatten!
-
+  def assistants
+    @assistants = service.assistans_for_assignment(@scope)
   end
 
   def schedule
-
     @department = Department.find(params[:id])
     @department_block = DepartmentBlock.new()
     @days = Day.all
     @day=Day.where("year = ? AND month = ? AND  mday = ?", params[:year],params[:month],params[:day]).first
+  end
 
+  private
+
+  def prepare_scope
+    @scope = {
+      per: (params[:per] || DEFAULT_PER_PAGE).to_i,
+      page: (params[:page] || 1).to_i,
+      order_name: params[:order_name],
+      order_role: params[:order_role],
+      q: params[:q]
+    }
+  end
+
+  def service
+    @service ||= DepartamentService.new(as: current_user)
+  end
+
+  def load_department
+    @department = Department.find(params[:id])
   end
 end

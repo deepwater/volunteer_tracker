@@ -1,4 +1,5 @@
 class Dashboard::UserSchedulesController < ApplicationController
+  before_filter :authenticate_user!
 
   # POST /user_schedules
   # POST /user_schedules.json

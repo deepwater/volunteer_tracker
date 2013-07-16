@@ -1,116 +1,108 @@
 .row
-	.span9
-		%h2 Edit #{@department.name}
+  .span9
+    %h2 Edit #{@department.name}
 
 .row
-	.span4
-		%h3
-			%i.halflings-icon.edit
-			Department Assistants
+  .span4
+    %h3
+      %i.halflings-icon.edit
+      Department Assistants
 
-		- if @department.department_assistants.length == 0
-			.alert.alert-error
-				%strong Warning!
-				No Department Assistants Assigned 
-			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
-				Assign Department Assistants
+    - if @department.department_assistants.length == 0
+      .alert.alert-error
+        %strong Warning!
+        No Department Assistants Assigned 
+      %button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
+        Assign Department Assistants
 
-		- else 
-			%table.table.table-bordered.table-striped
-				%tr
-					%th Name
-					%th Actions
-				- @department.department_assistants.each do |department_assistant|
-					%tr
-						%td= department_assistant.user.full_name
-						%td
-							= link_to admin_department_assistant_path(DepartmentAssistant.where(department_id: @department.id, user_id: department_assistant.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger' do
-								%i.icon-remove-sign.icon-white
-								Unassign
+    - else 
+      %table.table.table-bordered.table-striped
+        %tr
+          %th Name
+          %th Actions
+        - @department.department_assistants.each do |department_assistant|
+          %tr
+            %td= department_assistant.user.full_name
+            %td
+              = link_to admin_department_assistant_path(department_assistant), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger' do
+                %i.icon-remove-sign.icon-white
+                Unassign
 
-			%button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
-				Assign Department Assistants
+      %button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
+        Assign Department Assistants
 
-	.span7.offset1
-		%h3
-			%i.halflings-icon.edit
-			Promote Users
+  .span7.offset1#promote-users{"data-url" => for_promote_dashboard_department_path(@department)}
+    %h3
+      %i.halflings-icon.edit
+      Promote Users
 
-		%table.dataTables.table.table-bordered.table-striped
-			%thead
-				%th Name
-				%th Current Role
-				%th Actions
-			%tbody
-				- @users.each do |user|
-					- if !user.eql?(current_user)
-						%tr
-							%td= user.full_name
-							%td= user.role
-							%td
-								- if user.role == "volunteer_manager" and current_user.role? "department_manager"
-									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
-										= f.hidden_field :id, value: user.id
-										= f.hidden_field :role, value: "department_assistant"
-										= button_tag type: "submit", class: 'btn btn-success' do 
-											%i.icon-ok-sign.icon-white
-											Promote to Department Assistant							
+    .dataTables_length
+      %label
+        Show
+        %select.per-page-field{:size => "1", "data-table" => "promote-users"}
+          %option{:selected => "selected", :value => "10"} 10
+          %option{:value => "25"} 25
+          %option{:value => "50"} 50
+          %option{:value => "100"} 100
+        entries
+    .dataTables_filter
+      %label
+        Search:
+        %input.search-field{ :type => "text", "data-table" => "promote-users" }
 
-								- if user.role == "volunteer" and current_user.role? "department_assistant"
-									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
-										= f.hidden_field :id, value: user.id
-										= f.hidden_field :role, value: "volunteer_manager"
-										= button_tag type: "submit", class: 'btn btn-success' do 
-											%i.icon-ok-sign.icon-white
-											Promote to Volunteer Manager
+    %table.table.table-bordered.table-striped#promote-table{ "data-table" => "promote-users" }
+      %thead
+        %th.sortable.sorting.sorting_asc.name{"data-ordering" => "asc"} Name
+        %th Email
+        %th.sortable.sorting.role Current Role
+        %th Actions
+      %tbody
+        = render "promote_items", users: @users
 
-								- if user.role? "department_assistant" and current_user.role? "department_manager"
-									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
-										= f.hidden_field :id, value: user.id
-										= f.hidden_field :role, value: "volunteer_manager"
-										= button_tag type: "submit", class: 'btn btn-danger' do 
-											%i.icon-ok-sign.icon-white
-											Demote to Volunteer Manager	
+    %div.pagination-wrapper
+      %div#pagination-promote-users
+        = paginate @users, remote: true, params: { controller: "dashboard/departments", action: "for_promote" }
+      %div#pagination-info-promote-users
+        = page_entries_info @users
 
-								- if user.role? "volunteer_manager" and user.role != "department_assistant" and current_user.role? "department_assistant"
-									= form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
-										= f.hidden_field :id, value: user.id
-										= f.hidden_field :role, value: "volunteer"
-										= button_tag type: "submit", class: 'btn btn-danger' do 
-											%i.icon-ok-sign.icon-white
-											Demote to Volunteer	
-
-										
+                    
 
 
 %div{:class =>"modal large hide fade", :id => "assign_department_assistants"}
-	.modal-header
-		%button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
-			&times;
-		%h3 Assign Department Assistants
-	.modal-body
+  .modal-header
+    %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
+      &times;
+    %h3 Assign Department Assistants
+  .modal-body#assistants{ "data-url" => assistants_dashboard_department_path(@department) }
+    - if @department_assistants.length == 0
+      .alert.alert-error
+        %strong Warning!
+        No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
+    - else
+      %p Here is a list of users you can add as a Department Assistant
+      .dataTables_length
+        %label
+          Show
+          %select.per-page-field{:size => "1", "data-table" => "assistants"}
+            %option{:selected => "selected", :value => "10"} 10
+            %option{:value => "25"} 25
+            %option{:value => "50"} 50
+            %option{:value => "100"} 100
+          entries
+      .dataTables_filter
+        %label
+          Search:
+          %input.search-field{:type => "text", "data-table" => "assistants"}
 
-		- if @department_assistants.length == 0
-			.alert.alert-error
-				%strong Warning!
-				No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
-		- else
-			%p Here is a list of users you can add as a Department Assistant
-
-			%table.table.table-bordered.table-striped.dataTables
-				%thead
-					%th Name
-					%th Assign as Department Assistant
-
-				- @department_assistants.each do |user|
-					%tr
-						%td= user.full_name
-						%td
-							= form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
-								= f.hidden_field :user_id, value: user.id
-								= f.hidden_field :department_id, value: @department.id
-
-								= button_tag type: "submit", class: 'btn btn-success' do 
-									%i.icon-ok-sign.icon-white
-									Assign
-
+      %table.table.table-bordered.table-striped#assistants-table{ "data-table" => "assistants" }
+        %thead
+          %th.sortable.sorting.sorting_asc.name{"data-ordering" => "asc"} Name
+          %th Email
+          %th Assign as Department Assistant
+        %tbody
+          = render "assign_items", items: @department_assistants
+      %div.pagination-wrapper
+        %div#pagination-assistants
+          = paginate @department_assistants, remote: true, params: { controller: "dashboard/departments", action: "assistants" }
+        %div#pagination-info-assistants
+          = page_entries_info @department_assistants

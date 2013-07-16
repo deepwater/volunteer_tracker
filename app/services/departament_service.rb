@@ -1,5 +1,9 @@
 class DepartamentService
-  attr_reader :scope
+  attr_reader :scope, :accessor
+
+  def initialize(options = {})
+    @accessor = options[:as]
+  end
 
   def prepare_data(select, scope = {})
     @scope = scope
@@ -9,7 +13,59 @@ class DepartamentService
     query = paginate(query)
   end
 
+  def users_for_promote(scope = {})
+    @scope = scope
+    users = User.where("users.id != ?", accessor.id).select("
+      users.*, CONCAT(users.first_name, ' ', users.last_name) AS full_name
+    ")
+    if accessor.role? "department_manager"
+      users = users.joins("
+        LEFT OUTER JOIN department_assistants ON department_assistants.user_id = users.id
+      ").where("
+        role IN ('volunteer', 'volunteer_manager') OR ( role = 'department_assistant' AND department_assistants.id IS NULL)
+      ")
+    else
+      users = users.where(role: %w(volunteer volunteer_manager))
+    end
+
+    if valid_order? scope[:order_name]
+      users = users.order("full_name #{scope[:order_name]}")
+    elsif valid_order? scope[:order_role]
+      users = users.order("users.role #{scope[:order_role]}")
+    else
+      users = users.order("full_name ASC")
+    end
+
+    users = search_results(users)
+    paginate(users)
+  end
+
+  def assistans_for_assignment(scope = {})
+    @scope = scope
+    users = User.where(role: "department_assistant").where("users.id != ?", accessor.id)
+    .joins("LEFT OUTER JOIN department_assistants ON department_assistants.user_id = users.id")
+    .where("department_assistants.id IS NULL")
+
+    users = search_results(users)
+    paginate(users)
+  end
+
   private
+
+  def search_results(query)
+    if scope[:q].present?
+      query = query.where(
+        "CONCAT(users.first_name, ' ', users.last_name) LIKE ? OR lower(users.email) LIKE ?",
+        "%#{scope[:q].to_s.downcase}%",
+        "%#{scope[:q].to_s.downcase}%"
+      )
+    end
+    query
+  end
+
+  def valid_order?(order)
+    %w(asc desc).include?(order.to_s)
+  end
 
   def build_query(query)
     Department.joins(:department_blocks)

@@ -1,6 +1,6 @@
 class UserCharitiesController < ApplicationController
-  # GET /user_charities
-  # GET /user_charities.json
+  before_filter :authenticate_user!
+
   def index
     @user_charities = UserCharity.all
 
@@ -10,8 +10,6 @@ class UserCharitiesController < ApplicationController
     end
   end
 
-  # GET /user_charities/1
-  # GET /user_charities/1.json
   def show
     @user_charity = UserCharity.find(params[:id])
 
@@ -21,8 +19,6 @@ class UserCharitiesController < ApplicationController
     end
   end
 
-  # GET /user_charities/new
-  # GET /user_charities/new.json
   def new
     @user_charity = UserCharity.new
 
@@ -32,7 +28,6 @@ class UserCharitiesController < ApplicationController
     end
   end
 
-  # GET /user_charities/1/edit
   def edit
     @user_charity = UserCharity.find(params[:id])
   end

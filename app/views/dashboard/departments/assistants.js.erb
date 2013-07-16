@@ -1,0 +1,3 @@
+$("#assistants-table tbody").empty().append("<%= j(render 'assign_items', items: @assistants)%>");
+$("#pagination-assistants").empty().append("<%= j(paginate @assistants, remote: true) %>")
+$("#pagination-info-assistants").empty().append("<%= j(page_entries_info @assistants) %>")

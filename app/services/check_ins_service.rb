@@ -11,7 +11,6 @@ class CheckInsService
     query = send(:"filter_#{type}", query)
     query = sort_common(query)
     query = send(:"sort_#{type}", query)
-    #query = sort_results(query, scope)
     query = search_results(query)
     query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
     paginate_results(query)
@@ -32,15 +31,6 @@ class CheckInsService
       query = query.where(user_schedule_id: user_schedule_ids)
     end
     query
-  end
-
-  def sort_results(query)
-    orderings = %w(ASC DESC)
-    sortings = %w(department_id )
-
-    if scope[:sort_by] && oprderings.includes?(scope[:order])
-      query = ""
-    end
   end
 
   def paginate_results(query)

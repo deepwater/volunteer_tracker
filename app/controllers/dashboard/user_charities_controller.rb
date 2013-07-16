@@ -1,4 +1,5 @@
 class Dashboard::UserCharitiesController < ApplicationController
+  before_filter :authenticate_user!
 
   def index
   	@user_charity = UserCharity.new

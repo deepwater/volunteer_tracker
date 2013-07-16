@@ -1,6 +1,6 @@
 class DepartmentsController < ApplicationController
-  # GET /departments
-  # GET /departments.json
+  before_filter :authenticate_user!
+  
   def index
     @departments = Department.all
 
@@ -10,8 +10,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  # GET /departments/1
-  # GET /departments/1.json
   def show
     @department = Department.find(params[:id])
     
@@ -21,8 +19,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  # GET /departments/new
-  # GET /departments/new.json
   def new
     @department = Department.new
 
@@ -32,13 +28,10 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  # GET /departments/1/edit
   def edit
     @department = Department.find(params[:id])
   end
 
-  # POST /departments
-  # POST /departments.json
   def create
     @department = Department.new(params[:department])
 

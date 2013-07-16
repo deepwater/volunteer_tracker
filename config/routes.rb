@@ -29,7 +29,12 @@ VolunteerTracker::Application.routes.draw do
   resources :dashboard, :only => [:index, :registration_complete]
   namespace :dashboard do
     # VIEWING ONLY
-    resources :departments, :only => [:show, :edit]
+    resources :departments, :only => [:show, :edit] do
+      member do
+        get :for_promote
+        get :assistants
+      end
+    end
     resources :user_charities
 
     # ROLES
@@ -44,12 +49,15 @@ VolunteerTracker::Application.routes.draw do
 
     resources :user_schedules
 
-    match 'check_ins/scheduled' => "check_ins#scheduled"
-    match 'check_ins/active' => "check_ins#active"
-    match 'check_ins/inactive' => "check_ins#inactive"
-    match 'check_ins/fastpass' => "check_ins#fastpass"
+    resources :check_ins do
+      collection do
+        get :scheduled
+        get :active
+        get :inactive
+        get :fastpass
+      end
+    end
 
-    resources :check_ins
     resources :flags
 
     match 'department_blocks/:id/copy/' => "department_blocks#copy"
