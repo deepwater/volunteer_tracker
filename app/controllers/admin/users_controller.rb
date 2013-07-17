@@ -1,8 +1,7 @@
 class Admin::UsersController < AdminController
-  # GET /users
-  # GET /users.json
+
   def index
-    @users = User.all
+    @users = User.per
 
     respond_to do |format|
       format.html # index.html.erb
@@ -87,7 +86,7 @@ class Admin::UsersController < AdminController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_users_url }
+      format.html { redirect_to admin_index_path }
       format.json { head :no_content }
     end
   end
