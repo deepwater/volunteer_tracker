@@ -89,7 +89,12 @@ class DepartamentService
     end
 
     if select.estimate_hours
-      select_query << "SUM(extract(epoch from (cast(department_blocks.end_time as time) - cast(department_blocks.start_time as time)))/3600 * department_blocks.suggested_number_of_workers) as estimate_hours_total"
+      select_query << %Q{
+        SUM(
+          (extract(epoch from (cast(department_blocks.end_time as time) - interval '1 second'))
+          - 
+          extract(epoch from (cast(department_blocks.start_time as time))) + 1)/3600 * department_blocks.suggested_number_of_workers) as estimate_hours_total
+      }
     end
 
     if select.scheduled_count
