@@ -31,7 +31,7 @@ class CheckInsService
     query = sort_common(query)
     query = send(:"sort_#{type}", query)
     query = search_results(query)
-    query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
+    query = query.includes(user_schedule: [:charity, :user, { department_block: :department }])
     paginate_results(query)
   end
 

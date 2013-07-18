@@ -9,7 +9,13 @@ class AdminController < ApplicationController
 	end
 
   def charity_tab
-    @charities = Charity.order("name").page(@scope[:page]).per(@scope[:per])
+    @charities = Charity.order("charities.name").page(@scope[:page]).per(@scope[:per])
+    ids = @charities.map(&:id)
+    @schedules = UserSchedule.where(charity_id: ids)
+    .joins("LEFT OUTER JOIN check_ins ON check_ins.user_schedule_id = user_schedules.id")
+    .where("check_ins.status = '2'")
+    .select("user_schedules.charity_id, SUM(extract(epoch from (check_ins.check_out_time - check_ins.created_at))) as total_seconds")
+    .group("user_schedules.charity_id").inject({}) { |h, o| h.merge!({o.charity_id => o.total_seconds.to_i/3600}) }
   end
 
   def department_tab
@@ -20,6 +26,7 @@ class AdminController < ApplicationController
       scheduled_count: true
     )
     @departments = service.prepare_data(select, @scope)
+    @volunteer_hours = service.volunteer_hours_progress(@departments.map(&:id))
   end
 
 	def list

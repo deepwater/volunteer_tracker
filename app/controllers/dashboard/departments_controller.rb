@@ -13,8 +13,8 @@ class Dashboard::DepartmentsController < DashboardController
 
     
     @department         = service.prepare_single(select, params[:id])
-    #@department_blocks  = DepartmentBlock.where(department_id: @department.id)
     @department_block   = DepartmentBlock.new
+    @volunteer_hours = service.volunteer_hours_progress(@department.id)
 
     @days = Day.all
 

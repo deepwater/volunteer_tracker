@@ -36,6 +36,13 @@
       %strong
         Total Slots:
       =@department.total_slots
+  .span4
+
+    .progress
+      .bar
+    %h4 Volunteer Hours Progress
+    %p
+      = @volunteer_hours[@department.id]
 %hr
 
 .row

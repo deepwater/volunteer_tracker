@@ -16,12 +16,14 @@
         %th Name
         %th
         %th
+        %th Volunteer Hours Progress
 
       - charities.each do |charity|
         %tr
           %td= link_to charity.name, admin_charity_path(charity)
           %td= link_to 'Edit', edit_admin_charity_path(charity)
           %td= link_to('Delete', admin_charity_path(charity), :method=> :delete, data: { confirm: 'Are you sure?' })
+          %td= @schedules[charity.id]
     %div.pagination-wrapper
       %div#pagination
         = paginate charities, remote: true

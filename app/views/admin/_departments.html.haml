@@ -18,6 +18,7 @@
           Block Scheduling Progress 
           %br
           (Scheduled Slots/Total Slots)
+        %th Volunteer Hours Progress
         %th
         %th 
 
@@ -27,11 +28,12 @@
             %td
               .progress
                 .bar{:class => get_department_usage_class(department.estimate_hours_total, department.budgeted_hours), :style => "width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"}
-              #{department.estimate_hours_total} / #{department.budgeted_hours}
+              #{department.estimate_hours_total.to_i} / #{department.budgeted_hours}
             %td
               .progress
                 .bar{:class => get_department_usage_class(department.scheduled_count, department.total_slots), :style => "width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"}
               #{department.scheduled_count} / #{department.total_slots}
+            %td= volunteer_hours[department.id]
             %td= link_to 'Edit', edit_admin_department_path(department)
             %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
     %div.pagination-wrapper

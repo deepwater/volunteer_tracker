@@ -7,8 +7,8 @@
     %td=link_to user_schedule.department_block.department.name, [:dashboard, user_schedule.department_block.department]
     %td=link_to "#{user_schedule.department_block.name}", [:dashboard, user_schedule.department_block]
     %td
-      - if user_schedule.user && user_schedule.user.charities.any?
-        = user_schedule.user.charities.first.name
+      - if user_schedule.charity
+        = user_schedule.charity.name
       - else
         Not assigned
     %td

@@ -17,7 +17,7 @@ class ScheduledCheckInsService
     )
     query = scheduled_sort(query)
     query = search_results(query)
-    query = query.includes(user: :charities, department_block: [:day, :department])
+    query = query.includes(:charity, :user, department_block: [:day, :department])
     query = query.page(scope[:page]).per(scope[:per])
   end
 

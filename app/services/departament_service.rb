@@ -20,6 +20,16 @@ class DepartamentService
     paginate(query)
   end
 
+  def volunteer_hours_progress(department_ids)
+    result = CheckIn
+    .where("check_ins.status = '2'")
+    .where("department_blocks.department_id IN (?)", [*department_ids])
+    .joins("LEFT OUTER JOIN user_schedules ON user_schedules.id = check_ins.user_schedule_id")
+    .joins("LEFT OUTER JOIN department_blocks ON department_blocks.id = user_schedules.department_block_id")
+    .select("department_blocks.department_id, SUM(extract(epoch from (check_ins.check_out_time - check_ins.created_at))) as total_seconds")
+    .group("department_blocks.department_id").inject({}){ |h, o| h.merge!({ o.department_id.to_i => o.total_seconds.to_i/3600 }) }
+  end
+
   def users_for_promote(scope = {})
     @scope = scope
     users = User.where("users.id != ?", accessor.id).select("

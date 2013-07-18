@@ -9,8 +9,8 @@
       %td=in_twelve_hour_time(check_in.user_schedule.department_block.end_time)
       %td=check_in.created_at.strftime("%l:%M%p %b %-d")
       %td
-        -if check_in.user_schedule.try(:user) && check_in.user_schedule.user.charities.any?
-          =check_in.user_schedule.user.charities.first.name
+        - if check_in.user_schedule.try(:charity)
+          = check_in.user_schedule.charity.name
         - else
           Not assigned
       %td

@@ -11,8 +11,8 @@
         %td= check_in.created_at.strftime("%l:%M%p %b %-d")
         %td= check_in.check_out_time.strftime("%l:%M%p %b %-d")
       %td
-        - if check_in.user_schedule.try(:user) && check_in.user_schedule.user.charities.any?
-          = check_in.user_schedule.user.charities.first.name
+        - if check_in.user_schedule.try(:charity)
+          = check_in.user_schedule.charity.name
         - else
           Not assigned
       %td
