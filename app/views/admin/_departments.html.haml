@@ -33,7 +33,7 @@
               .progress
                 .bar{:class => get_department_usage_class(department.scheduled_count, department.total_slots), :style => "width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"}
               #{department.scheduled_count} / #{department.total_slots}
-            %td= volunteer_hours[department.id]
+            %td= volunteer_hours[department.id].to_i
             %td= link_to 'Edit', edit_admin_department_path(department)
             %td= link_to('Delete', admin_department_path(department), :method => :delete, data: { confirm: 'Are you sure?' })
     %div.pagination-wrapper

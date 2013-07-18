@@ -42,7 +42,7 @@
       .bar
     %h4 Volunteer Hours Progress
     %p
-      = @volunteer_hours[@department.id]
+      = @volunteer_hours[@department.id].to_i
 %hr
 
 .row
