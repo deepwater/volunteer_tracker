@@ -1,0 +1,7 @@
+<% if @check_in.errors.include?(:created_at) %>
+  alert("<%= j(@check_in.errors.get(:created_at).join(', ')) %>");
+<% end %>
+<% if @check_in.errors.include?(:check_out_time) %>
+  alert("<%= j(@check_in.errors.get(:check_out_time).join(', ')) %>");
+<% end %>
+  

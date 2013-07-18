@@ -2,4 +2,15 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        check_in:
+          attributes:
+            created_at:
+              less_than_check_out: "Check In time should be less than Check Out time"
+            check_out_time:
+              greater_than_check_in: "Check Out time should be greater than Check In time"
+            user_schedule_id:
+              not_exist: "User Schedule with this ID does not exist!"
+              taken: "User has been checked in already"

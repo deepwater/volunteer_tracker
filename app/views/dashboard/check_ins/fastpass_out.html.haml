@@ -1,18 +1,18 @@
 .row
   .span12
     %h2
-      Fastpass Check-In
+      Fastpass Check-Out
 
     %p Scan the barcode when you are ready
 
-    = form_for [:dashboard, @check_in], remote: true, html: { "data-type" => 'json' }  do |f|
+    = form_for [:dashboard, CheckIn.new], url: dashboard_check_out_path, remote: true, html: { "data-type" => 'json' }  do |f|
       = f.text_field :user_schedule_id, autofocus: true
-      = f.hidden_field :status, value: "1"
+      = f.hidden_field :status, value: "2"
 .row
   .span4
     %h3
-      Checked-In
-    %p A list of checked in users this FastPass session
+      Checked-Out
+    %p A list of checked out users this FastPass session
 
     %table.table.table-bordered.table-striped#fast-pass-table
       %thead

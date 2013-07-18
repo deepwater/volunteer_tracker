@@ -58,6 +58,9 @@ VolunteerTracker::Application.routes.draw do
       end
     end
 
+    get 'check_outs/fastpass' => "check_ins#fastpass_out", as: :fastpass_check_out
+    post 'check_outs' => "check_ins#check_out", as: :check_out
+
     resources :flags
 
     match 'department_blocks/:id/copy/' => "department_blocks#copy"

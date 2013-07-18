@@ -17,6 +17,7 @@
  *= require dataTables/extras/TableTools
  *= require dataTables/extras/TableTools_JUI
  *= require jquery.ui.all
+ *= require_tree ./libs
  *= require_tree .
 */
 

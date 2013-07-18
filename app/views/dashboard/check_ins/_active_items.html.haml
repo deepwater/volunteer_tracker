@@ -15,7 +15,6 @@
           Not assigned
       %td
         =form_for [:dashboard, check_in], html: {class: "side-by-side"} do |f|
-          = f.hidden_field :id, value: check_in.id
           = f.hidden_field :status, value: "2"
           = button_tag type: "submit", class: 'btn btn-mini btn-success' do 
             %i.icon-ok-sign.icon-white

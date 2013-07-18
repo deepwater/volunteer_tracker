@@ -1,4 +1,27 @@
 $ ->
+  return unless $("#inactive-check-ins-table").length > 0
+
+  $("#inactive-check-ins-table").on 'click', 'td.editable.datetime', ->
+    $this = $(this)
+    $("td.editable.datetime form").hide()
+    $("td.editable.datetime span.value").show()
+
+    $this.find("form").show()
+    $this.find("span.value").hide()
+
+    $this.find(".input-append").datetimepicker
+      language: 'en'
+      pick12HourFormat: true
+      format: 'yyyy-MM-dd hh:mm PP'
+    $this.find("span.add-on").click()
+    $this.find('input').focus()
+
+  $("#inactive-check-ins-table").on 'blur', 'td.editable.datetime input', ->
+    $this = $(this)
+    $this.parents("form").submit().hide()
+    $this.parents("td").find("span.value").show()
+
+$ ->
   return unless $("#scheduled-check-ins-table, #active-check-ins-table, #inactive-check-ins-table").length > 0
 
   loadData = ->

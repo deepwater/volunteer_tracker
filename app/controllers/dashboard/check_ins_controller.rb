@@ -51,34 +51,49 @@ class Dashboard::CheckInsController < DashboardController
     @check_in = CheckIn.new
   end
 
+  def fastpass_out
+  end
+
+  def check_out
+    service = CheckInsService.new(as: current_user)
+    @check_in = service.check_out(params[:check_in]["user_schedule_id"])
+
+    if @check_in.is_a? String
+      render json: { errors: [*@check_in] }
+    else
+      render json: { user_data: FastPassPresenter.new.for_json(@check_in) }
+    end
+  end
+
   # POST /check_ins
   # POST /check_ins.json
   def create
-    @check_in = CheckIn.new(params[:check_in])
-
-    @check_in.user_id = current_user.id
+    service = CheckInsService.new(as: current_user)
+    @check_in = service.create(params[:check_in])
 
     respond_to do |format|
-      if @check_in.save
+      if @check_in.persisted?
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
-        format.json { render json: @check_in, status: :created, location: @check_in }
+        format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
         format.html { render action: "new" }
-        format.json { render json: @check_in.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
   end
 
   def update
-    @check_in = CheckIn.find(params[:id])
-
+    service = CheckInsService.new(as: current_user)
+    @check_in = service.update(params[:id], params[:check_in])
 
     respond_to do |format|
-      if @check_in.update_attributes(params[:check_in])
+      if @check_in.errors.empty?
         format.html { redirect_to :back, notice: 'Check in was successfully updated.' }
+        format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
+        format.js { render 'errors_while_update' }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end

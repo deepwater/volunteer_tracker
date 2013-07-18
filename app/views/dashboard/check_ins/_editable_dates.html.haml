@@ -1,0 +1,14 @@
+%td.editable.datetime.check-in-date
+  %span.value= check_in.created_at.strftime("%l:%M%p %b %-d")
+  = form_for [:dashboard, check_in], html: { class: "hide" }, remote: true do |f|
+    %div.input-append.date
+      = f.text_field :created_at, value: check_in.created_at.strftime("%Y-%m-%d %I:%m %p")
+      %span.add-on
+        %i.icon-calendar
+%td.editable.datetime.check-out-date
+  %span.value= check_in.check_out_time.strftime("%l:%M%p %b %-d")
+  = form_for [:dashboard, check_in], html: { class: "hide" }, remote: true do |f|
+    %div.input-append.date
+      = f.text_field :check_out_time, value: check_in.check_out_time.strftime("%Y-%m-%d %I:%m %p")
+      %span.add-on
+        %i.icon-calendar      

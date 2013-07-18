@@ -12,9 +12,8 @@
       - else
         Not assigned
     %td
-      =form_for [:dashboard, CheckIn.new], html: {:"data-type" => "json"} do |f|
+      =form_for [:dashboard, CheckIn.new] do |f|
         = f.hidden_field :user_schedule_id, value: user_schedule.id
-        = f.hidden_field :user_id, value: user_schedule.user_id
         = f.hidden_field :status, value: "1"
         = button_tag type: "submit", class: 'btn btn-success' do 
           %i.icon-ok-sign.icon-white

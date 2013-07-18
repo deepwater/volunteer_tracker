@@ -1,8 +1,27 @@
 class CheckInsService
   attr_reader :scope, :accessor
 
+  DEFAULT_OPTIONS = {
+    volunteer: {
+      accessible_attributes: %w(status user_schedule_id)
+    },
+    volunteer_manager: {
+      accessible_attributes: %w(status user_schedule_id)
+    },
+    department_assistant: {
+      accessible_attributes: %w(status user_schedule_id)
+    },
+    department_manager: {
+      accessible_attributes: %w(status user_schedule_id created_at check_out_time)
+    },
+    event_administrator: {
+      accessible_attributes: %w(status user_schedule_id created_at check_out_time)
+    }
+  }
+
   def initialize(options = {})
     @accessor = options[:as]
+    @options = options
   end
 
   def prepare_check_ins_data(type, scope)
@@ -14,6 +33,32 @@ class CheckInsService
     query = search_results(query)
     query = query.includes(user_schedule: [{ user: :charities } , { department_block: :department }])
     paginate_results(query)
+  end
+
+  def create(attributes)
+    @options.merge! DEFAULT_OPTIONS[accessor.role.to_sym]
+    factory = Factories::CheckIn.new(@options)
+    factory.create(attributes)
+  end
+
+  def update(id, attributes)
+    @options.merge! DEFAULT_OPTIONS[accessor.role.to_sym]
+    factory = Factories::CheckIn.new(@options)
+    factory.update(id, attributes)
+  end
+
+  def check_out(user_schedule_id)
+    resource = CheckIn.where(user_schedule_id: user_schedule_id).first
+    if resource
+      if resource.status == "1"
+        resource.update_attributes(status: "2")
+        resource
+      else
+        "Already checked out!"
+      end
+    else
+      "No check ins found!"
+    end
   end
 
   private
