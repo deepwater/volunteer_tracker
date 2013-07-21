@@ -6,7 +6,7 @@ class DepartamentService
   end
 
   def prepare_single(select, id)
-    query = Department.joins(:department_blocks)
+    query = build_query
     query = build_select(query, select)
     query = group_and_order(query)
     query.find(id)
@@ -14,7 +14,7 @@ class DepartamentService
 
   def prepare_data(select, scope = {})
     @scope = scope
-    query = build_query(query)
+    query = build_query
     query = build_select(query, select)
     query = group_and_order(query)
     paginate(query)
@@ -84,8 +84,8 @@ class DepartamentService
     %w(asc desc).include?(order.to_s)
   end
 
-  def build_query(query)
-    Department.joins(:department_blocks)
+  def build_query
+    Department.joins("LEFT OUTER JOIN department_blocks ON department_blocks.department_id = departments.id")
   end
 
   def group_and_order(query)
