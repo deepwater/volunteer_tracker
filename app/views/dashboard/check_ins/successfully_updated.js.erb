@@ -1,3 +1,4 @@
 $tr = $("#check-in-<%= @check_in.id %>")
-$tr.find('.check-in-date span.value').text("<%= j(@check_in.created_at.strftime('%l:%M%p %b %-d'))%>")
-$tr.find('.check-out-date span.value').text("<%= j(@check_in.check_out_time.strftime('%l:%M%p %b %-d'))%>")
+$tr.find('.check-date span.value').text("<%= j(@check_in.created_at.strftime('%b %-d'))%>")
+$tr.find('.check-in-time span.value').text("<%= j(@check_in.created_at.strftime('%l:%M%p'))%>")
+$tr.find('.check-out-time span.value').text("<%= j(@check_in.check_out_time.strftime('%l:%M%p'))%>")

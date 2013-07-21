@@ -8,8 +8,9 @@
       - if current_user.role? :department_manager
         = render 'editable_dates', check_in: check_in
       - else
-        %td= check_in.created_at.strftime("%l:%M%p %b %-d")
-        %td= check_in.check_out_time.strftime("%l:%M%p %b %-d")
+        %td= check_in.created_at.strftime("%b %-d")
+        %td= check_in.created_at.strftime("%l:%M%p")
+        %td= check_in.check_out_time.strftime("%l:%M%p")
       %td
         - if check_in.user_schedule.try(:charity)
           = check_in.user_schedule.charity.name

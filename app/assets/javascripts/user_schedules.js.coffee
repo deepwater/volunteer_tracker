@@ -1,25 +1,51 @@
 $ ->
   return unless $("#inactive-check-ins-table").length > 0
 
-  $("#inactive-check-ins-table").on 'click', 'td.editable.datetime', ->
+  $("#inactive-check-ins-table").on 'click', 'td.editable.date, td.editable.time', ->
     $this = $(this)
-    $("td.editable.datetime form").hide()
-    $("td.editable.datetime span.value").show()
+    $("td.editable form").hide()
+    $("td.editable span.value").show()
 
     $this.find("form").show()
     $this.find("span.value").hide()
 
-    $this.find(".input-append").datetimepicker
+    options =
       language: 'en'
       pick12HourFormat: true
       format: 'yyyy-MM-dd hh:mm PP'
+      pickDate: true
+      pickTime: true
+
+    if $this.hasClass('time')
+      options['pickDate'] = false
+      options['format'] = 'hh:mm PP'
+    else
+      options['pickTime'] = false
+      options['format'] = 'yyyy-MM-dd'
+
+    $this.find(".input-append").datetimepicker options
+      
     $this.find("span.add-on").click()
     $this.find('input').focus()
 
-  $("#inactive-check-ins-table").on 'blur', 'td.editable.datetime input', ->
+  $("#inactive-check-ins-table").on 'blur', 'td.editable input', ->
     $this = $(this)
+    time_field = $this.parents("td").hasClass('time')
+    if time_field
+      date = $("td.check-date .input-append input").val()
+      time = $this.val()
+    else
+      date = $this.val()
+      time = $("td.check-in-time .input-append input").val()
+
+    $this.val "#{date} #{time}"
     $this.parents("form").submit().hide()
     $this.parents("td").find("span.value").show()
+
+    $this.val if time_field 
+      time
+    else 
+      date
 
 $ ->
   return unless $("#scheduled-check-ins-table, #active-check-ins-table, #inactive-check-ins-table").length > 0
