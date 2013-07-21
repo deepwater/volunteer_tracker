@@ -5,6 +5,7 @@ gem 'psych'
 gem 'thin'
 gem 'kaminari'
 gem 'data_migrate'
+gem 'draper', '0.18.0'
 
 group :development do
 	gem 'sqlite3'

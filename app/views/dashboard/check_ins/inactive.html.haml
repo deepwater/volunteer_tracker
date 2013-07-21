@@ -4,6 +4,9 @@
       %i.halflings-icon.edit 
       Assignment Details
       %br
+    .DTTT_container
+      = link_to inactive_dashboard_check_ins_path(format: :csv), class: "DTTT_button DTTT_button_csv" do
+        %span CSV
     .dataTables_length
       %label
         Show

@@ -2,6 +2,16 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  csv:
+    export:
+      check_ins_inactive:
+        full_name: "Full Name"
+        email: "Email"
+        department: "Department Name"
+        department_block: "Department Block"
+        check_in_time: "Check In Time"
+        check_out_time: "Check Out Time"
+        charity: "Chatiry Name"
   activerecord:
     errors:
       models:

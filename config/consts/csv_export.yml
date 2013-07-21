@@ -1,0 +1,10 @@
+check_ins_inactive:
+  fields:
+    - full_name
+    - email
+    - department
+    - department_block
+    - check_in_time
+    - check_out_time
+    - charity
+  filename: "inactive_check_ins"

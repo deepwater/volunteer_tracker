@@ -79,7 +79,10 @@ class CheckInsService
   end
 
   def paginate_results(query)
-    query.page(scope[:page]).per(scope[:per])
+    if scope[:page] || scope[:per]
+      query = query.page(scope[:page]).per(scope[:per])
+    end
+    query
   end
 
   def search_results(query)

@@ -31,7 +31,17 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def inactive
-    @results = check_ins_service.prepare_check_ins_data(:inactive, @scope)
+    respond_to do |format|
+      format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
+      format.csv do
+        @scope.delete(:per)
+        data = check_ins_service.prepare_check_ins_data(:inactive, @scope)
+        send_data(
+          csv_service.export("check_ins_inactive", data), 
+          type: 'text/csv; charset=utf-8; header=present', filename: csv_service.filename
+        )
+      end
+    end
   end
 
   def new
@@ -130,5 +140,9 @@ class Dashboard::CheckInsController < DashboardController
 
   def check_ins_service
     @service ||= CheckInsService.new(as: current_user)
+  end
+
+  def csv_service
+    @csv_service ||= CsvExporterService.new
   end
 end
