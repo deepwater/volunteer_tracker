@@ -17,12 +17,16 @@ class CheckInDecorator < Draper::Base
     user_schedule.try(:department_block).try(:name)
   end
 
+  def check_date
+    model.created_at.strftime("%Y-%m-%d")
+  end
+
   def check_in_time
-    model.created_at
+    model.created_at.strftime("%l:%M%p")
   end
 
   def check_out_time
-    model.check_out_time
+    model.check_out_time.strftime("%l:%M%p")
   end
 
   def charity

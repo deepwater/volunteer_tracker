@@ -9,6 +9,7 @@ en:
         email: "Email"
         department: "Department Name"
         department_block: "Department Block"
+        check_date: "Date"
         check_in_time: "Check In Time"
         check_out_time: "Check Out Time"
         charity: "Chatiry Name"

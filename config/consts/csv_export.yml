@@ -4,6 +4,7 @@ check_ins_inactive:
     - email
     - department
     - department_block
+    - check_date
     - check_in_time
     - check_out_time
     - charity
