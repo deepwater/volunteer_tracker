@@ -7,9 +7,15 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
 
     @user_availabilities = UserAvailability.where(user_id: current_user.id)
 
-    @setup_days = Day.where(day_type: 0)
-    @festival_days = Day.where(day_type: 1)
-    @tear_down_days = Day.where(day_type: 2)
+    days = Day.where(day_type: [0, 1, 2])
+
+    @user_scheduled = DepartmentBlock.where(day_id: days.map(&:id)).joins("
+      LEFT OUTER JOIN user_schedules ON user_schedules.department_block_id = department_blocks.id
+    ").where("user_schedules.user_id = ?", current_user.try(:id)).group("department_blocks.day_id").count.inspect
+
+    @setup_days = days.select { |day| day.day_type == 0}
+    @festival_days = days.select { |day| day.day_type == 1}
+    @tear_down_days = days.select { |day| day.day_type == 2}
   end
 
   def create
