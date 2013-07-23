@@ -1,6 +1,33 @@
 $ ->
   return unless $("#inactive-check-ins-table").length > 0
 
+  $("#inactive-check-ins-table").on 'blur keypress', 'td.editable input', (e)->
+    $this = $(this)
+    return unless (e.type is 'focusout' or e.keyCode == 13) and $this.parents("form").is(":visible")
+    e.preventDefault()
+    e.stopPropagation()
+    console.log $this.val()
+    $timepicker.destroy() if $timepicker = $this.parents(".input-append").data('datetimepicker')
+    time_field = $this.parents("td").hasClass('time')
+    if time_field
+      date = $this.parents("tr").find("td.check-date .input-append input").val()
+      time = $this.val()
+    else
+      date = $this.val()
+      time = $this.parents("tr").find("td.check-in-time .input-append input").val()
+
+    $this.val "#{date} #{time}"
+    $this.parents("form").submit().hide()
+    $this.parents("td").find("span.value").show()
+
+    $this.val if time_field 
+      time
+    else 
+      date
+
+    false
+
+
   $("#inactive-check-ins-table").on 'click', 'td.editable.date, td.editable.time', ->
     $this = $(this)
     $("td.editable form").hide()
@@ -27,25 +54,6 @@ $ ->
       
     $this.find("span.add-on").click()
     $this.find('input').focus()
-
-  $("#inactive-check-ins-table").on 'blur', 'td.editable input', ->
-    $this = $(this)
-    time_field = $this.parents("td").hasClass('time')
-    if time_field
-      date = $("td.check-date .input-append input").val()
-      time = $this.val()
-    else
-      date = $this.val()
-      time = $("td.check-in-time .input-append input").val()
-
-    $this.val "#{date} #{time}"
-    $this.parents("form").submit().hide()
-    $this.parents("td").find("span.value").show()
-
-    $this.val if time_field 
-      time
-    else 
-      date
 
 $ ->
   return unless $("#scheduled-check-ins-table, #active-check-ins-table, #inactive-check-ins-table").length > 0

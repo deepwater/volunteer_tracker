@@ -60,7 +60,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
+                        - day.user_availabilities.where(user_id: current_user.id).find_each do |user_availability|
                           %tr{class: schedule_check ? "warning" : ""}
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
@@ -94,7 +94,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
+                        - day.user_availabilities.where(user_id: current_user.id).find_each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)

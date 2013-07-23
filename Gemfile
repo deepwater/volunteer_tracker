@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.3'
-gem 'psych'
-gem 'thin'
-gem 'kaminari'
+gem 'psych', '1.3.4'
+gem 'thin', '1.5.1'
+gem 'kaminari', '0.14.1'
 gem 'data_migrate'
 gem 'draper', '0.18.0'
 
@@ -18,46 +18,30 @@ group :production do
 	gem 'memcachier'
 end
 
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '0.4.4'
 
 gem 'pg'
-gem 'unicorn'
+gem 'unicorn', '4.6.3'
 
-gem 'bootstrap-sass-rails'
-gem 'bootstrap-timepicker-rails'
+gem 'bootstrap-sass-rails', '2.3.2.0'
+gem 'bootstrap-timepicker-rails', '0.1.3'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
 	gem 'sass-rails',   '~> 3.2.3'
 	gem 'coffee-rails', '~> 3.2.1'
-	gem 'haml-rails'
-  gem 'quiet_assets'
+	gem 'haml-rails', '0.4'
 	gem 'uglifier', '>= 1.0.3'
 	gem 'jquery-datatables-rails'
 end
 
-gem 'haml'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'haml', '4.0.3'
+gem 'jquery-rails', '3.0.1'
+gem 'jquery-ui-rails', '4.0.3'
 
 
-gem 'devise'
+gem 'devise', '2.2.4'
 gem 'cancan'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
-gem 'ajax-datatables-rails'
+gem 'ajax-datatables-rails', '0.0.1'
