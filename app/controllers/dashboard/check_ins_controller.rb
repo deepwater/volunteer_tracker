@@ -1,7 +1,8 @@
 class Dashboard::CheckInsController < DashboardController
   DEFAULT_PER_PAGE = 10
   before_filter :set_scope, only: [:scheduled, :active, :inactive]
-  before_filter :check_ability, only: [:scheduled, :active, :inactive]
+  before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
+  before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
   def index
     @check_ins = CheckIn.all
@@ -135,8 +136,12 @@ class Dashboard::CheckInsController < DashboardController
     }
   end
 
-  def check_ability
+  def volunteer_manager?
     redirect_to :root unless current_user.role?(:volunteer_manager)
+  end
+
+  def fastpass_acessible
+    redirect_to :root unless can?(:manage_fastpass, current_user)
   end
 
   def check_ins_service

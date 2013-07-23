@@ -5,7 +5,7 @@ class Dashboard::UserSchedulesController < ApplicationController
   # POST /user_schedules.json
 
   def index
-    @user_schedules = current_user.user_schedules
+    @user_schedules = current_user.user_schedules.includes(:charity, department_block: [:department, :day])
 
     respond_to do |format|
       format.html # index.html.erb
