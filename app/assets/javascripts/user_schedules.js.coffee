@@ -6,7 +6,6 @@ $ ->
     return unless (e.type is 'focusout' or e.keyCode == 13) and $this.parents("form").is(":visible")
     e.preventDefault()
     e.stopPropagation()
-    console.log $this.val()
     $timepicker.destroy() if $timepicker = $this.parents(".input-append").data('datetimepicker')
     time_field = $this.parents("td").hasClass('time')
     if time_field
@@ -39,13 +38,13 @@ $ ->
     options =
       language: 'en'
       pick12HourFormat: true
-      format: 'yyyy-MM-dd hh:mm PP'
+      format: 'yyyy-MM-dd HH:mm PP'
       pickDate: true
       pickTime: true
 
     if $this.hasClass('time')
       options['pickDate'] = false
-      options['format'] = 'hh:mm PP'
+      options['format'] = 'HH:mm PP'
     else
       options['pickTime'] = false
       options['format'] = 'yyyy-MM-dd'
