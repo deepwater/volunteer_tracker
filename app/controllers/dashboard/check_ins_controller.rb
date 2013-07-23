@@ -33,6 +33,7 @@ class Dashboard::CheckInsController < DashboardController
   def inactive
     respond_to do |format|
       format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
+      format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.csv do
         @scope.delete(:per)
         data = check_ins_service.prepare_check_ins_data(:inactive, @scope)
