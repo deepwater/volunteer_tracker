@@ -1,14 +1,4 @@
-- common_params = {}
-- common_params.merge!({per_page: @show_action_data.scope.per_page}) if @show_action_data.scope.per_page.present?
-- common_params.merge!({charity: @show_action_data.scope.charity}) if @show_action_data.scope.charity.present?
-- common_params.merge!({role: @show_action_data.scope.role}) if @show_action_data.scope.role.present?
-- common_params.merge!({order_charity: @show_action_data.scope.order_charity}) if @show_action_data.scope.order_charity.present?
-- common_params.merge!({order_role: @show_action_data.scope.order_role}) if @show_action_data.scope.order_role.present?
-- common_params.merge!({order_name: @show_action_data.scope.order_name}) if @show_action_data.scope.order_name.present?
-- common_params.merge!({order_email: @show_action_data.scope.order_email}) if @show_action_data.scope.order_email.present?
-- common_params.merge!({q: @show_action_data.scope.q}) if @show_action_data.scope.q.present?
-
 - if @show_action_data.scope.page > 1
-  = link_to "Previous", dashboard_department_block_path(@show_action_data.department_block, common_params.merge({page: @show_action_data.scope.page - 1})), remote: true, class: "paginate_disabled_previous"
+  = link_to "Previous", dashboard_department_block_path(@show_action_data.department_block, common_params(@show_action_data.scope).merge({page: @show_action_data.scope.page - 1})), remote: true, class: "paginate_disabled_previous"
 - if @show_action_data.user_availabilities_count > @show_action_data.scope.page * @show_action_data.scope.per_page
-  = link_to "Next", dashboard_department_block_path(@show_action_data.department_block, common_params.merge({page: @show_action_data.scope.page + 1})), remote: true, class: "paginate_disabled_next"
+  = link_to "Next", dashboard_department_block_path(@show_action_data.department_block, common_params(@show_action_data.scope).merge({page: @show_action_data.scope.page + 1})), remote: true, class: "paginate_disabled_next"

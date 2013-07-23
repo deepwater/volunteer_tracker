@@ -12,7 +12,7 @@
   %td= user_availability.user.role
   %td
     - if @show_action_data.user_schedules[user_availability.user_id].blank?
-      = form_for [:dashboard, UserSchedule.new] do |f|
+      = form_for UserSchedule.new, url: dashboard_user_schedules_path(scope: common_params(@show_action_data.scope)) do |f|
         = f.hidden_field :user_id, value: user_availability.user.id
         = f.hidden_field :department_block_id, value: department_block.id
 
