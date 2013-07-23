@@ -4,20 +4,15 @@ class Day < ActiveRecord::Base
 	has_many :department_blocks
 	has_many :user_schedules, through: :department_blocks
 
-	# scope :user_schedules, Day.joins(:department_blocks => :model3).where('model3.label' => 'label')
-
 	def user_scheduled?(user)
-		users = []
-
-		self.department_blocks.each do |department_block|
-			department_block.users.each do |user|
-				users << user
-			end
-		end
-		users.include?(user)
-
+    department_blocks.joins("
+      LEFT OUTER JOIN user_schedules ON user_schedules.department_block_id = department_blocks.id
+    ").where("user_schedules.user_id = ?", user.try(:id)).exists?
 	end
 
+  def to_date
+    Date.new(year, month, mday)
+  end
 
 	def day_name
    		t = Time.new(self.year,self.month,self.mday, 0, 0, 0)
