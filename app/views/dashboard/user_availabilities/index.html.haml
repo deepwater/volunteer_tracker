@@ -44,7 +44,7 @@
                   =day.short_date
           .tab-content
             - @setup_days.each_with_index do |day, index|
-              - schedule_check = day.user_scheduled?(current_user)
+              - schedule_check = @user_scheduled[day.id].present?
               .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
                 .row
                   .span5
@@ -60,7 +60,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.where(user_id: current_user.id).find_each do |user_availability|
+                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
                           %tr{class: schedule_check ? "warning" : ""}
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
@@ -94,7 +94,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.where(user_id: current_user.id).find_each do |user_availability|
+                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
@@ -129,7 +129,7 @@
                           %th End Time
                           %th
                       %tbody
-                        - day.user_availabilities.where(user_id: current_user.id).each do |user_availability|
+                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
                           %tr
                             %td= in_twelve_hour_time(user_availability.start_time)
                             %td= in_twelve_hour_time(user_availability.end_time)
