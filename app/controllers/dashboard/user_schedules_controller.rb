@@ -66,5 +66,8 @@ class Dashboard::UserSchedulesController < ApplicationController
       format.json { head :no_content }
     end
   end
-    
+  
+  def dymo
+    @user_schedule = UserSchedule.find(params[:id])
+  end
 end

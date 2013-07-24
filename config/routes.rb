@@ -47,7 +47,9 @@ VolunteerTracker::Application.routes.draw do
     resources :user_availabilities
     resources :department_blocks
 
-    resources :user_schedules
+    resources :user_schedules do
+      get :dymo, on: :member
+    end
 
     resources :check_ins do
       collection do

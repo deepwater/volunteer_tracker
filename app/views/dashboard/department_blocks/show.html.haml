@@ -92,6 +92,9 @@
                   = link_to dashboard_user_schedule_path(@show_action_data.user_schedules[user.id]), :confirm => 'Are you sure?', :method => :delete, :"data-type" => "json", :class => 'unschedule-user btn btn-danger' do
                     %i.icon-remove-sign.icon-white
                     Unschedule
+                = link_to dymo_dashboard_user_schedule_path(@show_action_data.user_schedules[user.id], format: :xml), class: "btn btn-info print-dymo-label" do
+                  %i.icon-print.icon-white
+                  Print
       .row
         %h3 Available Volunteers
         %p
@@ -158,6 +161,7 @@
                   = button_tag type: "submit", class: 'btn btn-success' do
                     %i.icon-ok-sign.icon-white
                     Assign
+= javascript_include_tag "http://labelwriter.com/software/dls/sdk/js/DYMO.Label.Framework.latest.js"
 :javascript
   $(function() {
     var loadData = function(el) {
