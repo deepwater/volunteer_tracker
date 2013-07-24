@@ -32,7 +32,7 @@ $ ->
     $.ajax
       url: $this.attr('href')
       type: 'GET'
-      dataType: 'xml'
+      dataType: 'text'
       success: (data)->
         label = dymo.label.framework.openLabelXml data
         label.print(printerName)
