@@ -8,15 +8,23 @@ class DepartmentBlock < ActiveRecord::Base
 	has_many :volunteer_managers
 
   def readable_start_time
-    t = Time.parse("#{self.start_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
+    t = Time.parse("#{start_time} #{day.mday}/#{day.month}/#{day.year}")
+    t.strftime("%l.%M%P %A %-d %B")
+  end
 
-    return t.strftime("%l.%M%P %A %-d %B")
+  def start_time_12
+    t = Time.parse(start_time)
+    t.strftime("%l:%M%P")
+  end
+
+  def end_time_12
+    t = Time.parse(end_time)
+    t.strftime("%l:%M%P")
   end
 
   def readable_end_time
-    t = Time.parse("#{self.end_time} #{self.day.mday}/#{self.day.month}/#{self.day.year}")
-
-    return t.strftime("%l.%M%P %A %-d %B")
+    t = Time.parse("#{end_time} #{day.mday}/#{day.month}/#{day.year}")
+    t.strftime("%l.%M%P %A %-d %B")
   end
 
   def overlaps?(other)

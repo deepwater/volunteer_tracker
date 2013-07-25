@@ -115,7 +115,7 @@
       <Verticalized>False</Verticalized>
       <StyledText>
         <Element>
-          <String><%= @user_schedule.department_block.try(:start_time) %></String>
+          <String><%= @user_schedule.department_block.try(:start_time_12) %></String>
           <Attributes>
             <Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
             <ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
@@ -141,7 +141,7 @@
       <Verticalized>False</Verticalized>
       <StyledText>
         <Element>
-          <String><%= @user_schedule.department_block.try(:end_time) %></String>
+          <String><%= @user_schedule.department_block.try(:end_time_12) %></String>
           <Attributes>
             <Font Family="Arial" Size="11" Bold="False" Italic="False" Underline="False" Strikeout="False" />
             <ForeColor Alpha="255" Red="0" Green="0" Blue="0" />
