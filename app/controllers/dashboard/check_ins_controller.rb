@@ -77,8 +77,6 @@ class Dashboard::CheckInsController < DashboardController
     end
   end
 
-  # POST /check_ins
-  # POST /check_ins.json
   def create
     service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
     @check_in = service.create(params[:check_in])
