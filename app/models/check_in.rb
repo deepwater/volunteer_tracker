@@ -8,6 +8,18 @@ class CheckIn < ActiveRecord::Base
 
 	has_many :flags
 
+	def checked_out?
+		status == "2"
+	end
+
+	def hours_worked
+		if checked_out?
+			((check_out_time - created_at).to_d/3600).truncate(2) rescue "0"
+		else
+			"0"
+		end
+	end
+
   private
 
 	def check_status
