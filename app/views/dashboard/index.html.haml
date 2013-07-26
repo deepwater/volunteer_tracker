@@ -1,31 +1,33 @@
 .row
-	.span12
-		.alert-container
-			- flash.each do |type, message|
-				%div{:class => flash_class(type) }
-					= message
+  .span12
+    .alert-container
+      - flash.each do |type, message|
+        %div{:class => flash_class(type) }
+          = message
 
-		%h3
-			= current_user.full_name
-		%h4
-			= current_user.role.camelize
-		%br
-		%br
+    %h3
+      = current_user.full_name
+    %h4
+      = current_user.role.camelize
+    %br
+    %br
 
-		%ul.thumbnails
-			- if current_user.role != "event_administrator" && current_user.role != "department_manager"
-				= render "dashboard/dashboard_modules/view_time_availability"
-				= render "dashboard/dashboard_modules/upcoming_assignments"
+    %ul.thumbnails
+      - if current_user.role != "event_administrator" && current_user.role != "department_manager"
+        = render "dashboard/dashboard_modules/view_time_availability"
+        = render "dashboard/dashboard_modules/upcoming_assignments"
 
-			- if can?(:manage, DepartmentBlock)
-				= render "dashboard/dashboard_modules/department_management"
+      - if can?(:manage, DepartmentBlock)
+        = render "dashboard/dashboard_modules/department_management"
 
-			- if current_user.role == "department_assistant" 
-				= render "dashboard/dashboard_modules/department_assistant_management"
+      - if current_user.role == "department_assistant" 
+        = render "dashboard/dashboard_modules/department_assistant_management"
 
-		%ul.thumbnails
-			- if can?(:manage, CheckIn) || can?(:manage_fastpass, User)
-				= render "dashboard/dashboard_modules/checkin_volunteer"
-			- if can?(:manage, CheckIn)
-				= render "dashboard/dashboard_modules/active_volunteers"	
-				= render "dashboard/dashboard_modules/inactive_volunteers"	
+    %ul.thumbnails
+      - if can?(:manage, CheckIn) || can?(:manage_fastpass, User)
+        = render "dashboard/dashboard_modules/checkin_volunteer"
+      - if can?(:manage, CheckIn)
+        = render "dashboard/dashboard_modules/active_volunteers"  
+        = render "dashboard/dashboard_modules/inactive_volunteers"
+      - if current_user.role != "event_administrator" && current_user.role != "department_manager"
+        = render "dashboard/dashboard_modules/past_assignments"

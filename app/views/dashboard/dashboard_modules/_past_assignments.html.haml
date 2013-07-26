@@ -1,0 +1,27 @@
+%li.span8
+  .thumbnail
+    .caption
+      %h4 Past Assignments
+      - if @past_assignments.empty?
+        %p You don't have any past assignments.
+      - else
+        .well
+          %table.table
+            %tr
+              %th Time 
+              %th Department
+              %th Checked In
+              %th Checked Out
+              %th Hours Worked
+            - @past_assignments.each do |check_in|
+              %tr
+                %td
+                  = check_in.user_schedule.department_block.day.short_date
+                  %br
+                  = in_twelve_hour_time(check_in.user_schedule.department_block.start_time)
+                  \-
+                  = in_twelve_hour_time(check_in.user_schedule.department_block.end_time)
+                %td=  check_in.user_schedule.department_block.department.name
+                %td= check_in.check_in_time
+                %td= check_in.check_out_time
+                %td= check_in.hours_worked
