@@ -48,14 +48,10 @@ class CheckInsService
   end
 
   def check_out(user_schedule_id)
-    resource = CheckIn.where(user_schedule_id: user_schedule_id).first
+    resource = CheckIn.where(user_schedule_id: user_schedule_id, status: "1").first
     if resource
-      if resource.status == "1"
-        resource.update_attributes(status: "2")
-        resource
-      else
-        "Already checked out!"
-      end
+      resource.update_attributes(status: "2")
+      resource
     else
       "No check ins found!"
     end
