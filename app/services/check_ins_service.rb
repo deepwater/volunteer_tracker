@@ -91,7 +91,9 @@ class CheckInsService
   end
 
   def filter_active(query)
-    query.where(status: "1").where("check_ins.created_at > ? AND check_ins.created_at < ?", DateTime.yesterday, DateTime.tomorrow)
+    yesterday = Time.current.to_date.yesterday
+    tomorrow = Time.current.to_date.tomorrow
+    query.where(status: "1").where("check_ins.created_at > ? AND check_ins.created_at < ?", yesterday, tomorrow)
   end
 
   def filter_inactive(query)
