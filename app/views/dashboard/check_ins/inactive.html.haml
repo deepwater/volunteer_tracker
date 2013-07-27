@@ -2,11 +2,8 @@
   .span12
     %h2
       %i.halflings-icon.edit 
-      Assignment Details
+      Inactive / Past Volunteers
       %br
-    .DTTT_container
-      = link_to inactive_dashboard_check_ins_path(format: :csv), class: "DTTT_button DTTT_button_csv" do
-        %span CSV
     .dataTables_length
       %label
         Show
@@ -41,3 +38,6 @@
         = paginate @results, remote: true
       %div#pagination-info
         = page_entries_info @results
+      .DTTT_container
+      = link_to inactive_dashboard_check_ins_path(format: :csv), class: "DTTT_button DTTT_button_csv" do
+        %span Export CSV
