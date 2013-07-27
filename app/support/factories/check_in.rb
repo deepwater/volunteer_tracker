@@ -65,6 +65,8 @@ class Factories::CheckIn
 
   def validate_check_in_date(entity)
     if entity.user_schedule && day = entity.user_schedule.try(:department_block).try(:day)
+      entity.errors.add(:created_at, :not_assigned) if day.to_date == Date.today
+    end
   end
 
   def validate_dates(entity)
