@@ -13,10 +13,8 @@ class User < ActiveRecord::Base
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :user_id, 
                   :department_block_id, :secondary_email
 
-  # VALIDATIONS
   validates :first_name, :last_name, :presence => true
 
-  # ASSOCIATIONS
   has_many :user_availabilities, dependent: :destroy
 
   has_many :check_ins, dependent: :destroy
@@ -31,8 +29,8 @@ class User < ActiveRecord::Base
   has_one :department_assistant
   has_one :volunteer_manager
 
-  # FILTERS
   before_save :default_values
+  before_save :process_name
   after_update :reset_role_associations
 
   def default_values
@@ -69,5 +67,12 @@ class User < ActiveRecord::Base
 
   def full_name 
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
+  end
+
+  private
+
+  def process_name
+    self.first_name = first_name.strip
+    self.last_name = last_name.strip
   end
 end
