@@ -39,7 +39,8 @@ class Factories::CheckIn
   def check_out_existed_check_ins(entity)
     return unless entity.user_schedule
     past_check_ins = entity.user_schedule.check_ins.where(status: '1')
-    past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2") }
+    past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2") unless
+    entity.created_at > entity.check_out_time }
   end
 
   def ensure_in_out_date(entity)
@@ -64,8 +65,8 @@ class Factories::CheckIn
   end
 
   def validate_check_in_date(entity)
-    if entity.user_schedule && day = entity.user_schedule.try(:department_block).try(:day)
-      entity.errors.add(:created_at, :not_assigned) if day.to_date != (Date.today + 1)
+    # if entity.user_schedule && day = entity.user_schedule.try(:department_block).try(:day)
+      entity.errors.add(:created_at, :not_assigned) if day.to_date != Date.today
     end
   end
 
