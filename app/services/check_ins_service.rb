@@ -75,7 +75,7 @@ class CheckInsService
   end
 
   def paginate_results(query)
-    if scope[:page] || scope[:per]
+    if scope[:page] && scope[:per]
       query = query.page(scope[:page]).per(scope[:per])
     end
     query
