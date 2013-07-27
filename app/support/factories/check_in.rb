@@ -39,7 +39,7 @@ class Factories::CheckIn
   def check_out_existed_check_ins(entity)
     return unless entity.user_schedule
     past_check_ins = entity.user_schedule.check_ins.where(status: '1')
-    past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2")
+    past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2") }
   end
 
   def ensure_in_out_date(entity)
