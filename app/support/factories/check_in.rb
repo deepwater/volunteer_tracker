@@ -7,7 +7,6 @@ class Factories::CheckIn
   def create(attributes)
     build(nil, attributes).tap do |check_in|
       validate_user_schedule_existance(check_in)
-      validate_check_in_date(check_in) if @options[:fastpass]
       check_out_existed_check_ins(check_in) if @options[:fastpass]
       check_in.save if check_in.errors.empty?
       check_in
@@ -65,7 +64,7 @@ class Factories::CheckIn
 
   def validate_check_in_date(entity)
     if entity.user_schedule && day = entity.user_schedule.try(:department_block).try(:day)
-      entity.errors.add(:created_at, :not_assigned) if day.to_date = Date.today
+      entity.errors.add(:created_at, :not_assigned) if day.to_date != Date.today
     end
   end
 
