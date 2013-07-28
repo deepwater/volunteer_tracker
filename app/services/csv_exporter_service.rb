@@ -8,7 +8,7 @@ class CsvExporterService
     data = data.try(:decorate)
     results = CSV.generate col_sep: ',' do |csv|
       csv << column_names(name)
-      data.find_each do |row|
+      data.each do |row|
         csv << settings["fields"].map { |field| row.send(field) }
       end
     end
