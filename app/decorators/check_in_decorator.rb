@@ -32,4 +32,13 @@ class CheckInDecorator < Draper::Base
   def charity
     check_in.user_schedule.try(:charity).try(:name) || "Not Assigned"
   end
+
+  def hours_worked
+    if model.status == "2"
+      seconds = (model.check_out_time - model.created_at).to_i
+      hours = seconds / 3600
+      minutes = (seconds - hours * 3600) / 60
+      "%02d:" % hours + "%02d" % minutes
+    end
+  end
 end

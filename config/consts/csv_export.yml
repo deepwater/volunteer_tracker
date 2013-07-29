@@ -8,4 +8,5 @@ check_ins_inactive:
     - check_in_time
     - check_out_time
     - charity
+    - hours_worked
   filename: "inactive_check_ins"

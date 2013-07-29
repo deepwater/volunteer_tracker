@@ -13,6 +13,7 @@ en:
         check_in_time: "Check In Time"
         check_out_time: "Check Out Time"
         charity: "Chatiry Name"
+        hours_worked: "Hours Worked"
   activerecord:
     errors:
       models:
