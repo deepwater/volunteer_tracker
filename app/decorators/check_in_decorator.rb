@@ -25,6 +25,10 @@ class CheckInDecorator < Draper::Base
     model.created_at.strftime("%l:%M%p")
   end
 
+  def check_out_date
+    model.check_out_time.strftime("%Y-%m-%d")
+  end
+
   def check_out_time
     model.check_out_time.strftime("%l:%M%p")
   end
