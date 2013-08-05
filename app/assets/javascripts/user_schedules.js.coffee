@@ -7,13 +7,21 @@ $ ->
     e.preventDefault()
     e.stopPropagation()
     $timepicker.destroy() if $timepicker = $this.parents(".input-append").data('datetimepicker')
-    time_field = $this.parents("td").hasClass('time')
+    $td = $this.parents("td")
+    time_field = $td.hasClass('time')
+    check_out = $td.hasClass("check-out")
     if time_field
-      date = $this.parents("tr").find("td.check-date .input-append input").val()
       time = $this.val()
+      if check_out
+        date = $this.parents("tr").find("td.date.check-out .input-append input").val()
+      else
+        date = $this.parents("tr").find("td.date.check-in .input-append input").val()
     else
       date = $this.val()
-      time = $this.parents("tr").find("td.check-in-time .input-append input").val()
+      if check_out
+        time = $this.parents("tr").find("td.check-out.time .input-append input").val()
+      else
+        time = $this.parents("tr").find("td.check-in.time .input-append input").val()
 
     $this.val "#{date} #{time}"
     $this.parents("form").submit().hide()

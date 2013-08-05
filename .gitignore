@@ -49,3 +49,5 @@ app/views/dashboard/.DS_Store
 .DS_Store
 
 .rvmrc
+.ruby-version
+.ruby-gemspec

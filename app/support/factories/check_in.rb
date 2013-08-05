@@ -28,7 +28,6 @@ class Factories::CheckIn
     attributes = attributes.with_indifferent_access
     attrs = filter_attributes(attributes)
     resource.assign_attributes(attrs)
-    ensure_in_out_date(resource)
     resource.valid?
     validate_dates(resource)
     resource
@@ -40,18 +39,6 @@ class Factories::CheckIn
     return unless entity.user_schedule
     past_check_ins = entity.user_schedule.check_ins.where(status: '1')
     past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2") }
-  end
-
-  def ensure_in_out_date(entity)
-    if entity.created_at_changed?
-      entity.check_out_time = entity.check_out_time.change(
-        year: entity.created_at.year, month: entity.created_at.month, day: entity.created_at.day
-      )
-    elsif entity.check_out_time_changed?
-      entity.created_at = entity.created_at.change(
-        year: entity.check_out_time.year, month: entity.check_out_time.month, day: entity.check_out_time.day
-      )
-    end
   end
 
   def validate_user_schedule_existance(entity)
@@ -70,7 +57,7 @@ class Factories::CheckIn
   end
 
   def validate_dates(entity)
-    if entity.check_out_time && entity.created_at_changed? && entity.created_at > entity.check_out_time
+    if entity.check_out_time && (entity.created_at_changed? || entity.check_out_time_changed?) && entity.created_at > entity.check_out_time
       entity.errors.add(:created_at, :less_than_check_out)
     end
   end
