@@ -26,6 +26,9 @@ gem 'cancan'
 gem 'ajax-datatables-rails', '0.0.1'
 
 group :development do
+	gem 'capistrano', '2.15.5', require: false
+	gem 'capistrano-rbenv', require: false
+	
 	gem 'sqlite3'
 	gem 'debugger'
 end
@@ -42,4 +45,5 @@ group :assets do
 	gem 'haml-rails', '0.4'
 	gem 'uglifier', '>= 1.0.3'
 	gem 'jquery-datatables-rails'
+	gem 'therubyracer', platforms: :ruby, require: 'v8'
 end
