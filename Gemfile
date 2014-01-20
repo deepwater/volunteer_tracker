@@ -20,12 +20,21 @@ gem 'cancan', '1.6.10'
 gem 'ajax-datatables-rails', '0.0.1'
 
 group :development do
-  gem 'letter_opener' , '1.2.0'
+  gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
-	
-	gem 'sqlite3'
 	gem 'debugger'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '2.14.1'
+end
+
+group :test do
+  gem 'factory_girl_rails', '4.3.0'
+  gem 'shoulda', '3.5.0'
+  gem 'database_cleaner', '1.2.0'
+  gem 'mocha', '1.0.0', require: 'mocha/setup'
 end
 
 group :production do
