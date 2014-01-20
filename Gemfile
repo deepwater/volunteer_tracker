@@ -3,29 +3,24 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.16'
 gem 'psych', '1.3.4'
 gem 'thin', '1.5.1'
+gem 'configatron', '2.13.0'
 gem 'kaminari', '0.14.1'
 gem 'data_migrate'
 gem 'draper', '0.18.0'
-
 gem 'delayed_job_active_record', '0.4.4'
-
-gem 'pg'
+gem 'pg', '0.17.1'
 gem 'unicorn', '4.6.3'
-
 gem 'bootstrap-sass-rails', '2.3.2.0'
 gem 'bootstrap-timepicker-rails', '0.1.3'
-
 gem 'haml', '4.0.3'
 gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
-
-
 gem 'devise', '2.2.4'
-gem 'cancan'
-
+gem 'cancan', '1.6.10'
 gem 'ajax-datatables-rails', '0.0.1'
 
 group :development do
+  gem 'letter_opener' , '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
 	

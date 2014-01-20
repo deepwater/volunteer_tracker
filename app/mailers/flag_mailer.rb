@@ -6,7 +6,7 @@ class FlagMailer < ActionMailer::Base
     @flag = flag
     
     @department_managers.each do |department_manager|
-      mail(to: department_manager.user.email, from: "noreply@volunteer.gilroygarlicfestival.com", subject: "A check in has been flagged!")
+      mail(to: department_manager.user.email, from: configatron.noreply, subject: "A check in has been flagged!")
     end
   end
 end

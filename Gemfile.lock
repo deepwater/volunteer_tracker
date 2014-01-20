@@ -28,6 +28,7 @@ GEM
     activesupport (3.2.16)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
+    addressable (2.3.5)
     ajax-datatables-rails (0.0.1)
     arel (3.0.3)
     bcrypt-ruby (3.1.2)
@@ -57,6 +58,8 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    configatron (2.13.0)
+      yamler (>= 0.1.0)
     daemons (1.1.9)
     dalli (2.7.0)
     data_migrate (1.2.0)
@@ -107,6 +110,10 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     kgio (2.8.1)
+    launchy (2.4.2)
+      addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -186,6 +193,7 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
+    yamler (0.1.0)
 
 PLATFORMS
   ruby
@@ -194,10 +202,11 @@ DEPENDENCIES
   ajax-datatables-rails (= 0.0.1)
   bootstrap-sass-rails (= 2.3.2.0)
   bootstrap-timepicker-rails (= 0.1.3)
-  cancan
+  cancan (= 1.6.10)
   capistrano (= 2.15.5)
   capistrano-rbenv
   coffee-rails (~> 3.2.1)
+  configatron (= 2.13.0)
   dalli
   data_migrate
   debugger
@@ -210,9 +219,10 @@ DEPENDENCIES
   jquery-rails (= 3.0.1)
   jquery-ui-rails (= 4.0.3)
   kaminari (= 0.14.1)
+  letter_opener (= 1.2.0)
   memcachier
   newrelic_rpm
-  pg
+  pg (= 0.17.1)
   psych (= 1.3.4)
   rails (= 3.2.16)
   sass-rails (~> 3.2.3)

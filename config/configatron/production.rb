@@ -1,0 +1,1 @@
+configatron.host = 'volunteer.gilroygarlicfestival.com'
