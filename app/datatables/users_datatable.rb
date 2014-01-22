@@ -7,6 +7,14 @@ class UsersDatatable < AjaxDatatablesRails
     super(view)
   end
   
+  def page
+    params[:iDisplayStart].to_i/per_page + 1
+  end
+
+  def per_page
+    params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
+  end
+  
   def paginate_records(records)
     records.offset((page - 1) * per_page).limit(per_page)
   end

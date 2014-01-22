@@ -1,11 +1,11 @@
 class Admin::UsersController < AdminController
 
   def index
-    @users = User.per
+    @users = User.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @users }
+      format.json { render json: UsersDatatable.new(view_context) }
     end
   end
 
