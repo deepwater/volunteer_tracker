@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
-gem 'psych', '1.3.4'
 gem 'thin', '1.5.1'
 gem 'configatron', '2.13.0'
 gem 'kaminari', '0.15.1'
