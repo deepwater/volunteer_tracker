@@ -3,7 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
   oTable = $('#users_list_table').dataTable
-    sSwfPath: "http://datatables.net/release-datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
     bProcessing: true
     bServerSide: true
     sAjaxSource: $('#users_list_table').data('source')
@@ -11,3 +10,4 @@ $ ->
     aLengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
     oTableTools: 
       "aButtons": [ "copy", "csv", "xls" ]
+      "sSwfPath": "http://datatables.net/release-datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
