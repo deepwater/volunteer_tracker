@@ -1,7 +1,7 @@
-set :dns_name, "example.com"
+set :dns_name, "107.170.30.8"
 
-set :application, "APP_NAME"
-set :repository,  "GIT_REPO"
+set :application, "volunteer"
+set :repository,  "git@github.com:omggroup/volunteer_tracker.git"
 
 role :web, dns_name                          # Your HTTP server, Apache/etc
 role :app, dns_name                          # This may be the same as your `Web` server
@@ -13,6 +13,6 @@ set :rails_env, 'production'
 set :branch, 'master'
 set :use_sudo, false
 
-set :user, 'ssh_username'
-set :password, 'ssh_password'
+set :user, 'ninja'
+set :password, 'B8M6GCTwpPpgVx'
 set :port, 22
