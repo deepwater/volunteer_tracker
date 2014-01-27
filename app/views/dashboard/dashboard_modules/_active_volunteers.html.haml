@@ -2,24 +2,5 @@
   .thumbnail
     .caption
       %h4 Active Volunteers
-      / .well.activeVol
-      /   %table.table
-      /     %thead
-      /       %t
-      /         %th Name
-      /         %th Time In
-      /         %th Check Out?
-      /     - cache "v2" do 
-      /       %tbody
-      /         -@active.each do |check_in|
-      /           %tr
-      /             %td= check_in.user_schedule.user.full_name
-      /             %td= in_twelve_hour_time(check_in.user_schedule.department_block.start_time)
-      /             %td
-      /               =form_for [:dashboard, check_in], html: {:"data-type" => "json"} do |f|
-      /                 = f.hidden_field :id, value: check_in.id
-      /                 = f.hidden_field :status, value: "2"
-      /                 = button_tag type: "submit", class: 'btn btn-danger pull-right' do 
-      /                   %i.icon-remove.icon-white
       %p
         = link_to "View All Active Volunteers", active_dashboard_check_ins_path(), class: "btn btn-block btn-primary"

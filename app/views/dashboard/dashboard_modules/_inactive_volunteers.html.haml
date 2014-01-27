@@ -2,23 +2,5 @@
   .thumbnail
     .caption
       %h4 Past Volunteers
-      / .well.pastVol
-      /   %table.table
-      /     %thead
-      /       %tr
-      /         %th Name
-      /         %th In
-      /         %th Out
-      /         / %th Flag?
-      /     - cache "v3" do 
-      /       %tbody
-      /         - @inactive.each do |check_in|
-      /           %tr
-      /             %td= check_in.user_schedule.user.full_name
-      /             %td= check_in.created_at.strftime("%l.%M%p")
-      /             %td= check_in.updated_at.strftime("%l.%M%p")
-      /             / %td
-      /             / %button.btn-mini.btn-warning.pull-right{:type => "button"}
-      /             / %i.icon-flag.icon-white
       %p
         = link_to "View All Past Volunteers", inactive_dashboard_check_ins_path(), class: "btn btn-block btn-primary"

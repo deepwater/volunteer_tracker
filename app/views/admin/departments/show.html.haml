@@ -110,9 +110,9 @@
 					%tr
 						%td= user.full_name
 						%td
-							= form_for [:admin, DepartmentManager.new], html: {:"data-type" => "json"} do |f|
-								= f.hidden_field :user_id, value: user.id
-								= f.hidden_field :department_id, value: @department.id
+							= simple_form_for [:admin, DepartmentManager.new], html: { data: { type: :json } } do |f|
+								= f.input :user_id, as: :hidden, input_html: { value: user.id }
+								= f.input :department_id, as: :hidden, input_html: { value: @department.id }
 
 								= button_tag type: "submit", class: 'btn btn-success' do 
 									%i.icon-ok-sign.icon-white
@@ -141,9 +141,9 @@
 					%tr
 						%td= user.full_name
 						%td
-							= form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
-								= f.hidden_field :user_id, value: user.id
-								= f.hidden_field :department_id, value: @department.id
+							= simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } } do |f|
+								= f.input :user_id, as: :hidden, input_html: { value: user.id }
+								= f.input :department_id, as: :hidden, input_html: { value: @department.id }
 
 								= button_tag type: "submit", class: 'btn btn-success' do 
 									%i.icon-ok-sign.icon-white

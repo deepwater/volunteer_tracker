@@ -5,4 +5,6 @@ class Event < ActiveRecord::Base
   has_many :days, dependent: :destroy
   belongs_to :user, primary_key: :assigned_to, foreign_key: :id
 
+  validates :name, :route_type, presence: true
+
 end

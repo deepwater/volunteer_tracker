@@ -1,47 +1,14 @@
-= form_for([:admin, @event], :html => {:class => 'form-horizontal'}) do |f|
-  - if @event.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
-      %ul
-        - @event.errors.full_messages.each do |msg|
-          %li= msg
-  %fieldset
-    .control-group
-      = f.label(:name, :class => 'control-label')
-      .controls
-        = f.text_field(:name, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:assigned_to, :class => 'control-label')
-      .controls
-        = f.select(:assigned_to, User.all.collect {|u| [u.full_name, u.id]}, prompt: 'Select')
-    .control-group
-      = f.label(:route_type, :class => 'control-label')
-      .controls
-        = f.select(:assigned_to, [1, 2, 3], prompt: false)
-    .control-group
-      = f.label(:address_line_1, :class => 'control-label')
-      .controls
-        = f.text_field(:address_line_1, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:address_line_2, :class => 'control-label')
-      .controls
-        = f.text_field(:address_line_2, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:city, :class => 'control-label')
-      .controls
-        = f.text_field(:city, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:state, :class => 'control-label')
-      .controls
-        = f.text_field(:state, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:zip, :class => 'control-label')
-      .controls
-        = f.text_field(:zip, :class => 'input-xlarge focused')
-    .control-group
-      = f.label(:other, :class => 'control-label')
-      .controls
-        = f.text_area(:other, :class => 'input-xlarge focused')
-    .form-actions
-      = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
+= simple_form_for([:admin, @event], html: {class: 'form-horizontal'}) do |f|
+  = f.input :name
+  = f.input :assigned_to, collection: User.all.map { |r| [r.full_name, r.id] }
+  = f.input :route_type, collection: [1, 2, 3], include_blank: false
+  = f.input :address_line_1
+  = f.input :address_line_2
+  = f.input :city
+  = f.input :state
+  = f.input :zip
+  = f.input :other, as: :text
+  .form-actions
+    = f.button :submit
+
 

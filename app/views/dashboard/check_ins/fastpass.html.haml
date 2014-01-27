@@ -5,9 +5,9 @@
 
     %p Scan the barcode when you are ready
 
-    = form_for @check_in, url: dashboard_check_ins_path(fastpass: true), remote: true, html: { "data-type" => 'json' }  do |f|
-      = f.text_field :user_schedule_id, autofocus: true
-      = f.hidden_field :status, value: "1"
+    = simple_form_for @check_in, url: dashboard_check_ins_path(fastpass: true), remote: true, html: { data: { type: :json } }  do |f|
+      = f.input :user_schedule_id, autofocus: true
+      = f.input :status, as: :hidden, input_html: { value: '1' }
 .row
   .span4
     %h3

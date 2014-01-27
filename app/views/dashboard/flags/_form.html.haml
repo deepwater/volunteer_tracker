@@ -1,19 +1,6 @@
-= form_for @flag do |f|
-  - if @flag.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@flag.errors.count, "error")} prohibited this flag from being saved:"
-      %ul
-        - @flag.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :check_in_id
-    = f.number_field :check_in_id
-  .field
-    = f.label :user_id
-    = f.number_field :user_id
-  .field
-    = f.label :description
-    = f.text_area :description
+= simple_form_for [:dashboard, @flag] do |f|
+  = f.input :check_in_id, wrapper_html: { class: 'field' }
+  = f.input :user_id, wrapper_html: { class: 'field' }
+  = f.input :description, as: :text
   .actions
-    = f.submit 'Save'
+    = f.button :submit

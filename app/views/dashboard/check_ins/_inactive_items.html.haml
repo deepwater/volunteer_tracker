@@ -31,14 +31,14 @@
             %i.icon-flag.icon-white
             Flag
 
-          = form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
+          = simple_form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
             Description:
             %br
-            = f.hidden_field :check_in_id, value: check_in.id
-            = f.hidden_field :user_id, value: current_user.id
-            = f.text_area :description, rows: 5
+            = f.input :check_in_id, as: :hidden, input_html: { value: check_in.id }
+            = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
+            = f.input :description, as: :text
             .actions
-              = f.submit 'Save', class: "btn btn-success"
+              = f.button :submit, input_html: { class: "btn-success" }
     - else
       %td{ colspan: 9 }
         There is some error with this record (ID #{check_in.id}) 

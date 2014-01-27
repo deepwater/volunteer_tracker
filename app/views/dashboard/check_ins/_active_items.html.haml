@@ -14,13 +14,13 @@
         - else
           Not assigned
       %td
-        =form_for [:dashboard, check_in], html: {class: "side-by-side"} do |f|
-          = f.hidden_field :status, value: "2"
+        = simple_form_for [:dashboard, check_in], html: {class: "side-by-side"} do |f|
+          = f.input :status, as: :hidden, input_html: { value: '2' }
           = button_tag type: "submit", class: 'btn btn-mini btn-success' do 
             %i.icon-ok-sign.icon-white
             Check Out 
             
-        - if current_user.role? "department_assistant"      
+        - if current_user.role? "department_assistant"
           = link_to dashboard_check_in_path(check_in), :method => :delete, class: "side-by-side btn btn-danger btn-mini" do 
             %i.icon-remove-sign.icon-white
             Undo Check In
