@@ -1,0 +1,17 @@
+.row
+	.span9
+		%h2
+			= @event.name
+
+- if notice
+	.row
+		.span9
+			.alert.alert-block
+				%p#notice= notice
+
+
+= link_to 'Edit', edit_admin_event_path(@event)
+\|
+= link_to 'Delete', admin_event_path(@event), method: :delete, data: { confirm: 'Are you sure?' }
+\|
+= link_to 'Back', admin_events_path

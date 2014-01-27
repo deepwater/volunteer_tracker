@@ -14,6 +14,7 @@ VolunteerTracker::Application.routes.draw do
     collection do
       get :charity_tab
       get :department_tab
+      get :event_tab
     end
   end
   match 'admin/list' => "admin#list"
@@ -24,6 +25,7 @@ VolunteerTracker::Application.routes.draw do
     resources :departments
     resources :department_managers
     resources :department_assistants
+    resources :events
   end
 
   resources :dashboard, :only => [:index, :registration_complete]

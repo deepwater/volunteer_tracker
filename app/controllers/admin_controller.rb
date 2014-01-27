@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
 	# layout 'admin'
 	before_filter :authenticate_user!
-  before_filter :prepare_scope, only: [:charity_tab, :department_tab]
+  before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab]
 
   DEFAULT_PER_PAGE = 10
 
@@ -16,6 +16,10 @@ class AdminController < ApplicationController
     .where("check_ins.status = '2'")
     .select("user_schedules.charity_id, SUM(extract(epoch from (check_ins.check_out_time - check_ins.created_at))) as total_seconds")
     .group("user_schedules.charity_id").inject({}) { |h, o| h.merge!({o.charity_id => o.total_seconds.to_i/3600}) }
+  end
+
+  def event_tab
+    @events = Event.order(:id).page(@scope[:page]).per(@scope[:per])
   end
 
   def department_tab

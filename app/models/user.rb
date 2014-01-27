@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :user_charities, dependent: :destroy
   has_many :charities, :through => :user_charities
 
+  has_many :events
+
   has_one :department_manager
   has_one :department_assistant
   has_one :volunteer_manager
