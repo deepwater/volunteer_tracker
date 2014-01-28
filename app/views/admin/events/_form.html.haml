@@ -8,6 +8,12 @@
   = f.input :state
   = f.input :zip
   = f.input :other, as: :text
+  .control-group
+    = f.label "Range"
+    .controls.input-daterange
+      %input.input-small{name: "start", type: "text"}/
+      %span.add-on to
+      %input.input-small{name: "end", type: "text"}/
   .form-actions
     = f.button :submit
 

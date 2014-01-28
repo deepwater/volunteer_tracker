@@ -13,11 +13,11 @@
  *= require bootstrap.css
  *= require twitter/bootstrap/_responsive
  *= require bootstrap-timepicker
+ *= require bootstrap-datepicker
  *= require dataTables/jquery.dataTables
  *= require dataTables/extras/TableTools
  *= require dataTables/extras/TableTools_JUI
  *= require jquery.ui.all
- *= require_tree ./libs
  *= require_tree .
 */
 
