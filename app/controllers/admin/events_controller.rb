@@ -40,10 +40,11 @@ class Admin::EventsController < AdminController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
+    service = EventsService.new(as: current_user)
+    @event = service.create(params[:event])
 
     respond_to do |format|
-      if @event.save
+      if @event.persisted?
         format.html { redirect_to admin_event_path(@event), notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -56,10 +57,11 @@ class Admin::EventsController < AdminController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = Event.find(params[:id])
+    service = EventsService.new(as: current_user)
+    @event = service.update(params[:id], params[:event])
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if @event.errors.empty?
         format.html { redirect_to admin_event_path(@event), notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else

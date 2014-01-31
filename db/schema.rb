@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127090822) do
+ActiveRecord::Schema.define(:version => 20140131194105) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20140127090822) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "event_id"
+    t.datetime "date"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -116,8 +117,12 @@ ActiveRecord::Schema.define(:version => 20140127090822) do
     t.string   "state"
     t.string   "zip"
     t.text     "other"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.date     "day_of_start"
+    t.date     "day_of_finish"
+    t.integer  "days_for_setup"
+    t.integer  "days_for_tear_down"
   end
 
   create_table "flags", :force => true do |t|

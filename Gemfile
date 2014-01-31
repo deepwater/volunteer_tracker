@@ -16,10 +16,10 @@ gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
+gem 'simple_form', '2.1.1'
 gem 'ajax-datatables-rails', '0.0.1'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
-gem 'simple_form', '2.1.1'
 
 group :development do
   gem 'letter_opener', '1.2.0'

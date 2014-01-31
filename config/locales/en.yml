@@ -18,6 +18,11 @@ en:
   activerecord:
     errors:
       models:
+        event:
+          attributes:
+            day_of_start:
+              date_is_not_valid: "Date is not valid"
+              range_is_not_valid: "Range is not valid"
         check_in:
           attributes:
             created_at:

@@ -1,2 +1,2 @@
 $ ->
-  $(".input-daterange").datepicker {}
+  $(".input-daterange").datepicker { format: "yyyy-mm-dd" }
