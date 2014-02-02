@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
 	# layout 'admin'
 	before_filter :authenticate_user!
-  before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab]
+  before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab, :organisation_tab]
 
   DEFAULT_PER_PAGE = 10
 
@@ -20,6 +20,10 @@ class AdminController < ApplicationController
 
   def event_tab
     @events = Event.order(:id).page(@scope[:page]).per(@scope[:per])
+  end
+
+  def organisation_tab
+    @organisations = Organisation.order(:id).page(@scope[:page]).per(@scope[:per])
   end
 
   def department_tab

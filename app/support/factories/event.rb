@@ -43,7 +43,7 @@ class Factories::Event
     existed_days = []
 
     (start..finish).each_with_index do |date, i|
-      type = type_of_day(i, entity.days_for_setup, entity.days_for_tear_down, days_count)
+      type = type_of_day(i, entity.days_for_setup.to_i, entity.days_for_tear_down.to_i, days_count)
       day = entity.days.where(date: date).first
       if day.present?
         day.update_attribute(:day_type, type)

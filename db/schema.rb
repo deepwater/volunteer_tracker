@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140131194105) do
+ActiveRecord::Schema.define(:version => 20140202145615) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20140131194105) do
     t.date     "day_of_finish"
     t.integer  "days_for_setup"
     t.integer  "days_for_tear_down"
+    t.integer  "organisation_id"
   end
 
   create_table "flags", :force => true do |t|
@@ -135,6 +136,13 @@ ActiveRecord::Schema.define(:version => 20140131194105) do
 
   add_index "flags", ["check_in_id"], :name => "index_flags_on_check_in_id"
   add_index "flags", ["user_id"], :name => "index_flags_on_user_id"
+
+  create_table "organisations", :force => true do |t|
+    t.string   "name"
+    t.string   "subdomain"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "user_availabilities", :force => true do |t|
     t.integer  "user_id"

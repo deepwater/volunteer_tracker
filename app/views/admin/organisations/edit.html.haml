@@ -1,0 +1,11 @@
+.row
+  .span9
+    %h2 Edit Organisation
+
+    = render 'form'
+
+    = link_to 'Show', admin_organisation_path(@organisation)
+    \|
+    = link_to 'Back', admin_organisations_path
+
+      
