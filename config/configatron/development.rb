@@ -1,1 +1,1 @@
-configatron.host = 'localhost:3000'
+configatron.host = 'lvh.me:3000'

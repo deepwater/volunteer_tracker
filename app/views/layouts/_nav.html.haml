@@ -1,31 +1,28 @@
 .navbar.navbar-inverse.navbar-fixed-top
 	.navbar-inner
 		.container
-			%a.btn.btn-navbar{:data=>{:toggle=>"collapse", :target=>".nav-collapse"}}
-				%span.icon-bar"
-				%span.icon-bar"
-				%span.icon-bar"
-			= link_to("Eventus", admin_index_path, :class=>"brand")
+			%a.btn.btn-navbar{ data: { toggle: "collapse", target: ".nav-collapse" } }
+			= link_to("Eventus", root_url(host: request.domain), class: "brand")
 
 			.nav-collapse.collapse
 				%ul.nav.pull-right
-					%li{class: nav_link(dashboard_index_path)}
-						= link_to dashboard_index_path do
+					%li
+						= link_to dashboard_index_url do
 							%i.icon-home.icon-white
 							Dashboard
-					%li{class: nav_link(edit_user_registration_path)}
-						= link_to edit_user_registration_path do
+					%li
+						= link_to edit_user_registration_url do
 							%i.icon-user.icon-white
 							My Profile
 					- if user_signed_in?
 						- if can? :manage, :all
-							%li{class: nav_link(admin_index_path)}
+							%li{class: nav_link(admin_index_url(host: request.domain))}
 								= link_to admin_index_path do
 									%i.icon-wrench.icon-white
 									Admin Panel
 					%li
-						%a{:href => "http://dev.omgmediagroup.com/ggfHelp", :target => "_blank"} 
+						%a{ href: "http://dev.omgmediagroup.com/ggfHelp", target: "_blank" }
 							%i.icon-question-sign.icon-white
 							Help
 					%li 
-						= link_to("Logout", destroy_user_session_path, :method => :delete, confirm: "Are you sure you want to logout?")
+						= link_to("Logout", destroy_user_session_url(host: request.domain), method: :delete, confirm: "Are you sure you want to logout?")

@@ -1,0 +1,20 @@
+.row
+  .span12
+    .alert-container
+      - flash.each do |type, message|
+        %div{class: flash_class(type) }
+          = message
+
+    %h3
+      = current_user.full_name
+    %h4
+      = current_user.role.camelize
+    %br
+    %br
+    = @organisation.name
+
+    %h5 Events
+    %ul.thumbnails
+      - @organisation.events.each do |event|
+        %li 
+          = event.name
