@@ -8,16 +8,6 @@ VolunteerTracker::Application.routes.draw do
   devise_for :users
 
   match '/welcome' => "welcome#index"
-
-  resources :admin, :only => :index do
-    collection do
-      get :charity_tab
-      get :department_tab
-      get :event_tab
-      get :organisation_tab
-    end
-  end
-  match 'admin/list' => "admin#list"
   
   namespace :admin do
     resources :users
@@ -27,6 +17,17 @@ VolunteerTracker::Application.routes.draw do
     resources :department_assistants
     resources :events
     resources :organisations
+
+    resources :base, :only => :index do
+      collection do
+        get :charity_tab
+        get :department_tab
+        get :event_tab
+        get :organisation_tab
+      end
+    end
+    match 'list' => "base#list"
+    root to: 'base#index'
   end
 
   constraints(Subdomain) do

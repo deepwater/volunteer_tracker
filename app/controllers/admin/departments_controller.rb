@@ -1,4 +1,4 @@
-class Admin::DepartmentsController < AdminController
+class Admin::DepartmentsController < Admin::BaseController
 
   def index
     service = DepartamentService.new

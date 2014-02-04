@@ -16,8 +16,8 @@
 							My Profile
 					- if user_signed_in?
 						- if can? :manage, :all
-							%li{class: nav_link(admin_index_url(host: request.domain))}
-								= link_to admin_index_path do
+							%li
+								= link_to admin_root_url(host: request.domain) do
 									%i.icon-wrench.icon-white
 									Admin Panel
 					%li

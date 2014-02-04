@@ -1,4 +1,4 @@
-class Admin::OrganisationsController < AdminController
+class Admin::OrganisationsController < Admin::BaseController
   # GET /organisations
   # GET /organisations.json
   def index

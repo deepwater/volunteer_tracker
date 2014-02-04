@@ -1,4 +1,4 @@
-class AdminController < ApplicationController
+class Admin::BaseController < ApplicationController
 	# layout 'admin'
 	before_filter :authenticate_user!
   before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab, :organisation_tab]

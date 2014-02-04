@@ -1,4 +1,4 @@
-class Admin::DepartmentManagersController < AdminController
+class Admin::DepartmentManagersController < Admin::BaseController
 
   # POST /department_managers
   # POST /department_managers.json

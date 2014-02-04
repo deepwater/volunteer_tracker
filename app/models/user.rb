@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  rolify
 
   ROLES = %w[volunteer volunteer_manager department_assistant department_manager event_administrator]
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
