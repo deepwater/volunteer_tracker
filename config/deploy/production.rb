@@ -10,7 +10,7 @@ role :db,  dns_name, primary: true           # This is where Rails migrations wi
 set :deploy_to, "/data/#{application}"
 
 set :rails_env, 'production'
-set :branch, 'master'
+set :branch, 'production'
 set :use_sudo, false
 
 set :user, 'ninja'
