@@ -1,0 +1,8 @@
+# ON LOCAL
+1. heroku maintenance:on
+2. curl `heroku pgbackups:url` > db.dump
+3. commit and deploy
+
+# ON SERVER
+1. cat config/database.yml
+2. pg_restore --verbose --clean --no-acl --no-owner -h localhost -U ninja -W -d volunteer db.dump
