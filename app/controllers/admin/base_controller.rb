@@ -1,6 +1,7 @@
 class Admin::BaseController < ApplicationController
 	# layout 'admin'
 	before_filter :authenticate_user!
+  before_filter :authenticate_admin
   before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab, :organisation_tab]
 
   DEFAULT_PER_PAGE = 10
@@ -51,5 +52,9 @@ class Admin::BaseController < ApplicationController
       per: DEFAULT_PER_PAGE,
       page: (params[:page] || 1).to_i
     }
+  end
+
+  def authenticate_admin
+    redirect_to root_path unless current_user.has_role? :super_admin
   end
 end

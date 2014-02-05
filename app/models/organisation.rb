@@ -1,4 +1,5 @@
 class Organisation < ActiveRecord::Base
+  resourcify
   attr_accessible :name, :subdomain
 
   has_many :events, dependent: :destroy

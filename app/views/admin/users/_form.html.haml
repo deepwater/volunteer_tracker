@@ -7,6 +7,6 @@
   = f.input :password
   = f.input :password_confirmation
   = f.input :tshirt_size, collection: User::TSHIRT_SIZES
-  = f.input :role, collection: User::ROLES
+  = f.input :role, collection: Role::ROLES
   .form-actions
     = f.button :submit

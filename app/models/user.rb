@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   rolify
 
-  ROLES = %w[volunteer volunteer_manager department_assistant department_manager event_administrator]
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
 
   # Include default devise modules. Others available are:
@@ -65,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def role?(base_role)
-    ROLES.index(base_role.to_s) <= ROLES.index(role)
+    true
   end
 
   def full_name 
