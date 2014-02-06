@@ -135,7 +135,7 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def volunteer_manager?
-    redirect_to :root unless current_user.role?(:volunteer_manager)
+    redirect_to :root unless current_user.has_role? :volunteer_manager
   end
 
   def fastpass_acessible

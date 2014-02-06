@@ -35,7 +35,7 @@ class DepartamentService
     users = User.where("users.id != ?", accessor.id).select("
       users.*, CONCAT(users.first_name, ' ', users.last_name) AS full_name
     ")
-    if accessor.role? "department_manager"
+    if accessor.has_role? :department_manager
       users = users.joins("
         LEFT OUTER JOIN department_assistants ON department_assistants.user_id = users.id
       ").where("

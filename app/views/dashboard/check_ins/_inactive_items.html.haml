@@ -5,7 +5,7 @@
       %td= check_in.user_schedule.try(:user).try(:email)
       %td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
       %td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
-      - if current_user.role? :department_manager
+      - if current_user.has_role? :department_manager
         = render 'editable_dates', check_in: check_in
       - else
         %td= check_in.created_at.strftime("%b %-d")
@@ -19,7 +19,7 @@
         - else
           Not assigned
       %td
-        - if current_user.role? :department_assistant
+        - if current_user.has_role? :department_assistant
           =form_for [:dashboard, check_in] do |f|
             = f.hidden_field :status, value: "1"
             = button_tag type: "submit", class: 'btn btn-mini btn-danger' do 

@@ -68,7 +68,7 @@ class DepartmentBlock < ActiveRecord::Base
 
     # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
     @list_of_availabilities.select! { |user_availability|
-      self.overlaps?(user_availability) && !user_availability.user.role?(:department_manager) && !user_availability.user.role?(:event_administrator)
+      self.overlaps?(user_availability) && !user_availability.user.has_role?(:department_manager) && !user_availability.user.has_role?(:event_admin)
     }
 
     @list_of_availabilities.each do |user_availability|

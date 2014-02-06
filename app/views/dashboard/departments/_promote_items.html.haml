@@ -4,32 +4,32 @@
     %td= user.email
     %td= user.role
     %td
-      - if user.role == "volunteer_manager" and current_user.role? "department_manager"
-        = form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+      - if user.has_role?(:volunteer_manager) and current_user.has_role?(:department_manager)
+        = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
           = f.hidden_field :role, value: "department_assistant"
           = button_tag type: "submit", class: 'btn btn-success' do 
             %i.icon-ok-sign.icon-white
-            Promote to Department Assistant             
+            Promote to Department Assistant
 
-      - if user.role == "volunteer" and current_user.role? "department_assistant"
-        = form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+      - if user.has_role?(:volunteer) and current_user.has_role?(:department_assistant)
+        = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
           = f.hidden_field :role, value: "volunteer_manager"
           = button_tag type: "submit", class: 'btn btn-success' do 
             %i.icon-ok-sign.icon-white
             Promote to Volunteer Manager
 
-      - if user.role? "department_assistant" and current_user.role? "department_manager"
-        = form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+      - if user.has_role?(:department_assistant) and current_user.has_role?(:department_manager)
+        = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
           = f.hidden_field :role, value: "volunteer_manager"
           = button_tag type: "submit", class: 'btn btn-danger' do 
             %i.icon-ok-sign.icon-white
             Demote to Volunteer Manager 
 
-      - if user.role? "volunteer_manager" and user.role != "department_assistant" and current_user.role? "department_assistant"
-        = form_for [:dashboard, user], html: {:"data-type" => "json"} do |f|
+      - if user.has_role?(:volunteer_manager) and current_user.has_role?(:department_assistant)
+        = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
           = f.hidden_field :role, value: "volunteer"
           = button_tag type: "submit", class: 'btn btn-danger' do 

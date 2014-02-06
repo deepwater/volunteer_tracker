@@ -27,9 +27,9 @@ class User < ActiveRecord::Base
 
   has_many :events
 
-  has_one :department_manager
-  has_one :department_assistant
-  has_one :volunteer_manager
+  has_one :department_manager, class_name: "User::DepartmentManager"
+  has_one :department_assistant, class_name: "User::DepartmentAssistant"
+  has_one :volunteer_manager, class_name: "User::VolunteerManager"
 
   before_save :default_values
   before_save :process_name
@@ -61,10 +61,6 @@ class User < ActiveRecord::Base
         self.department_manager ? self.department_manager.destroy : ""
       end
     end
-  end
-
-  def role?(base_role)
-    true
   end
 
   def full_name 
