@@ -8,30 +8,20 @@
 
     - flash.each do |name, msg|
       - if msg.is_a?(String)
-        %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
-          = content_tag :div, msg, :id => "flash_#{name}"
+        %div{class: "alert alert-#{name == :notice ? "success" : "error"}"}
+          = content_tag :div, msg, id: "flash_#{name}"
 
     %h2
       Sign In
-    
-    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal'}) do |f|
-      = devise_error_messages!
+
+    = simple_form_for(resource, url: session_path(:user), html: { id: "sign_in", class: 'form-horizontal', novalidate: true }) do |f|
       %fieldset
-        .control-group
-          = f.label(:email, :class => 'control-label')
-          .controls
-            = f.email_field(:email, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:password, :class => 'control-label')
-          .controls
-            = f.password_field(:password, :class => 'input-xlarge focused')
+        = f.input :email, required: false, autofocus: true
+        = f.input :password, required: false
         - if devise_mapping.rememberable?
-          .control-group
-            .controls
-              = f.check_box(:remember_me, :class => 'left-floated-check-box')
-              = f.label(:remember_me, :class => 'left-floated-label')
+          = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
         .form-actions
-          = f.submit(:class => 'btn btn-primary', :value => "Sign In")
+          = f.button :submit, "Sign in"
           %br
           = render "links"
 

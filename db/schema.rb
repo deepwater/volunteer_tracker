@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140204145705) do
+ActiveRecord::Schema.define(:version => 20140214154656) do
 
   create_table "charities", :force => true do |t|
     t.string   "name"
@@ -213,10 +213,11 @@ ActiveRecord::Schema.define(:version => 20140204145705) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "master_id"
+    t.string   "username"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["first_name", "last_name"], :name => "index_users_on_first_name_and_last_name"
   add_index "users", ["first_name"], :name => "index_users_on_first_name"
   add_index "users", ["last_name"], :name => "index_users_on_last_name"

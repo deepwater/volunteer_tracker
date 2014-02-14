@@ -1,68 +1,29 @@
 .row
   .span12
     %h3
-      / #{resource_name.to_s.humanize} Profile
       = "#{current_user.full_name} (#{current_user.role.camelize})"
       %br
 
     %p
-      - if current_user.charities.any?  
+      - if current_user.charities.any?
         Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
       - else
         You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
     %br
     %br
 
-
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put,:class=> 'form-horizontal' }) do |f|
-      = devise_error_messages!
+    = simple_form_for resource, url: registration_path(:user), method: :put, html: {class: 'form-horizontal', novalidate: true}, defaults: { input_html: { class: 'input-xlarge' } } do |f|
       %fieldset
-      .control-group
-        = f.label(:first_name, :class => 'control-label')
-        .controls
-          = f.text_field(:first_name, :class => 'input-xlarge focused')
-      .control-group
-        = f.label(:last_name, :class => 'control-label')
-        .controls
-          = f.text_field(:last_name, :class => 'input-xlarge focused')
-      .control-group
-        = f.label(:email, :class => 'control-label')
-        .controls      
-          = f.email_field :email
-      .control-group
-        = f.label(:cell_phone, :class => 'control-label')
-        .controls     
-          = f.text_field(:cell_phone, :class => 'input-xlarge focused')
-      .control-group
-        = f.label(:home_phone, :class => 'control-label')
-        .controls     
-          = f.text_field(:home_phone, :class => 'input-xlarge focused')
-      .control-group
-        = f.label(:secondary_email, :class => 'control-label')
-        .controls      
-          = f.email_field :secondary_email
-          %i (If you would like to send email notifications to a second email)
-      .control-group
-        = f.label(:tshirt_size, :class => 'control-label')
-        .controls    
-          = f.select(:tshirt_size, options_for_select(User::TSHIRT_SIZES, @user.tshirt_size))
-      .control-group
-        = f.label(:password, :class => 'control-label')
-        .controls      
-          = f.password_field :password, :autocomplete => "off"
-          %i (leave blank if you don't want to change it)
-      .control-group
-        = f.label(:password_confirmation, :class => 'control-label')
-        .controls      
-          = f.password_field :password_confirmation
-      .control-group
-        = f.label(:current_password, :class => 'control-label')
-        .controls      
-          = f.password_field :current_password
-          %i (we need your current password to confirm your changes)
-      .form-actions   
-        %div= f.submit(:class => 'btn btn-primary', :value => "Save Changes")
-    / %h3 Cancel my account
-    / %p
-    /   Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
-    / = link_to "Back", :back
+        = f.input :first_name
+        = f.input :last_name
+        = f.input :username
+        = f.input :cell_phone
+        = f.input :home_phone
+        = f.input :email
+        = f.input :secondary_email, as: :string, hint: "(If you would like to send email notifications to a second email)"
+        = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
+        = f.input :password, hint: "(leave blank if you don't want to change it)"
+        = f.input :password_confirmation
+        = f.input :current_password, hint: "(we need your current password to confirm your changes)"
+        .form-actions
+          = f.button :submit

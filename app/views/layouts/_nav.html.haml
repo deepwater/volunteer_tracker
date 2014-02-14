@@ -14,6 +14,10 @@
 						= link_to edit_user_registration_url do
 							%i.icon-user.icon-white
 							My Profile
+					%li
+						= link_to subaccounts_url do
+							%i.icon-plus.icon-white
+							Subaccounts
 					- if user_signed_in?
 						- if can? :manage, :all
 							%li

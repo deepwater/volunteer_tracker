@@ -3,7 +3,6 @@ $ ->
 		# console.log 'test'
 
 	$('.new_user_schedule .btn').on 'click', ->
-		# alert 'test'
 		return false if $(@).hasClass 'disabled'
 		$(@).addClass('disabled')
 

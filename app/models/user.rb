@@ -10,10 +10,13 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
-                  :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :user_id, 
-                  :department_block_id, :secondary_email
+                  :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
+                  :department_block_id, :secondary_email, :username
 
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, :username, presence: true
+  validates :email, presence: true, unless: :subaccount?
+  validates :password, presence: true, if: :password_required_on_update?
+  validates_confirmation_of :password, if: :password_required?
 
   has_many :user_availabilities, dependent: :destroy
 
@@ -26,6 +29,9 @@ class User < ActiveRecord::Base
   has_many :charities, :through => :user_charities
 
   has_many :events
+
+  belongs_to :master, class_name: 'User'
+  has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
 
   has_one :department_manager, class_name: "User::DepartmentManager"
   has_one :department_assistant, class_name: "User::DepartmentAssistant"
@@ -68,6 +74,22 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def subaccount?
+    master_id.present?
+  end
+
+  def password_required?
+    !subaccount? && (!persisted? || !password.nil? || !password_confirmation.nil?)
+  end
+
+  def password_required_on_update?
+    password_required? && persisted?
+  end
+
+  def email_required?
+    super && !subaccount?
+  end
 
   def process_name
     self.first_name = first_name.strip

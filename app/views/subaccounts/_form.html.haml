@@ -1,12 +1,10 @@
-= simple_form_for([:admin, @user], html: { class: 'form-horizontal' }) do |f|
+= simple_form_for(@subaccount, html: { id: "new_subaccount", class: 'form-horizontal' }) do |f|
+  = f.hidden_field :master_id, value: current_user.id
   = f.input :first_name
   = f.input :last_name
+  = f.input :username
   = f.input :cell_phone
   = f.input :home_phone
-  = f.input :email
-  = f.input :password
-  = f.input :password_confirmation
   = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
-  = f.input :role, collection: Role::ROLES
   .form-actions
     = f.button :submit

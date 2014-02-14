@@ -1,0 +1,27 @@
+.row
+  .span12
+    %h2
+      %i.halflings-icon.edit 
+      Subaccounts List
+
+    .span3.offset8
+      %br
+      = link_to(new_subaccount_path) do
+        %button.btn.btn-primary{ type: :button, class: "right-floated-btn" } 
+          New Subaccount
+.row
+  %br
+  .span12
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Name
+        %th Username
+        %th
+        %th
+
+        - @subaccounts.each do |subaccount|
+          %tr
+            %td= link_to subaccount.username, subaccount_path(subaccount)
+            %td= subaccount.full_name
+            %td= link_to 'Edit', edit_subaccount_path(subaccount)
+            %td= link_to 'Delete', subaccount_path(subaccount), method: :delete

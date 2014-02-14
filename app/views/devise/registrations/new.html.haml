@@ -19,41 +19,17 @@
         %span.break
       your profile
     
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-horizontal registration'}) do |f|
-      = devise_error_messages!
+    = simple_form_for resource, url: registration_path(:user), method: :post, html: {class: 'form-horizontal', novalidate: true}, defaults: { input_html: { class: 'input-xlarge' } } do |f|
       %fieldset
-        .control-group
-          = f.label(:first_name, :class => 'control-label')
-          .controls
-            = f.text_field(:first_name, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:last_name, :class => 'control-label')
-          .controls
-            = f.text_field(:last_name, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:cell_phone, :class => 'control-label')
-          .controls
-            = f.text_field(:cell_phone, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:home_phone, :class => 'control-label')
-          .controls
-            = f.text_field(:home_phone, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:email, :class => 'control-label')
-          .controls
-            = f.email_field(:email, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:password, :class => 'control-label')
-          .controls
-            = f.password_field(:password, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:password_confirmation, :class => 'control-label')
-          .controls
-            = f.password_field(:password_confirmation, :class => 'input-xlarge focused')
-        .control-group
-          = f.label(:tshirt_size, :class => 'control-label')
-          .controls
-            = f.select(:tshirt_size, options_for_select(User::TSHIRT_SIZES))
+        = f.input :first_name
+        = f.input :last_name
+        = f.input :username
+        = f.input :cell_phone
+        = f.input :home_phone
+        = f.input :email
+        = f.input :password
+        = f.input :password_confirmation
+        = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
         .control-group
           = label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'
           .controls
@@ -63,7 +39,7 @@
             =link_to "If you are under 18, or if you're registering for more than one person, click here for more information.", "http://gilroygarlicfestival.com/help/helpDocMultiAcct.html"
             %p *Note: We never share your information with ANYONE outside of the Gilroy Garlic Festival organization and will only use this information to better assist us with coordinating the event.
         .form-actions
-          = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
+          = f.button :submit
           %br
           = render "links"
 
