@@ -40,7 +40,7 @@ class SubaccountsController < ApplicationController
 
   def create
     @subaccount = User.new(params[:user])
-
+    @subaccount.skip_confirmation!
     respond_to do |format|
       if @subaccount.save
         format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully created.' }
