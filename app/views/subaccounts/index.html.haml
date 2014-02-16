@@ -6,7 +6,7 @@
 
     .span3.offset8
       %br
-      = link_to(new_subaccount_path) do
+      = link_to(new_user_subaccount_path(current_user)) do
         %button.btn.btn-primary{ type: :button, class: "right-floated-btn" } 
           New Subaccount
 .row
@@ -18,10 +18,12 @@
         %th Username
         %th
         %th
+        %th
 
         - @subaccounts.each do |subaccount|
           %tr
-            %td= link_to subaccount.username, subaccount_path(subaccount)
+            %td= link_to subaccount.username, user_subaccount_path(current_user, subaccount)
             %td= subaccount.full_name
-            %td= link_to 'Edit', edit_subaccount_path(subaccount)
-            %td= link_to 'Delete', subaccount_path(subaccount), method: :delete
+            %td= link_to 'Set availabilities', dashboard_user_user_availabilities_path(subaccount)
+            %td= link_to 'Edit', edit_user_subaccount_path(current_user, subaccount)
+            %td= link_to 'Delete', user_subaccount_path(current_user, subaccount), method: :delete

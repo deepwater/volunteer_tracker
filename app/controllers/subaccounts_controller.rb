@@ -2,7 +2,8 @@ class SubaccountsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @subaccounts = current_user.subaccounts
+    @master = User.find(params[:user_id])
+    @subaccounts = @master.subaccounts
 
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +21,7 @@ class SubaccountsController < ApplicationController
   end
 
   def new
-    @subaccount = current_user.subaccounts.new
+    @subaccount = current_user.subaccounts.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,7 +43,7 @@ class SubaccountsController < ApplicationController
 
     respond_to do |format|
       if @subaccount.save
-        format.html { redirect_to subaccount_path(@subaccount), notice: 'Subaccount was successfully created.' }
+        format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully created.' }
         format.json { render json: @subaccount, status: :created, location: @subaccount }
       else
         format.html { render action: "new" }
@@ -58,7 +59,7 @@ class SubaccountsController < ApplicationController
 
     respond_to do |format|
       if @subaccount.update_attributes(params[:user])
-        format.html { redirect_to subaccount_path(@subaccount), notice: 'Subaccount was successfully updated.' }
+        format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -74,7 +75,7 @@ class SubaccountsController < ApplicationController
     @subaccount.destroy
 
     respond_to do |format|
-      format.html { redirect_to subaccounts_url }
+      format.html { redirect_to user_subaccounts_url(current_user) }
       format.json { head :no_content }
     end
   end

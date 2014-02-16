@@ -4,14 +4,15 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
 
   def index
     @user_availability = UserAvailability.new
+    @user = params[:user_id].present? ? User.find(params[:user_id]) : current_user
 
-    @user_availabilities = UserAvailability.where(user_id: current_user.id)
+    @user_availabilities = UserAvailability.where(user_id: @user.id)
 
     days = Day.where(day_type: [0, 1, 2])
 
     @user_scheduled = DepartmentBlock.where(day_id: days.map(&:id)).joins("
       LEFT OUTER JOIN user_schedules ON user_schedules.department_block_id = department_blocks.id
-    ").where("user_schedules.user_id = ?", current_user.try(:id)).group("department_blocks.day_id").count.inspect
+    ").where("user_schedules.user_id = ?", @user.try(:id)).group("department_blocks.day_id").count.inspect
 
     @setup_days = days.select { |day| day.day_type == 0}
     @festival_days = days.select { |day| day.day_type == 1}

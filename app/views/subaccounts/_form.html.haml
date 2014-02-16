@@ -1,4 +1,4 @@
-= simple_form_for(@subaccount, html: { id: "new_subaccount", class: 'form-horizontal' }) do |f|
+= simple_form_for([current_user, @subaccount], url: @subaccount.persisted? ? :user_subaccount : :user_subaccounts, html: { id: "new_subaccount", class: 'form-horizontal', method: @subaccount.persisted? ? :put : :post }) do |f|
   = f.hidden_field :master_id, value: current_user.id
   = f.input :first_name
   = f.input :last_name

@@ -15,7 +15,7 @@
 							%i.icon-user.icon-white
 							My Profile
 					%li
-						= link_to subaccounts_url do
+						= link_to user_subaccounts_url(current_user) do
 							%i.icon-plus.icon-white
 							Subaccounts
 					- if user_signed_in?

@@ -3,10 +3,11 @@ VolunteerTracker::Application.routes.draw do
   # PUBLIC FACING
   resources :departments, :only => [:index,:show]
   resources :charities, :only => [:index,:show]
-  resources :subaccounts
 
   devise_for :users, :controllers => { registrations: "registrations"}
-  devise_for :users
+  resources :users do
+    resources :subaccounts
+  end
 
   match '/welcome' => "welcome#index"
   
@@ -53,6 +54,9 @@ VolunteerTracker::Application.routes.draw do
 
     # TIME RELATED
     resources :days
+    resources :users do
+      resources :user_availabilities
+    end
     resources :user_availabilities
     resources :department_blocks
 
