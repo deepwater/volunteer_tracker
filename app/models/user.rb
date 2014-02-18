@@ -33,9 +33,9 @@ class User < ActiveRecord::Base
   belongs_to :master, class_name: 'User'
   has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
 
-  has_one :department_manager, class_name: "User::DepartmentManager"
-  has_one :department_assistant, class_name: "User::DepartmentAssistant"
-  has_one :volunteer_manager, class_name: "User::VolunteerManager"
+  has_one :department_manager
+  has_one :department_assistant
+  has_one :volunteer_manager
 
   before_save :default_values
   before_save :process_name
