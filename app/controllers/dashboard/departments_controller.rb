@@ -42,7 +42,7 @@ class Dashboard::DepartmentsController < DashboardController
     @department = Department.find(params[:id])
     @department_block = DepartmentBlock.new()
     @days = Day.all
-    @day=Day.where("year = ? AND month = ? AND  mday = ?", params[:year],params[:month],params[:day]).first
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
   end
 
   private

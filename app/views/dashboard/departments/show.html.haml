@@ -126,7 +126,7 @@
   window.initDepartmentsShowPage = function() {
     var firstHash, reloadSchedule;
     reloadSchedule = function(dateid) {
-      return $.ajax("" + window.location.pathname + "/schedule/2013/" + dateid.slice(0, 2) + "/" + dateid.slice(2), {
+      return $.ajax("" + window.location.pathname + "/schedule/2014/" + dateid.slice(0, 2) + "/" + dateid.slice(2), {
         type: 'GET',
         dataType: 'html',
         error: function(jqXHR, textStatus, errorThrown) {
