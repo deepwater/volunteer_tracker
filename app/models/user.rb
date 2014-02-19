@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
 
   def reset_role_associations
     if self.role_changed?
+      self.add_role self.role # temporary fix for current ACL system
       case self.role
       when 'volunteer'
         self.volunteer_manager ? self.volunteer_manager : ""
