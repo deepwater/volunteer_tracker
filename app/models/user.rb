@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, :last_name, presence: true
   validates :username, presence: true, unless: :password_required?
-  validates :username, uniqueness: true
+  validates :username, uniqueness: true, unless: :password_required?
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
