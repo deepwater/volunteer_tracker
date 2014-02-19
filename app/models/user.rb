@@ -13,7 +13,9 @@ class User < ActiveRecord::Base
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
                   :department_block_id, :secondary_email, :username
 
-  validates :first_name, :last_name, :username, presence: true
+  validates :first_name, :last_name, presence: true
+  validates :username, presence: true, unless: :password_required?
+  validates :username, uniqueness: true
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
@@ -85,10 +87,6 @@ class User < ActiveRecord::Base
 
   def password_required_on_update?
     password_required? && persisted?
-  end
-
-  def email_required?
-    super && !subaccount?
   end
 
   def process_name
