@@ -23,7 +23,7 @@ VolunteerTracker::Application.configure do
 
   config.assets.compile =true
 
-  config.action_mailer.default_url_options = { :host => 'volunteer.23stages.com' }
+  config.action_mailer.default_url_options = { :host => 'omgdojo.com' }
 
 
   # Defaults to Rails.root.join("public/assets")
