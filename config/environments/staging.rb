@@ -1,5 +1,5 @@
 VolunteerTracker::Application.configure do
-  config.action_dispatch.tld_length = 2
+  # config.action_dispatch.tld_length = 2
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
