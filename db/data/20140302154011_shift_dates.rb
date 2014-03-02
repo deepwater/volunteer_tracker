@@ -7,7 +7,7 @@ class ShiftDates < ActiveRecord::Migration
       else
         day.mday -= 1
       end
-      day.date = Date.new(day.year, day.month, day.mday)
+      day.date = Time.new(day.year, day.month, day.mday)
       day.save!
     end
   end
