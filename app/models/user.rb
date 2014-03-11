@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :organisation_id, presence: true, unless: :super_admin?
   validates :username, presence: true
-  validates :username, uniqueness: true
+  validates :username, uniqueness: { scope: :organisation_id }
   validates :email, uniqueness: true, unless: :subaccount?
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
