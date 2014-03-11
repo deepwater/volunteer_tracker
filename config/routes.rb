@@ -32,9 +32,9 @@ VolunteerTracker::Application.routes.draw do
     root to: 'base#index'
   end
 
-  constraints(Subdomain) do
-    match '/' => 'organisations#show', as: :organisation_root
-  end
+  # constraints(Subdomain) do
+  #   match '/' => 'organisations#show', as: :organisation_root
+  # end
 
   resources :dashboard, :only => [:index, :registration_complete]
   namespace :dashboard do

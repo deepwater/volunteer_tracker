@@ -21,7 +21,7 @@
 					- if user_signed_in?
 						- if can? :manage, :all
 							%li
-								= link_to admin_root_url(host: request.domain) do
+								= link_to admin_root_url do
 									%i.icon-wrench.icon-white
 									Admin Panel
 					%li
@@ -29,4 +29,4 @@
 							%i.icon-question-sign.icon-white
 							Help
 					%li 
-						= link_to("Logout", destroy_user_session_url(host: request.domain), method: :delete, confirm: "Are you sure you want to logout?")
+						= link_to("Logout", destroy_user_session_url, method: :delete, confirm: "Are you sure you want to logout?")

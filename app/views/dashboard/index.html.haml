@@ -9,6 +9,7 @@
       = current_user.full_name
     %h4
       = current_user.role.camelize
+    %h4= "Your organisation - #{request.subdomain}" if request.subdomain.present?
     %br
     %br
 

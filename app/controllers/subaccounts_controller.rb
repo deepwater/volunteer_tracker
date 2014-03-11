@@ -80,6 +80,4 @@ class SubaccountsController < ApplicationController
     end
   end
 
-
-
 end

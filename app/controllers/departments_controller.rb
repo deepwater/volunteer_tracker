@@ -74,6 +74,4 @@ class DepartmentsController < ApplicationController
     end
   end
 
-
-
 end

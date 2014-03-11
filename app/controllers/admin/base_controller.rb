@@ -6,8 +6,8 @@ class Admin::BaseController < ApplicationController
 
   DEFAULT_PER_PAGE = 10
 
-	def index
-	end
+  def index
+  end
 
   def charity_tab
     @charities = Charity.order("charities.name").page(@scope[:page]).per(@scope[:per])
@@ -38,11 +38,11 @@ class Admin::BaseController < ApplicationController
     @volunteer_hours = service.volunteer_hours_progress(@departments.map(&:id))
   end
 
-	def list
-		respond_to do |format|
-  		format.html
-  		format.json { render json: UsersDatatable.new(view_context)}
-  	end
+  def list
+    respond_to do |format|
+      format.html
+      format.json { render json: UsersDatatable.new(view_context)}
+    end
   end
 
   private

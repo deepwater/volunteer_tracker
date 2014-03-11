@@ -1,3 +1,4 @@
+#TODO: check for necessity
 class Subdomain
   IGNORE_SUBDOMAINS = %w(www api)
 

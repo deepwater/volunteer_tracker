@@ -122,7 +122,7 @@ class CheckInsService
     query
   end
 
-  def sort_inactive(query)   
+  def sort_inactive(query)
     if valid_order?(scope[:order_check_out])
       query = query.order("check_ins.check_out_time #{scope[:order_check_out]}")
     end

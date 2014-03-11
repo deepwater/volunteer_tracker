@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true
   validates :username, presence: true
   validates :username, uniqueness: true
+  validates :email, uniqueness: true, unless: :subaccount?
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
@@ -72,7 +73,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def full_name 
+  def full_name
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
   end
 

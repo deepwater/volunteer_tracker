@@ -27,7 +27,6 @@ module Dashboard::DepartmentsHelper
 		elsif allocated_hours == 0
 			return 100
 		else
-			#logger.debug "BLAH: #{( 1 / 2 ) * 100}"
 			return ( estimated_hours.to_f / allocated_hours.to_f ) * 100
 		end
 
