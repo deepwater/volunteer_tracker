@@ -21,6 +21,7 @@
         = f.input :home_phone
         = f.input :email
         = f.input :secondary_email, as: :string, hint: "(If you would like to send email notifications to a second email)"
+        = f.input :organisation_id, collection: Organisation.all.map { |r| [r.name, r.id] }, include_blank: false
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
         = f.input :password, hint: "(leave blank if you don't want to change it)"
         = f.input :password_confirmation

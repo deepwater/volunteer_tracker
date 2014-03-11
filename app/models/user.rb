@@ -11,9 +11,10 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
-                  :department_block_id, :secondary_email, :username
+                  :department_block_id, :secondary_email, :username, :organisation_id
 
   validates :first_name, :last_name, presence: true
+  validates :organisation_id, presence: true, unless: :super_admin?
   validates :username, presence: true
   validates :username, uniqueness: true
   validates :email, uniqueness: true, unless: :subaccount?
@@ -39,6 +40,8 @@ class User < ActiveRecord::Base
   has_one :department_manager
   has_one :department_assistant
   has_one :volunteer_manager
+
+  belongs_to :organisation
 
   before_save :default_values
   before_save :process_name
@@ -83,6 +86,10 @@ class User < ActiveRecord::Base
     master_id.present?
   end
 
+  def super_admin?
+    self.has_role?(:super_admin)
+  end
+
   def password_required?
     !subaccount? && (!persisted? || !password.nil? || !password_confirmation.nil?)
   end
@@ -95,4 +102,5 @@ class User < ActiveRecord::Base
     self.first_name = first_name.strip
     self.last_name = last_name.strip
   end
+
 end

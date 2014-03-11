@@ -29,6 +29,7 @@
         = f.input :email
         = f.input :password
         = f.input :password_confirmation
+        = f.input :organisation_id, collection: Organisation.all.map { |r| [r.name, r.id] }, include_blank: false
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
         .control-group
           = label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'

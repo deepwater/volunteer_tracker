@@ -3,6 +3,7 @@ class Organisation < ActiveRecord::Base
   attr_accessible :name, :subdomain
 
   has_many :events, dependent: :destroy
+  has_many :users
 
   validates_format_of :subdomain, with: /^[a-z0-9_]+$/
   validates_length_of :subdomain, maximum: 32
