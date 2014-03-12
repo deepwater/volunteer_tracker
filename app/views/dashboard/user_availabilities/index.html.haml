@@ -142,7 +142,7 @@
     - if @user_availabilities.empty?
       %p.pull-right
         Finished and ready to select your charity affiliation?
-        = link_to "Save Availability", dashboard_user_charities_path, class: "btn btn-success pull-right"
+        = link_to "Save Availability", dashboard_user_user_charities_path(@user), class: "btn btn-success pull-right"
         %br/
         %small.pull-right (Don't worry, you can always come back to this section later to edit your time availability.
     - else 

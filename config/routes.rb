@@ -56,6 +56,7 @@ VolunteerTracker::Application.routes.draw do
     resources :days
     resources :users do
       resources :user_availabilities
+      resources :user_charities
     end
     resources :user_availabilities
     resources :department_blocks

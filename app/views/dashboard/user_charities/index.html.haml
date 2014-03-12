@@ -3,9 +3,9 @@
     %h2
       Choose the charity you want to volunteer for
       %br
-    = form_for(@user_charity, :url => dashboard_user_charities_path(), :html => {:class => 'form-horizontal'}) do |f|
+    = form_for(@user_charity, :url => dashboard_user_user_charities_path(@user), :html => {:class => 'form-horizontal'}) do |f|
       %fieldset
-        = f.hidden_field :user_id, :value => current_user.id
+        = f.hidden_field :user_id, :value => @user.id
         .control-group
           = f.label(:charity_id, :class => 'control-label')
           .controls
