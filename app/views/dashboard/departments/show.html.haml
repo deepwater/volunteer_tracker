@@ -90,7 +90,7 @@
             %br
 
             %br
-            - if (current_user.role == "department_manager") || (current_user.role == "department_assistant") || (current_user.role =="event_administrator")
+            - if (current_user.role == "department_manager") || (current_user.role == "department_assistant") || (current_user.role =="event_admin")
               = link_to(new_dashboard_department_block_path) do
                 %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}, class: "create_department_block"}
                   Create Department Block

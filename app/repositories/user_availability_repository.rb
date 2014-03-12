@@ -13,7 +13,7 @@ class UserAvailabilityRepository
     user_ids = UserAvailability.joins(:user).where(
       day_id: department_block.day_id
     ).where(
-      "users.role != 'department_manager' AND users.role != 'event_administrator'"
+      "users.role != 'department_manager' AND users.role != 'event_admin'"
     ).group(:user_id).pluck(:user_id)
 
     scheduled_user_ids = UserSchedule.where(department_block_id: department_block.id).pluck(:user_id)

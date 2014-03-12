@@ -19,7 +19,7 @@
         %li
           = link_to organisation.name, root_url(subdomain: organisation.subdomain)
     %ul.thumbnails
-      - if current_user.role != "event_administrator" && current_user.role != "department_manager"
+      - if current_user.role != "event_admin" && current_user.role != "department_manager"
         = render "dashboard/dashboard_modules/view_time_availability"
         = render "dashboard/dashboard_modules/upcoming_assignments"
 
@@ -35,5 +35,5 @@
       - if can?(:manage, CheckIn)
         = render "dashboard/dashboard_modules/active_volunteers"  
         = render "dashboard/dashboard_modules/inactive_volunteers"
-      - if current_user.role != "event_administrator" && current_user.role != "department_manager"
+      - if current_user.role != "event_admin" && current_user.role != "department_manager"
         = render "dashboard/dashboard_modules/past_assignments"

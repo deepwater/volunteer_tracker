@@ -66,7 +66,7 @@ class DepartmentBlock < ActiveRecord::Base
       day: {user_schedules: :department_block}
     ).where(day_id: self.day_id)
 
-    # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_administrators
+    # Select only user_availabilities that either overlap the department_block and aren't owned by department_managers and event_admin
     @list_of_availabilities.select! { |user_availability|
       self.overlaps?(user_availability) && !user_availability.user.has_role?(:department_manager) && !user_availability.user.has_role?(:event_admin)
     }

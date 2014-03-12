@@ -14,7 +14,7 @@ class CheckInsService
     department_manager: {
       accessible_attributes: %w(status user_schedule_id created_at check_out_time)
     },
-    event_administrator: {
+    event_admin: {
       accessible_attributes: %w(status user_schedule_id created_at check_out_time)
     }
   }

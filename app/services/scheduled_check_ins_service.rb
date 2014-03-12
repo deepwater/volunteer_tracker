@@ -28,7 +28,7 @@ class ScheduledCheckInsService
       when :volunteer_manager then query_for_volunteer_manager
       when :department_assistant then query_for_department_assistant
       when :department_manager then query_for_department_manager
-      when :event_administrator then query_for_event_administrator
+      when :event_admin then query_for_event_admin
     end
   end
 
@@ -46,7 +46,7 @@ class ScheduledCheckInsService
     UserSchedule.where(department_block_id: department_block_ids)
   end
   
-  def query_for_event_administrator
+  def query_for_event_admin
     UserSchedule
   end
 
