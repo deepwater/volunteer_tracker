@@ -8,10 +8,10 @@
     = link_to "Departments", "#departments", data: { loaded: 0, url: department_tab_admin_base_index_url }
   %li
     = link_to "Charities", "#charities", data: { loaded: 0, url: charity_tab_admin_base_index_url }
-  %li
-    = link_to "Events", "#events", data: { loaded: 0, url: event_tab_admin_base_index_url }
-  %li
-    = link_to "Organizations", "#organisations", data: { loaded: 0, url: organisation_tab_admin_base_index_url }
+  / %li
+  /   = link_to "Events", "#events", data: { loaded: 0, url: event_tab_admin_base_index_url }
+  / %li
+  /   = link_to "Organizations", "#organisations", data: { loaded: 0, url: organisation_tab_admin_base_index_url }
 
   #section-tabs
     .clearfix
@@ -19,5 +19,5 @@
       = render partial: "users"
     #departments.section-tab.hide
     #charities.section-tab.hide
-    #events.section-tab.hide
-    #organisations.section-tab.hide
+    / #events.section-tab.hide
+    / #organisations.section-tab.hide
