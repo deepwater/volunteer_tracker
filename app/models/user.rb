@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   has_many :charities, :through => :user_charities
 
   has_many :events
+  has_many :blog_posts
 
   belongs_to :master, class_name: 'User'
   has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
