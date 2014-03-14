@@ -2,7 +2,7 @@
   .thumbnail
     .caption
       %h4 Upcoming Assignments
-      - if @user_schedules.empty?
+      - if @user_schedules.blank?
         %p You have not been scheduled yet. Make sure you have entered your time availability so that you are eligible to be scheduled to help out!
       - else
         .well

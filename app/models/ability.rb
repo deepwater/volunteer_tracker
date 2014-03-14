@@ -28,7 +28,7 @@ class Ability
       can :manage, :all
     end
 
-    can :manage_fastpass, User do |u|
+    can :manage_fastpass, User do |user|
       department_condition = DepartmentManager.where(department_id: 10, user_id: user.try(:id)).exists? ||
       DepartmentAssistant.where(department_id: 10, user_id: user.try(:id)).exists? ||
       VolunteerManager.where(department_block_id: DepartmentBlock.where(department_id: 10).pluck(:id), user_id: user.try(:id)).exists?
