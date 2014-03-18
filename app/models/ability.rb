@@ -4,28 +4,29 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    if user.has_role? :volunteer
-      can :read, :all
+    if user.has_role? :super_admin
+      can :manage, :all
+      cannot :manage_fastpass, User
     end
-    if user.has_role? :volunteer_manager
-      can :manage, CheckIn if user.check_ins.where(status: "1").exists?
-      can :flag, CheckIn
+    if user.has_role? :org_admin
+      can :manage, Organisation
+    end
+    if user.has_role? :event_admin
+      can :manage, Event
+    end
+    if user.has_role? :department_manager
+      can :manage, DepartmentBlock
     end
     if user.has_role? :department_assistant
       can :manage, UserSchedule
       can :manage, CheckIn
     end
-    if user.has_role? :department_manager
-      can :manage, DepartmentBlock
+    if user.has_role? :volunteer_manager
+      can :manage, CheckIn if user.check_ins.where(status: "1").exists?
+      can :flag, CheckIn
     end
-    if user.has_role? :event_admin
-      can :manage, Event
-    end
-    if user.has_role? :org_admin
-      can :manage, Organisation
-    end
-    if user.has_role? :super_admin
-      can :manage, :all
+    if user.has_role? :volunteer
+      can :read, :all
     end
 
     can :manage_fastpass, User do |user|

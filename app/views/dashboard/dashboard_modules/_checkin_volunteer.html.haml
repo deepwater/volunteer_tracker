@@ -5,7 +5,7 @@
       %p
         - if can? :manage, CheckIn
           = link_to "Show All Scheduled Volunteers", scheduled_dashboard_check_ins_path, class: "btn btn-block btn-primary"
-        - if can?(:manage_fastpass, current_user)
+        - if can? :manage_fastpass, current_user
           %br
           = link_to "Fastpass Check In", fastpass_dashboard_check_ins_path, class: "btn btn-block btn-primary"
           %br
