@@ -9,15 +9,15 @@
       = current_user.full_name
     %h4
       = current_user.role.camelize
-    %h4= "Your organisation - #{request.subdomain}" if request.subdomain.present?
+    / %h4= "Your organisation - #{request.subdomain}" if request.subdomain.present?
     %br
     %br
 
-    %h5 Organizations
-    %ul.thumbnails
-      - Organisation.all.each do |organisation|
-        %li
-          = link_to organisation.name, root_url(subdomain: organisation.subdomain)
+    / %h5 Organizations
+    / %ul.thumbnails
+    /   - Organisation.all.each do |organisation|
+    /     %li
+    /       = link_to organisation.name, root_url(subdomain: organisation.subdomain)
     %ul.thumbnails
       - if current_user.role != "event_admin" && current_user.role != "department_manager"
         = render "dashboard/dashboard_modules/view_time_availability"
