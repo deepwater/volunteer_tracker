@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::Base
   include UrlHelper
   protect_from_forgery
-  before_filter :current_organisation
+  # before_filter :current_organisation
 
   def after_sign_in_path_for(resource)
     if resource.username.present?
-      resource.sign_in_count <= 1 ? '/dashboard/user_availabilities' : root_url(subdomain: user_organisation.try(:subdomain))
+      resource.sign_in_count <= 1 ? '/dashboard/user_availabilities' : root_path
     else
-      edit_user_registration_path(subdomain: user_organisation.try(:subdomain))
+      edit_user_registration_path
     end
   end
 
