@@ -3,9 +3,9 @@
 # Ruby, Java, .NET, PHP, and Python applications with deep visibility and low overhead.
 # For more information, visit www.newrelic.com.
 #
-# Generated May 14, 2013
+# Generated March 27, 2014
 #
-# This configuration file is custom generated for app12607491@heroku.com
+# This configuration file is custom generated for OMG Media Group
 
 
 # Here are the settings that are common to all environments
@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: '9aadf6b9396f5e2b82f2e06178e9f2290558b31a'
+  license_key: 'b14f0894ccc702a25b0402141e1b335ed4934933'
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
