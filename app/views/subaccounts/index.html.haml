@@ -9,6 +9,9 @@
       = link_to(new_user_subaccount_path(current_user)) do
         %button.btn.btn-primary{ type: :button, class: "right-floated-btn" } 
           New Subaccount
+      = form_tag import_user_subaccounts_path(current_user), multipart: true do
+        = file_field_tag :file
+        = submit_tag "Import"
 .row
   %br
   .span12
@@ -16,6 +19,7 @@
       %tr
         %th Name
         %th Username
+        %th User Charity
         %th
         %th
         %th
@@ -24,6 +28,7 @@
           %tr
             %td= link_to subaccount.username, user_subaccount_path(current_user, subaccount)
             %td= subaccount.full_name
+            %td= subaccount.charities.first.try(:name)
             %td= link_to 'Set availabilities', dashboard_user_user_availabilities_path(subaccount)
             %td= link_to 'Edit', edit_user_subaccount_path(current_user, subaccount)
             %td= link_to 'Delete', user_subaccount_path(current_user, subaccount), method: :delete

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+require 'csv'
   rolify
 
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
@@ -21,16 +22,18 @@ class User < ActiveRecord::Base
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
+  validates_uniqueness_of :email, allow_blank: true, case_sensitive: false
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
 
   has_many :user_availabilities, dependent: :destroy
 
   has_many :check_ins, dependent: :destroy
 
   has_many :user_schedules, dependent: :destroy
-  has_many :department_blocks, :through => :user_schedules
+  has_many :department_blocks, through: :user_schedules
 
   has_many :user_charities, dependent: :destroy
-  has_many :charities, :through => :user_charities
+  has_many :charities, through: :user_charities
 
   has_many :events
 
@@ -81,6 +84,13 @@ class User < ActiveRecord::Base
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
   end
 
+  def add_charity_by_name(charity_name)
+    # TODO: trim charities name
+    charity = Charity.where("name LIKE :prefix", prefix: "#{charity_name}%").first
+    return unless charity
+    self.charities << charity
+  end
+
   private
 
   def subaccount?
@@ -102,6 +112,33 @@ class User < ActiveRecord::Base
   def process_name
     self.first_name = first_name.strip
     self.last_name = last_name.strip
+  end
+
+  def self.import(file, accessor)
+    success_count, errors = 0, {}
+    CSV.foreach(file.path, headers: false) do |row|
+      user = User.new({
+        first_name: row[0],
+        last_name: row[1],
+        username: row[2],
+        cell_phone: row[3],
+        home_phone: row[4],
+        email: row[5],
+        tshirt_size: row[6],
+        master_id: accessor.id,
+        organisation_id: Organisation.first.try(:id)
+      })
+      user.skip_confirmation!
+      if user.save
+        success_count += 1
+        user.add_charity_by_name(row[7])
+      else
+        errors[row[2]] = user.errors.full_messages
+      end
+    end
+    { true  => { status: :success, subaccount_count: success_count },
+      false => { status: :error, errors: errors }
+    }[errors.blank?]
   end
 
 end

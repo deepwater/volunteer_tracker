@@ -6,7 +6,9 @@ VolunteerTracker::Application.routes.draw do
 
   devise_for :users, :controllers => { registrations: "registrations"}
   resources :users do
-    resources :subaccounts
+    resources :subaccounts do
+      collection { post :import }
+    end
   end
 
   match '/welcome' => "welcome#index"

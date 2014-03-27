@@ -1,9 +1,5 @@
 .row
   .span12
-    .alert-container
-      - flash.each do |type, message|
-        %div{class: flash_class(type) }
-          = message
 
     %h3
       = current_user.full_name

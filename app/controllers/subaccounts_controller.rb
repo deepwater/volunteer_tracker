@@ -52,8 +52,6 @@ class SubaccountsController < ApplicationController
     end
   end
 
-  # PUT /subaccounts/1
-  # PUT /subaccounts/1.json
   def update
     @subaccount = User.find(params[:id])
 
@@ -68,8 +66,6 @@ class SubaccountsController < ApplicationController
     end
   end
 
-  # DELETE /subaccounts/1
-  # DELETE /subaccounts/1.json
   def destroy
     @subaccount = User.find(params[:id])
     @subaccount.destroy
@@ -77,6 +73,15 @@ class SubaccountsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to user_subaccounts_url(current_user) }
       format.json { head :no_content }
+    end
+  end
+
+  def import
+    response = User.import(params[:file], current_user)
+    if response[:status] == :success
+      redirect_to user_subaccounts_url(current_user), notice: "#{response[:subaccount_count]} subaccounts imported."
+    else
+      redirect_to user_subaccounts_url(current_user), alert: "There are some errors: #{view_context.error_list(response[:errors])}".html_safe
     end
   end
 
