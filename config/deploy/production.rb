@@ -1,4 +1,4 @@
-set :dns_name, "107.170.30.8"
+set :dns_name, "162.243.66.189"
 
 set :application, "volunteer"
 set :repository,  "git@github.com:omggroup/volunteer_tracker.git"
