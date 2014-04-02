@@ -12,7 +12,7 @@ require 'csv'
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
-                  :department_block_id, :secondary_email, :username, :organisation_id
+                  :department_block_id, :secondary_email, :username, :organisation_id, :adult
 
   validates :first_name, :last_name, presence: true
   validates :organisation_id, presence: true, unless: :super_admin?

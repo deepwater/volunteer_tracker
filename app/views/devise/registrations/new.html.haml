@@ -31,10 +31,11 @@
         = f.input :password_confirmation
         = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
+        
         .control-group
           = label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'
           .controls
-            = check_box_tag 'age_check'
+            = f.input_field :adult, label: false, wrapper_html: false
             %br
             %hr
             =link_to "If you are under 18, or if you're registering for more than one person, click here for more information.", "http://gilroygarlicfestival.com/help/helpDocMultiAcct.html"
@@ -43,5 +44,3 @@
           = f.button :submit
           %br
           = render "links"
-
-    
