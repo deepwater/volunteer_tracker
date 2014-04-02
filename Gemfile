@@ -1,14 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
-gem 'thin', '1.5.1'
-gem 'unicorn', '4.6.3'
 
 gem 'configatron', '2.13.0'
 gem 'data_migrate'
 gem 'draper', '0.18.0'
 gem 'delayed_job_active_record', '0.4.4'
 gem 'pg', '0.17.1'
+gem 'newrelic_rpm'
 
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
@@ -31,6 +30,7 @@ group :development do
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
 	gem 'debugger'
+  gem 'thin', '1.5.1'
 end
 
 group :development, :test do
@@ -45,7 +45,6 @@ group :test do
 end
 
 group :production do
-	gem 'newrelic_rpm'
 	gem 'dalli'
 	gem 'memcachier'
 end
