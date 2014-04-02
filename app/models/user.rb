@@ -133,7 +133,7 @@ require 'csv'
           home_phone: row[4],
           email: row[5],
           tshirt_size: row[6],
-          adult: row[8].blank?,
+          adult: row[8].present?,
           master_id: accessor.id,
           organisation_id: Organisation.first.try(:id)
         })
