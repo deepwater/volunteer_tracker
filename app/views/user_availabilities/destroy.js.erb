@@ -1,0 +1,1 @@
+$("#day-<%= @day.id %>").html('<%= j (render("form", master: current_user, subaccount: @subaccount, day: @day))%>')

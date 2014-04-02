@@ -1,0 +1,3 @@
+= simple_form_for(UserAvailability.new, url: user_subaccount_user_availabilities_path(master, subaccount), remote: true) do |f|
+  =f.hidden_field(:day_id, value: day.id)
+  =f.submit(class: 'btn btn-danger', value: "Unavailable")

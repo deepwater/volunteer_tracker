@@ -8,6 +8,8 @@ VolunteerTracker::Application.routes.draw do
   resources :users do
     resources :subaccounts do
       collection { post :import }
+      member { get :availabilities }
+      resources :user_availabilities, only: [:create, :destroy]
     end
   end
 

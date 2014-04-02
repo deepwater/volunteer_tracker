@@ -11,6 +11,14 @@ class Day < ActiveRecord::Base
     ").where("user_schedules.user_id = ?", user.try(:id)).exists?
   end
 
+  def user_available?(user)
+    user_availabilities.where("user_id = ?", user.try(:id)).exists?
+  end
+
+  def user_available_by_user(user)
+    user_availabilities.where("user_id = ?", user.try(:id)).first
+  end
+
   def to_date
     Date.new(year, month, mday)
   end
