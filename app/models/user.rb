@@ -115,24 +115,28 @@ require 'csv'
 
   def self.import(file, accessor)
     success_count, errors = 0, {}
-    CSV.foreach(file.path, headers: false) do |row|
-      user = User.new({
-        first_name: row[0],
-        last_name: row[1],
-        username: row[2],
-        cell_phone: row[3],
-        home_phone: row[4],
-        email: row[5],
-        tshirt_size: row[6],
-        master_id: accessor.id,
-        organisation_id: Organisation.first.try(:id)
-      })
-      user.skip_confirmation!
-      if user.save
-        success_count += 1
-        user.add_charity_by_name(row[7])
-      else
-        errors[row[2]] = user.errors.full_messages
+    if file.blank?
+      errors["CSV errors"] = ["File not uploaded"]
+    else
+      CSV.foreach(file.path, headers: false) do |row|
+        user = User.new({
+          first_name: row[0],
+          last_name: row[1],
+          username: row[2],
+          cell_phone: row[3],
+          home_phone: row[4],
+          email: row[5],
+          tshirt_size: row[6],
+          master_id: accessor.id,
+          organisation_id: Organisation.first.try(:id)
+        })
+        user.skip_confirmation!
+        if user.save
+          success_count += 1
+          user.add_charity_by_name(row[7])
+        else
+          errors[row[2]] = user.errors.full_messages
+        end
       end
     end
     { true  => { status: :success, subaccount_count: success_count },
