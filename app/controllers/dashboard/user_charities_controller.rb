@@ -15,11 +15,7 @@ class Dashboard::UserCharitiesController < ApplicationController
     @user_charity = UserCharity.new(params[:user_charity])
     
   	if @user_charity.save
-      if params[:user_id].present?
-        redirect_to user_subaccounts_path(current_user)
-      else
-  		  redirect_to dashboard_index_path
-      end
+      redirect_to dashboard_index_path
   	end
   end
 end
