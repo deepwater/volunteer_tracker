@@ -23,7 +23,6 @@ require 'csv'
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
   validates_uniqueness_of :email, allow_blank: true, case_sensitive: false
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
 
   has_many :user_availabilities, dependent: :destroy
 
