@@ -27,6 +27,7 @@
         = f.input :cell_phone
         = f.input :home_phone
         = f.input :email
+        = f.input :adult
         = f.input :password
         = f.input :password_confirmation
         = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
