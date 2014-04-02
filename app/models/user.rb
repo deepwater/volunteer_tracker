@@ -90,6 +90,12 @@ require 'csv'
     self.charities << charity
   end
 
+  def set_availabilities(row)
+    Day.all.each_with_index do |day, index|
+      day.user_availabilities.create(start_time: "00:00", end_time: "23:59", user_id: self.id) if row[index].present?
+    end
+  end
+
   private
 
   def subaccount?
@@ -127,6 +133,7 @@ require 'csv'
           home_phone: row[4],
           email: row[5],
           tshirt_size: row[6],
+          adult: row[8].blank?,
           master_id: accessor.id,
           organisation_id: Organisation.first.try(:id)
         })
@@ -134,6 +141,7 @@ require 'csv'
         if user.save
           success_count += 1
           user.add_charity_by_name(row[7])
+          user.set_availabilities(row.slice(9, 12))
         else
           errors[row[2]] = user.errors.full_messages
         end
