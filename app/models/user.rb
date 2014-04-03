@@ -83,12 +83,8 @@ require 'csv'
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
   end
 
-  def charity_present?(charity_name)
-    Charity.where("name LIKE :prefix", prefix: "#{charity_name}%").exist?
-  end
-
   def add_charity_by_name(charity_name)
-    charity = Charity.where("name LIKE :prefix", prefix: "#{charity_name}%").first
+    charity = Charity.find_by_name(charity_name)
     self.charities << charity
   end
 
@@ -143,7 +139,7 @@ require 'csv'
     else
       CSV.foreach(file.path, headers: false) do |row|
         next if User.where(master_id: accessor.id, last_name: row[1], username: row[2]).exists?
-        if Charity.where("name LIKE :prefix", prefix: "#{row[7]}%").exists?
+        if Charity.find_by_name(charity_name).present?
           user = User.build_by_row(row, accessor)
           user.skip_confirmation!
           if user.save
