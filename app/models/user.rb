@@ -83,10 +83,12 @@ require 'csv'
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
   end
 
+  def charity_present?(charity_name)
+    Charity.where("name LIKE :prefix", prefix: "#{charity_name}%").exist?
+  end
+
   def add_charity_by_name(charity_name)
-    # TODO: trim charities name
     charity = Charity.where("name LIKE :prefix", prefix: "#{charity_name}%").first
-    return unless charity
     self.charities << charity
   end
 
@@ -94,6 +96,21 @@ require 'csv'
     Day.all.each_with_index do |day, index|
       day.user_availabilities.create(start_time: "00:00", end_time: "23:59", user_id: self.id) if row[index].present?
     end
+  end
+
+  def self.build_by_row(row, accessor)
+    User.new({
+      first_name: row[0],
+      last_name: row[1],
+      username: row[2],
+      cell_phone: row[3],
+      home_phone: row[4],
+      email: row[5],
+      tshirt_size: row[6],
+      adult: row[8].present?,
+      master_id: accessor.id,
+      organisation_id: Organisation.first.try(:id)
+    })
   end
 
   private
@@ -125,25 +142,19 @@ require 'csv'
       errors["CSV errors"] = ["File not uploaded"]
     else
       CSV.foreach(file.path, headers: false) do |row|
-        user = User.new({
-          first_name: row[0],
-          last_name: row[1],
-          username: row[2],
-          cell_phone: row[3],
-          home_phone: row[4],
-          email: row[5],
-          tshirt_size: row[6],
-          adult: row[8].present?,
-          master_id: accessor.id,
-          organisation_id: Organisation.first.try(:id)
-        })
-        user.skip_confirmation!
-        if user.save
-          success_count += 1
-          user.add_charity_by_name(row[7])
-          user.set_availabilities(row.slice(9, 12))
+        next if User.where(master_id: accessor.id, last_name: row[1], username: row[2]).exists?
+        if Charity.where("name LIKE :prefix", prefix: "#{row[7]}%").exists?
+          user = User.build_by_row(row, accessor)
+          user.skip_confirmation!
+          if user.save
+            success_count += 1
+            user.add_charity_by_name(row[7])
+            user.set_availabilities(row.slice(9, 12))
+          else
+            errors[row[2]] = user.errors.full_messages
+          end
         else
-          errors[row[2]] = user.errors.full_messages
+          errors[row[2]] = ["Charity is invalid"]
         end
       end
     end
