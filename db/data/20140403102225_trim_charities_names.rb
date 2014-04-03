@@ -1,7 +1,7 @@
 class TrimCharitiesNames < ActiveRecord::Migration
   def self.up
-    Charity.all.each do |c|
-      c.name.strip!
+    Charity.find_each do |c|
+      c.name = c.name.strip
       c.save
     end
   end

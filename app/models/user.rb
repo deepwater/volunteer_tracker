@@ -139,7 +139,7 @@ require 'csv'
     else
       CSV.foreach(file.path, headers: false) do |row|
         next if User.where(master_id: accessor.id, last_name: row[1], username: row[2]).exists?
-        if Charity.find_by_name(charity_name).present?
+        if Charity.find_by_name(row[7]).present?
           user = User.build_by_row(row, accessor)
           user.skip_confirmation!
           if user.save
