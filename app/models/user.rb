@@ -133,29 +133,42 @@ require 'csv'
   end
 
   def self.import(file, accessor)
-    success_count, errors = 0, {}
+    success_count, errors, csv = 0, {}, []
     if file.blank?
       errors["CSV errors"] = ["File not uploaded"]
     else
       CSV.foreach(file.path, headers: false) do |row|
-        next if User.where(master_id: accessor.id, last_name: row[1], username: row[2]).exists?
+        csv << row
+        next if row[21].present?
         if Charity.find_by_name(row[7]).present?
           user = User.build_by_row(row, accessor)
           user.skip_confirmation!
           if user.save
+            csv.last << true
             success_count += 1
             user.add_charity_by_name(row[7])
             user.set_availabilities(row.slice(9, 12))
           else
             errors[row[2]] = user.errors.full_messages
+            csv.last.concat [nil, true, user.errors.full_messages.join(', ')]
           end
         else
           errors[row[2]] = ["Charity is invalid"]
+          csv.last.concat [nil, true, "Charity is invalid"]
         end
       end
     end
+    path = "public/system/csv/#{accessor.id}/"
+
+    FileUtils.mkdir_p(path) unless File.directory?(path)
+
+    CSV.open(path + "subaccounts.csv", "w") do |file|
+      csv.each do |c|
+        file << c
+      end
+    end
     { true  => { status: :success, subaccount_count: success_count },
-      false => { status: :error, errors: errors }
+      false => { status: :error, errors: errors, link: "/users/#{accessor.id}/subaccounts/download.csv" }
     }[errors.blank?]
   end
 

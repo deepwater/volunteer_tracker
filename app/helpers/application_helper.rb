@@ -1,13 +1,14 @@
 module ApplicationHelper
 
-  def error_list(errors)
+  def error_list(response)
     content_tag('ul') do
       html = ''
-      errors.each do |error|
+      response[:errors].each do |error|
         html << content_tag(:li, "#{error[0]} - #{error[1].join(', ')}")
       end
+      html << content_tag(:li, link_to('CSV with errors', response[:link]))
       html.html_safe
-    end.html_safe
+    end
   end
 
   def in_twelve_hour_time(time)

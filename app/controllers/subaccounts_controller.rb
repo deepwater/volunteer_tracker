@@ -81,7 +81,16 @@ class SubaccountsController < ApplicationController
     if response[:status] == :success
       redirect_to user_subaccounts_url(current_user), notice: "#{response[:subaccount_count]} subaccounts imported."
     else
-      redirect_to user_subaccounts_url(current_user), alert: "There are some errors: #{view_context.error_list(response[:errors])}".html_safe
+      redirect_to user_subaccounts_url(current_user), alert: "There are some errors: #{view_context.error_list(response)}".html_safe
+    end
+  end
+
+  def download
+    csv_text = File.read("public/system/csv/#{current_user.id}/subaccounts.csv")
+    respond_to do |format|
+        format.csv {
+          send_data csv_text, type: 'text/csv; charset=utf-8; header=present', disposition: "attachment; filename=subaccounts.csv", filename: "subaccounts.csv"
+        }
     end
   end
 
