@@ -77,7 +77,8 @@ class SubaccountsController < ApplicationController
   end
 
   def import
-    response = User.import(params[:file], current_user)
+    service = Subaccounts::CsvImporter.new(as: current_user)
+    response = service.import(params[:file])
     if response[:status] == :success
       redirect_to user_subaccounts_url(current_user), notice: "#{response[:subaccount_count]} subaccounts imported."
     else
@@ -88,9 +89,9 @@ class SubaccountsController < ApplicationController
   def download
     csv_text = File.read("public/system/csv/#{current_user.id}/subaccounts.csv")
     respond_to do |format|
-        format.csv {
-          send_data csv_text, type: 'text/csv; charset=utf-8; header=present', disposition: "attachment; filename=subaccounts.csv", filename: "subaccounts.csv"
-        }
+      format.csv {
+        send_data csv_text, type: 'text/csv; charset=utf-8; header=present', disposition: "attachment; filename=subaccounts.csv", filename: "subaccounts.csv"
+      }
     end
   end
 
