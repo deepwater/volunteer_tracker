@@ -86,7 +86,7 @@ class Admin::UsersController < Admin::BaseController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_index_path }
+      format.html { redirect_to admin_root_path }
       format.json { head :no_content }
     end
   end
