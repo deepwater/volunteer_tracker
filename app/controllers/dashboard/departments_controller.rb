@@ -11,11 +11,9 @@ class Dashboard::DepartmentsController < DashboardController
       scheduled_count: true
     )
 
-    
-    @department         = service.prepare_single(select, params[:id])
-    @department_block   = DepartmentBlock.new
+    @department = service.prepare_single(select, params[:id])
+    @department_block = DepartmentBlock.new
     @volunteer_hours = service.volunteer_hours_progress(@department.id)
-
     @days = Day.all
 
     respond_to do |format|
@@ -28,6 +26,7 @@ class Dashboard::DepartmentsController < DashboardController
     @department_assistant = DepartmentAssistant.new
     @users = service.users_for_promote(@scope)
     @department_assistants = service.assistans_for_assignment(@scope)
+    @department_blocks = service.blocks_for_assignment(params[:id])
   end
 
   def for_promote

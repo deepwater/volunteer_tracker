@@ -9,6 +9,8 @@ class Admin::DepartmentAssistantsController < DashboardController
     @user = @department_assistant.user
     @user.role = "department_assistant"
     @user.save
+    @department = @department_assistant.department
+    @department.try(:department_blocks).each { |block| @user.add_role :department_assistant, block }
 
     respond_to do |format|
       if @department_assistant.save
@@ -30,4 +32,17 @@ class Admin::DepartmentAssistantsController < DashboardController
       format.json { head :no_content }
     end
   end
+
+  def restrict_blocks
+    @department_assistant = DepartmentAssistant.find(params[:id])
+    user = @department_assistant.user
+    if params[:department_blocks_ids].present?
+      user.remove_role(:department_assistant)
+      params[:department_blocks_ids].each do |id|
+        block = DepartmentBlock.find(id) and user.add_role :department_assistant, block
+      end
+    end
+    redirect_to :back
+  end
+
 end

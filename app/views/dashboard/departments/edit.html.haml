@@ -12,7 +12,7 @@
       .alert.alert-error
         %strong Warning!
         No Department Assistants Assigned 
-      %button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
+      %button.btn.btn-primary{ type: "button", href: "#assign_department_assistants", data: { toggle: "modal" }}
         Assign Department Assistants
 
     - else 
@@ -24,9 +24,13 @@
           %tr
             %td= department_assistant.user.full_name
             %td
-              = link_to admin_department_assistant_path(department_assistant), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger' do
+              = link_to admin_department_assistant_path(department_assistant), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'unassign-department-assistant btn btn-danger' do
                 %i.icon-remove-sign.icon-white
                 Unassign
+              %button.btn.btn-info{ type: "button", href: "#assign_department_blocks_#{department_assistant.user.id}", data: { toggle: "modal" } }
+                %i.icon-warning-sign.icon-white
+                Restrict Access
+              = render "department_blocks_modal", department_blocks: @department_blocks, user: department_assistant.user
 
       %button.btn.btn-primary{:type=>"button", :href=> "#assign_department_assistants", :data => {:toggle => "modal"}} 
         Assign Department Assistants
@@ -65,44 +69,4 @@
       %div#pagination-info-promote-users
         = page_entries_info @users
 
-                    
-
-
-%div{:class =>"modal large hide fade", :id => "assign_department_assistants"}
-  .modal-header
-    %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
-      &times;
-    %h3 Assign Department Assistants
-  .modal-body#assistants{ "data-url" => assistants_dashboard_department_path(@department) }
-    - if @department_assistants.length == 0
-      .alert.alert-error
-        %strong Warning!
-        No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
-    - else
-      %p Here is a list of users you can add as a Department Assistant
-      .dataTables_length
-        %label
-          Show
-          %select.per-page-field{:size => "1", "data-table" => "assistants"}
-            %option{:selected => "selected", :value => "10"} 10
-            %option{:value => "25"} 25
-            %option{:value => "50"} 50
-            %option{:value => "100"} 100
-          entries
-      .dataTables_filter
-        %label
-          Search:
-          %input.search-field{:type => "text", "data-table" => "assistants"}
-
-      %table.table.table-bordered.table-striped#assistants-table{ "data-table" => "assistants" }
-        %thead
-          %th.sortable.sorting.sorting_asc.name{"data-ordering" => "asc"} Name
-          %th Email
-          %th Assign as Department Assistant
-        %tbody
-          = render "assign_items", items: @department_assistants
-      %div.pagination-wrapper
-        %div#pagination-assistants
-          = paginate @department_assistants, remote: true, params: { controller: "dashboard/departments", action: "assistants" }
-        %div#pagination-info-assistants
-          = page_entries_info @department_assistants
+= render "department_assistants_modal", department_assistants: @department_assistants

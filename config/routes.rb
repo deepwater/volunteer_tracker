@@ -23,7 +23,9 @@ VolunteerTracker::Application.routes.draw do
     resources :charities
     resources :departments
     resources :department_managers
-    resources :department_assistants
+    resources :department_assistants do
+      member { post :restrict_blocks }
+    end
     resources :events
     resources :organisations
 

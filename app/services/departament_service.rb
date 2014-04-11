@@ -67,6 +67,10 @@ class DepartamentService
     paginate(users)
   end
 
+  def blocks_for_assignment(id)
+    Department.find(id).department_blocks.order('day_id').order('start_time')
+  end
+
   private
 
   def search_results(query)
