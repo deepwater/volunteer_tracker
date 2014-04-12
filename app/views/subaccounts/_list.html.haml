@@ -1,0 +1,35 @@
+.row
+  .span12
+    %h2
+      %i.halflings-icon.edit 
+      Subaccounts List
+
+    .span4.offset7
+      %br
+      = link_to(new_user_subaccount_path(current_user)) do
+        %button.btn.btn-primary{ type: :button, class: "right-floated-btn" }
+          New Subaccount
+      = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
+        = file_field_tag :file
+        %br
+        = submit_tag "Import"
+.row
+  %br
+  .span12
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Username
+        %th Name
+        %th User Charity
+        %th
+        %th
+        %th
+
+        - subaccounts.each do |subaccount|
+          %tr
+            %td= link_to subaccount.username, user_subaccount_path(current_user, subaccount)
+            %td= subaccount.full_name
+            %td= subaccount.charities.first.try(:name)
+            %td= link_to 'Set availabilities', availabilities_user_subaccount_path(current_user, subaccount)
+            %td= link_to 'Edit', edit_user_subaccount_path(current_user, subaccount)
+            %td= link_to 'Delete', user_subaccount_path(current_user, subaccount), method: :delete

@@ -1,0 +1,2 @@
+= render 'import_errors_list', rows: @response.not_valid_rows if @response.status == :error
+= render 'list', subaccounts: @subaccounts
