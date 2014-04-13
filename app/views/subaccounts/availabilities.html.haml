@@ -16,3 +16,5 @@
               = render("user_availabilities/destroy_link", master: current_user, subaccount: @subaccount, availability: availability)
             -else
               = render("user_availabilities/form", master: current_user, subaccount: @subaccount, day: day)
+      %tr
+        %td= link_to 'Back', user_subaccounts_path(current_user)

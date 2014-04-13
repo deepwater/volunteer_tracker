@@ -2,9 +2,9 @@
   .span12
     %h3
       Uh-Oh! We need a few corrections from you in order to fully import your list...
-.row
+.row.subaccount-error-list
   %br
-  .span12
+  .span11
     = form_tag import_user_subaccounts_path(current_user) do
       %table.table.table-bordered.table-striped
         %tr
