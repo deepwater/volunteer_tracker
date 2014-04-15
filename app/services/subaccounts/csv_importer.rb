@@ -13,7 +13,7 @@ class Subaccounts::CsvImporter
   end
 
   def import(params)
-    data = params[:file].present? ? CSV.read(params[:file].path, headers: true) : hash_to_array(params[:data])
+    data = params[:file].present? ? CSV.read(params[:file].path, headers: false).drop(1) : hash_to_array(params[:data])
     data.each do |row|
       errors = {}
       errors[:charity] = "Charity is invalid" if Charity.find_by_name(row[7]).blank?
