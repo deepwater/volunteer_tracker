@@ -8,12 +8,6 @@
 
           = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block),class: 'btn btn-mini'
 
-        %br
-
-        - if notice
-          .alert.alert-block
-            %p= notice
-
         %p
           %b Department
           = @show_action_data.department_block.department.name

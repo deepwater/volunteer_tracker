@@ -3,12 +3,6 @@
 		%h2
 			= @charity.name
 
-- if notice
-	.row
-		.span9
-			.alert.alert-block
-				%p#notice= notice
-
 
 = link_to 'Edit', edit_admin_charity_path(@charity)
 \|

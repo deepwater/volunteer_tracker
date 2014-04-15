@@ -3,11 +3,11 @@
 	%head
 	%title VolunteerTracker
 
-	= stylesheet_link_tag    "application", :media => "all"
+	= stylesheet_link_tag    "application", media: "all"
 	= javascript_include_tag "application"
 	= csrf_meta_tags
 
-	%meta{'name' => 'viewport', :content => 'width=device-width, initial-scale=1.0'}/
+	%meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}/
 
 	%body
 		.container
@@ -17,7 +17,7 @@
 						%h4.alert-heading Warning!
 						%p
 							You need to have
-							%a{:href => "http://en.wikipedia.org/wiki/JavaScript", :target => "_blank"} JavaScript
+							%a{href: "http://en.wikipedia.org/wiki/JavaScript", target: "_blank"} JavaScript
 							enabled to use this site.
 
 			.row
