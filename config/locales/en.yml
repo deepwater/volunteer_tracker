@@ -18,6 +18,10 @@ en:
   activerecord:
     errors:
       models:
+        user_schedule:
+          attributes:
+            base:
+              to_much_volunteers: "Can only shedule for %{count} volunteers. Please unshedule one volunteer."
         event:
           attributes:
             day_of_start:

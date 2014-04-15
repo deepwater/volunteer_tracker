@@ -1,9 +1,6 @@
 class Dashboard::UserSchedulesController < ApplicationController
   before_filter :authenticate_user!
 
-  # POST /user_schedules
-  # POST /user_schedules.json
-
   def index
     @user_schedules = current_user.user_schedules.includes(:charity, department_block: [:department, :day])
 
@@ -13,8 +10,6 @@ class Dashboard::UserSchedulesController < ApplicationController
     end
   end
 
-  # GET /department_blocks/1
-  # GET /department_blocks/1.json
   def show
     @user_schedule = UserSchedule.find(params[:id])
 
@@ -29,13 +24,13 @@ class Dashboard::UserSchedulesController < ApplicationController
 
     respond_to do |format|
       if @user_schedule.save
-        format.json { render json: {:template => render_to_string("dashboard/user_schedules/show.json")}}
+        format.json { render json: { template: render_to_string("dashboard/user_schedules/show.json")} }
         format.html do 
-          redirect_to dashboard_department_block_path(@user_schedule.department_block, params[:scope]), 
+          redirect_to dashboard_department_block_path(@user_schedule.department_block, params[:scope]),
             notice: 'User schedule was successfully created.'
         end
       else
-        format.html { render action: "new" }
+        format.html { redirect_to :back, alert: @user_schedule.errors.full_messages.join(', ') }
         format.json { render json: @user_schedule.errors, status: :unprocessable_entity }
       end
     end
@@ -54,8 +49,7 @@ class Dashboard::UserSchedulesController < ApplicationController
       end
     end
   end
-  # DELETE /user_schedules/1
-  # DELETE /user_schedules/1.json
+  
   def destroy
     @user_schedule = UserSchedule.find(params[:id])
     @user_schedule.destroy

@@ -3,7 +3,7 @@ class DepartmentBlock < ActiveRecord::Base
 	belongs_to :day
 
 	has_many :user_schedules, dependent: :destroy
-	has_many :users, :through => :user_schedules
+	has_many :users, through: :user_schedules
 
 	has_many :volunteer_managers
 
