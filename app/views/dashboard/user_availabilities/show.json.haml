@@ -1,6 +1,6 @@
 %tr
-	%td=in_twelve_hour_time(@user_availability.start_time)
-	%td=in_twelve_hour_time(@user_availability.end_time)
-	%td
-		= link_to dashboard_user_availability_path(@user_availability),	 :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
-			Delete
+  %td=in_twelve_hour_time(@user_availability.start_time)
+  %td=in_twelve_hour_time(@user_availability.end_time)
+  %td
+    = link_to dashboard_user_availability_path(@user_availability), method: :delete, remote: true, data: { type: "json" }, class: 'remove-user-availability btn btn-mini btn-danger' do
+      Delete

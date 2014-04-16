@@ -1,1 +1,1 @@
-$("#day-<%= @day.id %>").html('<%= j (render("destroy_link", master: current_user, subaccount: @subaccount, availability: @availability))%>')
+$("#day-<%= @day.id %>").html('<%= j (render("destroy_link", user: @user, availability: @availability))%>')

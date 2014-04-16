@@ -6,13 +6,12 @@ VolunteerTracker::Application.routes.draw do
 
   devise_for :users, :controllers => { registrations: "registrations"}
   resources :users do
+    resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
       collection do 
         post :import
         get :download
       end
-      member { get :availabilities }
-      resources :user_availabilities, only: [:create, :destroy]
     end
   end
 

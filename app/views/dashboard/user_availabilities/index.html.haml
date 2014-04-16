@@ -3,141 +3,85 @@
     .span6.help-event-setup
       %br
       %h3 Would you like to help out with set up?
-      %p Event setup runs from July 21st to July 25th
+      %p Event setup runs from July 20th to July 24th
       %br
       %p
-        %button.btn.btn-success.yes{type:"button"} Yes
-        %button.btn.btn-danger.no{type:"button"} No
+        %button.btn.btn-success.yes{ type: "button" } Yes
+        %button.btn.btn-danger.no{ type: "button" } No
 
   .row
     .span6.help-event-tear-down
       %br
       %h3 Would you like to help out with tear down?
-      %p Event tear down runs from July 29th to August 1st
+      %p Event tear down runs from July 28th to July 30th
       %br
       %p
-        %button.btn.btn-success.yes{type:"button"} Yes
-        %button.btn.btn-danger.no{type:"button"} No
+        %button.btn.btn-success.yes{ type: "button" } Yes
+        %button.btn.btn-danger.no{ type: "button" } No
 
-.row.time-availability-wrapper{:class => @user_availabilities.empty? ? "hidden" : ""} 
+.row.time-availability-wrapper{ class: @user_availabilities.empty? ? "hidden" : "" }
   .span6
     %br
     %h3 Add your time availability
-
     %p 
       %strong Volunteer shifts average about 4 hours at a minimum so we ask that you volunteer at least 4 hours or more for each day you are willing to volunteer.
-
     %br
 
-  #accordion.accordion.span12
+  #accordion.accordion.span7
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#setup"}
+        %a.accordion-toggle{ href: "#setup", data: { parent: "#accordion", toggle: "collapse" } }
           Event Setup
       #setup.accordion-body.collapse
         .accordion-inner
-          %h4 Choose a day
-          %ul.nav.nav-tabs
-            - @setup_days.each_with_index do |day, index|
-              %li{:class => index == 0 ? "active" : ""} 
-                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
-                  =day.short_date
-          .tab-content
-            - @setup_days.each_with_index do |day, index|
-              - schedule_check = @user_scheduled[day.id].present?
-              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
-                .row
-                  .span5
-                    %h4 Your availabilities for this day:
-                    - if schedule_check
-                      .alert
-                        %strong Note
-                        You can not edit your availabilities for this day because you have been scheduled
-                    %table.table
-                      %thead
-                        %tr
-                          %th Start Time
-                          %th End Time
-                          %th
-                      %tbody
-                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
-                          %tr{class: schedule_check ? "warning" : ""}
-                            %td= in_twelve_hour_time(user_availability.start_time)
-                            %td= in_twelve_hour_time(user_availability.end_time)
-                            %td
-                              - if !schedule_check
-                                = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
-                                  Delete
-                    = render 'form', day_id: day.id
+          %table.table
+            %tr
+              -@setup_days.each do |day|
+                %th= "#{day.day_name} #{day.short_date}"
+            %tr
+              -@setup_days.each do |day|
+                %td{id: "day-#{day.id}"}
+                  -if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  -else
+                    = render("user_availabilities/form", user: @user, day: day)
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#festival"}
+        %a.accordion-toggle{ href: "#festival", data: { parent: "#accordion", toggle: "collapse" } }
           Festival
       #festival.accordion-body.collapse
         .accordion-inner
-          %h4 Choose a day
-          %ul.nav.nav-tabs
-            - @festival_days.each_with_index do |day, index|
-              %li{:class => index == 0 ? "active" : ""} 
-                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
-                  =day.short_date
-          .tab-content
-            - @festival_days.each_with_index do |day, index|
-              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
-                .row
-                  .span5
-                    %h4 Your availabilities for this day:
-                    %table.table
-                      %thead
-                        %tr
-                          %th Start Time
-                          %th End Time
-                          %th
-                      %tbody
-                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
-                          %tr
-                            %td= in_twelve_hour_time(user_availability.start_time)
-                            %td= in_twelve_hour_time(user_availability.end_time)
-                            %td
-                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
-                                Delete
-                        %tr
-                    = render 'form', day_id: day.id
-
+          %table.table
+            %tr
+              -@festival_days.each do |day|
+                %th= "#{day.day_name} #{day.short_date}"
+            %tr
+              -@festival_days.each do |day|
+                %td{id: "day-#{day.id}"}
+                  -if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  -else
+                    = render("user_availabilities/form", user: @user, day: day)
     .accordion-group
       .accordion-heading
-        %a.accordion-toggle{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#tear-down"}
+        %a.accordion-toggle{ href: "#tear-down", data: { parent: "#accordion", toggle: "collapse" } }
           Event Tear Down
       #tear-down.accordion-body.collapse
         .accordion-inner
-          %h4 Choose a day
-          %ul.nav.nav-tabs
-            - @tear_down_days.each_with_index do |day, index|
-              %li{:class => index == 0 ? "active" : ""} 
-                %a{href:"##{day.safe_short_date}", data: {toggle:"tab"}}
-                  =day.short_date
-          .tab-content
-            - @tear_down_days.each_with_index do |day, index|
-              .tab-pane{id: day.safe_short_date,class: index == 0 ? "active" : ""} 
-                .row
-                  .span5
-                    %h4 Your availabilities for this day:
-                    %table.table
-                      %thead
-                        %tr
-                          %th Start Time
-                          %th End Time
-                          %th
-                      %tbody
-                        - @user_availabilities.select{ |ua| ua.day_id == day.id }.each do |user_availability|
-                          %tr
-                            %td= in_twelve_hour_time(user_availability.start_time)
-                            %td= in_twelve_hour_time(user_availability.end_time)
-                            %td
-                              = link_to dashboard_user_availability_path(user_availability),  :method => :delete, :remote=>true, :"data-type" => "json", :class => 'remove-user-availability btn btn-mini btn-danger' do
-                                Delete
-                        %tr
-                    = render 'form', day_id: day.id
+          %table.table
+            %tr
+              -@tear_down_days.each do |day|
+                %th= "#{day.day_name} #{day.short_date}"
+            %tr
+              -@tear_down_days.each do |day|
+                %td{id: "day-#{day.id}"}
+                  -if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  -else
+                    = render("user_availabilities/form", user: @user, day: day)
 
     - if @user_availabilities.empty?
       %p.pull-right
@@ -151,17 +95,3 @@
         = link_to "Return to Dashboard", dashboard_index_path, class: "btn btn-success pull-right"
         %br/
         %small.pull-right (Don't worry, your availabilities will automatically be saved)
-#confirmNextDay.modal.hide.fade
-  .modal-header
-    %button.close{:type=>"button", :data =>{ :dismiss =>"modal"}}
-      ×
-    %h3.text-error
-      Warning
-  .modal-body
-    %p 
-      We could really use your help! Are you sure you're not available at all on 
-      %span
-      ?
-  .modal-footer
-    %button.btn.btn-danger{:data => {:dismiss=>"modal"}} Yes, I'm sure
-    %button.btn.btn-success{:data => {:dismiss=>"modal"}} No, I'd like to volunteer on this day

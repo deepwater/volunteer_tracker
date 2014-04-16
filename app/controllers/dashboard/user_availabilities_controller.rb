@@ -10,9 +10,10 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
 
     days = Day.where(day_type: [0, 1, 2])
 
-    @user_scheduled = DepartmentBlock.where(day_id: days.map(&:id)).joins("
-      LEFT OUTER JOIN user_schedules ON user_schedules.department_block_id = department_blocks.id
-    ").where("user_schedules.user_id = ?", @user.try(:id)).group("department_blocks.day_id").count.inspect
+    @user_scheduled = DepartmentBlock.where(day_id: days.map(&:id))
+      .joins("LEFT OUTER JOIN user_schedules ON user_schedules.department_block_id = department_blocks.id")
+      .where("user_schedules.user_id = ?", @user.try(:id))
+      .group("department_blocks.day_id").count
 
     @setup_days = days.select { |day| day.day_type == 0}
     @festival_days = days.select { |day| day.day_type == 1}
@@ -30,7 +31,7 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
 
     respond_to do |format|
       if @user_availability.save
-        format.json { render json: {:template => render_to_string("dashboard/user_availabilities/show.json")}}
+        format.json { render json: { template: render_to_string("dashboard/user_availabilities/show.json") } }
       else
         format.json { render json: @user_availability.errors, status: :unprocessable_entity }
       end
@@ -41,6 +42,6 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
     @user_availability = UserAvailability.find(params[:id])
     @user_availability.destroy
 
-    render :nothing => true
+    render nothing: true
   end
 end

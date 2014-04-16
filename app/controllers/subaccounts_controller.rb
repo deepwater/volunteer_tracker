@@ -86,9 +86,4 @@ class SubaccountsController < ApplicationController
     end
   end
 
-  def availabilities
-    @subaccount = User.find(params[:id])
-    @days = Day.all
-  end
-
 end
