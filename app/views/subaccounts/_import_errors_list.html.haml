@@ -9,7 +9,6 @@
       %table.table.table-bordered.table-striped
         %tr
           %th Username
-          %th Email
           %th Name
           %th User Charity
           %th Availability
@@ -21,6 +20,7 @@
                 = hidden_field_tag "data[#{index}][1]", row_with_errors[:row][1]
                 = hidden_field_tag "data[#{index}][3]", row_with_errors[:row][3]
                 = hidden_field_tag "data[#{index}][4]", row_with_errors[:row][4]
+                = hidden_field_tag "data[#{index}][5]", row_with_errors[:row][5]
                 = hidden_field_tag "data[#{index}][6]", row_with_errors[:row][6]
                 = hidden_field_tag "data[#{index}][8]", row_with_errors[:row][8]
                 - if row_with_errors[:errors][:username].present?
@@ -32,15 +32,6 @@
                   = row_with_errors[:row][2]
                   = hidden_field_tag "data[#{index}][2]", row_with_errors[:row][2]
               %td
-                - if row_with_errors[:errors][:email].present?
-                  = row_with_errors[:errors][:email].join(', ')
-                  %br
-                  = text_field_tag "data[#{index}][5]"
-                  = row_with_errors[:row][5]
-                - else
-                  = row_with_errors[:row][5]
-                  = hidden_field_tag "data[#{index}][5]", row_with_errors[:row][5]
-              %td
                 = row_with_errors[:row][0]
                 %br
                 = row_with_errors[:row][1]
@@ -48,7 +39,7 @@
                 - if row_with_errors[:errors][:charity].present?
                   = row_with_errors[:errors][:charity]
                   %br
-                  = select_tag "data[#{index}][7]", options_from_collection_for_select(Charity.all, :name, :name)
+                  = select_tag "data[#{index}][7]", options_from_collection_for_select(Charity.order(:name), :name, :name)
                 - else
                   = row_with_errors[:row][7]
                   = hidden_field_tag "data[#{index}][7]", row_with_errors[:row][7]
