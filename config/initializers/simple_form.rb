@@ -5,15 +5,13 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :bootstrap, :tag => 'div', :class => 'control-group', :error_class => 'error' do |b|
+  config.wrappers :bootstrap, :tag => 'div', :class => 'form-group', :error_class => 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
-    b.wrapper :tag => 'div', :class => 'controls' do |ba|
-      ba.use :input
-      ba.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
-      ba.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
-    end
+    b.use :input, :class => 'form-control'
+    b.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+    b.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
   end
 
   # The default wrapper to be used by the FormBuilder.
@@ -37,7 +35,7 @@ SimpleForm.setup do |config|
   config.error_notification_tag = :div
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = 'alert alert-error'
+  config.error_notification_class = 'alert alert-danger'
 
   # ID to add for error notification helper.
   # config.error_notification_id = nil

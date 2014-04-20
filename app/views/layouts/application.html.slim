@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+  title VolunteerTracker
+
+  = stylesheet_link_tag    "application", media: "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+
+  meta name="viewport" content="width=device-width, initial-scale=1.0"
+
+  body
+    .container
+      noscript
+        .row
+          .alert.alert-block.col-md-12
+            h4.alert-heading Warning!
+            p
+              ' You need to have
+              = link_to 'Javascript', 'http://en.wikipedia.org/wiki/JavaScript', target: '_blank'
+              ' enabled to use this site.
+
+      .row
+        - if user_signed_in?
+          = render "layouts/nav"
+      .row
+        - if user_signed_in?
+          br
+          br
+          br
+
+        .col-md-12
+          .alert-container
+            - flash.each do |type, message|
+              div class=(flash_class(type))
+                = message
+          = yield
+
+  = render "layouts/ga"

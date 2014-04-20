@@ -15,7 +15,7 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/extras/ZeroClipboard
 //= require dataTables/extras/TableTools
-//= require twitter/bootstrap
+//= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
 //= require_tree .
