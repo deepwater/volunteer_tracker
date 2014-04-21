@@ -12,7 +12,8 @@ require 'csv'
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
-                  :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login
+                  :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login,
+                  :charity_ids
 
   attr_accessor :login
 
@@ -35,6 +36,7 @@ require 'csv'
 
   has_many :user_charities, dependent: :destroy
   has_many :charities, through: :user_charities
+  accepts_nested_attributes_for :charities
 
   has_many :events
 
