@@ -12,12 +12,14 @@ require 'csv'
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
-                  :department_block_id, :secondary_email, :username, :organisation_id, :adult
+                  :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login
+
+  attr_accessor :login
 
   validates :first_name, :last_name, presence: true
   validates :organisation_id, presence: true, unless: :super_admin?
   validates :username, presence: true
-  validates :username, uniqueness: { scope: :organisation_id }
+  validates :username, uniqueness: { scope: :organisation_id, case_sensitive: false }
   validates :email, uniqueness: true, unless: :subaccount?
   validates :email, presence: true, unless: :subaccount?
   validates_uniqueness_of :email, allow_blank: true, case_sensitive: false, unless: :subaccount?
@@ -81,6 +83,15 @@ require 'csv'
 
   def full_name
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
+  end
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { value: login.downcase }]).first
+    else
+      where(conditions).first
+    end
   end
 
   private
