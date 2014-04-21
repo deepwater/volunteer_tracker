@@ -94,11 +94,15 @@ require 'csv'
     end
   end
 
-  private
+  def master?
+    subaccounts.present?
+  end
 
   def subaccount?
     master_id.present?
   end
+
+  private
 
   def super_admin?
     self.has_role?(:super_admin)

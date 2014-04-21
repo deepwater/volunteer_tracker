@@ -1,19 +1,17 @@
 .row
   .span12
 
+    -if current_user.master?
+      = select_tag :on_behalf, options_for_select([["Master account: #{current_user.full_name}", current_user.id]] + current_user.subaccounts.map {|u| ["Sub account: #{u.full_name}", u.id]}, current_user.id)
+    -elsif current_user.subaccount?
+      = select_tag :on_behalf, options_for_select([["Master account: #{current_user.master.full_name}", current_user.master.id]] + current_user.master.subaccounts.map {|u| ["Sub account: #{u.full_name}", u.id]}, current_user.id)
+
     %h3
       = current_user.full_name
     %h4
       = current_user.role.camelize
-    / %h4= "Your organisation - #{request.subdomain}" if request.subdomain.present?
     %br
     %br
-
-    / %h5 Organizations
-    / %ul.thumbnails
-    /   - Organisation.all.each do |organisation|
-    /     %li
-    /       = link_to organisation.name, root_url(subdomain: organisation.subdomain)
     %ul.thumbnails
       - if current_user.role != "event_admin" && current_user.role != "department_manager"
         = render "dashboard/dashboard_modules/view_time_availability"
