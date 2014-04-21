@@ -17,6 +17,9 @@
             %th Day
             %th Range
             %th
+              %label
+                = check_box_tag 'department_blocks_all', '1', false, class: "department_blocks_all"
+                All
           %tbody
             - department_blocks.each do |block|
               %tr
