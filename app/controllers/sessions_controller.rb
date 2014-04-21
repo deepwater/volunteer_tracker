@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
       respond_with resource, location: after_sign_in_path_for(resource)
     elsif resource.subaccount?
       sign_in(:user, resource.master)
-      respond_with resource, location: after_sign_in_path_for(resource)
+      respond_with resource.master, location: after_sign_in_path_for(resource.master)
     else
       super
     end
