@@ -4,8 +4,7 @@ class SessionsController < Devise::SessionsController
     if params[:on_behalf].present? and resource = User.find(params[:on_behalf])
       sign_in(:user, resource)
       respond_with resource, location: after_sign_in_path_for(resource)
-    elsif resource.subaccount?
-      resource = warden.authenticate!(auth_options)
+    elsif resource = warden.authenticate!(auth_options) and resource.subaccount?
       set_flash_message(:notice, :signed_in) if is_flashing_format?
       sign_in(:user, resource.master)
       respond_with resource.master, location: after_sign_in_path_for(resource.master)
