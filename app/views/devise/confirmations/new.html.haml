@@ -7,11 +7,6 @@
 		%br
 		%br
 
-		- flash.each do |name, msg|
-			- if msg.is_a?(String)
-				%div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
-				= content_tag :div, msg, :id => "flash_#{name}"
-
 		%h2 Resend confirmation instructions
 		%br
 		%p If you have not received a confirmation email, please submit this form and we'll send you another
