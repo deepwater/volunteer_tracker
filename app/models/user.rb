@@ -43,9 +43,9 @@ require 'csv'
   belongs_to :master, class_name: 'User'
   has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
 
-  has_one :department_manager
-  has_one :department_assistant
-  has_one :volunteer_manager
+  has_one :department_manager, dependent: :destroy
+  has_one :department_assistant, dependent: :destroy
+  has_one :volunteer_manager, dependent: :destroy
 
   belongs_to :organisation
 
