@@ -1,11 +1,13 @@
 class DepartmentBlock < ActiveRecord::Base
-	belongs_to :department
-	belongs_to :day
+  belongs_to :department
+  belongs_to :day
 
-	has_many :user_schedules, dependent: :destroy
-	has_many :users, through: :user_schedules
+  has_many :user_schedules, dependent: :destroy
+  has_many :users, through: :user_schedules
 
-	has_many :volunteer_managers
+  has_many :volunteer_managers
+
+  scope :ordered_by_date, order('day_id').order('start_time')
 
   def readable_start_time
     t = Time.parse("#{start_time} #{day.mday}/#{day.month}/#{day.year}")

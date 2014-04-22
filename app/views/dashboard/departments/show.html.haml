@@ -144,7 +144,6 @@
           return $('.create_department_block').on('click', function() {
             var $el, modal;
             modal = $(this).attr('href');
-            console.log(modal);
             $el = $(modal + " #department_block_name");
             return setTimeout(function() {
               return $el.focus();
@@ -158,20 +157,18 @@
       newVal = $(this).val();
       return window.location = "/dashboard/departments/" + newVal;
     });
-    if ($('#new_department_block').length > 0) {
-      firstHash = $('li.active a').attr('href');
-      $(firstHash + ' #day_hash:hidden').val(firstHash.replace('#', ''));
-      if (window.location.hash) {
-        $('a[href="' + window.location.hash + '"]').click();
-      }
-      $('.nav.nav-tabs a').click(function() {
-        var hash;
-        window.location.hash = $(this).attr('href');
-        reloadSchedule(window.location.hash.replace('#', ''));
-        hash = $(this).attr('href');
-        return $(hash + ' #day_hash:hidden').val(hash.replace('#', ''));
-      });
+    firstHash = $('li.active a').attr('href');
+    $(firstHash + ' #day_hash:hidden').val(firstHash.replace('#', ''));
+    if (window.location.hash) {
+      $('a[href="' + window.location.hash + '"]').click();
     }
+    $('.nav.nav-tabs a').click(function() {
+      var hash;
+      window.location.hash = $(this).attr('href');
+      reloadSchedule(window.location.hash.replace('#', ''));
+      hash = $(this).attr('href');
+      return $(hash + ' #day_hash:hidden').val(hash.replace('#', ''));
+    });
     return reloadSchedule($('li.active a').attr('href').replace('#', ''));
   };
 

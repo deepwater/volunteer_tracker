@@ -68,7 +68,7 @@ class DepartamentService
   end
 
   def blocks_for_assignment(id)
-    Department.find(id).department_blocks.order('day_id').order('start_time')
+    Department.find(id).department_blocks.ordered_by_date
   end
 
   private
