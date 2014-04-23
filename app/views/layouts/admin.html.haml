@@ -32,6 +32,8 @@
 				.span12
 					.alert-container
 						- flash.each do |type, message|
+							%a{ class: "close", data: { dismiss: "alert" } }
+								&times;
 							%div{ class: flash_class(type) }
 								= message
 

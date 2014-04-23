@@ -1,4 +1,8 @@
 $ ->
+  setTimeout =>
+    $('.alert-container').remove()
+  , 8*1000
+
   $('.dataTables').dataTable()
   $('.dataTablesWithoutPagination').dataTable
     "bPaginate": false
