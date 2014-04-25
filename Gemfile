@@ -25,6 +25,9 @@ gem 'bootstrap-datepicker-rails', '1.3.0.1'
 gem 'bootstrap-sass-rails', '2.3.2.0'
 gem 'bootstrap-timepicker-rails', '0.1.3'
 
+# bootstrap tours
+gem 'bootstrap-tour-rails'
+
 group :development do
   gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
