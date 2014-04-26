@@ -10,19 +10,20 @@
 
 
   - @day.department_blocks.where(department_id: @department.id).all.each do |department_block|
-    %tr
-      %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
-      %td= in_twelve_hour_time(department_block.start_time)
-      %td= in_twelve_hour_time(department_block.end_time)
-      %td= department_block.suggested_number_of_workers
-      %td
-        = department_block.users.length
-        \/ 
-        = department_block.suggested_number_of_workers
-      %td
-        - if current_user.has_any_role? :department_manager, :super_admin
-          = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
-          = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
+    - if can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
+      %tr
+        %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
+        %td= in_twelve_hour_time(department_block.start_time)
+        %td= in_twelve_hour_time(department_block.end_time)
+        %td= department_block.suggested_number_of_workers
+        %td
+          = department_block.users.length
+          \/ 
+          = department_block.suggested_number_of_workers
+        %td
+          - if current_user.has_any_role? :department_manager, :super_admin
+            = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
+            = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
 
 
 %br

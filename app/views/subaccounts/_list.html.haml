@@ -16,15 +16,16 @@
 .row
   %br
   .span12
-    %table.table.table-bordered.table-striped
-      %tr
-        %th Username
-        %th Name
-        %th User Charity
-        %th
-        %th
-        %th
-
+    %table.table.table-bordered.table-striped#subaccounts_list_table
+      %thead
+        %tr
+          %th Username
+          %th Name
+          %th User Charity
+          %th
+          %th
+          %th
+      %tbody
         - subaccounts.each do |subaccount|
           %tr
             %td= link_to subaccount.username, user_subaccount_path(current_user, subaccount)

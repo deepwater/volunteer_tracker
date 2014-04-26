@@ -3,10 +3,12 @@
   = f.input :first_name
   = f.input :last_name
   = f.input :username
+  = f.input :email, label: "Email notifications to:"
   = f.input :adult
   = f.input :cell_phone
   = f.input :home_phone
-  = f.input :tshirt_size, collection: User::TSHIRT_SIZES, include_blank: false
+  = f.association :charities, as: :select, input_html: { multiple: false, size: 1 }, include_blank: false
+  = f.input :tshirt_size, collection: User::TSHIRT_SIZES
   = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
   .form-actions
     = f.button :submit

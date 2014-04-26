@@ -59,67 +59,6 @@
     .tab-content
       - @days.each_with_index do |day, index|
         %div{:id => "#{day.safe_short_date}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
-          -if index == 0
-            %h3= day.short_date_with_long_day
-            %table.table.table-bordered.table-striped.dataTablesWithoutPagination{:id=>"blocks#{day.safe_short_date}"}
-              %thead
-                %th Name
-                %th Start Time
-                %th End Time
-                %th Maximum Number of Volunteers
-                %th Scheduled Volunteers
-                %th Actions
-
-
-              - day.department_blocks.where(department_id: @department.id).all.each do |department_block|
-                %tr
-                  %td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
-                  %td= in_twelve_hour_time(department_block.start_time)
-                  %td= in_twelve_hour_time(department_block.end_time)
-                  %td= department_block.suggested_number_of_workers
-                  %td
-                    = department_block.users.length
-                    \/
-                    = department_block.suggested_number_of_workers
-                  %td
-                    - if current_user.has_role? :department_manager
-                      = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
-                      = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
-
-
-            %br
-
-            %br
-            - if current_user.has_any_role? :department_manager, :department_assistant, :event_admin, :super_admin
-              = link_to(new_dashboard_department_block_path) do
-                %button.btn.btn-primary{:type=>"button", :href=> "#modal_#{day.safe_short_date}", :data => {:toggle => "modal"}, class: "create_department_block"}
-                  Create Department Block
-
-              = link_to(new_dashboard_department_block_path) do
-                %button.btn.btn-info{:type=>"button", :href=> "#copy_schedule_modal_#{day.id}", :data => {:toggle => "modal"}}
-                  Copy Blocks to Another Day
-
-
-              = link_to("#{@department.id}/export/#{day.year}/#{day.month}/#{day.mday}") do
-                %button.btn.btn-warn{:type=>"button", :href=> "#modal_#{day.safe_short_date}"}
-                  Export Blocks
-
-
-              %div{:class =>"modal hide fade", :id => "modal_#{day.safe_short_date}"}
-                .modal-header
-                  %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
-                    &times;
-                  %h3 Create a Department Block
-                .modal-body
-                  = render 'dashboard/department_blocks/new', :department => @department, :current_day => day
-
-              %div{:class =>"modal hide fade", :id => "copy_schedule_modal_#{day.id}"}
-                .modal-header
-                  %button{:type=>"button", :class=>"close", :data => {:dismiss=>"modal"}}
-                    &times;
-                  %h3 Choose Day to Copy To
-                .modal-body
-                  = render 'dashboard/department_blocks/copy', :day_to_copy => day, :department => @department
 
 :javascript
 
@@ -144,7 +83,6 @@
           return $('.create_department_block').on('click', function() {
             var $el, modal;
             modal = $(this).attr('href');
-            console.log(modal);
             $el = $(modal + " #department_block_name");
             return setTimeout(function() {
               return $el.focus();
@@ -158,20 +96,18 @@
       newVal = $(this).val();
       return window.location = "/dashboard/departments/" + newVal;
     });
-    if ($('#new_department_block').length > 0) {
-      firstHash = $('li.active a').attr('href');
-      $(firstHash + ' #day_hash:hidden').val(firstHash.replace('#', ''));
-      if (window.location.hash) {
-        $('a[href="' + window.location.hash + '"]').click();
-      }
-      $('.nav.nav-tabs a').click(function() {
-        var hash;
-        window.location.hash = $(this).attr('href');
-        reloadSchedule(window.location.hash.replace('#', ''));
-        hash = $(this).attr('href');
-        return $(hash + ' #day_hash:hidden').val(hash.replace('#', ''));
-      });
+    firstHash = $('li.active a').attr('href');
+    $(firstHash + ' #day_hash:hidden').val(firstHash.replace('#', ''));
+    if (window.location.hash) {
+      $('a[href="' + window.location.hash + '"]').click();
     }
+    $('.nav.nav-tabs a').click(function() {
+      var hash;
+      window.location.hash = $(this).attr('href');
+      reloadSchedule(window.location.hash.replace('#', ''));
+      hash = $(this).attr('href');
+      return $(hash + ' #day_hash:hidden').val(hash.replace('#', ''));
+    });
     return reloadSchedule($('li.active a').attr('href').replace('#', ''));
   };
 

@@ -4,7 +4,11 @@ VolunteerTracker::Application.routes.draw do
   resources :departments, :only => [:index,:show]
   resources :charities, :only => [:index,:show]
 
-  devise_for :users, :controllers => { registrations: "registrations"}
+  devise_for :users, controllers: {
+    registrations: "registrations",
+    sessions: "sessions"
+  }
+  
   resources :users do
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do

@@ -7,7 +7,7 @@ class SubaccountsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @subaccounts }
+      format.json { render json: SubaccountsDatatable.new(view_context) }
     end
   end
 

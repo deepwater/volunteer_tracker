@@ -32,6 +32,8 @@ html
         .col-md-12
           .alert-container
             - flash.each do |type, message|
+              = link_to '#', class: 'close', :'data' => { :'dismiss' => "alert" } do
+                ' &times;
               div class=(flash_class(type))
                 = message
           = yield

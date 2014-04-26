@@ -1,54 +1,57 @@
 $ ->
-	toggleLoading = () ->
-		# console.log 'test'
+  toggleLoading = () ->
+    # console.log 'test'
 
-	$('.new_user_schedule .btn').on 'click', ->
-		return false if $(@).hasClass 'disabled'
-		$(@).addClass('disabled')
+  $('.department_blocks_all').on 'change', ->
+    $(@).parents('.modal-body').find('input:checkbox').prop('checked', $(@).is(':checked'))
 
-	$('.new_user_schedule')
-		.bind("ajax:loading", toggleLoading)
-		.bind("ajax:complete", toggleLoading)
-		.bind "ajax:success", (event, data, status, xhr) ->
-			$(@).parent().parent().remove()
-			$('.scheduled-user-table').append(data.template)
-			# window.location.reload()
+  $('.new_user_schedule .btn').on 'click', ->
+    return false if $(@).hasClass 'disabled'
+    $(@).addClass('disabled')
 
-
-	$('.scheduled-user-table')
-		.on 'click', '.unschedule-user', ->
-			setTimeout ->
-				window.location.reload()
-			, 200
+  $('.new_user_schedule')
+    .bind("ajax:loading", toggleLoading)
+    .bind("ajax:complete", toggleLoading)
+    .bind "ajax:success", (event, data, status, xhr) ->
+      $(@).parent().parent().remove()
+      $('.scheduled-user-table').append(data.template)
+      # window.location.reload()
 
 
-	$('.unassign-volunteer-manager')
-		.on 'click', ->
-			setTimeout ->
-				window.location.reload()
-			, 200			
-			
-			
-	$('#new_department_block')
-		.on 'submit', (e) ->
-			# $formParent = $(@).parents("#new_department_block")
+  $('.scheduled-user-table')
+    .on 'click', '.unschedule-user', ->
+      setTimeout ->
+        window.location.reload()
+      , 200
 
-			$name = $(@).find('#department_block_name')
-			$volunteers = $(@).find('#department_block_suggested_number_of_workers')
 
-			if $name.val().length == 0
-			 alert "Please Enter a Department Block Name"
-			 return false
+  $('.unassign-volunteer-manager')
+    .on 'click', ->
+      setTimeout ->
+        window.location.reload()
+      , 200
+      
+      
+  $('#new_department_block')
+    .on 'submit', (e) ->
+      # $formParent = $(@).parents("#new_department_block")
 
-			if $volunteers.val().length == 0
-			 alert "Please Enter a Number of Volunteers"
-			 return false	
+      $name = $(@).find('#department_block_name')
+      $volunteers = $(@).find('#department_block_suggested_number_of_workers')
 
-			first_time = $('.timepicker-first').val()
-			second_time = $('.timepicker-second').val()
-			difference = Date.parse("01/01/2014 " +second_time) - Date.parse("01/01/2014 " +first_time)
+      if $name.val().length == 0
+       alert "Please Enter a Department Block Name"
+       return false
 
-			if difference == 0 or difference < 0
-				alert "Please enter an End time that is after the Start time"
-				return false 
-		
+      if $volunteers.val().length == 0
+       alert "Please Enter a Number of Volunteers"
+       return false  
+
+      first_time = $('.timepicker-first').val()
+      second_time = $('.timepicker-second').val()
+      difference = Date.parse("01/01/2014 " +second_time) - Date.parse("01/01/2014 " +first_time)
+
+      if difference == 0 or difference < 0
+        alert "Please enter an End time that is after the Start time"
+        return false
+    

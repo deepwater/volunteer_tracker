@@ -2,8 +2,6 @@
 
   DEFAULT_PER_PAGE = 10
 
-  # GET /department_blocks
-  # GET /department_blocks.json
   def index
     @department_blocks = DepartmentBlock.all
     @department_block = DepartmentBlock.new
@@ -14,9 +12,9 @@
     end
   end
 
-  # GET /department_blocks/1
-  # GET /department_blocks/1.json
   def show
+    department_block = DepartmentBlock.find params[:id]
+    raise ActionController::RoutingError.new('Not Found') unless can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
     service = DepartmentBlocksService.new
     scope = OpenStruct.new(
       id:               params[:id],
@@ -42,8 +40,6 @@
     end
   end
 
-  # GET /department_blocks/new
-  # GET /department_blocks/new.json
   def new
     @department_block = DepartmentBlock.new
 
@@ -53,13 +49,10 @@
     end
   end
 
-  # GET /department_blocks/1/edit
   def edit
     @department_block = DepartmentBlock.find(params[:id])
   end
 
-  # POST /department_blocks
-  # POST /department_blocks.json
   def create
     @department_block = DepartmentBlock.new(params[:department_block])
 
@@ -81,8 +74,6 @@
     end
   end
 
-  # PUT /department_blocks/1
-  # PUT /department_blocks/1.json
   def update
     @department_block = DepartmentBlock.find(params[:id])
 
@@ -114,8 +105,6 @@
 
   end
 
-  # DELETE /department_blocks/1
-  # DELETE /department_blocks/1.json
   def destroy
     @department_block = DepartmentBlock.find(params[:id])
     @department_block.destroy

@@ -8,8 +8,8 @@ class UserSchedule < ActiveRecord::Base
   belongs_to :charity
 
   before_create :add_default_charity
-  after_create :deliver_email
-  before_destroy :unschedule_email
+  after_create :deliver_email, if: :has_email?
+  before_destroy :unschedule_email, if: :has_email?
 
   has_many :check_ins, foreign_key: :user_schedule_id, primary_key: :id, dependent: :destroy
 
@@ -24,6 +24,10 @@ class UserSchedule < ActiveRecord::Base
 
   def unschedule_email
     UserScheduleMailer.delay.unschedule_email(user_id, department_block_id)
+  end
+
+  def has_email?
+    user.email.present?
   end
 
   def add_default_charity
