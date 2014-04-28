@@ -24,12 +24,12 @@ class SubaccountsDatatable < AjaxDatatablesRails
   def data
     subaccounts.map do |subaccount|
       [
-        link_to(subaccount.username, user_subaccount_path(current_user, subaccount)),
+        link_to(subaccount.username, user_subaccount_path(current_user, subaccount), id: "#{subaccount.id}-subaccount"),
         subaccount.full_name,
         subaccount.charities.first.try(:name),
         link_to('Set availabilities', user_user_availabilities_path(subaccount)),
         link_to('Edit', edit_user_subaccount_path(current_user, subaccount)),
-        link_to('Delete', user_subaccount_path(current_user, subaccount), method: :delete)
+        link_to('Delete', user_subaccount_path(current_user, subaccount), method: :delete, confirm: "Are you sure?", remote: true)
       ]
     end
   end

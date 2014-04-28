@@ -24,14 +24,13 @@ class UsersDatatable < AjaxDatatablesRails
   def data
     users.map do |user|
       [
-        # comma separated list of the values for each cell of a table row
-        link_to(user.full_name, admin_user_path(user)),
+        link_to(user.full_name, admin_user_path(user), id: "#{user.id}-user"),
         "#{user.email}<br>#{user.secondary_email}",
         user.tshirt_size,
         user.role,
         user.charities.any? ? user.charities.first.name : "Not assigned",
         link_to('Edit', edit_admin_user_path(user)),
-        link_to('Delete', admin_user_path(user), :method => :delete, confirm: "Are you sure you want to delete this user?")
+        link_to('Delete', admin_user_path(user), method: :delete, confirm: "Are you sure you want to delete this user?", remote: true)
       ]
     end
   end
@@ -61,8 +60,7 @@ class UsersDatatable < AjaxDatatablesRails
   end
 
   def get_raw_records
-    # insert query here
-    User.where('users.id>0').includes(:charities)
+    User.where('users.id > 0').includes(:charities)
   end
   
   def get_raw_record_count
