@@ -48,9 +48,9 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :readonly
     
-    b.use :label, class: 'col-md-3 control-label'
-    b.use :input, class: 'col-md-9'
-    b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
+    b.use :label, class: 'col-sm-3 control-label'
+    b.use :input, class: 'col-sm-9'
+    b.use :hint,  wrap_with: { tag: 'span', class: 'help-block col-sm-9 col-sm-offset-3' }
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end
  
@@ -86,7 +86,7 @@ SimpleForm.setup do |config|
     b.use :html5
  
     # Form components
-    b.wrapper tag: 'div', class: 'col-md-9 col-md-offset-3' do |b|
+    b.wrapper tag: 'div', class: 'col-sm-9 col-sm-offset-3' do |b|
       b.wrapper tag: 'div', class: 'checkbox' do |b|
         b.wrapper tag: :label do |ba|
           ba.use :input

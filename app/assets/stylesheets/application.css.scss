@@ -5,6 +5,7 @@
 @import 'bootstrap-timepicker';
 @import 'bootstrap-datepicker';
 
+@import 'partials/layout';
 @import 'partials/devise';
 @import 'partials/admin';
 @import 'dataTables/jquery.dataTables';
@@ -18,6 +19,8 @@
 @import 'dashboard/departments';
 @import 'dashboard/flags';
 @import 'dashboard/user_availabilities';
+
+@import 'partials/datatables';
 
 .modal.large{
     width: 50%; /* respsonsive width */

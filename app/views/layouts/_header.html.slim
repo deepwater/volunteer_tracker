@@ -1,0 +1,7 @@
+- if user_signed_in?
+  = render "layouts/nav"
+.container-fluid
+  noscript
+    .alert.alert-warning.col-md-12
+      h4.alert-heading Warning!
+      p You need to have #{link_to 'Javascript', 'http://en.wikipedia.org/wiki/JavaScript', target: '_blank'} enabled to use this site.

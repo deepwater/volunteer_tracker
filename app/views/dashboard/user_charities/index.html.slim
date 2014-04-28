@@ -1,0 +1,13 @@
+.page-header
+  h1 Choose the charity you want to volunteer for
+
+= form_for(@user_charity, url: dashboard_user_user_charities_path(@user), html: { class: 'form-horizontal' } ) do |f|
+  fieldset
+    = f.hidden_field :user_id, value: @user.id
+    .form-group
+      = f.label(:charity_id, class: 'col-sm-3 control-label')
+      .col-sm-9
+        = f.collection_select(:charity_id, Charity.order('name'), :id, :name, :class => 'form-control')
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = f.submit(class: 'btn btn-primary', value: "Save Changes")

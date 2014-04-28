@@ -1,0 +1,27 @@
+body {
+  margin-top: 65px;
+}
+
+.page-header {
+  .switcher {
+    margin-top: 15px;
+  }
+}
+
+.form-horizontal {
+  margin: 20px 0 46px;
+  .control-label {
+    text-align: left;
+  }
+}
+
+.table {
+  &.no-margin {
+    margin: 0;
+  }
+}
+
+.inline-block {
+  display: inline-block;
+  vertical-align: top;
+}

@@ -1,5 +1,5 @@
 .row
-  .col-md-12
+  .col-sm-12
     noscript
       .alert.alert-block.span11
         h4.alert-heading Warning!
@@ -9,12 +9,12 @@
           enabled to use this site.
 
 .row
-  .col-md-5
+  .col-sm-5
     = image_tag "ggf_logo.png", alt: ''
-  .col-md-6
+  .col-sm-6
 
     .row
-      .col-md-9.col-md-offset-3
+      .col-sm-9.col-sm-offset-3
         h2 Create your profile
     
     = simple_form_for resource, url: registration_path(:user), method: :post, html: {class: 'form-horizontal', novalidate: true} do |f|
@@ -32,7 +32,7 @@
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES
         
         .form-group
-          .col-md-9.col-md-offset-3
+          .col-sm-9.col-sm-offset-3
             .checkbox
               label
                 = f.input_field :adult, label: false, wrapper_html: false
@@ -44,6 +44,6 @@
                 small
                   ' *Note: We never share your information with ANYONE outside of the Gilroy Garlic Festival organization and will only use this information to better assist us with coordinating the event.
         .form-group
-          .col-md-9.col-md-offset-3
+          .col-sm-9.col-sm-offset-3
             = f.button :submit, class: 'btn btn-primary'
             = render "links"

@@ -1,25 +1,25 @@
-=form_for(@user_availability, :url => [:dashboard, UserAvailability], :html => {:class => 'new_user_availability form form-inline'}, remote: true, :"data-type" => "json") do |f|
+=form_for(@user_availability, :url => [:dashboard, UserAvailability], :html => {:class => 'new_user_availability form form-horizontal'}, remote: true, :"data-type" => "json") do |f|
 
   - if @user_availability.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@user_availability.errors.count, "error")} prohibited this department from being saved:"
-      %ul
+      h2 = "#{pluralize(@user_availability.errors.count, "error")} prohibited this department from being saved:"
+      ul
         - @user_availability.errors.full_messages.each do |msg|
-          %li= msg
+          li= msg
 
   =f.hidden_field(:day_id, value: day_id)
   =f.hidden_field(:user_id, value: @user.id)
 
-  Start Time:
+  ' Start Time:
   .input-append.bootstrap-timepicker
     =f.text_field(:start_time, value: "07:00 AM", class:"timepicker timepicker-first input-small" )
-    %span.add-on
-      %i.icon-time
+    span.add-on
+      i.icon-time
 
-  End Time:
+  ' End Time:
   .input-append.bootstrap-timepicker
     =f.text_field(:end_time, value: "08:00 PM", class:"timepicker timepicker-second input-small" )
-    %span.add-on
-      %i.icon-time
+    span.add-on
+      i.icon-time
 
   = f.submit(:class => 'btn btn-success', :value => "Add")

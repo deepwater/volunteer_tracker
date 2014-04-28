@@ -1,0 +1,29 @@
+.page-header
+  .pull-right.switcher
+    - if current_user.master?
+      = select_tag :on_behalf, options_for_select([["Master account: #{current_user.full_name}", current_user.id]] + current_user.subaccounts.map {|u| ["Sub account: #{u.full_name}", u.id]}, current_user.id)
+    - elsif current_user.subaccount?
+      = select_tag :on_behalf, options_for_select([["Master account: #{current_user.master.full_name}", current_user.master.id]] + current_user.master.subaccounts.map {|u| ["Sub account: #{u.full_name}", u.id]}, current_user.id)
+  h1
+    ' #{current_user.full_name}
+    small = current_user.role.camelize
+
+ul.thumbnails.nav
+  - if current_user.role != "event_admin" && current_user.role != "department_manager"
+    = render "dashboard/dashboard_modules/view_time_availability"
+    = render "dashboard/dashboard_modules/upcoming_assignments"
+
+  - if can?(:manage, DepartmentBlock)
+    = render "dashboard/dashboard_modules/department_management"
+
+  - if current_user.role == "department_assistant" 
+    = render "dashboard/dashboard_modules/department_assistant_management"
+
+ul.thumbnails.nav
+  - if can?(:manage, CheckIn) || can?(:manage_fastpass, current_user)
+    = render "dashboard/dashboard_modules/checkin_volunteer"
+  - if can?(:manage, CheckIn)
+    = render "dashboard/dashboard_modules/active_volunteers"  
+    = render "dashboard/dashboard_modules/inactive_volunteers"
+  - if current_user.role != "event_admin" && current_user.role != "department_manager"
+    = render "dashboard/dashboard_modules/past_assignments"

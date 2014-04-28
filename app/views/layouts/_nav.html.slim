@@ -1,0 +1,37 @@
+header#header
+  .navbar.navbar-inverse.navbar-fixed-top role="navigation"
+    .container-fluid
+      .navbar-header
+        = link_to 'Eventus', root_url(host: request.domain), class: 'navbar-brand'
+        button.navbar-toggle type="button" data-toggle="collapse" data-target="#main-nav-toggle"
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      #main-nav-toggle.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            = link_to dashboard_index_url do
+              i.icon-home.icon-white
+              ' Dashboard
+          li
+            = link_to edit_user_registration_url do
+              i.icon-user.icon-white
+              ' My Profile
+          li
+            = link_to user_subaccounts_url(current_user) do
+              i.icon-plus.icon-white
+              ' Subaccounts
+          - if user_signed_in?
+            - if can? :manage, :all
+              li
+                = link_to admin_root_url do
+                  i.icon-wrench.icon-white
+                  ' Admin Panel
+          li
+            = link_to 'http://dev.omgmediagroup.com/ggfHelp', target: '_blank' do
+              i.icon-question-sign.icon-white
+              ' Help
+        ul.nav.navbar-nav.pull-right
+          li
+            = link_to "Logout", destroy_user_session_url, method: :delete, confirm: "Are you sure you want to logout?"
