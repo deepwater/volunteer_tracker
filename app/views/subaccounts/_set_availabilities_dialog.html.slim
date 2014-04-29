@@ -1,0 +1,13 @@
+.modal.hide.fade id="set_subaccount_availabilities_#{index}"
+  .modal-header
+    button.close type="button" data-dismiss="modal"
+      ' &times;
+    h3 Set subaccount's availabilities
+  .modal-body
+    ul.days-list
+      - Day.order(:date).each.with_index(9) do |day, i|
+        li
+          = label_tag "data[#{index}][#{i}]", day.long_date
+          = check_box_tag "data[#{index}][#{i}]"
+
+    button#set_availabilities.btn.btn-success.right-floated-btn type="button" data-dismiss="modal" Save

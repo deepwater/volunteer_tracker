@@ -1,0 +1,61 @@
+.alert.alert-danger Uh-Oh! We need a few corrections from you in order to fully import your list...
+
+.subaccount-error-list
+  = form_tag import_user_subaccounts_path(current_user) do
+    table.table.table-bordered.table-striped
+      tr
+        th Username
+        th Name
+        th User Charity
+        th Availability
+        th
+        - rows.each_with_index do |row_with_errors, index|
+          tr
+            td
+              = hidden_field_tag "data[#{index}][0]", row_with_errors[:row][0]
+              = hidden_field_tag "data[#{index}][1]", row_with_errors[:row][1]
+              = hidden_field_tag "data[#{index}][3]", row_with_errors[:row][3]
+              = hidden_field_tag "data[#{index}][4]", row_with_errors[:row][4]
+              = hidden_field_tag "data[#{index}][5]", row_with_errors[:row][5]
+              = hidden_field_tag "data[#{index}][6]", row_with_errors[:row][6]
+              = hidden_field_tag "data[#{index}][8]", row_with_errors[:row][8]
+              - if row_with_errors[:errors][:username].present?
+                = row_with_errors[:errors][:username].join(', ')
+                br
+                = text_field_tag "data[#{index}][2]"
+                = row_with_errors[:row][2]
+              - else
+                = row_with_errors[:row][2]
+                = hidden_field_tag "data[#{index}][2]", row_with_errors[:row][2]
+            td
+              = row_with_errors[:row][0]
+              br
+              = row_with_errors[:row][1]
+            td
+              - if row_with_errors[:errors][:charity].present?
+                = row_with_errors[:errors][:charity]
+                br
+                = select_tag "data[#{index}][7]", options_from_collection_for_select(Charity.order(:name), :name, :name)
+              - else
+                = row_with_errors[:row][7]
+                = hidden_field_tag "data[#{index}][7]", row_with_errors[:row][7]
+            td
+              - if row_with_errors[:errors][:abilities].present?
+                = row_with_errors[:errors][:abilities]
+                br
+                = render "set_availabilities_dialog", index: index
+                button.btn.btn-primary.open-set-availabilities-dialog type="button" href="#set_subaccount_availabilities_#{index}" data-toggle="modal" Set availabilities
+              - else
+                -(9..20).each do |n|
+                  = hidden_field_tag "data[#{index}][#{n}]", row_with_errors[:row][n]
+                ' set to go!
+            %td
+              = link_to 'Delete', "#", class: "delete-row-with-errors"
+    = submit_tag "Save", class: "btn btn-success right-floated-btn"
+
+coffee:
+  $ ->
+    $(document).on "click", ".delete-row-with-errors", (e)->
+      $(e.target).parents("tr").fadeOut().queue(->
+        $(this).remove())
+      false

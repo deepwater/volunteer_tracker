@@ -1,66 +1,54 @@
-.row
-  .span6
-    %h2
-      = "Department: #{@department.name}"
-
+.page-header
   - if can? :manage, :all
-    .span4.offset2
-      %br
-      %p.quick-jump
-        Quick Jump:
-      = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.order("name"), "id", "name", @department.id), :class => "span3")
-%hr
-.row
-  .span4
-    .progress
-      .bar{:class => get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours), :style => "width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"}
+    .pull-right.switcher
+      .quick-jump
+        ' Quick Jump:
+        .inline-block = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.order("name"), "id", "name", @department.id), :class => "span3")
+  h1 Department: #{@department.name}
 
-    %h4 Budgeted Hours Progress
-    %p
-      %strong Estimated Hours:
-      =@department.estimate_hours_total.to_i
+.col-sm-4
+  .progress
+    .bar class=(get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours)) style="width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"
+  h4 Budgeted Hours Progress
+  p
+    strong Estimated Hours: 
+    =@department.estimate_hours_total.to_i
+  p
+    strong Budgeted Hours: 
+    =@department.budgeted_hours.to_i
+.col-sm-4
+  .progress
+    .bar class=(get_department_usage_class(@department.scheduled_count, @department.total_slots)) style="width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"
+  h4 Block Scheduling Progress
+  p
+    strong Scheduled Slots: 
+    =@department.scheduled_count
+  p
+    strong Total Slots: 
+    =@department.total_slots
+.col-sm-4
+  .progress
+    .bar
+  h4 Volunteer Hours Progress
+  p
+    strong Hours: 
+    = @volunteer_hours[@department.id].to_i
 
-      %strong Budgeted Hours:
-      =@department.budgeted_hours.to_i
+.separate-block
 
-  .span4
+.col-sm-12
+  ul.nav.nav-tabs
+    - @days.each_with_index do |day, index|
+      li class=(index == 0 ? "active" : "")
+        = link_to "##{day.safe_short_date}", :'data-toggle' => 'tab' do
+          = day.day_name
+          = day.short_date
 
-    .progress
-      .bar{:class => get_department_usage_class(@department.scheduled_count, @department.total_slots), :style => "width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"}
-    %h4 Block Scheduling Progress
-    %p
-      %strong
-        Scheduled Slots:
-      =@department.scheduled_count
+  .tab-content
+    - @days.each_with_index do |day, index|
+      div id="#{day.safe_short_date}" class=(index == 0 ? "active tab-pane" : "tab-pane")
 
-      %strong
-        Total Slots:
-      =@department.total_slots
-  .span4
-
-    .progress
-      .bar
-    %h4 Volunteer Hours Progress
-    %p
-      = @volunteer_hours[@department.id].to_i
-%hr
-
-.row
-  %br
-  %br
-  .span12
-    %ul.nav.nav-tabs
-      - @days.each_with_index do |day, index|
-        %li{:class => index == 0 ? "active" : ""}
-          %a{:href=>"##{day.safe_short_date}", :data=> {:toggle=>"tab"}}
-            = day.day_name
-            = day.short_date
-
-    .tab-content
-      - @days.each_with_index do |day, index|
-        %div{:id => "#{day.safe_short_date}", :class => index == 0 ? "active tab-pane" : "tab-pane"}
-
-:javascript
+javascript:
 
   window.initDepartmentsShowPage = function() {
     var firstHash, reloadSchedule;

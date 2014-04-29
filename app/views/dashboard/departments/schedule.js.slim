@@ -1,0 +1,55 @@
+h3 = @day.short_date_with_long_day
+table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#{@day.safe_short_date}"
+  thead
+    th Name
+    th Start Time
+    th End Time
+    th Maximum Number of Volunteers
+    th Scheduled Volunteers
+    th Actions
+
+
+  - @day.department_blocks.where(department_id: @department.id).all.each do |department_block|
+    - if can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
+      tr
+        td= link_to "#{department_block.name}", dashboard_department_block_path(department_block)
+        td= in_twelve_hour_time(department_block.start_time)
+        td= in_twelve_hour_time(department_block.end_time)
+        td= department_block.suggested_number_of_workers
+        td
+          = department_block.users.length
+          |/ 
+          = department_block.suggested_number_of_workers
+        td
+          - if current_user.has_any_role? :department_manager, :super_admin
+            = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
+            = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
+
+.separate-block
+
+- if current_user.has_any_role? :department_manager, :super_admin
+  = link_to(new_dashboard_department_block_path) do
+    button.btn.btn-primary.create_department_block type="button" href="#modal_#{@day.safe_short_date}" data-toggle="modal" Create Department Block
+  ' 
+  = link_to new_dashboard_department_block_path do
+    button.btn.btn-info type="button" href="#copy_schedule_modal_#{@day.id}" data-toggle="modal" Copy Blocks to Another Day
+  '
+  = link_to "#{@department.id}/export/#{@day.year}/#{@day.month}/#{@day.mday}" do
+    button.btn.btn-default type="button" href="#modal_#{@day.safe_short_date}" Export Blocks
+
+
+  .modal.hide.fade id="modal_#{@day.safe_short_date}"
+    .modal-header
+      button.close type="button" data-dismiss="modal"
+        ' &times;
+      h3 Create a Department Block
+    .modal-body
+      = render 'dashboard/department_blocks/new', :department => @department, :current_day => @day
+
+  .modal.hide.fade id="copy_schedule_modal_#{@day.id}"
+    .modal-header
+      button.close type="button" data-dismiss="modal"
+        ' &times;
+      h3 Choose Day to Copy To
+    .modal-body
+      = render 'dashboard/department_blocks/copy', :day_to_copy => @day, :department => @department
