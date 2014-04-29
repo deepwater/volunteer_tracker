@@ -1,0 +1,28 @@
+- if can? :manage, :all
+  li.col-sm-4
+    .thumbnail
+      .caption
+        h4 Manage Time Blocks
+        p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+        br
+        p = link_to "Setup Blocks", dashboard_department_path(Department.order("name ASC").first), class: "btn btn-block btn-primary"
+- elsif current_user.department_manager
+  li.col-sm-4
+    .thumbnail
+      .caption
+        h4 Manage Time Blocks
+        p Create blocks of time allocated to certain groups and/or tasks and assign individual volunteers to your blocks!
+        br
+        p = link_to "Setup Blocks", [:dashboard,current_user.department_manager.department], class: "btn btn-block btn-primary"
+  li.col-sm-4
+    .thumbnail
+      .caption
+        h4 Manage Your Department
+        p Assign a Department Assistant for your department
+        p = link_to "Manage", [:edit, :dashboard, current_user.department_manager.department], class: "btn btn-block btn-primary"
+- else 
+  li.col-sm-4
+    .thumbnail
+      .caption
+        h4 Manage Time Blocks
+        p You are a Department Manager but have not yet been assigned a Department. Please contact staff@garlicserver.com

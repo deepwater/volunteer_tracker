@@ -37,7 +37,6 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
   = link_to "#{@department.id}/export/#{@day.year}/#{@day.month}/#{@day.mday}" do
     button.btn.btn-default type="button" href="#modal_#{@day.safe_short_date}" Export Blocks
 
-
   .modal.hide.fade id="modal_#{@day.safe_short_date}"
     .modal-header
       button.close type="button" data-dismiss="modal"
