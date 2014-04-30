@@ -1,0 +1,39 @@
+.page-header
+  h1
+    ="#{@user.first_name} #{@user.last_name} "
+    small
+      - if !@user.charities.first.nil?
+        = "#{@user.charities.first.name}"
+      - else 
+        ' Charity not assigned
+
+table.table
+  tbody
+    tr
+      th First Name:
+      td = @user.first_name
+    tr
+      th Last Name:
+      td = @user.last_name
+    tr
+      th Mobile Phone:
+      td = @user.cell_phone
+    tr
+      th Home Phone:
+      td = @user.home_phone
+    tr
+      th Email:
+      td = @user.email
+    tr
+      th Tshirt Size:
+      td = @user.tshirt_size
+    tr
+      th User Role
+      td = @user.role
+    tr
+      td colspan="2"
+        = link_to 'Back', admin_root_path, class: 'btn btn-default'
+        ' 
+        = link_to 'Edit', edit_admin_user_path(@user), class: 'btn btn-primary'
+        ' 
+        = link_to 'Delete', admin_user_path(@user), class: 'btn btn-danger', method: :delete, :'data-confirm' => 'Are you sure?'

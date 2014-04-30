@@ -1,0 +1,8 @@
+= simple_form_for([:admin, @department], html: {class: 'form-horizontal'}) do |f|
+  .col-sm-8.col-sm-offset-2
+    = f.input :name, as: :string
+    = f.input :budgeted_hours
+    = f.input :email, as: :string
+    .form-group
+      .col-sm-9.col-sm-offset-3
+      = f.button :submit, class: 'btn btn-primary'
