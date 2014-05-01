@@ -1,0 +1,42 @@
+- results.each do |check_in|
+  tr id="check-in-#{check_in.id}"
+    - if check_in.user_schedule
+      td= check_in.user_schedule.try(:user).try(:full_name) || "User missing"
+      td= check_in.user_schedule.try(:user).try(:email)
+      td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
+      td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
+      - if current_user.has_role? :department_manager
+        = render 'editable_dates', check_in: check_in
+      - else
+        td= check_in.created_at.strftime("%b %-d")
+        td= check_in.created_at.strftime("%l:%M%p")
+        td= check_in.check_out_time.strftime("%b %-d")
+        td= check_in.check_out_time.strftime("%l:%M%p")
+      td.hours-worked= check_in.hours_worked
+      td
+        - if check_in.user_schedule.try(:charity)
+          = check_in.user_schedule.charity.name
+        - else
+          ' Not assigned
+      td
+        - if current_user.has_role? :department_assistant
+          = form_for [:dashboard, check_in] do |f|
+            = f.hidden_field :status, value: "1"
+            = button_tag type: "submit", class: 'btn btn-mini btn-danger' do
+              ' Undo Check Out
+
+        - if can? :flag, CheckIn
+          button.flag_form_button.btn.btn-mini.btn-warning type="button" Flag
+
+          = simple_form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
+            ' Description:
+            br
+            = f.input :check_in_id, as: :hidden, input_html: { value: check_in.id }
+            = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
+            = f.input :description, as: :text
+            .actions
+              = f.button :submit, input_html: { class: "btn btn-success" }
+    - else
+      td colspan="9"
+        ' There is some error with this record (ID #{check_in.id}) 
+        = link_to 'Destroy Check In', dashboard_check_in_path(check_in), :method => :delete, class: "side-by-side btn btn-danger btn-mini"

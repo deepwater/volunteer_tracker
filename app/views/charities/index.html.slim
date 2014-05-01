@@ -1,0 +1,11 @@
+.page-header
+  h1 Charity List
+
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th Name
+  tbody
+    - @charities.each do |charity|
+      tr
+        td= link_to charity.name, charity
