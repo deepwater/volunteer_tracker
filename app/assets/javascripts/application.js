@@ -18,5 +18,4 @@
 //= require twitter/bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
-//= require bootstrap-tour
 //= require_tree .
