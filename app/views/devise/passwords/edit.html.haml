@@ -12,22 +12,22 @@
     %p Please type in the same new password twice.
     %br
 
-    = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, class: "form-horizontal" }) do |f|
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
       = devise_error_messages!
       %fieldset
         = f.hidden_field :reset_password_token
 
         .control-group
-          = f.label :password, "New password", :class => 'control-label'
+          = f.label :password, "New password", class: 'control-label'
           .controls
             = f.password_field :password
 
         .control-group
-          = f.label :password_confirmation, "Confirm new password", :class => 'control-label'
+          = f.label :password_confirmation, "Confirm new password", class: 'control-label'
           .controls
             = f.password_field :password_confirmation
 
         .form-actions
-          = f.submit(:class => 'btn btn-primary', :value => "Submit")
+          = f.submit(class: 'btn btn-primary', value: "Submit")
           %br
           = render "links"
