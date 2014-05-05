@@ -1,12 +1,13 @@
 VolunteerTracker::Application.routes.draw do
 
   # PUBLIC FACING
-  resources :departments, :only => [:index,:show]
-  resources :charities, :only => [:index,:show]
+  resources :departments, only: [:index,:show]
+  resources :charities, only: [:index,:show]
 
   devise_for :users, controllers: {
     registrations: "registrations",
-    sessions: "sessions"
+    sessions: "sessions",
+    passwords: "passwords"
   }
   
   resources :users do
@@ -32,7 +33,7 @@ VolunteerTracker::Application.routes.draw do
     resources :events
     resources :organisations
 
-    resources :base, :only => :index do
+    resources :base, only: :index do
       collection do
         get :charity_tab
         get :department_tab
@@ -48,10 +49,10 @@ VolunteerTracker::Application.routes.draw do
   #   match '/' => 'organisations#show', as: :organisation_root
   # end
 
-  resources :dashboard, :only => [:index, :registration_complete]
+  resources :dashboard, only: [:index, :registration_complete]
   namespace :dashboard do
     # VIEWING ONLY
-    resources :departments, :only => [:show, :edit] do
+    resources :departments, only: [:show, :edit] do
       member do
         get :for_promote
         get :assistants
