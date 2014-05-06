@@ -1,0 +1,255 @@
+- suggested_number_of_workers = @show_action_data.department_block.suggested_number_of_workers
+
+.col-sm-4
+  h2
+    = @show_action_data.department_block.name
+    .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary'
+  p
+    b Department
+    ' 
+    = @show_action_data.department_block.department.name
+  p
+    b Start time:
+    ' 
+    = in_twelve_hour_time(@show_action_data.department_block.start_time)
+    |-
+    = @show_action_data.department_block.day.short_date_with_day
+  p
+    b End time:
+    ' 
+    = in_twelve_hour_time(@show_action_data.department_block.end_time)
+    |-
+    = @show_action_data.department_block.day.short_date_with_day
+
+  p
+    b Maximum number of volunteers:
+    ' 
+    span.number_of_workers= suggested_number_of_workers
+
+  h3 Volunteer Managers
+
+  - if @show_action_data.department_block.volunteer_managers.count == 0
+    .alert.alert-error
+      strong Warning!
+      ' No Volunteer Managers Assigned
+    button.btn.btn-primary type="button" href="#assign_volunteer_managers" data-toggle="modal" Assign Volunteer Managers
+
+  - else
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th Name
+          th Actions
+      tbody
+      - @show_action_data.department_block.volunteer_managers.each do |volunteer_manager|
+        tr
+          td= volunteer_manager.user.full_name
+          td
+            - if @show_action_data.volunteer_managers[volunteer_manager.user_id].present?
+              = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), confirm: 'Are you sure?', method: :delete, :"data-type" => "json", class: 'unassign-volunteer-manager btn btn-danger'
+
+    =link_to "Save and Return to Blocks", dashboard_department_path(@show_action_data.department_block.department, anchor: @show_action_data.department_block.day.safe_short_date), class: "btn btn-primary"
+
+.col-sm-7.col-sm-offset-1
+  h3 Scheduled Volunteers
+
+  p
+    b Current Volunteer Allocation:
+    '  
+    - current_allocation = @show_action_data.department_block.users.count
+    - if suggested_number_of_workers
+      ="(#{current_allocation}/#{suggested_number_of_workers})"
+    - else
+      ="0/0"
+  .progress
+    - if suggested_number_of_workers
+      .bar class=(current_allocation > suggested_number_of_workers ? "bar-danger" : "") style="width: #{(current_allocation.to_f / suggested_number_of_workers.to_f) * 100}%;"
+    - else
+      .bar.bar-danger style="width: 100%;"
+
+
+  table.table.table-bordered.table-striped.scheduled-user-table
+    thead
+      tr
+        th Name
+        th Actions
+    tbody
+      - @show_action_data.department_block.users.each do |user|
+        tr
+          td= user.full_name
+          td
+            - if @show_action_data.user_schedules[user.id].present?
+              = link_to 'Unschedule', dashboard_user_schedule_path(@show_action_data.user_schedules[user.id]), confirm: 'Are you sure?', method: :delete, :"data-type" => "json", class: 'unschedule-user btn btn-danger'
+            = link_to 'Print', dymo_dashboard_user_schedule_path(@show_action_data.user_schedules[user.id], format: :xml), class: "btn btn-info print-dymo-label"
+
+  h3 Available Volunteers
+
+  .dataTables_wrapper
+    .dataTables_length
+      label
+        ' Show
+        select#per_page size="1"
+          option selected="selected" value="10" 10
+          option value="25" 25
+          option value="50" 50
+          option value="100" 100
+        ' entries
+      .hidden
+        = link_to "", "", remote: true, id: "hidden_link"
+    .dataTables_filter
+      label
+        ' Search:
+        input#search type="text" value=(@show_action_data.scope.q)
+        = button_tag 'Search', id: "search_button"
+    table.table.table-bordered.table-striped.schedule-user-table
+      thead
+        tr
+          th.sortable.sorting type="name" Name
+          th.sortable.sorting type="email" Email
+          th Availability Time
+          th User Schedules on Day
+          th.sortable.sorting type="charity"
+            = select_tag :charity, options_for_select([['All', '']] + Charity.order("name").all.map {|r| [r.name, r.id]}, @show_action_data.scope.charity)
+            ' Charity
+          th.sortable.sorting type="role"
+            = select_tag :role, options_for_select([['All', '']] + Role::ROLES.map {|r| [r.humanize, r]}, @show_action_data.scope.role)
+            ' Role
+          th Actions
+      tbody
+        = render collection: @show_action_data.user_availabilities, partial: 'user_availability', locals: {department_block: @show_action_data.department_block}
+    .dataTables_info
+      = render "pagination_info"
+    .dataTables_paginate.paging_two_button
+      = render 'pagination'
+
+
+#assign_volunteer_managers.modal.hide.fade
+  .modal-dialog
+    .modal-container
+      .modal-header
+        button.close type="button" data-dismiss="modal" &times;
+        h4.modal-title Assign Volunteer Managers
+  .modal-body
+    p Here is a list of potential volunteer managers that are already scheduled to this block.
+
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th Name
+          th Assign as Volunteer Manager
+      tbody
+        - @show_action_data.department_block.users.each do |user|
+          - if user.role == "volunteer_manager"
+            tr
+              td= user.full_name
+              td
+                = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
+                  = f.hidden_field :user_id, value: user.id
+                  = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
+
+                  = button_tag type: "submit", class: 'btn btn-success' do
+                    ' Assign
+
+= javascript_include_tag "http://labelwriter.com/software/dls/sdk/js/DYMO.Label.Framework.latest.js"
+
+javascript:
+  $(function() {
+    var loadData = function(el) {
+      $this = $(el);
+      $link = $('#hidden_link');
+      $link.attr('href', window.location.pathname + prepare_query());
+      $link.trigger('click');
+    }
+    $('#per_page, #charity, #role').on('change', function() {
+      loadData(this);
+    });
+
+    $('#search').on('keyup', function(e) {
+      if (e.keyCode == 13) {
+        loadData(this);
+      }
+      return false;
+    });
+
+    $('#search_button').on('click', function(e) {
+      loadData($('#search').val());
+      return false;
+    });
+
+    $('#search').on('blur', function(e) {
+      loadData(this);
+      return false;
+    });
+
+    var prepare_query = function() {
+      charity  = $('#charity').val();
+      role     = $('#role').val();
+      q        = $('#search').val();
+      per_page = $('#per_page').val();
+
+      result = "?per_page=" + per_page + "&charity=" + charity + "&role=" + role +
+               "&q=" + q + "&order_email=" + window.sortings.order_email +
+               "&order_name=" + window.sortings.order_name +
+               "&order_role=" + window.sortings.order_role +
+               "&order_charity=" + window.sortings.order_charity;
+      return result;
+    };
+
+
+    window.sortings = {};
+    $('th.sortable').on('click', function() {
+      window.sortings = {};
+      $this = $(this);
+      type = $this.attr('type');
+
+      $.each($('.sortable'), function(index, el) {
+        $el = $(el);
+        el_type = $el.attr('type');
+
+        if (type != el_type) {
+          $el.removeClass('sorting');
+          $el.removeClass('sorting_asc');
+          $el.removeClass('sorting_desc');
+          $el.addClass('sorting');
+        }
+      });
+
+      if ($this.hasClass('sorting')) {
+        startSort($this);
+      } else if ($this.hasClass('sorting_asc')){
+        sortAsc($this);
+      }else if ($this.hasClass('sorting_desc')){
+        sortDesc($this);
+      }
+    });
+
+    var startSort = function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'asc';
+      $this.removeClass('sorting').addClass('sorting_asc');
+
+      loadData($this);
+      return false;
+    };
+
+    var sortAsc =  function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'desc';
+      $this.removeClass('sorting_asc').addClass('sorting_desc');
+
+      loadData($this);
+      return false;
+    };
+
+    var sortDesc = function(el) {
+      $this = $(el)
+      column = $this.attr('type')
+      window.sortings["order_" + column] = 'asc';
+      $this.removeClass('sorting_desc').addClass('sorting_asc');
+
+      loadData($this);
+      return false;
+    };
+  });

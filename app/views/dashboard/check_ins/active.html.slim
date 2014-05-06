@@ -1,0 +1,37 @@
+.page-header
+  h1 Active Volunteers
+
+.dataTables_length
+  label
+    ' Show
+    select#per_page size="1"
+      option selected="selected" value="10" 10
+      option value="25" 25
+      option value="50" 50
+      option value="100" 100
+    ' entries
+.dataTables_filter
+  label
+    ' Search:
+    input#search type="text"
+
+table.table.table-bordered.table-striped#active-check-ins-table
+  thead
+    tr
+      th.sortable.sorting#name Name
+      th Email
+      th.sortable.sorting#department Department
+      th Department Block
+      th Start Time
+      th End Time
+      th.sortable.sorting#check_in Check In Time
+      th.sortable.sorting#charity Charity
+      th Actions
+  tbody
+    = render "active_items", results: @results 
+
+.pagination-wrapper
+  #pagination
+    = paginate @results, remote: true
+  #pagination-info
+    = page_entries_info @results
