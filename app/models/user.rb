@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-require 'csv'
   rolify
 
   TSHIRT_SIZES = %w[S M L XL XXL XXXL]
@@ -102,6 +101,18 @@ require 'csv'
 
   def subaccount?
     master_id.present?
+  end
+
+  def reset_password!(new_password, new_password_confirmation)
+    self.password = new_password
+    self.password_confirmation = new_password_confirmation
+
+    if new_password == new_password_confirmation
+      clear_reset_password_token
+      after_password_reset
+    end
+
+    self.save(validate: false)
   end
 
   private
