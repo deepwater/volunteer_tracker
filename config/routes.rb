@@ -1,8 +1,8 @@
 VolunteerTracker::Application.routes.draw do
 
   # PUBLIC FACING
-  resources :departments, only: [:index,:show]
-  resources :charities, only: [:index,:show]
+  resources :departments, only: [:index, :show]
+  resources :charities, only: [:index, :show]
 
   devise_for :users, controllers: {
     registrations: "registrations",
@@ -45,10 +45,6 @@ VolunteerTracker::Application.routes.draw do
     root to: 'base#index'
   end
 
-  # constraints(Subdomain) do
-  #   match '/' => 'organisations#show', as: :organisation_root
-  # end
-
   resources :dashboard, only: [:index, :registration_complete]
   namespace :dashboard do
     # VIEWING ONLY
@@ -63,6 +59,7 @@ VolunteerTracker::Application.routes.draw do
     # ROLES
     resources :department_assistants
     resources :volunteer_managers
+    resources :volunteers, only: [:index]
     resources :users
 
     # TIME RELATED

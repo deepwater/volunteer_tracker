@@ -31,6 +31,7 @@
 //= require dashboard/fast_pass
 //= require dashboard/flags
 //= require dashboard/user_availabilities
+//= require dashboard/volunteers
 
 //= require partials/department_blocks
 //= require partials/departments

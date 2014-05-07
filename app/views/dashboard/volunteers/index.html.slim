@@ -1,0 +1,21 @@
+.page-header
+  h1 Volunteers List
+
+table.table.table-bordered.table-striped#volunteers_list_table data-source=(dashboard_volunteers_path(format: :json))
+  thead
+    tr
+      th Full Name
+      th Email
+      th T Shirt Size
+      th Role
+      th
+      th
+  tbody
+    - @volunteers.each do |volunteer|
+      tr
+        td= link_to volunteer.full_name, admin_user_path(volunteer)
+        td= volunteer.email
+        td= volunteer.tshirt_size
+        td= volunteer.role
+        td= link_to 'Edit', edit_admin_user_path(volunteer)
+        td= link_to 'Delete', admin_user_path(volunteer), method: :delete, confirm: "Are you sure?", remote: true
