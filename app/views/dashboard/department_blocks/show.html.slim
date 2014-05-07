@@ -123,32 +123,32 @@
       = render 'pagination'
 
 
-#assign_volunteer_managers.modal.hide.fade
+#assign_volunteer_managers.modal.fade
   .modal-dialog
     .modal-container
       .modal-header
         button.close type="button" data-dismiss="modal" &times;
         h4.modal-title Assign Volunteer Managers
-  .modal-body
-    p Here is a list of potential volunteer managers that are already scheduled to this block.
+      .modal-body
+        p Here is a list of potential volunteer managers that are already scheduled to this block.
 
-    table.table.table-bordered.table-striped
-      thead
-        tr
-          th Name
-          th Assign as Volunteer Manager
-      tbody
-        - @show_action_data.department_block.users.each do |user|
-          - if user.role == "volunteer_manager"
+        table.table.table-bordered.table-striped
+          thead
             tr
-              td= user.full_name
-              td
-                = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
-                  = f.hidden_field :user_id, value: user.id
-                  = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
+              th Name
+              th Assign as Volunteer Manager
+          tbody
+            - @show_action_data.department_block.users.each do |user|
+              - if user.role == "volunteer_manager"
+                tr
+                  td= user.full_name
+                  td
+                    = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
+                      = f.hidden_field :user_id, value: user.id
+                      = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
 
-                  = button_tag type: "submit", class: 'btn btn-success' do
-                    ' Assign
+                      = button_tag type: "submit", class: 'btn btn-success' do
+                        ' Assign
 
 = javascript_include_tag "http://labelwriter.com/software/dls/sdk/js/DYMO.Label.Framework.latest.js"
 

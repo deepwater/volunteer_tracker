@@ -28,27 +28,29 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
 .separate-block
 
 - if current_user.has_any_role? :department_manager, :super_admin
-  = link_to(new_dashboard_department_block_path) do
-    button.btn.btn-primary.create_department_block type="button" href="#modal_#{@day.safe_short_date}" data-toggle="modal" Create Department Block
+  button.btn.btn-primary.create_department_block type="button" href="#modal_#{@day.safe_short_date}" data-toggle="modal" Create Department Block
   ' 
-  = link_to new_dashboard_department_block_path do
-    button.btn.btn-info type="button" href="#copy_schedule_modal_#{@day.id}" data-toggle="modal" Copy Blocks to Another Day
+  button.btn.btn-info type="button" href="#copy_schedule_modal_#{@day.id}" data-toggle="modal" Copy Blocks to Another Day
   '
   = link_to "#{@department.id}/export/#{@day.year}/#{@day.month}/#{@day.mday}" do
     button.btn.btn-default type="button" href="#modal_#{@day.safe_short_date}" Export Blocks
 
-  .modal.hide.fade id="modal_#{@day.safe_short_date}"
-    .modal-header
-      button.close type="button" data-dismiss="modal"
-        ' &times;
-      h3 Create a Department Block
-    .modal-body
-      = render 'dashboard/department_blocks/new', :department => @department, :current_day => @day
+  .modal.fade id="modal_#{@day.safe_short_date}"
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close type="button" data-dismiss="modal"
+            ' &times;
+          h3 Create a Department Block
+        .modal-body
+          = render 'dashboard/department_blocks/new', :department => @department, :current_day => @day
 
-  .modal.hide.fade id="copy_schedule_modal_#{@day.id}"
-    .modal-header
-      button.close type="button" data-dismiss="modal"
-        ' &times;
-      h3 Choose Day to Copy To
-    .modal-body
-      = render 'dashboard/department_blocks/copy', :day_to_copy => @day, :department => @department
+  .modal.fade id="copy_schedule_modal_#{@day.id}"
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close type="button" data-dismiss="modal"
+            ' &times;
+          h3 Choose Day to Copy To
+        .modal-body
+          = render 'dashboard/department_blocks/copy', :day_to_copy => @day, :department => @department
