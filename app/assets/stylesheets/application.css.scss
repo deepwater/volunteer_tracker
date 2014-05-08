@@ -5,6 +5,8 @@
 @import 'bootstrap-timepicker';
 @import 'bootstrap-datepicker';
 
+@import 'libs/bootstrap-tour';
+
 @import 'partials/layout';
 @import 'partials/devise';
 @import 'partials/admin';
@@ -21,12 +23,3 @@
 @import 'dashboard/user_availabilities';
 
 @import 'partials/datatables';
-
-.modal.large{
-    width: 50%; /* respsonsive width */
-    margin-left:-25%; /* width/2) */
-}
-
-.alert-container > a.close{
-  margin: 6px;
-}

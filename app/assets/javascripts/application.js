@@ -18,4 +18,22 @@
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
-//= require_tree .
+//= require libs/bootstrap-tour
+
+//= require admin/departments
+//= require admin/events
+//= require admin/index
+//= require admin/users
+
+//= require dashboard/check_ins
+//= require dashboard/dashboard
+//= require dashboard/department_blocks
+//= require dashboard/fast_pass
+//= require dashboard/flags
+//= require dashboard/user_availabilities
+
+//= require partials/department_blocks
+//= require partials/departments
+//= require partials/subaccounts
+//= require partials/user_schedules
+//= require partials/tours

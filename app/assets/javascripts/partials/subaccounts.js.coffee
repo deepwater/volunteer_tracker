@@ -11,4 +11,4 @@ $ ->
     ]
     oTableTools: 
       "aButtons": [ "copy", "csv", "xls" ]
-      "sSwfPath": "http://datatables.net/release-datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
+      "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
