@@ -1,0 +1,3 @@
+$("#<%= @user.id %>-user").parents("tr").fadeOut().queue(function() {
+  $(this).remove();
+})

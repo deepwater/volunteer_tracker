@@ -21,25 +21,24 @@
     
     = simple_form_for resource, url: registration_path(:user), method: :post, html: {class: 'form-horizontal', novalidate: true}, defaults: { input_html: { class: 'input-xlarge' } } do |f|
       %fieldset
-        = f.input :first_name
-        = f.input :last_name
+        = f.input :first_name, require:true, autofocus:true
+        = f.input :last_name, require:true
         = f.input :username
         = f.input :cell_phone
         = f.input :home_phone
-        = f.input :email
+        = f.input :email, require:true
         = f.input :adult
-        = f.input :password
-        = f.input :password_confirmation
+        = f.input :password, require:true
+        = f.input :password_confirmation, require:true
         = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES
         
         .control-group
-          = label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'
+          //= label_tag 'I certify that I am 18 years of age or older', nil, class: 'control-label'
           .controls
-            = f.input_field :adult, label: false, wrapper_html: false
+            //= f.input_field :adult, label: false, wrapper_html: false
             %br
             %hr
-            =link_to "If you are under 18, or if you're registering for more than one person, click here for more information.", "http://gilroygarlicfestival.com/help/helpDocMultiAcct.html"
             %p *Note: We never share your information with ANYONE outside of the Gilroy Garlic Festival organization and will only use this information to better assist us with coordinating the event.
         .form-actions
           = f.button :submit

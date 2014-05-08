@@ -71,6 +71,7 @@ class SubaccountsController < ApplicationController
     @subaccount.destroy
 
     respond_to do |format|
+      format.js
       format.html { redirect_to user_subaccounts_url(current_user) }
       format.json { head :no_content }
     end
