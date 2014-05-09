@@ -65,7 +65,7 @@ h3 Department Assistants
 
   button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
 
-#assign_department_managers.modal.large.fade
+#assign_department_managers.modal.fade
   .modal-content
     .modal-header
       button.close type="button" data-dismiss="modal" &times;
@@ -92,7 +92,7 @@ h3 Department Assistants
                     = f.input :department_id, as: :hidden, input_html: { value: @department.id }
                     = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
 
-#assign_department_assistants.modal.large.fade
+#assign_department_assistants.modal.fade
   .modal-content
     .modal-header
       button.close type="button" data-dismiss="modal" &times;

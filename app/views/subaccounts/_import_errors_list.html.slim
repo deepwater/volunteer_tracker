@@ -49,7 +49,7 @@
                 -(9..20).each do |n|
                   = hidden_field_tag "data[#{index}][#{n}]", row_with_errors[:row][n]
                 ' set to go!
-            %td
+            td
               = link_to 'Delete', "#", class: "delete-row-with-errors"
     = submit_tag "Save", class: "btn btn-success right-floated-btn"
 
