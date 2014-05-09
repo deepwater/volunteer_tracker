@@ -19,15 +19,15 @@
     
     = simple_form_for resource, url: registration_path(:user), method: :post, html: {class: 'form-horizontal', novalidate: true} do |f|
       fieldset
-        = f.input :first_name, require: true, autofocus: true
-        = f.input :last_name, require: true
+        = f.input :first_name, required: true, autofocus: true
+        = f.input :last_name, required: true
         = f.input :username
         = f.input :cell_phone
         = f.input :home_phone
-        = f.input :email, require: true
+        = f.input :email, required: true
         = f.input :adult
-        = f.input :password, require: true
-        = f.input :password_confirmation, require: true
+        = f.input :password, required: true
+        = f.input :password_confirmation, required: true
         = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
         = f.input :tshirt_size, collection: User::TSHIRT_SIZES
         
