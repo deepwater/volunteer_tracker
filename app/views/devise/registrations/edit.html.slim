@@ -3,22 +3,6 @@
 
 = simple_form_for resource, url: registration_path(:user), method: :put, html: {class: 'form-horizontal', novalidate: true} do |f|
   fieldset.col-sm-8.col-sm-offset-2
-    .form-group
-      .col-sm-9.col-sm-offset-3
-        - if current_user.charities.any?
-          ' Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
-        - else
-          ' You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
-    = f.input :first_name
-    = f.input :last_name
-    = f.input :username
-    = f.input :cell_phone
-    = f.input :home_phone
-    = f.input :email
-    = f.input :adult
-    = f.input :secondary_email, as: :string, hint: "(If you would like to send email notifications to a second email)"
-    = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
-    = f.input :tshirt_size, collection: User::TSHIRT_SIZES
     = f.input :password, hint: "(leave blank if you don't want to change it)"
     = f.input :password_confirmation
     = f.input :current_password, hint: "(we need your current password to confirm your changes)"

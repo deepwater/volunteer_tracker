@@ -11,6 +11,9 @@ VolunteerTracker::Application.routes.draw do
   }
   
   resources :users do
+    collection do
+      get :edit_profile
+    end
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
       collection do 
