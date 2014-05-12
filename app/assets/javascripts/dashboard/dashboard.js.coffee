@@ -1,6 +1,7 @@
 $ ->
   setTimeout =>
-    $('.alert-container').remove()
+    $('.alert-dismissable').fadeOut().queue(->
+        $(this).remove())
   , 8*1000
 
   $('.dataTables').dataTable()
