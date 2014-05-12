@@ -1,28 +1,9 @@
 .page-header
   h1 Availability
 
+.time-availability-wrapper 
 
-- if @user_availabilities.empty?
-
-  .help-event-setup
-    h3 Would you like to help out with set up?
-    p Event setup runs from July 20th to July 24th
-    button.btn.btn-success.yes type="button" Yes
-    '  
-    button.btn.btn-danger.no type="button" No
-
-  .help-event-tear-down
-    h3 Would you like to help out with tear down?
-    p Event tear down runs from July 28th to July 30th
-    button.btn.btn-success.yes type="button" Yes
-    '  
-    button.btn.btn-danger.no type="button" No
-
-.time-availability-wrapper class=(@user_availabilities.empty? ? "hidden" : "")
-
-  h3 Add your time availability
-  p 
-    strong Volunteer shifts average about 4 hours at a minimum so we ask that you volunteer at least 4 hours or more for each day you are willing to volunteer.
+  h3 Add your availability
 
   #accordion.panel-group
     .panel.panel-default
