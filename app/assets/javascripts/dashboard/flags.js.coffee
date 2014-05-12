@@ -4,7 +4,7 @@
 
 
 $ ->
-	$('.flag_form_button').on 'click', ->
-		$(@).hide()
-		$(@).siblings('.flag_form').fadeIn()
+  $('.flag_form_button').on 'click', ->
+    $(@).hide()
+    $(@).siblings('.flag_form').fadeIn()
 

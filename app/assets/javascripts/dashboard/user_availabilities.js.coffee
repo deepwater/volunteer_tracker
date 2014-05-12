@@ -1,10 +1,4 @@
 $ ->
-  $('.new_user_availability')
-    .bind("ajax:loading", toggleLoading)
-    .bind("ajax:complete", toggleLoading)
-    .bind "ajax:success", (event, data, status, xhr) ->
-      $(@).siblings("table").append(data.template)
-
   $('.time-availability-wrapper').on 'click', '.remove-user-availability',->
     $(@).parent().parent().remove()
 
