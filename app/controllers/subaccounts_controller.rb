@@ -39,7 +39,7 @@ class SubaccountsController < ApplicationController
   end
 
   def create
-    @subaccount = User.new(params[:user])
+    @subaccount = current_user.subaccounts.new(params[:user])
     @subaccount.skip_confirmation!
     respond_to do |format|
       if @subaccount.save

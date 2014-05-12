@@ -1,0 +1,120 @@
+.page-header
+  .pull-right
+    = link_to 'Edit', edit_admin_department_path(@department), class: 'btn btn-primary btn-sm'
+    '  
+    = link_to 'Delete', admin_department_path(@department), class: 'btn btn-sm btn-danger', method: :delete, :'data-confirm' => 'Are you sure?'
+  h1 = @department.name
+
+p
+  b Department Email:
+  '  
+  = @department.email
+
+p
+  b Budgeted Hours:
+  '  
+  = @department.budgeted_hours
+
+
+h3 Department Managers
+
+- if @department.department_managers.length == 0
+  .alert.alert-error
+    strong Warning!
+    ' No Department Managers Assigned 
+  button.btn.btn-primary type="button" href="#assign_department_managers" data-toggle="modal" Assign Department Managers
+
+- else 
+  table.table.table-bordered.table-striped
+    thead
+      tr
+        th Name
+        th Actions
+    tbody
+      - @department.department_managers.each do |department_manager|
+        tr
+          td= department_manager.user.full_name
+          td
+            = link_to 'Unassign', admin_department_manager_path(DepartmentManager.where(department_id: @department.id, user_id: department_manager.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-manager btn btn-danger'
+              
+
+  button.btn.btn-primary type="button" href="#assign_department_managers" data-toggle="modal" Assign Department Managers
+
+h3 Department Assistants
+
+- if @department.department_assistants.length == 0
+  .alert.alert-error
+    strong Warning!
+    ' No Department Assistants Assigned
+  button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
+
+- else 
+  table.table.table-bordered.table-striped
+    thead
+      tr
+        th Name
+        th Actions
+    tbody
+      - @department.department_assistants.each do |department_assistant|
+        tr
+          td= department_assistant.user.full_name
+          td
+            = link_to 'Unassign', admin_department_assistant_path(DepartmentAssistant.where(department_id: @department.id, user_id: department_assistant.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger'
+            button.btn.btn-info type="button" href="#assign_department_blocks_#{department_assistant.user.id}" data-toggle="modal" Restrict Access
+            = render "dashboard/departments/department_blocks_modal", department_blocks: @department.department_blocks.ordered_by_date, user: department_assistant.user
+
+  button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
+
+#assign_department_managers.modal.fade
+  .modal-content
+    .modal-header
+      button.close type="button" data-dismiss="modal" &times;
+      h4.modal-title Assign Department Managers
+    .modal-body
+      - if @department_managers.empty?
+        .alert.alert-error
+          strong Warning!
+          ' No Department Managers Available. You need to promote a volunteer to the Department Manager role before you can assign them to this department.
+      - else
+        p Here is a list of users you can add as a Department Manager
+
+        table.table.table-bordered.table-striped.dataTables
+          thead
+            th Name
+            th Assign as Department Manager
+          tbody
+            - @department_managers.each do |user|
+              tr
+                td= user.full_name
+                td
+                  = simple_form_for [:admin, DepartmentManager.new], html: { data: { type: :json } } do |f|
+                    = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                    = f.input :department_id, as: :hidden, input_html: { value: @department.id }
+                    = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
+
+#assign_department_assistants.modal.fade
+  .modal-content
+    .modal-header
+      button.close type="button" data-dismiss="modal" &times;
+      h4.modal-title Assign Department Assistants
+    .modal-body
+      - if @department_assistants.length == 0
+        .alert.alert-error
+          strong Warning!
+          ' No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
+      - else
+        p Here is a list of users you can add as a Department Assistant
+
+        table.table.table-bordered.table-striped.dataTables
+          thead
+            th Name
+            th Assign as Department Assistant
+          tbody
+            - @department_assistants.each do |user|
+              tr
+                td= user.full_name
+                td
+                  = simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } } do |f|
+                    = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                    = f.input :department_id, as: :hidden, input_html: { value: @department.id }
+                    = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }

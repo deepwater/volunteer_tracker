@@ -1,0 +1,26 @@
+#time-availability {
+	margin-left:0;
+
+	td:hover{
+		cursor:pointer;
+	}
+}
+.time-availability-wrapper{
+	.pagination{
+		margin-top:2px;
+	}
+}
+
+.thumbnail{
+	background-color:whitesmoke;
+}
+
+.pendingVol table{
+	background-color:#f6f4bf;
+}
+.activeVol table{
+	background-color:#d6f6bf;
+}
+.pastVol table{
+	background-color:#e2e5e7;
+}

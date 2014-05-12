@@ -1,0 +1,16 @@
+.page-header
+  .pull-right = link_to 'New Charity', new_admin_charity_path, class: 'btn btn-primary'
+  h1 Charity List
+
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th Name
+      th
+      th
+  tbody
+    - @charities.each do |charity|
+      tr
+        td= link_to charity.name, admin_charity_path(charity)
+        td= link_to 'Edit', edit_admin_charity_path(charity)
+        td= link_to 'Delete', admin_charity_path(charity), :method=> :delete, :'data-confirm' => 'Are you sure?'

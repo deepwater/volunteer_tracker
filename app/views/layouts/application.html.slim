@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+  title VolunteerTracker
+
+  = render "layouts/head"
+
+  body
+     = render "layouts/header"
+
+     .container-fluid
+      .row
+        .col-sm-12
+          = render "layouts/alerts"
+          = yield
+
+  = render "layouts/ga"

@@ -1,0 +1,16 @@
+h2
+  .pull-right = link_to 'New User', new_admin_user_path, class: 'btn btn-primary'
+  ' Users List
+
+
+table.table.table-bordered.table-striped#users_list_table data-source=(url_for(:controller=>'base',:action=>'list'))
+  thead
+    tr
+      th Full Name
+      th Email
+      th T Shirt Size
+      th Role
+      th Charity
+      th
+      th
+  tbody

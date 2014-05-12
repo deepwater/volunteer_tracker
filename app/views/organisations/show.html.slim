@@ -1,0 +1,12 @@
+.page-header
+  h1
+    = current_user.full_name
+    small = current_user.role.camelize
+
+h2 = @organisation.name
+
+h3 Events
+
+ul.thumbnails
+  - @organisation.events.each do |event|
+    li = event.name

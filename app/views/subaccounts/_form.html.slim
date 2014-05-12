@@ -1,0 +1,17 @@
+= simple_form_for([current_user, @subaccount], url: @subaccount.persisted? ? :user_subaccount : :user_subaccounts, html: { id: "new_subaccount", class: 'form-horizontal', method: @subaccount.persisted? ? :put : :post }) do |f|
+  .col-sm-8.col-sm-offset-2
+    = f.hidden_field :master_id, value: current_user.id
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :username
+    = f.input :email, label: "Email notifications to:"
+    = f.input :adult
+    = f.input :cell_phone
+    = f.input :home_phone
+    = f.association :charities, as: :select, input_html: { multiple: false, size: 1 }, include_blank: false
+    = f.input :tshirt_size, collection: User::TSHIRT_SIZES
+    = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = f.button :submit, class: 'btn btn-primary'
+        = link_to 'Back', user_subaccounts_path(current_user), class: 'btn btn-link'

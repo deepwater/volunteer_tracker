@@ -1,0 +1,16 @@
+.page-header
+  h1 Department List
+
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th Name
+      th Department Manager
+  tbody
+    - @departments.each do |department|
+      tr
+        td = link_to department.name, department_path(department)
+        - if !department.user.nil?
+          td= "#{department.user.first_name} #{department.user.last_name}"
+        - else
+          td Unassigned

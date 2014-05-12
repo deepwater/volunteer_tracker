@@ -1,0 +1,19 @@
+.page-header
+  h1 Fastpass Check-Out
+
+h3 Scan the barcode when you are ready
+
+= simple_form_for [:dashboard, CheckIn.new], url: dashboard_check_out_path, remote: true, html: { data: { type: :json }, class: 'form-horizontal' }  do |f|
+  = f.input :user_schedule_id, autofocus: true
+  = f.input :status, as: :hidden, input_html: { value: '2' }
+
+h3 Checked-Out
+p A list of checked out users this FastPass session
+
+table.table.table-bordered.table-striped.check-out#fast-pass-table
+  thead
+    tr
+      th User Name
+      th User Schedule ID
+      th Hours Worked
+  tbody

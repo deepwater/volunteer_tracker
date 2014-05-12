@@ -1,0 +1,20 @@
+.page-header
+  h1 Listing check_ins
+
+table
+  tr
+    th User schedule
+    th User
+    th
+    th
+    th
+
+  - @check_ins.each do |check_in|
+    tr
+      td= check_in.user_schedule_id
+      td= check_in.user_id
+      td= link_to 'Show', check_in
+      td= link_to 'Edit', edit_check_in_path(check_in)
+      td= link_to 'Destroy', check_in, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'New Check in', new_check_in_path, class: 'btn btn-primary'

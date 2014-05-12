@@ -1,0 +1,15 @@
+.pagination-wrapper {
+  width: 100%;
+  div {
+    width: 50%;
+    float: left;
+    .pagination {
+      margin: 10px 0;
+    }
+  }
+  #pagination-info {
+    margin: 10px 0;
+    text-align: right;
+    float: right;
+  }
+}

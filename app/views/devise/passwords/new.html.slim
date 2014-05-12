@@ -1,0 +1,21 @@
+.row
+  .col-md-5
+    = image_tag "ggf_logo.png", alt: ''
+  .col-md-6
+
+    .row.devise-form
+      .col-md-9.col-md-offset-3
+        h2 Forgot your password?
+        p If you have forgotten your password, type in your email address and we'll send you a link to reset your password.
+
+    = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, class: "form-horizontal" }) do |f|
+      = devise_error_messages!
+      fieldset
+        .form-group
+          = f.label :email, :class => 'col-md-3 control-label'
+          .col-md-9
+            = f.email_field :email, class: 'form-control'
+        .form-group
+          .col-md-9.col-md-offset-3
+            = f.submit 'Submit', class: 'btn btn-primary'
+            = render "links"

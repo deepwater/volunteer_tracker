@@ -1,0 +1,6 @@
+.page-header
+  h1 = @subaccount.username
+
+h3 Subaccount: #{@subaccount.full_name}
+
+= link_to 'Back', user_subaccounts_path(current_user), class: 'btn btn-link'

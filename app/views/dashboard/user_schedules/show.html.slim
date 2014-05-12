@@ -1,0 +1,37 @@
+.page-header
+  h1 =@user_schedule.department_block.name
+
+p
+  b Department:
+  '  #{@user_schedule.department_block.department.name}
+p
+  b Start time:
+  '  #{in_twelve_hour_time(@user_schedule.department_block.start_time)}-#{@user_schedule.department_block.day.short_date_with_day}
+p
+  b End time:
+  '  #{in_twelve_hour_time(@user_schedule.department_block.end_time)}-#{@user_schedule.department_block.day.short_date_with_day}
+
+h2 Charity:
+
+- if @user_schedule.charity.nil?
+  p 
+    ' The hours your work for this assignment will not be credited to a charity because you do not have a default charity. 
+    br
+    br
+    ' You should #{link_to "go to your profile", edit_user_registration_path} and add a default charity. Alternatively, you can assign a charity for this assignment.
+- else 
+  p 
+    = @user_schedule.charity.name
+    br
+    br
+    ' You can change the charity the hours are being credited to using the form below.
+
+h3 Change Charity for this assignment:
+= form_for([:dashboard,@user_schedule], :html => {:class => 'form-horizontal'}) do |f|
+  fieldset
+    .form-group
+      = f.collection_select(:charity_id, Charity.order('name'), :id, :name)
+    .form-group
+      = f.submit class => 'btn btn-primary', :value => "Save Changes"
+
+= link_to 'Back to Your Assignments', dashboard_user_schedules_path(), class: "btn btn-primary"

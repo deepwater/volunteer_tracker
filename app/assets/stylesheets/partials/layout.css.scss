@@ -1,0 +1,39 @@
+body {
+  margin-top: 65px;
+  margin-bottom: 65px;
+}
+
+.page-header {
+  .switcher {
+    margin-top: 15px;
+  }
+}
+
+.form-horizontal {
+  margin: 20px 0 46px;
+  .control-label {
+    text-align: left;
+  }
+}
+
+.table {
+  &.no-margin {
+    margin: 0;
+  }
+}
+
+.inline-block {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.separate-block {
+  width: 100%;
+  height: 40px;
+  clear: both;
+  overflow: hidden;
+}
+
+.alert-container > a.close {
+  margin: 6px;
+}

@@ -1,0 +1,20 @@
+= form_for(@department, :url => admin_departments_path(), :html => {:class => 'form-horizontal'}) do |f|
+  - if @department.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@department.errors.count, "error")} prohibited this department from being saved:"
+      ul
+        - @department.errors.full_messages.each do |msg|
+          li= msg
+
+  fieldset
+    .form-group
+      = f.label(:name, :class => 'control-label col-sm-3')
+      .col-sm-9
+        = f.text_field :name
+    .form-group
+      = f.label(:budgeted_hours, :class => 'control-label col-sm-3')
+      .col-sm-9
+        = f.text_field :budgeted_hours
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = f.submit(:class => 'btn btn-primary', :value => "Save Changes")

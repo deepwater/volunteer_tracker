@@ -1,0 +1,16 @@
+.page-header
+  .pull-right = link_to 'New Organization', new_admin_organisation_path, class: 'btn btn-primary'
+  h1 Organization List
+
+table.table.table-bordered.table-striped
+  thead
+    tr
+      th Name
+      th
+      th
+  tbody
+    - @organisations.each do |organisation|
+      tr
+        td= link_to organisation.name, admin_organisation_path(organisation)
+        td= link_to 'Edit', edit_admin_organisation_path(organisation)
+        td= link_to 'Delete', admin_organisation_path(organisation), :method=> :delete, :'data-confirm' => 'Are you sure?'

@@ -1,0 +1,37 @@
+.page-header
+  h1 Scheduled Volunteers
+
+
+.dataTables_length
+  label
+    ' Show
+    select#per_page size="1"
+      option selected="selected" value="10" 10
+      option value="25" 25
+      option value="50" 50
+      option value="100" 100
+    ' entries
+.dataTables_filter
+  label
+    'Search:
+    input#search type="text"
+
+table.table.table-bordered.table-striped#scheduled-check-ins-table
+  thead
+    tr
+      th Date
+      th Start Time
+      th.sortable.sorting#name Name
+      th Email
+      th.sortable.sorting#department Department
+      th Department Block
+      th.sortable.sorting#charity Charity
+      th Actions
+  tbody
+    = render "scheduled_items", scheduled: @results
+
+.pagination-wrapper
+  #pagination
+    = paginate @results, remote: true
+  #pagination-info
+    = page_entries_info @results

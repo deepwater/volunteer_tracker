@@ -1,0 +1,10 @@
+- items.each do |user|
+  tr
+    td= user.full_name
+    td= user.email
+    td
+      = form_for [:admin, DepartmentAssistant.new], html: {:"data-type" => "json"} do |f|
+        = f.hidden_field :user_id, value: user.id
+        = f.hidden_field :department_id, value: @department.id
+        = button_tag type: "submit", class: 'btn btn-success' do 
+          ' Assign

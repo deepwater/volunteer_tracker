@@ -1,0 +1,12 @@
+.page-header
+  h1 = @department.name
+
+p
+  b Department manager:
+  - if !@department.user.nil?
+    '  #{@department.user.first_name} #{@department.user.last_name}
+  - else
+    '  Unassigned
+
+p
+  b Budgeted hours: #{@department.budgeted_hours}

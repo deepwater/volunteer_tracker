@@ -1,0 +1,26 @@
+.page-header
+  h1
+    ' Availability for #{@user.username}
+    small =@user.full_name
+
+.table-responsive
+  table.table.no-margin
+    tbody
+      tr
+        -@days.each do |day|
+          th= "#{day.day_name} #{day.short_date}"
+      tr
+        -@days.each do |day|
+          td id="day-#{day.id}"
+            - if day.user_available?(@user)
+              - availability = day.user_available_by_user(@user)
+              = render("destroy_link", user: @user, availability: availability)
+            - else
+              = render("form", user: @user, day: day)
+  table.table
+    tbody
+      tr
+        -if @user == current_user
+          td = link_to 'Back', dashboard_index_path
+        -else
+          td = link_to 'Back', user_subaccounts_path(current_user)

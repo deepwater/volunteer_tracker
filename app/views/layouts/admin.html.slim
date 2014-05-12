@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+  title VolunteerTracker
+
+  = render "layouts/head"
+
+  body
+     = render "layouts/header"
+
+    - flash.each do |type, message|
+      .alert class=(flash_class(type))
+        a.close data-dismiss="alert" href="#"
+          ' &times;
+        ' = message
+
+  = render "layouts/ga"

@@ -1,0 +1,72 @@
+.page-header
+  h1 Availability
+
+.time-availability-wrapper 
+
+  h3 Add your availability
+
+  #accordion.panel-group
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title = link_to 'Event Setup', '#setup', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
+      #setup.panel-collapse.collapse
+        .panel-body
+          table.table.no-margin
+            tr
+              - @setup_days.each do |day|
+                th= "#{day.day_name} #{day.short_date}"
+            tr
+              - @setup_days.each do |day|
+                td id="day-#{day.id}"
+                  - if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  - else
+                    = render("user_availabilities/form", user: @user, day: day)
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title = link_to 'Festival', '#festivals', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
+      #festivals.panel-collapse.collapse
+        .panel-body
+          table.table.no-margin
+            tr
+              - @festival_days.each do |day|
+                th = "#{day.day_name} #{day.short_date}"
+            tr
+              - @festival_days.each do |day|
+                td id="day-#{day.id}"
+                  - if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  - else
+                    = render("user_availabilities/form", user: @user, day: day)
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title = link_to 'Event Tear Down', '#tear-down', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
+      #tear-down.panel-collapse.collapse
+        .panel-body
+          table.table
+            tr
+              -@tear_down_days.each do |day|
+                th = "#{day.day_name} #{day.short_date}"
+            tr
+              -@tear_down_days.each do |day|
+                td id="day-#{day.id}"
+                  - if day.user_available?(@user)
+                    - availability = day.user_available_by_user(@user)
+                    = render("user_availabilities/destroy_link", user: @user, availability: availability)
+                  - else
+                    = render("user_availabilities/form", user: @user, day: day)
+
+  - if @user_availabilities.empty?
+    p
+      strong Finished and ready to select your charity affiliation?
+    p = link_to "Save Availability", dashboard_user_user_charities_path(@user), class: "btn btn-success"
+    p
+      small Don't worry, you can always come back to this section later to edit your time availability.
+  - else 
+    p
+      strong Finished adding your availabilities?
+    p = link_to "Return to Dashboard", dashboard_index_path, class: "btn btn-success"
+    p
+      small Don't worry, your availabilities will automatically be saved.

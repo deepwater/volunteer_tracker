@@ -1,0 +1,89 @@
+.page-header
+  h1 Edit #{@department.name}
+
+.col-sm-4
+  h2 Department Assistants
+  - if @department.department_assistants.length == 0
+    .alert.alert-error
+      ' strong Warning!
+      br
+      ' No Department Assistants Assigned 
+    button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
+
+  - else 
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th Name
+          th Actions
+      tbody
+        - @department.department_assistants.each do |department_assistant|
+          tr
+            td= department_assistant.user.full_name
+            td
+              = link_to 'Unassign', admin_department_assistant_path(department_assistant), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'btn unassign-department-assistant btn btn-danger'
+              button.btn.btn-info type="button" href="#assign_department_blocks_#{department_assistant.user.id}" data-toggle="modal" Restrict Access
+              = render "department_blocks_modal", department_blocks: @department_blocks, user: department_assistant.user
+
+    button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
+
+.col-sm-7
+  h2 Department Assistants
+
+  - if @department.department_assistants.length == 0
+    .alert.alert-error
+      strong Warning!
+      br
+      ' No Department Assistants Assigned 
+    button.btn.btn-primary type="button" href="#assign_department_assistants" Assign Department Assistants
+
+  - else 
+    table.table.table-bordered.table-striped
+      thead
+        tr
+          th Name
+          th Actions
+      tbody
+        - @department.department_assistants.each do |department_assistant|
+          tr
+            td= department_assistant.user.full_name
+            td
+              = link_to 'Unassign', admin_department_assistant_path(department_assistant), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'btn unassign-department-assistant btn btn-danger'
+              button.btn.btn-info type="button" href="#assign_department_blocks_#{department_assistant.user.id}" data-toggle="modal" Restrict Access
+              = render "department_blocks_modal", department_blocks: @department_blocks, user: department_assistant.user
+
+    button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
+
+.col-sm-12#promote-users data-url=(for_promote_dashboard_department_path(@department))
+  h2 Promote Users
+
+  .dataTables_length
+    label
+      ' Show
+      select.per-page-field size="1" data-table="promote-users"
+        option selected="selected" value="10" 10
+        option value="25" 25
+        option value="50" 50
+        option value="100" 100
+      ' entries
+  .dataTables_filter
+    label
+      ' Search:
+      input.search-field.form-control type="text" data-table="promote-users"
+
+  table.table.table-bordered.table-striped#promote-table data-table="promote-users"
+    thead
+      th.sortable.sorting.sorting_asc.name data-ordering="asc" Name
+      th Email
+      th.sortable.sorting.role Current Role
+      th Actions
+    tbody
+      = render "promote_items", users: @users
+
+  .pagination-wrapper
+    #pagination-promote-users
+      = paginate @users, remote: true, params: { controller: "dashboard/departments", action: "for_promote" }
+    #pagination-info-promote-users
+      = page_entries_info @users
+
+= render "department_assistants_modal", department_assistants: @department_assistants

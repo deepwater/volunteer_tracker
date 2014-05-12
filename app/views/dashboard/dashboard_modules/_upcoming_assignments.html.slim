@@ -1,0 +1,24 @@
+li.col-sm-4
+  .thumbnail
+    .caption
+      h4 Upcoming Assignments
+      - if @user_schedules.blank?
+        p You have not been scheduled yet. Make sure you have entered your time availability so that you are eligible to be scheduled to help out!
+      - else
+        .well
+          table.table
+            tr
+              th Time 
+              th Department
+            - @user_schedules.each do |user_schedule|
+              tr
+                td
+                  =user_schedule.department_block.day.short_date
+                  br
+                  =in_twelve_hour_time(user_schedule.department_block.start_time)
+                  |-
+                  =in_twelve_hour_time(user_schedule.department_block.end_time)
+                td=user_schedule.department_block.department.name
+      p
+        br
+        = link_to "View All", dashboard_user_schedules_path, class: "btn btn-block btn-primary"

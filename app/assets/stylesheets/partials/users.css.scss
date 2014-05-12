@@ -1,0 +1,25 @@
+.left-floated-check-box{
+	float:left;
+}
+.left-floated-label{
+	float:left;
+	margin-left:10px;
+}
+.days-list-wrapper{
+  height: 190px;
+  ul.days-list{
+    li{
+      list-style: none;
+      line-height: 1.5em;
+      float: left;
+      display: inline;
+      width: 50%;
+    }
+  }
+}
+.subaccount-error-list{
+  background-color: #F2DE68;
+}
+select.select{
+  height: 30px;
+}
