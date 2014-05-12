@@ -25,7 +25,7 @@
         = f.input :cell_phone
         = f.input :home_phone
         = f.input :email, required: true
-        = f.input :adult, input_html: { checked: false }
+        = f.input :adult, input_html: { checked: false }, label: "Age 18 or over?"
         = f.input :password, required: true
         = f.input :password_confirmation, required: true
         = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
