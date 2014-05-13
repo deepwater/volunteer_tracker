@@ -55,6 +55,6 @@ class Admin::BaseController < ApplicationController
   end
 
   def authenticate_admin
-    redirect_to root_path unless current_user.has_role? :super_admin
+    redirect_to root_path unless current_user.has_any_role? :super_admin, :org_admin, :event_admin
   end
 end

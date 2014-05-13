@@ -66,55 +66,57 @@ h3 Department Assistants
   button.btn.btn-primary type="button" href="#assign_department_assistants" data-toggle="modal" Assign Department Assistants
 
 #assign_department_managers.modal.fade
-  .modal-content
-    .modal-header
-      button.close type="button" data-dismiss="modal" &times;
-      h4.modal-title Assign Department Managers
-    .modal-body
-      - if @department_managers.empty?
-        .alert.alert-error
-          strong Warning!
-          ' No Department Managers Available. You need to promote a volunteer to the Department Manager role before you can assign them to this department.
-      - else
-        p Here is a list of users you can add as a Department Manager
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" &times;
+        h4.modal-title Assign Department Managers
+      .modal-body
+        - if @department_managers.empty?
+          .alert.alert-error
+            strong Warning!
+            ' No Department Managers Available. You need to promote a volunteer to the Department Manager role before you can assign them to this department.
+        - else
+          p Here is a list of users you can add as a Department Manager
 
-        table.table.table-bordered.table-striped.dataTables
-          thead
-            th Name
-            th Assign as Department Manager
-          tbody
-            - @department_managers.each do |user|
-              tr
-                td= user.full_name
-                td
-                  = simple_form_for [:admin, DepartmentManager.new], html: { data: { type: :json } } do |f|
-                    = f.input :user_id, as: :hidden, input_html: { value: user.id }
-                    = f.input :department_id, as: :hidden, input_html: { value: @department.id }
-                    = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
+          table.table.table-bordered.table-striped.dataTables
+            thead
+              th Name
+              th Assign as Department Manager
+            tbody
+              - @department_managers.each do |user|
+                tr
+                  td= user.full_name
+                  td
+                    = simple_form_for [:admin, DepartmentManager.new], html: { data: { type: :json } } do |f|
+                      = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                      = f.input :department_id, as: :hidden, input_html: { value: @department.id }
+                      = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
 
 #assign_department_assistants.modal.fade
-  .modal-content
-    .modal-header
-      button.close type="button" data-dismiss="modal" &times;
-      h4.modal-title Assign Department Assistants
-    .modal-body
-      - if @department_assistants.length == 0
-        .alert.alert-error
-          strong Warning!
-          ' No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
-      - else
-        p Here is a list of users you can add as a Department Assistant
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" &times;
+        h4.modal-title Assign Department Assistants
+      .modal-body
+        - if @department_assistants.length == 0
+          .alert.alert-error
+            strong Warning!
+            ' No Department Assistants Available. You need to promote a volunteer to the Department Assistant role before you can assign them to this department.
+        - else
+          p Here is a list of users you can add as a Department Assistant
 
-        table.table.table-bordered.table-striped.dataTables
-          thead
-            th Name
-            th Assign as Department Assistant
-          tbody
-            - @department_assistants.each do |user|
-              tr
-                td= user.full_name
-                td
-                  = simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } } do |f|
-                    = f.input :user_id, as: :hidden, input_html: { value: user.id }
-                    = f.input :department_id, as: :hidden, input_html: { value: @department.id }
-                    = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
+          table.table.table-bordered.table-striped.dataTables
+            thead
+              th Name
+              th Assign as Department Assistant
+            tbody
+              - @department_assistants.each do |user|
+                tr
+                  td= user.full_name
+                  td
+                    = simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } } do |f|
+                      = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                      = f.input :department_id, as: :hidden, input_html: { value: @department.id }
+                      = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
