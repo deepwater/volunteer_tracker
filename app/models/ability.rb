@@ -4,15 +4,13 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    if user.has_role? :super_admin
+    if user.has_any_role? :super_admin, :org_admin
       can :manage, :all
       cannot :manage_fastpass, User
     end
-    if user.has_role? :org_admin
-      can :manage, Organisation
-    end
     if user.has_role? :event_admin
-      can :manage, Event
+      can :manage, :all
+      cannot :manage, Organisation
     end
     if user.has_role? :department_manager
       can :manage, DepartmentBlock
