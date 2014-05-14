@@ -5,7 +5,7 @@ class PasswordsController < Devise::PasswordsController
       resource.sign_in_count <= 1 ? '/dashboard/user_availabilities' : root_path
     else
       flash[:notice] = 'Please enter your username'
-      edit_user_registration_path
+      edit_profile_users_path
     end
   end
 end
