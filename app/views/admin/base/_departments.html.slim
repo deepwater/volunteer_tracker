@@ -20,15 +20,15 @@ table.table.table-bordered.table-striped
         td= link_to department.name, admin_department_path(department)
         td
           .progress
-            .bar class=(get_department_usage_class(department.estimate_hours_total, department.budgeted_hours)) style="width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"
+            .progress-bar class=(get_department_usage_class(department.estimate_hours_total, department.budgeted_hours)) style="width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"
           ' #{department.estimate_hours_total.to_i} / #{department.budgeted_hours}
         td
           .progress
-            .bar class=(get_department_usage_class(department.scheduled_count, department.total_slots)) style="width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"
+            .progress-bar class=(get_department_usage_class(department.scheduled_count, department.total_slots)) style="width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"
           ' #{department.scheduled_count} / #{department.total_slots}
         td= volunteer_hours[department.id].to_i
         td= link_to 'Edit', edit_admin_department_path(department)
-        td= link_to 'Delete', admin_department_path(department), :method => :delete, :'data-confirm' => 'Are you sure?'
+        td= link_to 'Delete', admin_department_path(department), method: :delete, data: { confirm: 'Are you sure?' }
 
 .pagination-wrapper
   #pagination
