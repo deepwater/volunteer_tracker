@@ -13,7 +13,7 @@ table.table.table-bordered.table-striped#volunteers_list_table data-source=(dash
   tbody
     - @volunteers.each do |volunteer|
       tr
-        td= link_to volunteer.full_name, admin_user_path(volunteer)
+        td= content_tag(:div, volunteer.full_name, class: 'dropdown-wrapper', id: "#{volunteer.id}-volunteer")
         td= volunteer.email
         td= volunteer.tshirt_size
         td= volunteer.role

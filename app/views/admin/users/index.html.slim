@@ -7,7 +7,7 @@ table.table.table-bordered.table-striped#users_list_table
     tr
       th Full Name
       th Email
-      th T Shirt Size
+      th User Name
       th Role
       th
       th
@@ -16,7 +16,7 @@ table.table.table-bordered.table-striped#users_list_table
       tr
         td= link_to user.full_name, admin_user_path(user)
         td= user.email
-        td= user.tshirt_size
+        td= user.username
         td= user.role
         td= link_to 'Edit', edit_admin_user_path(user)
         td= link_to 'Delete', admin_user_path(user), method: :delete, confirm: "Are you sure?", remote: true
