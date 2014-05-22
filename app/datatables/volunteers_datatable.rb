@@ -6,25 +6,13 @@ class VolunteersDatatable < AjaxDatatablesRails
     @searchable_columns = [ "concat(users.first_name, ' ', users.last_name)", "users.email", "users.tshirt_size", "users.role",  "charities.name"]
     super(view)
   end
-  
-  def page
-    params[:iDisplayStart].to_i/per_page + 1
-  end
-
-  def per_page
-    params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
-  end
-  
-  def paginate_records(records)
-    records.offset((page - 1) * per_page).limit(per_page)
-  end
 
   private
 
   def data
     volunteers.map do |volunteer|
       [
-        link_to(volunteer.full_name, admin_user_path(volunteer), id: "#{volunteer.id}-volunteer"),
+        content_tag(:div, volunteer.full_name, class: 'dropdown-wrapper', id: "#{volunteer.id}-volunteer"),
         "#{volunteer.email}<br>#{volunteer.secondary_email}",
         volunteer.tshirt_size,
         volunteer.role,
@@ -47,8 +35,7 @@ class VolunteersDatatable < AjaxDatatablesRails
 
 
   def fetch_volunteers
-    volunteers = User.with_role(:volunteer).order("#{sort_column} #{sort_direction}")
-    volunteers = volunteers.page(page).per_page(per_page).includes(:charities)
+    volunteers = User.with_role(:volunteer).order("#{sort_column} #{sort_direction}").includes(:charities)
     if params[:sSearch].present?
       volunteers = volunteers.where("name like :search or category like :search", search: "%#{params[:sSearch]}%")
     end

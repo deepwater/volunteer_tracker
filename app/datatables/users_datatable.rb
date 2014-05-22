@@ -2,8 +2,8 @@ class UsersDatatable < AjaxDatatablesRails
   
   def initialize(view)
     @model_name = User
-    @columns =  [ "users.first_name", "users.email", "users.tshirt_size", "users.role",  "charities.name" ] # insert array of column names here
-    @searchable_columns = [ "concat(users.first_name, ' ', users.last_name)", "users.email", "users.tshirt_size", "users.role",  "charities.name"] #insert array of columns that will be searched
+    @columns =  [ "users.first_name", "users.email", "users.username", "users.role",  "charities.name" ] # insert array of column names here
+    @searchable_columns = [ "concat(users.first_name, ' ', users.last_name)", "users.email", "users.username", "users.role",  "charities.name"] #insert array of columns that will be searched
     super(view)
   end
   
@@ -26,7 +26,7 @@ class UsersDatatable < AjaxDatatablesRails
       [
         link_to(user.full_name, admin_user_path(user), id: "#{user.id}-user"),
         "#{user.email}<br>#{user.secondary_email}",
-        user.tshirt_size,
+        user.username,
         user.role,
         user.charities.any? ? user.charities.first.name : "Not assigned",
         link_to('Edit', edit_admin_user_path(user)),

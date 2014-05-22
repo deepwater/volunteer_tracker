@@ -3,13 +3,13 @@
 
 .time-availability-wrapper 
 
-  h3 Add your availability
+  h3 Please click the button below the days that you're available
 
   #accordion.panel-group
     .panel.panel-default
       .panel-heading
         h4.panel-title = link_to 'Event Setup', '#setup', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
-      #setup.panel-collapse.collapse
+      #setup.panel-collapse.collapse.in
         .panel-body
           table.table.no-margin
             tr
@@ -26,7 +26,7 @@
     .panel.panel-default
       .panel-heading
         h4.panel-title = link_to 'Festival', '#festivals', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
-      #festivals.panel-collapse.collapse
+      #festivals.panel-collapse.collapse.in
         .panel-body
           table.table.no-margin
             tr
@@ -43,7 +43,7 @@
     .panel.panel-default
       .panel-heading
         h4.panel-title = link_to 'Event Tear Down', '#tear-down', class: 'accordion-toggle', data: { parent: "#accordion", toggle: "collapse" }
-      #tear-down.panel-collapse.collapse
+      #tear-down.panel-collapse.collapse.in
         .panel-body
           table.table
             tr
