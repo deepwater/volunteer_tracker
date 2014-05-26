@@ -11,7 +11,7 @@
       - if @department_block.department
         = f.hidden_field :department_id
       - else
-        = f.hidden_field :department_id, :value => @department.id     
+        = f.hidden_field :department_id, :value => @department.id
       .form-group
         = f.label(:name, :class => 'control-label col-sm-3')
         .col-sm-9
