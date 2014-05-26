@@ -29,6 +29,8 @@ class ScheduledCheckInsService
       when :department_assistant then query_for_department_assistant
       when :department_manager then query_for_department_manager
       when :event_admin then query_for_event_admin
+      when :org_admin then query_for_event_admin
+      when :super_admin then query_for_event_admin
     end
   end
 
