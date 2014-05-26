@@ -20,10 +20,10 @@ ul.thumbnails.nav
     = render "dashboard/dashboard_modules/department_assistant_management"
 
 ul.thumbnails.nav
-  - if can?(:manage, CheckIn) || can?(:manage_fastpass, current_user)
+  - if can?(:manage_fastpass, current_user)
     = render "dashboard/dashboard_modules/checkin_volunteer"
   - if can?(:manage, CheckIn)
-    = render "dashboard/dashboard_modules/active_volunteers"  
+    = render "dashboard/dashboard_modules/active_volunteers"
     = render "dashboard/dashboard_modules/inactive_volunteers"
   / - if current_user.role != "volunteer" 
   /   = render "dashboard/dashboard_modules/volunteers"
