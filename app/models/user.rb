@@ -20,7 +20,6 @@ class User < ActiveRecord::Base
   validates :organisation_id, presence: true, unless: :super_admin?
   validates :username, presence: true
   validates :username, uniqueness: { scope: :organisation_id, case_sensitive: false }
-  validates :email, uniqueness: true, unless: :subaccount?
   validates :email, presence: true, unless: :subaccount?
   validates_uniqueness_of :email, allow_blank: true, case_sensitive: false, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?

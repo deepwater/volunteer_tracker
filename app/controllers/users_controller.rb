@@ -26,6 +26,10 @@ class UsersController < ApplicationController
       format.json { render json: @users }
     end
   end
+  
+  def edit_profile
+    @user = User.find(current_user.id)
+  end
 
   def edit
     @user = User.find(params[:id])
@@ -58,7 +62,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User charity was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "edit_profile" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
