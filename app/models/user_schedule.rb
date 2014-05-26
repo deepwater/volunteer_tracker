@@ -19,11 +19,11 @@ class UserSchedule < ActiveRecord::Base
   end
 
   def deliver_email
-    UserScheduleMailer.delay.schedule_email(user_id, department_block_id)
+    UserScheduleMailer.schedule_email(user_id, department_block_id).deliver
   end
 
   def unschedule_email
-    UserScheduleMailer.delay.unschedule_email(user_id, department_block_id)
+    UserScheduleMailer.unschedule_email(user_id, department_block_id).deliver
   end
 
   def has_email?

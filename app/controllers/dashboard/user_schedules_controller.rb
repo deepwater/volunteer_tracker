@@ -21,7 +21,7 @@ class Dashboard::UserSchedulesController < ApplicationController
 
   def create
     @user_schedule = UserSchedule.new(params[:user_schedule])
-
+    
     respond_to do |format|
       if @user_schedule.save
         format.json { render json: { template: render_to_string("dashboard/user_schedules/show.json")} }
