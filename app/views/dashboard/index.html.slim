@@ -29,3 +29,8 @@ ul.thumbnails.nav
   /   = render "dashboard/dashboard_modules/volunteers"
   - if current_user.role != "event_admin" && current_user.role != "department_manager"
     = render "dashboard/dashboard_modules/past_assignments"
+
+javascript:
+  $(function() {
+    $.fn.triggerTour("#{current_user.role}_dashboard_tour");
+  });
