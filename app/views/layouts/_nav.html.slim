@@ -33,7 +33,7 @@ header#header
               i.icon-question-sign.icon-white
               ' Help
         ul.nav.navbar-nav.pull-right
-          li
-            = link_to "TOUR", "#", id: "tour-trigger"
+          li.nav-tour-link.hide-temporarily
+            = link_to "View Tour", "#", id: "tour-trigger"
           li
             = link_to "Logout", destroy_user_session_url, method: :delete, confirm: "Are you sure you want to logout?"
