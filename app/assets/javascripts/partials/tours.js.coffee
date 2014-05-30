@@ -32,16 +32,15 @@ $(document).ready ->
   ])
 
   $.fn.triggerTour = (tour) ->
+    $('.nav-tour-link').show()
     $("#tour-trigger").click (e) ->
       try
         tourObj = eval(tour)
         tourObj.init()
         tourObj.restart()
       catch err
-        console.log err
       e.preventDefault()
       return
     return
 
   return
-
