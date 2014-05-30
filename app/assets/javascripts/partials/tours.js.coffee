@@ -31,6 +31,8 @@ $(document).ready ->
     }
   ])
 
+  # Trigger tour link
+
   $.fn.triggerTour = (tour) ->
     $('.nav-tour-link').show()
     $("#tour-trigger").click (e) ->
