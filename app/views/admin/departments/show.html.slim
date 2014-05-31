@@ -59,7 +59,8 @@ h3 Department Assistants
         tr
           td= department_assistant.user.full_name
           td
-            = link_to 'Unassign', admin_department_assistant_path(DepartmentAssistant.where(department_id: @department.id, user_id: department_assistant.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-assistant btn btn-danger'
+            = link_to 'Unassign', admin_department_assistant_path(DepartmentAssistant.where(department_id: @department.id, user_id: department_assistant.user.id).all), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'unassign-department-assistant btn btn-danger'
+            |&nbsp;
             button.btn.btn-info type="button" href="#assign_department_blocks_#{department_assistant.user.id}" data-toggle="modal" Restrict Access
             = render "dashboard/departments/department_blocks_modal", department_blocks: @department.department_blocks.ordered_by_date, user: department_assistant.user
 
