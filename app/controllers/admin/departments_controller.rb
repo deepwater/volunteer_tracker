@@ -17,15 +17,11 @@ class Admin::DepartmentsController < Admin::BaseController
     @department = Department.find(params[:id])
 
     @department_managers = User.includes(:department_manager).where(role: "department_manager")
-    @department_managers.select!{|user|
-      user.department_manager.nil?# && user.eql?(current_user)
-    }
+    @department_managers.select!{|user| user.department_manager.nil? }
 
 
     @department_assistants = User.includes(:department_assistant).where(role: "department_assistant")
-    @department_assistants.select!{|user|
-      user.department_assistant.nil?# && user.eql?(current_user)
-    }
+    # @department_assistants.select!{|user| user.department_assistant.nil? }
 
     respond_to do |format|
       format.html # show.html.erb
