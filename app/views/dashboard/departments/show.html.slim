@@ -8,7 +8,7 @@
 
 .col-sm-4
   .progress
-    .bar class=(get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours)) style="width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"
+    .progress-bar class=(get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours)) style="width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"
   h4 Budgeted Hours Progress
   p
     strong Estimated Hours: 
@@ -18,7 +18,7 @@
     =@department.budgeted_hours.to_i
 .col-sm-4
   .progress
-    .bar class=(get_department_usage_class(@department.scheduled_count, @department.total_slots)) style="width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"
+    .progress-bar class=(get_department_usage_class(@department.scheduled_count, @department.total_slots)) style="width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"
   h4 Block Scheduling Progress
   p
     strong Scheduled Slots: 
@@ -28,7 +28,7 @@
     =@department.total_slots
 .col-sm-4
   .progress
-    .bar
+    .progress-bar
   h4 Volunteer Hours Progress
   p
     strong Hours: 
