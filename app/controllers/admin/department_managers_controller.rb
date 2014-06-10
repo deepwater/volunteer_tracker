@@ -6,9 +6,11 @@ class Admin::DepartmentManagersController < Admin::BaseController
     @department_manager = DepartmentManager.new(params[:department_manager])
 
     # Update user role
-    @user = @department_manager.user
-    @user.role = "department_manager"
-    @user.save
+    user = @department_manager.user
+    user.role = "department_manager"
+    user.save
+    department = @department_manager.department
+    user.add_role :department_manager, department
 
     respond_to do |format|
       if @department_manager.save
@@ -23,6 +25,7 @@ class Admin::DepartmentManagersController < Admin::BaseController
 
   def destroy
     @department_manager = DepartmentManager.find(params[:id])
+    @department_manager.user.remove_role(:department_manager)
     @department_manager.destroy
 
     respond_to do |format|

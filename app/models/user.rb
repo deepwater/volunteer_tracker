@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
 
   def default_values
     self.role ||= 'volunteer'
+    self.add_role self.role unless self.has_role? self.role
   end
 
   def reset_role_associations
