@@ -2,7 +2,7 @@
   .pull-right
     = link_to 'Edit', edit_admin_department_path(@department), class: 'btn btn-primary btn-sm'
     '  
-    = link_to 'Delete', admin_department_path(@department), class: 'btn btn-sm btn-danger', method: :delete, :'data-confirm' => 'Are you sure?'
+    = link_to 'Delete', admin_department_path(@department), class: 'btn btn-sm btn-danger', method: :delete, confirm: 'Are you sure?'
   h1 = @department.name
 
 p
@@ -35,7 +35,7 @@ h3 Department Managers
         tr
           td= department_manager.user.full_name
           td
-            = link_to 'Unassign', admin_department_manager_path(DepartmentManager.where(department_id: @department.id, user_id: department_manager.user.id).all), :confirm => 'Are you sure?', :method => :delete, :remote=>true, :"data-type" => "json", :class => 'unassign-department-manager btn btn-danger'
+            = link_to 'Unassign', admin_department_manager_path(DepartmentManager.where(department_id: @department.id, user_id: department_manager.user.id).all), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: :json }, class: 'unassign-department-manager btn btn-danger'
               
 
   button.btn.btn-primary type="button" href="#assign_department_managers" data-toggle="modal" Assign Department Managers

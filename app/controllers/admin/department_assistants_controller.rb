@@ -5,12 +5,11 @@ class Admin::DepartmentAssistantsController < DashboardController
   def create
     @department_assistant = DepartmentAssistant.new(params[:department_assistant])
 
-    # Update user role
-    @user = @department_assistant.user
-    @user.role = "department_assistant"
-    @user.save
-    @department = @department_assistant.department
-    @department.try(:department_blocks).each { |block| @user.add_role :department_assistant, block }
+    user = @department_assistant.user
+    user.role = "department_assistant"
+    user.save
+    department = @department_assistant.department
+    department.try(:department_blocks).each { |block| user.add_role :department_assistant, block }
 
     respond_to do |format|
       if @department_assistant.save
@@ -25,6 +24,7 @@ class Admin::DepartmentAssistantsController < DashboardController
 
   def destroy
     @department_assistant = DepartmentAssistant.find(params[:id])
+    @department_assistant.user.remove_role(:department_assistant)
     @department_assistant.destroy
 
     respond_to do |format|
