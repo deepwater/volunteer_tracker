@@ -3,9 +3,9 @@ li.col-sm-4
     .caption
       h4 Check-In Volunteer
       p
-        - if current_user.has_any_role?(:super_admin, :org_admin, :event_admin)
+        - if current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager, :department_assistant)
           = link_to "Show All Scheduled Volunteers", scheduled_dashboard_check_ins_path, class: "btn btn-block btn-primary"
-        - if can?(:manage_fastpass, current_user)
+        - if can?(:manage_fastpass, current_user) || current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager, :department_assistant)
           br
           = link_to "Fastpass Check In", fastpass_dashboard_check_ins_path, class: "btn btn-block btn-primary"
           br
