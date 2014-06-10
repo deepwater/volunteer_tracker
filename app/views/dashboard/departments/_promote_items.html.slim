@@ -11,7 +11,7 @@
           = button_tag type: "submit", class: 'btn btn-success' do
             ' Promote to Department Assistant
 
-      - if user.has_role?(:volunteer) && (current_user.has_role?(:department_assistant) || can?(:manage, :all))
+      - if user.has_role?(:volunteer) && (current_user.has_any_role?(:department_assistant, :department_manager) || can?(:manage, :all))
         = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
           = f.hidden_field :role, value: "volunteer_manager"
@@ -26,7 +26,7 @@
           = button_tag type: "submit", class: 'btn btn-danger' do
             ' Demote to Volunteer Manager 
 
-      - if user.has_role?(:volunteer_manager) && (current_user.has_role?(:department_assistant) || can?(:manage, :all))
+      - if user.has_role?(:volunteer_manager) && (current_user.has_any_role?(:department_assistant, :department_manager) || can?(:manage, :all))
         br
         = form_for [:dashboard, user], html: { data: { type: :json } } do |f|
           = f.hidden_field :id, value: user.id
