@@ -63,7 +63,7 @@
       ="0/0"
   .progress
     - if suggested_number_of_workers
-      .progress-bar class=(get_department_usage_class(current_allocation, suggested_number_of_workers) style="width: #{get_department_usage(current_allocation.to_f, suggested_number_of_workers.to_f)}%;"
+      .progress-bar class=(get_department_usage_class(current_allocation, suggested_number_of_workers)) style="width: #{get_department_usage(current_allocation.to_f, suggested_number_of_workers.to_f)}%;"
     - else
       .progress-bar.progress-bar-danger style="width: 100%;"
 
