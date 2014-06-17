@@ -62,4 +62,5 @@ group :assets do
 	gem 'haml-rails', '0.4'
 	gem 'uglifier', '>= 1.0.3'
 	gem 'therubyracer', platforms: :ruby, require: 'v8'
+  gem 'turbo-sprockets-rails3'
 end
