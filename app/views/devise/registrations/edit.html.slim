@@ -2,6 +2,9 @@
   h1 = "#{current_user.full_name} (#{current_user.role.camelize})"
 
 = simple_form_for resource, url: registration_path(:user), method: :put, html: {class: 'form-horizontal', novalidate: true} do |f|
+  - if resource.errors[:username].present?
+    .alert.alert-success You need to set a username in your profile in order to change your password
+
   fieldset.col-sm-8.col-sm-offset-2
     = f.input :password, hint: "(leave blank if you don't want to change it)"
     = f.input :password_confirmation
