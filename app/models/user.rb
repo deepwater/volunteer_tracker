@@ -136,7 +136,7 @@ class User < ActiveRecord::Base
 
   def email_uniquality_for_main_acccount
     if !subaccount?
-      if self.class.where("id != #{self.id}").where(email: self.email).exists?
+      if self.class.where("id != #{self.id}").where(email: self.email, master_id: nil).exists?
         self.errors.add(:email, "has already been taken")
       end
     end
