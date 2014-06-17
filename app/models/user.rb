@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, 
-                  :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id, 
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name,
+                  :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id,
                   :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login,
                   :charity_ids
 
@@ -21,9 +21,9 @@ class User < ActiveRecord::Base
   validates :username, presence: true
   validates :username, uniqueness: { scope: :organisation_id, case_sensitive: false }
   validates :email, presence: true, unless: :subaccount?
-  validates_uniqueness_of :email, allow_blank: true, case_sensitive: false, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?
+  validate :email_uniquality_for_main_acccount
 
   has_many :user_availabilities, dependent: :destroy
 
@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
         self.department_assistant ? self.department_assistant.destroy : ""
         self.department_manager ? self.department_manager.destroy : ""
       when 'volunteer_manager'
-        self.department_assistant ? self.department_assistant : "" 
+        self.department_assistant ? self.department_assistant : ""
         self.department_manager ? self.department_manager.destroy : ""
       when 'department_assistant'
         self.volunteer_manager ? self.volunteer_manager : ""
@@ -132,6 +132,14 @@ class User < ActiveRecord::Base
   def process_name
     self.first_name = first_name.strip
     self.last_name = last_name.strip
+  end
+
+  def email_uniquality_for_main_acccount
+    if !subaccount?
+      if self.class.where("id != #{self.id}").where(email: self.email).exists?
+        self.errors.add(:email, "has already been taken")
+      end
+    end
   end
 
 end
