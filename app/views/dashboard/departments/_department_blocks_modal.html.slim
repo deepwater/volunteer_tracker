@@ -1,18 +1,18 @@
-.modal.large.fade id="assign_department_blocks_#{user.id}"
+.modal.large id="assign_department_blocks_#{department_assistant.id}"
   .modal-dialog
     .modal-content
       .modal-header
         button.close type="button" data-dismiss="modal" &times;
         h4.modal-title Assign Department Blocks
-      .modal-body id="department_blocks_#{user.id}"
-        - if department_blocks.length == 0
+      .modal-body id="department_blocks_#{department_assistant.id}"
+        - if department_assistant.department.department_blocks.length == 0
           .alert.alert-error
             strong Warning!
             br
             ' No Department Blocks Created To This Department.
         - else
           p Here is a list of department blocks you can add to a Department Assistant
-          = simple_form_for([:admin, user.department_assistant], url: restrict_blocks_admin_department_assistant_path(user.department_assistant), method: :post) do |f|
+          = simple_form_for([:admin, department_assistant], url: restrict_blocks_admin_department_assistant_path(department_assistant), method: :post) do |f|
             table.table.table-bordered.table-striped
               thead
                 th Name
@@ -23,10 +23,10 @@
                     = check_box_tag 'department_blocks_all', '1', false, class: "department_blocks_all"
                     ' All
               tbody
-                - department_blocks.each do |block|
+                - department_assistant.department.department_blocks.each do |block|
                   tr
                     td= block.name
                     td= block.day.short_date
                     td= "#{in_twelve_hour_time(block.start_time)} - #{in_twelve_hour_time(block.end_time)}"
-                    td= check_box_tag 'department_blocks_ids[]', block.id, user.has_role?(:department_assistant, block)
+                    td= check_box_tag 'department_blocks_ids[]', block.id, department_assistant.user.has_role?(:department_assistant, block)
             = f.button :submit, class: "btn btn-primary"
