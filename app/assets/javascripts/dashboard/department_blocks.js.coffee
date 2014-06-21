@@ -2,7 +2,7 @@ $ ->
   toggleLoading = () ->
     # console.log 'test'
 
-  $('.department_blocks_all').on 'change', ->
+  $(document).on 'change', '.department_blocks_all', ->
     $(@).parents('.modal-body').find('input:checkbox').prop('checked', $(@).is(':checked'))
 
   $('.new_user_schedule .btn').on 'click', ->
@@ -30,8 +30,8 @@ $ ->
       setTimeout ->
         window.location.reload()
       , 200
-      
-      
+
+
   $('#new_department_block')
     .on 'submit', (e) ->
       # $formParent = $(@).parents("#new_department_block")
@@ -45,7 +45,7 @@ $ ->
 
       if $volunteers.val().length == 0
        alert "Please Enter a Number of Volunteers"
-       return false  
+       return false
 
       first_time = $('.timepicker-first').val()
       second_time = $('.timepicker-second').val()
@@ -54,4 +54,4 @@ $ ->
       if difference == 0 or difference < 0
         alert "Please enter an End time that is after the Start time"
         return false
-    
+

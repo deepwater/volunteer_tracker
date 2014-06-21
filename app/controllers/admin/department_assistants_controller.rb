@@ -1,7 +1,6 @@
 class Admin::DepartmentAssistantsController < DashboardController
+  respond_to :js, only: [:show_modal]
 
-  # POST /department_managers
-  # POST /department_managers.json
   def create
     @department_assistant = DepartmentAssistant.new(params[:department_assistant])
 
@@ -43,6 +42,10 @@ class Admin::DepartmentAssistantsController < DashboardController
       end
     end
     redirect_to :back
+  end
+
+  def show_modal
+    @department_assistant = DepartmentAssistant.find(params[:id])
   end
 
 end

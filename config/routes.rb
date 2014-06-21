@@ -9,14 +9,14 @@ VolunteerTracker::Application.routes.draw do
     sessions: "sessions",
     passwords: "passwords"
   }
-  
+
   resources :users do
     collection do
       get :edit_profile
     end
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
-      collection do 
+      collection do
         post :import
         get :download
       end
@@ -24,7 +24,7 @@ VolunteerTracker::Application.routes.draw do
   end
 
   match '/welcome' => "welcome#index"
-  
+
   namespace :admin do
     resources :users
     resources :charities
@@ -32,6 +32,7 @@ VolunteerTracker::Application.routes.draw do
     resources :department_managers
     resources :department_assistants do
       member { post :restrict_blocks }
+      member { get :show_modal }
     end
     resources :events
     resources :organisations
