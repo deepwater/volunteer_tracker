@@ -2,7 +2,7 @@
   h1 = @charity.name
 
 = link_to 'Back', admin_charities_path, class: 'btn btn-default'
-' 
+'
 = link_to 'Edit', edit_admin_charity_path(@charity), class: 'btn btn-primary'
-' 
-= link_to 'Delete', admin_charity_path(@charity), class: 'btn btn-danger', method: :delete, :'data-confirm' => 'Are you sure?''
+'
+= link_to 'Delete', admin_charity_path(@charity), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }
