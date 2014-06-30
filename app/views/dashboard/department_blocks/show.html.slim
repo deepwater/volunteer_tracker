@@ -3,27 +3,28 @@
 .col-sm-4
   h2
     = @show_action_data.department_block.name
-    .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary'
+    - if current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager)
+      .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary'
   p
     b Department
-    ' 
+    '
     = @show_action_data.department_block.department.name
   p
     b Start time:
-    ' 
+    '
     = in_twelve_hour_time(@show_action_data.department_block.start_time)
     |-
     = @show_action_data.department_block.day.short_date_with_day
   p
     b End time:
-    ' 
+    '
     = in_twelve_hour_time(@show_action_data.department_block.end_time)
     |-
     = @show_action_data.department_block.day.short_date_with_day
 
   p
     b Maximum number of volunteers:
-    ' 
+    '
     span.number_of_workers= suggested_number_of_workers
 
   h3 Volunteer Managers
@@ -55,7 +56,7 @@
 
   p
     b Current Volunteer Allocation:
-    '  
+    '
     - current_allocation = @show_action_data.department_block.users.count
     - if suggested_number_of_workers
       ="(#{current_allocation}/#{suggested_number_of_workers})"

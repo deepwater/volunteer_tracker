@@ -68,6 +68,8 @@ class Admin::UsersController < Admin::BaseController
       params[:user].delete(:password_confirmation)
     end
 
+    @user.skip_reconfirmation!
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
