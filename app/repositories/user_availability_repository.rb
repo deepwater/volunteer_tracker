@@ -13,7 +13,14 @@ class UserAvailabilityRepository
     user_ids = UserAvailability.joins(:user).where(
       day_id: department_block.day_id
     ).where(
-      "users.role != 'department_manager' AND users.role != 'event_admin'"
+      "users.role NOT IN ('department_manager', 'event_admin', 'org_admin', 'super_admin')"
+    ).group(:user_id).pluck(:user_id)
+
+    with_overlaps_in_other_department_blocks_user_ids = DepartmentBlock.joins(:user_schedules)
+    .where(
+      day_id: department_block.day_id
+    ).where(
+      overlaps_criteria_for_user_schedules(department_block)
     ).group(:user_id).pluck(:user_id)
 
     scheduled_user_ids = UserSchedule.where(department_block_id: department_block.id).pluck(:user_id)
@@ -22,13 +29,17 @@ class UserAvailabilityRepository
       day_id: department_block.day_id
     ).includes(
       user: :charities
-    ).where(
-      overlaps_criteria_for_user_availabilities(department_block)
     )
 
     if scheduled_user_ids.present?
       criteria = criteria.where(
         "user_availabilities.user_id NOT IN (#{scheduled_user_ids.join(',')})"
+      )
+    end
+
+    if with_overlaps_in_other_department_blocks_user_ids.present?
+      criteria = criteria.where(
+        "user_availabilities.user_id NOT IN (#{with_overlaps_in_other_department_blocks_user_ids.join(',')})"
       )
     end
 
@@ -71,12 +82,12 @@ class UserAvailabilityRepository
     %w[asc desc].include?(direction)
   end
 
-  def overlaps_criteria_for_user_availabilities(department_block)
+  def overlaps_criteria_for_user_schedules(department_block)
     dep_block_start = "time '#{department_block.start_time}'"
     dep_block_end = "time '#{department_block.end_time}' - interval '1 second'"
 
-    other_dep_block_start = "cast(user_availabilities.start_time as time)"
-    other_dep_block_end = "cast(user_availabilities.end_time as time) - interval '1 second'"
+    other_dep_block_start = "cast(start_time as time)"
+    other_dep_block_end = "cast(end_time as time) - interval '1 second'"
     %Q(
       (#{dep_block_start}, #{dep_block_end}) overlaps (#{other_dep_block_start}, #{other_dep_block_end})
     )
