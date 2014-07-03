@@ -40,11 +40,13 @@
       thead
         tr
           th Name
+          th Usernane
           th Actions
       tbody
       - @show_action_data.department_block.volunteer_managers.each do |volunteer_manager|
         tr
           td= volunteer_manager.user.full_name
+          td= volunteer_manager.user.username
           td
             - if @show_action_data.volunteer_managers[volunteer_manager.user_id].present?
               = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), confirm: 'Are you sure?', method: :delete, :"data-type" => "json", class: 'unassign-volunteer-manager btn btn-danger'
@@ -73,14 +75,17 @@
     thead
       tr
         th Name
+        th Username
         th Actions
     tbody
       - @show_action_data.department_block.users.each do |user|
         tr
           td= user.full_name
+          td= user.username
           td
             - if @show_action_data.user_schedules[user.id].present?
               = link_to 'Unschedule', dashboard_user_schedule_path(@show_action_data.user_schedules[user.id]), confirm: 'Are you sure?', method: :delete, :"data-type" => "json", class: 'unschedule-user btn btn-danger'
+            |&nbsp;
             = link_to 'Print', dymo_dashboard_user_schedule_path(@show_action_data.user_schedules[user.id], format: :xml), class: "btn btn-info print-dymo-label"
 
   h3 Available Volunteers
