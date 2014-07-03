@@ -15,11 +15,13 @@
           table.table.table-bordered.table-striped.dataTables
             thead
               th Name
+              th Username
               th Assign as Department Assistant
             tbody
               - department_assistants.each do |user|
                 tr
                   td= user.full_name
+                  td= user.username
                   td
                     = simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } } do |f|
                       = f.input :user_id, as: :hidden, input_html: { value: user.id }
