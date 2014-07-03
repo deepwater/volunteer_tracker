@@ -52,11 +52,13 @@ h3 Department Assistants
     thead
       tr
         th Name
+        th Username
         th Actions
     tbody
       - @department.department_assistants.each do |department_assistant|
         tr
           td= department_assistant.user.full_name
+          td= department_assistant.user.username
           td
             = link_to 'Unassign', admin_department_assistant_path(department_assistant), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'unassign-department-assistant btn btn-danger'
             |&nbsp;
