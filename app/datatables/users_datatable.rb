@@ -1,12 +1,12 @@
 class UsersDatatable < AjaxDatatablesRails
-  
+
   def initialize(view)
     @model_name = User
-    @columns =  [ "users.first_name", "users.email", "users.username", "users.role",  "charities.name" ] # insert array of column names here
-    @searchable_columns = [ "concat(users.first_name, ' ', users.last_name)", "users.email", "users.username", "users.role",  "charities.name"] #insert array of columns that will be searched
+    @columns =  [ "users.first_name", "users.email", "users.username", "users.last_sign_in_at", "users.role",  "charities.name" ] # insert array of column names here
+    @searchable_columns = [ "concat(users.first_name, ' ', users.last_name)", "users.email", "users.username", "users.role",  "charities.name" ] #insert array of columns that will be searched
     super(view)
   end
-  
+
   def page
     params[:iDisplayStart].to_i/per_page + 1
   end
@@ -14,7 +14,7 @@ class UsersDatatable < AjaxDatatablesRails
   def per_page
     params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
   end
-  
+
   def paginate_records(records)
     records.offset((page - 1) * per_page).limit(per_page)
   end
@@ -27,6 +27,7 @@ class UsersDatatable < AjaxDatatablesRails
         link_to(user.full_name, admin_user_path(user), id: "#{user.id}-user"),
         "#{user.email}<br>#{user.secondary_email}",
         user.username,
+        user.last_sign_in_at ? user.last_sign_in_at.to_formatted_s(:long_ordinal) : "Has not been logged yet",
         user.role,
         user.charities.any? ? user.charities.first.name : "Not assigned",
         link_to('Edit', edit_admin_user_path(user)),
@@ -62,7 +63,7 @@ class UsersDatatable < AjaxDatatablesRails
   def get_raw_records
     User.where('users.id > 0').includes(:charities)
   end
-  
+
   def get_raw_record_count
     search_records(get_raw_records).count
   end

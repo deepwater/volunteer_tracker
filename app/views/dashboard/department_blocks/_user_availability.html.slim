@@ -1,10 +1,11 @@
 tr.info
   td.full_name= user_availability.user.full_name
-  td.email= user_availability.user.email
+  td.username= user_availability.user.username
   td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
-  th
-    - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|
-      ' #{user_schedule.department_block.start_time}-#{user_schedule.department_block.end_time}
+  td
+    strong
+      - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|
+        ' #{in_twelve_hour_time(user_schedule.department_block.start_time)}-#{in_twelve_hour_time(user_schedule.department_block.end_time)}
   td= user_availability.user.charities.any? ? user_availability.user.charities.first.name : "Not Assigned"
   td= user_availability.user.role
   td

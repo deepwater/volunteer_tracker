@@ -26,6 +26,7 @@
       order_role:       params[:order_role],
       order_name:       params[:order_name],
       order_email:      params[:order_email],
+      order_username:   params[:order_username],
       q:                params[:q]
     )
     @show_action_data = service.prepare_data_for_show_action(current_user, scope)
@@ -123,7 +124,7 @@
 
 
     csv_string = CSV.generate do |csv|
-      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name", "user_email", "user_secondary_email"]
+      csv << ["day", "department_name", "department_block_name", "department_block_start", "department_block_end", "user_schedule_id", "user_fullname", "user_charity_name", "user_email", "user_secondary_email", "user_t-shirt_size", "user_cell_phone_number", "user_home_phone_number"]
       Day.where(
         month: params[:month].to_i, mday: params[:day].to_i, year: params[:year].to_i
       ).first.department_blocks.where(department_id: params[:id].to_i).all.each do |department_block|
@@ -138,7 +139,10 @@
               user.full_name,
               department_block.users.where(id: user.id).first.try(:charities).try(:first).try(:name),
               user.email,
-              user.secondary_email
+              user.secondary_email,
+              user.tshirt_size,
+              user.cell_phone,
+              user.home_phone
             ]
             csv << line
           end

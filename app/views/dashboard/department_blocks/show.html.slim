@@ -111,7 +111,7 @@
       thead
         tr
           th.sortable.sorting type="name" Name
-          th.sortable.sorting type="email" Email
+          th.sortable.sorting type="username" Username
           th Availability Time
           th User Schedules on Day
           th.sortable.sorting type="charity"
@@ -195,6 +195,7 @@ javascript:
 
       result = "?per_page=" + per_page + "&charity=" + charity + "&role=" + role +
                "&q=" + q + "&order_email=" + window.sortings.order_email +
+               "&order_username=" + window.sortings.order_username +
                "&order_name=" + window.sortings.order_name +
                "&order_role=" + window.sortings.order_role +
                "&order_charity=" + window.sortings.order_charity;

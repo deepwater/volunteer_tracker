@@ -55,6 +55,10 @@ class UserAvailabilityRepository
       criteria = criteria.order("users.email #{scope.order_email}")
     end
 
+    if scope.order_username.present? && valid_order?(scope.order_username)
+      criteria = criteria.order("users.username #{scope.order_username}")
+    end
+
     if scope.order_role.present? && valid_order?(scope.order_role)
       criteria = criteria.order("users.role #{scope.order_role}")
     end
