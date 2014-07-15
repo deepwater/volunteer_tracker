@@ -1,6 +1,6 @@
 tr.info
   td.full_name= user_availability.user.full_name
-  td.email= user_availability.user.email
+  td.username= user_availability.user.username
   td #{in_twelve_hour_time(user_availability.start_time)} - #{in_twelve_hour_time(user_availability.end_time)}
   th
     - user_availability.day.user_schedules.where("user_id = ?", user_availability.user.id).each do |user_schedule|

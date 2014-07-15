@@ -26,6 +26,7 @@
       order_role:       params[:order_role],
       order_name:       params[:order_name],
       order_email:      params[:order_email],
+      order_username:   params[:order_username],
       q:                params[:q]
     )
     @show_action_data = service.prepare_data_for_show_action(current_user, scope)
