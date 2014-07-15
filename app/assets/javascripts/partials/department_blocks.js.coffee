@@ -39,7 +39,7 @@ $ ->
     printers = dymo.label.framework.getPrinters()
     return false if (printers.length == 0)
     printerName = ""
-    for i in [0..printers.length] 
+    for i in [0..printers.length]
       printer = printers[i]
       if (printer.printerType == "LabelWriterPrinter")
         printerName = printer.name

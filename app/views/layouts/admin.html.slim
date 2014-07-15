@@ -6,12 +6,12 @@ html
   = render "layouts/head"
 
   body
-     = render "layouts/header"
+    = render "layouts/header"
 
-    - flash.each do |type, message|
-      .alert class=(flash_class(type))
-        a.close data-dismiss="alert" href="#"
-          ' &times;
-        ' = message
+    .container-fluid
+      .row
+        .col-sm-12
+          = render "layouts/alerts"
+          = yield
 
   = render "layouts/ga"
