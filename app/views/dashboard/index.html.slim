@@ -16,16 +16,16 @@ ul.thumbnails.nav
   - if can?(:manage, DepartmentBlock)
     = render "dashboard/dashboard_modules/department_management"
 
-  - if current_user.role == "department_assistant" 
+  - if current_user.role == "department_assistant"
     = render "dashboard/dashboard_modules/department_assistant_management"
 
 ul.thumbnails.nav
-  - if can?(:manage_fastpass, current_user) || current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager, :department_assistant, :volunteer_manager)
+  - if can?(:manage_fastpass, current_user) || current_user.has_any_role?(:department_manager, :department_assistant, :volunteer_manager)
     = render "dashboard/dashboard_modules/checkin_volunteer"
   - if current_user.role != "volunteer"
     = render "dashboard/dashboard_modules/active_volunteers"
     = render "dashboard/dashboard_modules/inactive_volunteers"
-  / - if current_user.role != "volunteer" 
+  / - if current_user.role != "volunteer"
   /   = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
