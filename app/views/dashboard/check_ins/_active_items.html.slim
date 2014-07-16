@@ -21,13 +21,13 @@
               i.icon-ok-sign.icon-white
               ' Check Out
 
-          - if current_user.has_role? :department_assistant
-            = link_to dashboard_check_in_path(check_in), :method => :delete, class: "side-by-side btn btn-danger btn-mini" do
+          - if current_user.role != "volunteer"
+            = link_to dashboard_check_in_path(check_in), method: :delete, class: "side-by-side btn btn-danger btn-mini" do
               i.icon-remove-sign.icon-white
               ' Undo Check In
       - else
         td colspan="9"
           ' There is some error with this record (ID #{check_in.id})
-          = link_to dashboard_check_in_path(check_in), :method => :delete, class: "side-by-side btn btn-danger btn-mini" do
+          = link_to dashboard_check_in_path(check_in), method: :delete, class: "side-by-side btn btn-danger btn-mini" do
             i.icon-remove-sign.icon-white
             ' Destroy Check In

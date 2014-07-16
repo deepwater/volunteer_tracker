@@ -20,7 +20,7 @@
           - else
             ' Not assigned
         td
-          - if current_user.has_role? :department_assistant
+          - if current_user.role != "volunteer"
             = form_for [:dashboard, check_in] do |f|
               = f.hidden_field :status, value: "1"
               = button_tag type: "submit", class: 'btn btn-mini btn-danger' do
@@ -29,7 +29,7 @@
           - if can? :flag, CheckIn
             button.flag_form_button.btn.btn-mini.btn-warning type="button" Flag
 
-            = simple_form_for [:dashboard, Flag.new], html: {class: "flag_form"} do |f|
+            = simple_form_for [:dashboard, Flag.new], html: { class: "flag_form" } do |f|
               ' Description:
               br
               = f.input :check_in_id, as: :hidden, input_html: { value: check_in.id }
@@ -40,4 +40,4 @@
       - else
         td colspan="9"
           ' There is some error with this record (ID #{check_in.id})
-          = link_to 'Destroy Check In', dashboard_check_in_path(check_in), :method => :delete, class: "side-by-side btn btn-danger btn-mini"
+          = link_to 'Destroy Check In', dashboard_check_in_path(check_in), method: :delete, class: "side-by-side btn btn-danger btn-mini"
