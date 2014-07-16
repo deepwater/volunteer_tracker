@@ -16,6 +16,12 @@ class CheckInsService
     },
     event_admin: {
       accessible_attributes: %w(status user_schedule_id created_at check_out_time)
+    },
+    org_admin: {
+      accessible_attributes: %w(status user_schedule_id created_at check_out_time)
+    },
+    super_admin: {
+      accessible_attributes: %w(status user_schedule_id created_at check_out_time)
     }
   }
 
@@ -66,7 +72,7 @@ class CheckInsService
       when :department_assistant then DepartmentBlock.where(department_id: accessor.department_assistant.try(:department_id)).pluck(:id)
       when :volunteer_manager then [*accessor.volunteer_manager.try(:department_block_id)]
     end
-    
+
     if department_block_ids
       user_schedule_ids = UserSchedule.where(department_block_id: department_block_ids).pluck(:id)
       query = query.where(user_schedule_id: user_schedule_ids)
