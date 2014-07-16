@@ -18,18 +18,18 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
         td= department_block.suggested_number_of_workers
         td
           = department_block.users.length
-          |/ 
+          |/
           = department_block.suggested_number_of_workers
         td
-          - if current_user.has_any_role? :department_manager, :super_admin
+          - if current_user.has_any_role? :department_manager, :super_admin, :event_admin, :org_admin
             = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
-            = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", :method => :delete, data: { confirm: 'Are you sure?', type: "json" })
+            = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", method: :delete, data: { confirm: 'Are you sure?', type: "json" })
 
 .separate-block
 
-- if current_user.has_any_role? :department_manager, :super_admin
+- if current_user.has_any_role? :department_manager, :super_admin, :department_assistant, :event_admin, :org_admin
   button.btn.btn-primary.create_department_block type="button" href="#modal_#{@day.safe_short_date}" data-toggle="modal" Create Department Block
-  ' 
+  '
   button.btn.btn-info type="button" href="#copy_schedule_modal_#{@day.id}" data-toggle="modal" Copy Blocks to Another Day
   '
   = link_to "#{@department.id}/export/#{@day.year}/#{@day.month}/#{@day.mday}" do
@@ -43,7 +43,7 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
             ' &times;
           h3 Create a Department Block
         .modal-body
-          = render 'dashboard/department_blocks/new', :department => @department, :current_day => @day
+          = render 'dashboard/department_blocks/new', department: @department, current_day: @day
 
   .modal.fade id="copy_schedule_modal_#{@day.id}"
     .modal-dialog
@@ -53,4 +53,4 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
             ' &times;
           h3 Choose Day to Copy To
         .modal-body
-          = render 'dashboard/department_blocks/copy', :day_to_copy => @day, :department => @department
+          = render 'dashboard/department_blocks/copy', day_to_copy: @day, department: @department

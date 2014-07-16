@@ -31,7 +31,7 @@ class Ability
       department_condition = DepartmentManager.where(department_id: 10, user_id: user.try(:id)).exists? ||
       DepartmentAssistant.where(department_id: 10, user_id: user.try(:id)).exists? ||
       VolunteerManager.where(department_block_id: DepartmentBlock.where(department_id: 10).pluck(:id), user_id: user.try(:id)).exists?
-      user.has_role?(:event_admin) || department_condition
+      user.has_any_role?(:event_admin, :super_admin, :org_admin) || department_condition
     end
   end
 end

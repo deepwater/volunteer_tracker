@@ -3,7 +3,7 @@
     .pull-right.switcher
       .quick-jump
         ' Quick Jump:
-        .inline-block = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.order("name"), "id", "name", @department.id), :class => "span3")
+        .inline-block = select_tag("department_block_department_chooser", options_from_collection_for_select(Department.order("name"), "id", "name", @department.id), class: "span3")
   h1 Department: #{@department.name}
 
 .col-sm-4
@@ -11,27 +11,27 @@
     .progress-bar class=(get_department_usage_class(@department.estimate_hours_total, @department.budgeted_hours)) style="width: #{get_department_usage(@department.estimate_hours_total, @department.budgeted_hours)}%;"
   h4 Budgeted Hours Progress
   p
-    strong Estimated Hours: 
+    strong Estimated Hours:
     =@department.estimate_hours_total.to_i
   p
-    strong Budgeted Hours: 
+    strong Budgeted Hours:
     =@department.budgeted_hours.to_i
 .col-sm-4
   .progress
     .progress-bar class=(get_department_usage_class(@department.scheduled_count, @department.total_slots)) style="width: #{get_department_usage(@department.scheduled_count, @department.total_slots)}%;"
   h4 Block Scheduling Progress
   p
-    strong Scheduled Slots: 
+    strong Scheduled Slots:
     =@department.scheduled_count
   p
-    strong Total Slots: 
+    strong Total Slots:
     =@department.total_slots
 .col-sm-4
   .progress
     .progress-bar
   h4 Volunteer Hours Progress
   p
-    strong Hours: 
+    strong Hours:
     = @volunteer_hours[@department.id].to_i
 
 .separate-block
@@ -40,7 +40,7 @@
   ul.nav.nav-tabs
     - @days.each_with_index do |day, index|
       li class=(index == 0 ? "active" : "")
-        = link_to "##{day.safe_short_date}", :'data-toggle' => 'tab' do
+        = link_to "##{day.safe_short_date}", data: { toggle: 'tab' } do
           = day.day_name
           = day.short_date
 
