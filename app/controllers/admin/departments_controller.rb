@@ -21,7 +21,7 @@ class Admin::DepartmentsController < Admin::BaseController
 
 
     @department_assistants = User.includes(:department_assistant).where(role: "department_assistant")
-    # @department_assistants.select!{|user| user.department_assistant.nil? }
+    @department_assistants.select!{|user| user.department_assistant.nil? }
 
     respond_to do |format|
       format.html # show.html.erb

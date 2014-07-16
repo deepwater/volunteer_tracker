@@ -7,7 +7,7 @@ $ ->
     sDom: 'T<"clear">lfrtip'
     aoColumnDefs: [
       bSortable: false
-      aTargets: [5, 6]
+      aTargets: [4, 5]
     ]
-    oTableTools: 
+    oTableTools:
       "aButtons": false
