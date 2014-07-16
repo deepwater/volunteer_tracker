@@ -39,7 +39,7 @@ class Dashboard::CheckInsController < DashboardController
         @scope.delete(:per)
         data = check_ins_service.prepare_check_ins_data(:inactive, @scope)
         send_data(
-          csv_service.export("check_ins_inactive", data), 
+          csv_service.export("check_ins_inactive", data),
           type: 'text/csv; charset=utf-8; header=present', filename: csv_service.filename
         )
       end
@@ -135,7 +135,7 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def volunteer_manager?
-    redirect_to :root unless current_user.has_any_role? :volunteer_manager, :super_admin, :org_admin, :event_admin
+    redirect_to :root unless current_user.has_any_role? :volunteer_manager, :super_admin, :org_admin, :event_admin, :department_manager
   end
 
   def fastpass_acessible
