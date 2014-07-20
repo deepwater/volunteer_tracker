@@ -6,7 +6,7 @@
         td= check_in.user_schedule.try(:user).try(:email)
         td= link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
         td= link_to "#{check_in.user_schedule.department_block.name}", [:dashboard, check_in.user_schedule.department_block]
-        - if current_user.has_role? :department_manager
+        - if false #current_user.has_any_role? :department_manager, :event_admin, :org_admin, :super_admin
           = render 'editable_dates', check_in: check_in
         - else
           td= check_in.created_at.strftime("%b %-d")
@@ -30,6 +30,9 @@
               = f.input :status, as: :hidden, input_html: { value: '1' }
               = button_tag type: "submit", class: 'btn btn-success' do
                 ' Check In Again
+
+          - if current_user.has_any_role? :department_manager, :event_admin, :org_admin, :super_admin
+            = link_to 'Edit Time', edit_dashboard_check_in_path(check_in), class: 'btn btn-primary'
 
           - if can? :flag, CheckIn
             button.flag_form_button.btn.btn-mini.btn-warning type="button" Flag

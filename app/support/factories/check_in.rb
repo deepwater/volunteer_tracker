@@ -19,8 +19,10 @@ class Factories::CheckIn
     resource = id.present? ? CheckIn.find(id) : CheckIn.find_by_user_schedule_id(attributes["user_schedule_id"])
     build(resource, attributes).tap do |check_in|
       validate_user_schedule_existance(check_in)
-      validate_user_check_in_existance(check_in) if check_in.status == '1'
-      validate_user_check_out_existance(check_in) if check_in.status == '2'
+      if check_in.status_changed?
+        validate_user_check_in_existance(check_in) if check_in.status == '1'
+        validate_user_check_out_existance(check_in) if check_in.status == '2'
+      end
       check_in.save if check_in.errors.empty?
       check_in
     end

@@ -1,4 +1,4 @@
-= form_for([:dashboard,@check_in], :html => {:class => 'form-horizontal'}) do |f|
+= form_for([:dashboard, @check_in], html: { class: 'form-horizontal' }) do |f|
   .col-sm-8.col-sm-offset-2
     - if @check_in.errors.any?
       #error_explanation
@@ -9,18 +9,20 @@
 
     fieldset
       .form-group
-        = f.label("Check In Time", :class => 'control-label col-sm-3')
+        = f.label("Check In Time", class: 'control-label col-sm-3')
         .col-sm-9
           .input-append.bootstrap-timepicker
             =f.text_field(:created_at, value: @check_in.created_at.strftime("%I:%M %p"), class: "timepicker-precise timepicker-first input-small" )
 
-
       .form-group
-        = f.label("Check Out Time", :class => 'control-label col-sm-3')
-        .form-group
+        = f.label("Check Out Time", class: 'control-label col-sm-3')
+        .col-sm-9
           .input-append.bootstrap-timepicker
             =f.text_field(:check_out_time, value: @check_in.check_out_time.strftime("%I:%M %p"), class: "timepicker-precise input-small" )
 
     .form-group
       .col-sm-9.col-sm-offset-3
         = f.submit 'Save Changes', class: "btn btn-primary"
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = link_to 'Back', inactive_dashboard_check_ins_path, class: 'btn btn-default'
