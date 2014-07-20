@@ -1,6 +1,6 @@
 class SubaccountsController < ApplicationController
   before_filter :authenticate_user!
-  
+
   def index
     @master = User.find(params[:user_id])
     @subaccounts = @master.subaccounts
@@ -13,7 +13,7 @@ class SubaccountsController < ApplicationController
 
   def show
     @subaccount = User.find(params[:id])
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @subaccount }
@@ -30,7 +30,7 @@ class SubaccountsController < ApplicationController
   end
 
   def edit
-    @subaccount = User.find(params[:id])
+    @subaccount = current_user.subaccounts.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -53,8 +53,8 @@ class SubaccountsController < ApplicationController
   end
 
   def update
-    @subaccount = User.find(params[:id])
-
+    @subaccount = current_user.subaccounts.find(params[:id])
+    @subaccount.skip_reconfirmation!
     respond_to do |format|
       if @subaccount.update_attributes(params[:user])
         format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully updated.' }
