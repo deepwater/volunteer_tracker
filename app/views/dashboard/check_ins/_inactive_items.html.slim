@@ -25,6 +25,11 @@
               = f.hidden_field :status, value: "1"
               = button_tag type: "submit", class: 'btn btn-mini btn-danger' do
                 ' Undo Check Out
+            = simple_form_for [:dashboard, CheckIn.new] do |f|
+              = f.input :user_schedule_id, as: :hidden, input_html: { value: check_in.user_schedule.id }
+              = f.input :status, as: :hidden, input_html: { value: '1' }
+              = button_tag type: "submit", class: 'btn btn-success' do
+                ' Check In Again
 
           - if can? :flag, CheckIn
             button.flag_form_button.btn.btn-mini.btn-warning type="button" Flag
