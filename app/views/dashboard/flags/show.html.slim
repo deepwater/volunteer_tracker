@@ -6,7 +6,8 @@ p
 p
   b User:
   ' #{@flag.user_id}
-
 p
   b Description:
   ' #{@flag.description}
+
+= link_to 'Edit', edit_dashboard_flag_path(@flag), class: 'btn btn-primary'
