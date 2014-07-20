@@ -53,17 +53,17 @@ $ ->
     # $this.find('input').focus()
 
 $ ->
-  return unless $("#scheduled-check-ins-table, #active-check-ins-table, #inactive-check-ins-table").length > 0
+  return unless $(".check-ins-table:visible").length > 0
 
   loadData = ->
     data =
-      q: $("#search").val()
-      per: $("#per_page").val()
-      order_charity: $("#charity").data("order")
-      order_department: $("#department").data("order")
-      order_name: $("#name").data("order")
-      order_check_in: $("#check_in").data("order")
-      order_check_out: $("#check_out").data("order")
+      q: $(".search:visible").val()
+      per: $(".per_page:visible").val()
+      order_charity: $(".charity:visible").data("order")
+      order_department: $(".department:visible").data("order")
+      order_name: $(".name:visible").data("order")
+      order_check_in: $(".check_in:visible").data("order")
+      order_check_out: $(".check_out:visible").data("order")
 
 
     $.ajax
@@ -73,15 +73,15 @@ $ ->
       dataType: "script"
 
 
-  $("#search").on 'keyup', (e)->
+  $(".search:visible").on 'keyup', (e)->
     loadData() if e.keyCode == 13
     false
 
-  $('#search').on 'blur', ->
+  $('.search:visible').on 'blur', ->
     loadData()
     false
 
-  $("#per_page").on 'change', ->
+  $(".per_page:visible").on 'change', ->
     loadData()
     false
 

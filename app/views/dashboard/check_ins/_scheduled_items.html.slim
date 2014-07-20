@@ -1,8 +1,8 @@
 - scheduled.each do |user_schedule|
   tr
-    td =user_schedule.department_block.day.short_date
     td =in_twelve_hour_time(user_schedule.department_block.start_time)
     td =in_twelve_hour_time(user_schedule.department_block.end_time)
+    td =user_schedule.try(:user).try(:username)
     td =user_schedule.try(:user).try(:full_name) || "User missing"
     td =user_schedule.try(:user).try(:email)
     td =link_to user_schedule.department_block.department.name, [:dashboard, user_schedule.department_block.department]
