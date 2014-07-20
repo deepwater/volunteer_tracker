@@ -48,57 +48,72 @@
     - @days.each_with_index do |day, index|
       div id="#{day.safe_short_date}" class=(index == 0 ? "active tab-pane" : "tab-pane")
 
-javascript:
+coffee:
 
-  window.initDepartmentsShowPage = function() {
-    var firstHash, reloadSchedule;
-    reloadSchedule = function(dateid) {
-      return $.ajax("" + window.location.pathname + "/schedule/2014/" + dateid.slice(0, 2) + "/" + dateid.slice(2), {
-        type: 'GET',
-        dataType: 'html',
-        error: function(jqXHR, textStatus, errorThrown) {
-          return $("div[id=" + dateid + "]").text("Error: " + textStatus);
-        },
-        success: function(data, textStatus, jqXHR) {
-          $("div[id=" + dateid + "]").html(data);
-          $("table[id=blocks" + dateid + "]").dataTable({"iDisplayLength": 100, "aLengthMenu": [[100, 200, -1], [100, 200, "All"]]});
-          $('.timepicker').timepicker();
-          $('.delete-department-block').on('click', function() {
-            return setTimeout(function() {
-              return window.location.reload();
-            }, 200);
-          });
-          return $('.create_department_block').on('click', function() {
-            var $el, modal;
-            modal = $(this).attr('href');
-            $el = $(modal + " #department_block_name");
-            return setTimeout(function() {
-              return $el.focus();
-            }, 300);
-          });
-        }
-      });
-    };
-    $('#department_block_department_chooser').change(function() {
-      var newVal;
-      newVal = $(this).val();
-      return window.location = "/dashboard/departments/" + newVal;
-    });
-    firstHash = $('li.active a').attr('href');
-    $(firstHash + ' #day_hash:hidden').val(firstHash.replace('#', ''));
-    if (window.location.hash) {
-      $('a[href="' + window.location.hash + '"]').click();
-    }
-    $('.nav.nav-tabs a').click(function() {
-      var hash;
-      window.location.hash = $(this).attr('href');
-      reloadSchedule(window.location.hash.replace('#', ''));
-      hash = $(this).attr('href');
-      return $(hash + ' #day_hash:hidden').val(hash.replace('#', ''));
-    });
-    return reloadSchedule($('li.active a').attr('href').replace('#', ''));
-  };
+  window.initDepartmentsShowPage = ->
+    firstHash = undefined
+    reloadSchedule = undefined
+    reloadSchedule = (dateid) ->
+      $.ajax "" + window.location.pathname + "/schedule/2014/" + dateid.slice(0, 2) + "/" + dateid.slice(2),
+        type: "GET"
+        dataType: "html"
+        error: (jqXHR, textStatus, errorThrown) ->
+          $("div[id=" + dateid + "]").text "Error: " + textStatus
 
-  $(function() {
-    window.initDepartmentsShowPage();
-  })
+        success: (data, textStatus, jqXHR) ->
+          $("div[id=" + dateid + "]").html data
+          $("table[id=blocks" + dateid + "]").dataTable
+            iDisplayLength: 100
+            aLengthMenu: [
+              [
+                100
+                200
+                -1
+              ]
+              [
+                100
+                200
+                "All"
+              ]
+            ]
+            oTableTools:
+              "aButtons": [ "copy", "csv", "xls" ]
+              "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
+
+          $(".timepicker").timepicker()
+          $(".delete-department-block").on "click", ->
+            setTimeout (->
+              window.location.reload()
+            ), 200
+
+          $(".create_department_block").on "click", ->
+            $el = undefined
+            modal = undefined
+            modal = $(this).attr("href")
+            $el = $(modal + " #department_block_name")
+            setTimeout (->
+              $el.focus()
+            ), 300
+
+
+
+    $("#department_block_department_chooser").change ->
+      newVal = undefined
+      newVal = $(this).val()
+      window.location = "/dashboard/departments/" + newVal
+
+    firstHash = $("li.active a").attr("href")
+    $(firstHash + " #day_hash:hidden").val firstHash.replace("#", "")
+    $("a[href=\"" + window.location.hash + "\"]").click()  if window.location.hash
+    $(".nav.nav-tabs a").click ->
+      hash = undefined
+      window.location.hash = $(this).attr("href")
+      reloadSchedule window.location.hash.replace("#", "")
+      hash = $(this).attr("href")
+      $(hash + " #day_hash:hidden").val hash.replace("#", "")
+
+    reloadSchedule $("li.active a").attr("href").replace("#", "")
+
+  $ ->
+    window.initDepartmentsShowPage()
+    return

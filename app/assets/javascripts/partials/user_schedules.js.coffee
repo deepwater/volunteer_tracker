@@ -6,7 +6,6 @@ $ ->
     return unless (e.type is 'focusout' or e.keyCode == 13) and $this.parents("form").is(":visible")
     e.preventDefault()
     e.stopPropagation()
-    $timepicker.destroy() if $timepicker = $this.parents(".input-append").data('datetimepicker')
     $td = $this.parents("td")
     time_field = $td.hasClass('time')
     check_out = $td.hasClass("check-out")
@@ -18,6 +17,7 @@ $ ->
         date = $this.parents("tr").find("td.date.check-in .input-append input").val()
     else
       date = $this.val()
+      $this.datepicker('remove')
       if check_out
         time = $this.parents("tr").find("td.check-out.time .input-append input").val()
       else
@@ -27,9 +27,9 @@ $ ->
     $this.parents("form").submit().hide()
     $this.parents("td").find("span.value").show()
 
-    $this.val if time_field 
+    $this.val if time_field
       time
-    else 
+    else
       date
 
     false
@@ -37,43 +37,33 @@ $ ->
 
   $("#inactive-check-ins-table").on 'click', 'td.editable.date, td.editable.time', ->
     $this = $(this)
-    $("td.editable form").hide()
+    $("td.editable form").addClass "hide"
     $("td.editable span.value").show()
 
-    $this.find("form").show()
     $this.find("span.value").hide()
-
-    options =
-      language: 'en'
-      pick12HourFormat: true
-      format: 'yyyy-MM-dd HH:mm PP'
-      pickDate: true
-      pickTime: true
+    $this.find("form").removeClass "hide"
 
     if $this.hasClass('time')
-      options['pickDate'] = false
-      options['format'] = 'HH:mm PP'
+      $this.find(".input-append").find("input").timepicker
+        minuteStep: 1
     else
-      options['pickTime'] = false
-      options['format'] = 'yyyy-MM-dd'
+      $this.find(".input-append").find("input").datepicker
 
-    $this.find(".input-append").datetimepicker options
-      
-    $this.find("span.add-on").click()
-    $this.find('input').focus()
+    # $this.find("span.add-on").click()
+    # $this.find('input').focus()
 
 $ ->
-  return unless $("#scheduled-check-ins-table, #active-check-ins-table, #inactive-check-ins-table").length > 0
+  return unless $(".check-ins-table:visible").length > 0
 
   loadData = ->
     data =
-      q: $("#search").val()
-      per: $("#per_page").val()
-      order_charity: $("#charity").data("order")
-      order_department: $("#department").data("order")
-      order_name: $("#name").data("order")
-      order_check_in: $("#check_in").data("order")
-      order_check_out: $("#check_out").data("order")
+      q: $(".search:visible").val()
+      per: $(".per_page:visible").val()
+      order_charity: $(".charity:visible").data("order")
+      order_department: $(".department:visible").data("order")
+      order_name: $(".name:visible").data("order")
+      order_check_in: $(".check_in:visible").data("order")
+      order_check_out: $(".check_out:visible").data("order")
 
 
     $.ajax
@@ -81,17 +71,17 @@ $ ->
       url: window.location.pathname
       data: data
       dataType: "script"
-    
 
-  $("#search").on 'keyup', (e)->
+
+  $(".search:visible").on 'keyup', (e)->
     loadData() if e.keyCode == 13
     false
 
-  $('#search').on 'blur', ->
+  $('.search:visible').on 'blur', ->
     loadData()
     false
 
-  $("#per_page").on 'change', ->
+  $(".per_page:visible").on 'change', ->
     loadData()
     false
 

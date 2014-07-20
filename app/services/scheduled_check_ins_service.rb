@@ -7,7 +7,7 @@ class ScheduledCheckInsService
 
   def prepare_scheduled_data(scope = {})
     @scope = scope
-    query = build_query(accessor.role)
+    query = build_query
     query = query.group(
       "department_blocks.id, days.id, departments.id, users.id, charities.id, user_schedules.id"
     ).joins(
@@ -23,33 +23,28 @@ class ScheduledCheckInsService
 
   private
 
-  def build_query(user_role)
-    query = case user_role.to_sym
-      when :volunteer_manager then query_for_volunteer_manager
-      when :department_assistant then query_for_department_assistant
-      when :department_manager then query_for_department_manager
-      when :event_admin then query_for_event_admin
-      when :org_admin then query_for_event_admin
-      when :super_admin then query_for_event_admin
+  def build_query
+    query = UserSchedule
+    department_block_ids = case accessor.role.to_sym
+      when :department_manager then DepartmentBlock.where(department_id: accessor.department_manager.try(:department_id)).pluck(:id)
+      when :department_assistant then DepartmentBlock.where(department_id: accessor.department_assistant.try(:department_id)).pluck(:id)
+      when :volunteer_manager then [*accessor.volunteer_manager.try(:department_block_id)]
     end
-  end
 
-  def query_for_volunteer_manager
-    UserSchedule.where(department_block_id: accessor.volunteer_manager.try(:department_block_id))
-  end
+    day = Day.where("year = ? AND month = ? AND mday = ?", scope[:year], scope[:month], scope[:day]).first
+    if day
+      day_department_block_ids = DepartmentBlock.where(day_id: day.id).pluck(:id)
+      day_user_schedule_ids = UserSchedule.where(department_block_id: day_department_block_ids).pluck(:id)
+    end
 
-  def query_for_department_assistant
-    department_block_ids = DepartmentBlock.where(department_id: accessor.department_assistant.try(:department_id)).pluck(:id)
-    UserSchedule.where(department_block_id: department_block_ids)
-  end
+    if department_block_ids
+      user_schedule_ids = UserSchedule.where(department_block_id: department_block_ids).pluck(:id)
+      query = query.where(id: (user_schedule_ids & day_user_schedule_ids))
+    else
+      query = query.where(id: day_user_schedule_ids)
+    end
 
-  def query_for_department_manager
-    department_block_ids = DepartmentBlock.where(department_id: accessor.department_manager.try(:department_id)).pluck(:id)
-    UserSchedule.where(department_block_id: department_block_ids)
-  end
-  
-  def query_for_event_admin
-    UserSchedule
+    query
   end
 
   def search_results(query)

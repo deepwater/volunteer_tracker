@@ -2,6 +2,7 @@
   - if current_user.has_role?(:department_assistant, check_in.user_schedule.department_block) || current_user.has_role?(:volunteer_manager, check_in.user_schedule.department_block) || current_user.has_role?(:department_manager, check_in.user_schedule.department_block.department) || can?(:manage, :all)
     tr
       - if check_in.user_schedule
+        td=check_in.user_schedule.try(:user).try(:username)
         td=check_in.user_schedule.try(:user).try(:full_name) || "User missing"
         td=check_in.user_schedule.try(:user).try(:email)
         td=link_to check_in.user_schedule.department_block.department.name, [:dashboard,check_in.user_schedule.department_block.department]

@@ -32,6 +32,8 @@ en:
             created_at:
               less_than_check_out: "Check In time should be less than Check Out time"
               not_assigned: "You can't check in user that is not scheduled for today"
+              already_checked_in: "This person is already checked in!"
+              already_checked_out: "This person is already checked out!"
             check_out_time:
               greater_than_check_in: "Check Out time should be greater than Check In time"
             user_schedule_id:

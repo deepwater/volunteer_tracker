@@ -4,15 +4,6 @@ class Dashboard::CheckInsController < DashboardController
   before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
-  def index
-    @check_ins = CheckIn.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @check_ins }
-    end
-  end
-
   def show
     @check_in = CheckIn.find(params[:id])
 
@@ -23,15 +14,18 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @service = ScheduledCheckInsService.new(as: current_user)
     @results = @service.prepare_scheduled_data(@scope)
   end
 
   def active
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @results = check_ins_service.prepare_check_ins_data(:active, @scope)
   end
 
   def inactive
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     respond_to do |format|
       format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
@@ -86,7 +80,7 @@ class Dashboard::CheckInsController < DashboardController
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -103,7 +97,7 @@ class Dashboard::CheckInsController < DashboardController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.js { render 'errors_while_update' }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -126,6 +120,9 @@ class Dashboard::CheckInsController < DashboardController
       per: (params[:per] || DEFAULT_PER_PAGE).to_i,
       page: (params[:page] || 1).to_i,
       q: params[:q],
+      year: params[:year],
+      month: params[:month],
+      day: params[:day],
       order_charity: params[:order_charity],
       order_department: params[:order_department],
       order_name: params[:order_name],

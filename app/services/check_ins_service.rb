@@ -73,10 +73,19 @@ class CheckInsService
       when :volunteer_manager then [*accessor.volunteer_manager.try(:department_block_id)]
     end
 
+    day = Day.where("year = ? AND month = ? AND mday = ?", scope[:year], scope[:month], scope[:day]).first
+    if day
+      day_department_block_ids = DepartmentBlock.where(day_id: day.id).pluck(:id)
+      day_user_schedule_ids = UserSchedule.where(department_block_id: day_department_block_ids).pluck(:id)
+    end
+
     if department_block_ids
       user_schedule_ids = UserSchedule.where(department_block_id: department_block_ids).pluck(:id)
-      query = query.where(user_schedule_id: user_schedule_ids)
+      query = query.where(user_schedule_id: (user_schedule_ids & day_user_schedule_ids))
+    else
+      query = query.where(user_schedule_id: day_user_schedule_ids)
     end
+
     query
   end
 
