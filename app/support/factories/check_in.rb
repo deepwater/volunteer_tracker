@@ -7,7 +7,8 @@ class Factories::CheckIn
   def create(attributes)
     build(nil, attributes).tap do |check_in|
       validate_user_schedule_existance(check_in)
-      # validate_check_in_date(check_in) if @options[:fastpass]
+      validate_user_check_in_existance(check_in)
+      validate_check_in_date(check_in) if @options[:fastpass]
       check_out_existed_check_ins(check_in) if @options[:fastpass]
       check_in.save if check_in.errors.empty?
       check_in
@@ -18,6 +19,8 @@ class Factories::CheckIn
     resource = id.present? ? CheckIn.find(id) : CheckIn.find_by_user_schedule_id(attributes["user_schedule_id"])
     build(resource, attributes).tap do |check_in|
       validate_user_schedule_existance(check_in)
+      validate_user_check_in_existance(check_in) if check_in.status == '1'
+      validate_user_check_out_existance(check_in) if check_in.status == '2'
       check_in.save if check_in.errors.empty?
       check_in
     end
@@ -38,7 +41,7 @@ class Factories::CheckIn
   def check_out_existed_check_ins(entity)
     return unless entity.user_schedule
     past_check_ins = entity.user_schedule.check_ins.where(status: '1')
-    past_check_ins.find_each { |check_in| check_in.update_attributes(status: "2") }
+    past_check_ins.find_each { |check_in| check_in.update_attributes(status: '2') }
   end
 
   def validate_user_schedule_existance(entity)
@@ -47,6 +50,18 @@ class Factories::CheckIn
       entity.user_id ||= user_schedule.user_id
     else
       entity.errors.add(:user_schedule_id, :not_exist)
+    end
+  end
+
+  def validate_user_check_in_existance(entity)
+    if entity.user_schedule.check_ins.where(status: '1').present?
+      entity.errors.add(:created_at, :already_checked_in)
+    end
+  end
+
+  def validate_user_check_out_existance(entity)
+    if entity.user_schedule.check_ins.where(status: '2').present?
+      entity.errors.add(:created_at, :already_checked_out)
     end
   end
 

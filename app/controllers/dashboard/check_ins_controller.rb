@@ -86,7 +86,7 @@ class Dashboard::CheckInsController < DashboardController
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -103,7 +103,7 @@ class Dashboard::CheckInsController < DashboardController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.js { render 'errors_while_update' }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
