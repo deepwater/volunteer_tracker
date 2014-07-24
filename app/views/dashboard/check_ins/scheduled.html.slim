@@ -30,6 +30,10 @@
         table.table.table-bordered.table-striped.check-ins-table id="scheduled-check-ins-table-#{day.safe_short_date}"
           thead
             tr
+              th
+                label
+                  = check_box_tag 'check_all', '1', false, class: "check_all"
+                  ' All
               th Start Time
               th End Time
               th Username
@@ -47,3 +51,18 @@
             = paginate @results, remote: true
           .div id="pagination-info-#{day.safe_short_date}"
             = page_entries_info @results
+
+coffee:
+  $ ->
+    populateIds = ->
+      ids = []
+      $(".tab-content").find(".user_schedule_id:checked").each ->
+        ids.push($(this).val())
+      $('.tab-content #user_schedule_ids').val("#{ids.join(',')}")
+
+    $(document).on 'change', '.check_all', ->
+      $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
+      populateIds()
+
+    $(document).on 'change', '.user_schedule_id', ->
+      populateIds()
