@@ -103,6 +103,44 @@ class Dashboard::CheckInsController < DashboardController
     end
   end
 
+  def create_batch
+    service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
+    params[:check_in][:user_schedule_id].split(',').each do |item|
+      @check_in = service.create(user_schedule_id: item, status: params[:check_in][:status])
+      break if @check_in.errors.present?
+    end
+
+    respond_to do |format|
+      if @check_in.persisted?
+        format.html { redirect_to :back, notice: 'Check ins was successfully created.' }
+        format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
+      else
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
+      end
+    end
+  end
+
+  def update_batch
+    service = CheckInsService.new(as: current_user)
+    params[:check_in][:id].split(',').each do |item|
+      @check_in = service.update(item, status: params[:check_in][:status])
+      break if @check_in.errors.present?
+    end
+
+    respond_to do |format|
+      if @check_in.errors.empty?
+        format.html { redirect_to :back, notice: 'Check ins was successfully updated.' }
+        format.js { render 'successfully_updated' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.json { render json: @check_in.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     @check_in = CheckIn.find(params[:id])
     @check_in.destroy

@@ -1,7 +1,8 @@
-- results.each do |check_in|
+- results.each_with_index do |check_in, index|
   - if current_user.has_role?(:department_assistant, check_in.user_schedule.department_block) || current_user.has_role?(:volunteer_manager, check_in.user_schedule.department_block) || current_user.has_role?(:department_manager, check_in.user_schedule.department_block.department) || can?(:manage, :all)
     tr
       - if check_in.user_schedule
+        td=check_box_tag 'check_in_ids[]', check_in.id, false, class: "check_in_id"
         td=check_in.user_schedule.try(:user).try(:username)
         td=check_in.user_schedule.try(:user).try(:full_name) || "User missing"
         td=check_in.user_schedule.try(:user).try(:email)
@@ -32,3 +33,11 @@
           = link_to dashboard_check_in_path(check_in), method: :delete, class: "side-by-side btn btn-danger btn-mini" do
             i.icon-remove-sign.icon-white
             ' Destroy Check In
+  - if index == results.size - 1
+    tr
+      td
+        = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
+          = f.input :id, as: :hidden, input_html: { id: 'check_in_ids' }
+          = f.input :status, as: :hidden, input_html: { value: '2' }
+          = button_tag type: "submit", class: 'btn btn-success' do
+            ' Check Out All
