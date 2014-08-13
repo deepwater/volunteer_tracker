@@ -3,6 +3,4 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('.timepicker-precise').timepicker(
-    minuteStep: 1
-  );
+  $('.bootstrap-timepicker').datetimepicker()

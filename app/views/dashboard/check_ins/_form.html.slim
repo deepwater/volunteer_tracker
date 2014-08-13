@@ -12,13 +12,13 @@
         = f.label("Check In Time", class: 'control-label col-sm-3')
         .col-sm-9
           .input-append.bootstrap-timepicker
-            =f.text_field(:created_at, value: @check_in.created_at.strftime("%I:%M %p"), class: "timepicker-precise timepicker-first input-small" )
+            =f.text_field(:created_at, value: @check_in.created_at.strftime("%m/%d/%Y %I:%M %p"), class: "input-small" )
 
       .form-group
         = f.label("Check Out Time", class: 'control-label col-sm-3')
         .col-sm-9
           .input-append.bootstrap-timepicker
-            =f.text_field(:check_out_time, value: @check_in.check_out_time.strftime("%I:%M %p"), class: "timepicker-precise input-small" )
+            =f.text_field(:check_out_time, value: @check_in.check_out_time.strftime("%m/%d/%Y %I:%M %p"), class: "input-small" )
 
     .form-group
       .col-sm-9.col-sm-offset-3

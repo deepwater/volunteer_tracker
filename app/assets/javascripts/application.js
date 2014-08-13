@@ -18,6 +18,8 @@
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
+//= require moment
+//= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
 
 //= require admin/departments
