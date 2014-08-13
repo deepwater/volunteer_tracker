@@ -32,6 +32,7 @@ class Factories::CheckIn
     resource ||= CheckIn.new
     attributes = attributes.with_indifferent_access
     attrs = filter_attributes(attributes)
+    attrs = format_dates(attrs)
     resource.assign_attributes(attrs)
     resource.valid?
     validate_dates(resource)
@@ -81,5 +82,11 @@ class Factories::CheckIn
 
   def filter_attributes(attrs)
     attrs.keep_if { |k,v| @options[:accessible_attributes].include?(k.to_s) }
+  end
+
+  def format_dates(attrs)
+    attrs[:created_at] = DateTime.strptime(attrs[:created_at], "%m/%d/%Y %I:%M %p").strftime("%Y-%m-%d %H:%M:%S") if attrs[:created_at].present?
+    attrs[:check_out_time] = DateTime.strptime(attrs[:check_out_time], "%m/%d/%Y %I:%M %p").strftime("%Y-%m-%d %H:%M:%S") if attrs[:check_out_time].present?
+    attrs
   end
 end

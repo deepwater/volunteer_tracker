@@ -27,6 +27,8 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 gem 'bootstrap-sass'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
 gem 'bootstrap-timepicker-rails', '0.1.3'
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
 group :development do
   gem 'letter_opener', '1.2.0'
