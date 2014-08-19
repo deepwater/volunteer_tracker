@@ -32,7 +32,7 @@
               = button_tag type: "submit", class: 'btn btn-success' do
                 ' Check In Again
 
-          - if current_user.has_any_role? :department_manager, :event_admin, :org_admin, :super_admin
+          - if current_user.has_any_role? :volunteer_manager, :department_manager, :event_admin, :org_admin, :super_admin
             = link_to 'Edit Time', edit_dashboard_check_in_path(check_in), class: 'btn btn-primary'
 
           - if can? :flag, CheckIn
