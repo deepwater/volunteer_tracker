@@ -96,7 +96,6 @@ class Dashboard::CheckInsController < DashboardController
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
