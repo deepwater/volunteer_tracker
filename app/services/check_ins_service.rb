@@ -6,7 +6,7 @@ class CheckInsService
       accessible_attributes: %w(status user_schedule_id)
     },
     volunteer_manager: {
-      accessible_attributes: %w(status user_schedule_id)
+      accessible_attributes: %w(status user_schedule_id created_at check_out_time)
     },
     department_assistant: {
       accessible_attributes: %w(status user_schedule_id)
