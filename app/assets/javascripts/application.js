@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
-//= require dataTables/extras/ZeroClipboard
-//= require dataTables/extras/TableTools
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require dataTables/extras/dataTables.tableTools
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
