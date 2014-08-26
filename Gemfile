@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.16'
+gem 'rails', '3.2.19'
 
 gem 'configatron', '2.13.0'
 gem 'data_migrate'
@@ -9,22 +9,23 @@ gem 'delayed_job_active_record', '0.4.4'
 gem 'pg', '0.17.1'
 gem 'newrelic_rpm'
 
+gem 'faye'
+
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
 
-gem 'haml', '4.0.3'
-gem 'slim'
+gem 'slim', '2.0.2'
 
 gem 'kaminari', '0.15.1'
 gem 'simple_form', '2.1.1'
 
 gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
-gem 'ajax-datatables-rails', '0.0.1'
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'jquery-datatables-rails', '2.2.3', github: 'rweng/jquery-datatables-rails', branch: 'master'
+gem 'ajax-datatables-rails', '0.2.0'
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '3.1.1.1'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
 gem 'bootstrap-timepicker-rails', '0.1.3'
 gem 'momentjs-rails', '>= 2.8.1'
@@ -59,9 +60,9 @@ group :production, :staging do
 end
 
 group :assets do
-	gem 'sass-rails'
+	gem 'sass-rails', '3.2.6'
+  gem 'tilt', '1.4.1'
 	gem 'coffee-rails', '~> 3.2.1'
-	gem 'haml-rails', '0.4'
 	gem 'uglifier', '>= 1.0.3'
 	gem 'therubyracer', platforms: :ruby, require: 'v8'
   gem 'turbo-sprockets-rails3'

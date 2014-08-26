@@ -3,7 +3,7 @@ h2
   ' Users List
 
 
-table.table.table-bordered.table-striped#users_list_table data-source=(url_for(:controller=>'base',:action=>'list'))
+table.table.table-bordered.table-striped#users_list_table data-source=(url_for( controller: 'base', action: 'list'))
   thead
     tr
       th Full Name
