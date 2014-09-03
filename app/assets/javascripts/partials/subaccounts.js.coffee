@@ -1,14 +1,16 @@
 $ ->
-  oTable = $('#subaccounts_list_table').dataTable
-    bProcessing: true
-    bServerSide: true
-    sAjaxSource: $('#subaccounts_list_table').data('source')
-    sDom: 'T<"clear">lfrtip'
-    aLengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
-    aoColumnDefs: [
-      bSortable: false
-      aTargets: [3, 4, 5]
+  $('#subaccounts_list_table').dataTable
+    processing: true
+    serverSide: true
+    ajax: $('#subaccounts_list_table').data('source')
+    lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+    dom: 'T<"clear">lfrtip'
+    columnDefs: [
+      targets: [ -1, -2 , -3]
+      sortable: false
     ]
-    oTableTools: 
-      "aButtons": [ "copy", "csv", "xls" ]
-      "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
+    pagingType: 'full_numbers'
+    tableTools:
+      sSwfPath: 'http://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/swf/copy_csv_xls_pdf.swf'
+
+

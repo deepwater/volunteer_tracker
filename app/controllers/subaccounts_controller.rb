@@ -2,12 +2,9 @@ class SubaccountsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @master = User.find(params[:user_id])
-    @subaccounts = @master.subaccounts
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: SubaccountsDatatable.new(view_context) }
+      format.html
+      format.json { render json: SubaccountDatatable.new(view_context, { user: current_user }) }
     end
   end
 
