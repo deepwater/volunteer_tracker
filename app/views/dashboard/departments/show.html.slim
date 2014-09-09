@@ -63,22 +63,10 @@ coffee:
         success: (data, textStatus, jqXHR) ->
           $("div[id=" + dateid + "]").html data
           $("table[id=blocks" + dateid + "]").dataTable
-            iDisplayLength: 100
-            aLengthMenu: [
-              [
-                100
-                200
-                -1
-              ]
-              [
-                100
-                200
-                "All"
-              ]
-            ]
-            oTableTools:
-              "aButtons": [ "copy", "csv", "xls" ]
-              "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
+            dom: 'T<"clear">lfrtip'
+            lengthMenu: [[10, 200, 99999], [100, 200, "All"]]
+            tableTools:
+              sSwfPath: 'http://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/swf/copy_csv_xls_pdf.swf'
 
           $(".timepicker").timepicker()
           $(".delete-department-block").on "click", ->
