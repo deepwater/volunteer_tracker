@@ -13,6 +13,8 @@
     - days.each do |day|
       div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
+        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}.csv", class: "DTTT_button DTTT_button_csv btn btn-info" do
+          span Export CSV
         .dataTables_length
           label
             ' Show
@@ -21,6 +23,7 @@
               option value="25" 25
               option value="50" 50
               option value="100" 100
+              option value="99999" ALL
             ' entries
         .dataTables_filter
           label
@@ -50,6 +53,3 @@
             = paginate @results, remote: true
           .div id="pagination-info-#{day.safe_short_date}"
             = page_entries_info @results
-          .DTTT_container
-          = link_to inactive_dashboard_check_ins_path(format: :csv), class: "DTTT_button DTTT_button_csv btn btn-info" do
-            span Export CSV
