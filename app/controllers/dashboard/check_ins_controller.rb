@@ -64,9 +64,11 @@ class Dashboard::CheckInsController < DashboardController
     service = CheckInsService.new(as: current_user)
     @check_in = service.check_out(params[:check_in]["user_schedule_id"])
 
+    # TODO: implement error reporting
     if @check_in.is_a? String
       render json: { errors: [*@check_in] }
     else
+      broadcast '/check_ins', { id: @check_in.id, event_type: "check_out" }
       render json: { user_data: FastPassPresenter.new.for_json(@check_in) }
     end
   end
@@ -77,6 +79,7 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.persisted?
+        broadcast "/channels/#{configatron.faye.channels.check_ins}", { id: @check_in.id, event_type: "check_in" }
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
@@ -92,6 +95,7 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.errors.empty?
+        broadcast "/channels/#{configatron.faye.channels.check_ins}", { id: @check_in.id, event_type: "check_in_updated" }
         format.html { redirect_to :back, notice: 'Check in was successfully updated.' }
         format.js { render 'successfully_updated' }
         format.json { head :no_content }

@@ -20,4 +20,10 @@ class ApplicationController < ActionController::Base
     current_user.organisation
   end
 
+  def broadcast(channel, data)
+    message = { channel: channel, data: data, authentication_token: configatron.faye.authentication_token }
+    uri = URI.parse(configatron.faye.url)
+    Net::HTTP.post_form(uri, message: message.to_json)
+  end
+
 end

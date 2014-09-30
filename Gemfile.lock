@@ -278,7 +278,7 @@ DEPENDENCIES
   devise (= 2.2.4)
   draper (= 0.18.0)
   factory_girl_rails (= 4.3.0)
-  faye
+  faye (~> 1.0.3)
   jquery-datatables-rails (= 2.2.3)!
   jquery-rails (= 3.0.1)
   jquery-ui-rails (= 4.0.3)

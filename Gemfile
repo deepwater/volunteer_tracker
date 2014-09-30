@@ -9,7 +9,7 @@ gem 'delayed_job_active_record', '0.4.4'
 gem 'pg', '0.17.1'
 gem 'newrelic_rpm'
 
-gem 'faye'
+gem 'faye', '~> 1.0.3'
 
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
