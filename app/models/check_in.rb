@@ -8,12 +8,12 @@ class CheckIn < ActiveRecord::Base
 	has_many :flags
 
 	def checked_out?
-		status == "2"
+		self.status == "2"
 	end
 
 	def hours_worked
 		if checked_out?
-			((check_out_time - created_at).to_d/3600).truncate(2) rescue "0"
+			((self.check_out_time - self.created_at).to_d/3600).truncate(2) rescue "0"
 		else
 			"0"
 		end
@@ -23,7 +23,7 @@ class CheckIn < ActiveRecord::Base
 
 	def check_status
 		if (self.status_changed? && self.status == "2")
-			self.check_out_time =  DateTime.now
+			self.check_out_time = DateTime.now
 		end
 	end
 end	
