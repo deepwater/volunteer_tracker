@@ -1,4 +1,3 @@
-
 - days = Day.all
 .col-sm-12
   .page-header
@@ -24,3 +23,30 @@
           th Block
           th Action
       tbody
+
+
+- if user_signed_in?
+  = javascript_include_tag "#{configatron.faye.url}/client.js"
+  javascript:
+    window.faye = new Faye.Client('#{configatron.faye.url}');
+    window.faye.subscribe("/channels/#{configatron.faye.channels.check_ins}", function(data) {
+      rowData = data.data;
+      tr = "<tr><td>"+rowData['username']+"</td><td>"+rowData['schedule_start']+"</td><td>"+rowData['checkin_start']+"</td><td>"+
+            rowData['schedule_end']+"</td><td>"+rowData['checkin_end']+"</td><td>"+rowData['total_hours']+"</td><td>"+
+            rowData['department_name']+"</td><td>"+rowData['block_name']+"</td><td>"+rowData['actions']+"</td></tr>";
+      $el = $(tr);
+      switch(data.event_type) {
+        case "check_in":
+          $("#volunteers_list_table").find("tbody").prepend($el);
+          break;
+        case "check_out":
+          $("#"+data.id+"-checkin").parents("tr").replaceWith($el);
+          break;
+        default:
+          alert("Something wrong with this voluunteer");
+      }
+      $el.find('span.red').parents("tr").find("td").css("background-color", "#f2dede");
+      $el.find('span.yellow').parents("tr").find("td").css("background-color", "#fcf8e3");
+      $el.find('span.green').parents("tr").find("td").css("background-color", "#dff0d8");
+      $el.find('span.neutral').parents("tr").find("td").css("background-color", "#f9f9f9");
+    });

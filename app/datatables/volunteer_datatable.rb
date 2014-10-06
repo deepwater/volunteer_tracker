@@ -1,7 +1,7 @@
 class VolunteerDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view, :link_to, :content_tag, :edit_admin_user_path, :admin_user_path
+  def_delegators :@view, :link_to, :content_tag, :edit_admin_user_path, :admin_user_path, :simple_form_for, :button_tag, :input
 
   def sortable_columns
     @sortable_columns ||= [ "users.username" ]
@@ -11,20 +11,46 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= [ "users.username" ]
   end
 
+  def html_row_from_record(record)
+    html_row = {}
+    html_row[:username]         = content_tag(:span, record.user.username, class: "set-class-row-to #{status_of(record)}", id: "#{record.id}-checkin")
+    html_row[:schedule_start]   = record.user_schedule.department_block.start_time
+    html_row[:checkin_start]    = record.created_at.strftime("%l:%M %p")
+    html_row[:schedule_end]     = record.user_schedule.department_block.end_time
+    html_row[:checkin_end]      = record.check_out_time.try(:strftime, "%b %-d %l:%M %p") || "no data"
+    html_row[:total_hours]      = record.hours_worked
+    html_row[:department_name]  = record.user_schedule.department_block.department.name
+    html_row[:block_name]       = record.user_schedule.department_block.name
+    html_row[:actions]          = content_tag :div, class: "actions-col" do
+                                    link_to('Edit', edit_admin_user_path(record.user), class: 'btn btn-primary') +
+                                    simple_form_for([:dashboard, CheckIn.new], remote: true) do |f|
+                                      f.input(:user_schedule_id, as: :hidden, input_html: { value: record.user_schedule.id }) +
+                                      f.input(:status, as: :hidden, input_html: { value: '1' }) +
+                                      button_tag('Check In', type: 'submit', class: 'btn btn-success')
+                                    end +
+                                    simple_form_for([:dashboard, record], remote: true) do |f|
+                                      f.input(:status, as: :hidden, input_html: { value: '2' }) +
+                                      button_tag('Check Out', type: 'submit', class: 'btn btn-danger')
+                                    end
+                                  end
+    html_row
+  end
+
   private
 
   def data
     records.map do |record|
+      html_row = html_row_from_record(record)
       [
-        content_tag(:span, record.user.username, class: "set-class-row-to #{status_of(record)}", id: "#{record.id}-user_schedule"),
-        record.user_schedule.department_block.start_time,
-        record.created_at.strftime("%l:%M %p"),
-        record.user_schedule.department_block.end_time,
-        record.check_out_time.try(:strftime, "%b %-d %l:%M %p") || "no data",
-        record.hours_worked,
-        record.user_schedule.department_block.department.name,
-        record.user_schedule.department_block.name,
-        link_to('Edit', edit_admin_user_path(record.user))
+        html_row[:username],
+        html_row[:schedule_start],
+        html_row[:checkin_start],
+        html_row[:schedule_end],
+        html_row[:checkin_end],
+        html_row[:total_hours],
+        html_row[:department_name],
+        html_row[:block_name],
+        html_row[:actions]
       ]
     end
   end

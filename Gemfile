@@ -60,6 +60,7 @@ group :production, :staging do
 end
 
 group :assets do
+  gem 'sass', '3.2.15'
 	gem 'sass-rails', '3.2.6'
   gem 'tilt', '1.4.1'
 	gem 'coffee-rails', '~> 3.2.1'

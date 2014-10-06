@@ -64,11 +64,15 @@ class Dashboard::CheckInsController < DashboardController
     service = CheckInsService.new(as: current_user)
     @check_in = service.check_out(params[:check_in]["user_schedule_id"])
 
-    # TODO: implement error reporting
     if @check_in.is_a? String
       render json: { errors: [*@check_in] }
     else
-      broadcast '/check_ins', { id: @check_in.id, event_type: "check_out" }
+      broadcast "/channels/#{configatron.faye.channels.check_ins}", \
+                { 
+                  event_type: "check_out", 
+                  id: @check_in.id,
+                  data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
+                }
       render json: { user_data: FastPassPresenter.new.for_json(@check_in) }
     end
   end
@@ -79,11 +83,17 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.persisted?
-        broadcast "/channels/#{configatron.faye.channels.check_ins}", { id: @check_in.id, event_type: "check_in" }
+        broadcast "/channels/#{configatron.faye.channels.check_ins}", \
+                  { 
+                    event_type: "check_in", 
+                    id: @check_in.id,
+                    data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
+                  }
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.js { render "error" }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -95,12 +105,18 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.errors.empty?
-        broadcast "/channels/#{configatron.faye.channels.check_ins}", { id: @check_in.id, event_type: "check_in_updated" }
+        broadcast "/channels/#{configatron.faye.channels.check_ins}", \
+                  { 
+                    event_type: "check_out", 
+                    id: @check_in.id,
+                    data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
+                  }
         format.html { redirect_to :back, notice: 'Check in was successfully updated.' }
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.js { render "error" }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end

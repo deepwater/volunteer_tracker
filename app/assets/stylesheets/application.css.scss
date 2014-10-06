@@ -12,9 +12,8 @@
 @import 'partials/theme';
 @import 'partials/devise';
 @import 'partials/admin';
-@import 'dataTables/jquery.dataTables';
-@import 'dataTables/extras/TableTools';
-@import 'dataTables/extras/TableTools_JUI';
+@import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap';
+@import 'dataTables/extras/dataTables.tableTools';
 @import 'partials/dashboard';
 @import 'partials/department_blocks';
 @import 'partials/user_schedules';

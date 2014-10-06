@@ -2,13 +2,5 @@
 = javascript_include_tag "application"
 = csrf_meta_tags
 
-- if user_signed_in?
-  = javascript_include_tag "#{configatron.faye.url}/client.js"
-  javascript:
-    window.faye = new Faye.Client('#{configatron.faye.url}');
-    window.faye.subscribe("/channels/#{configatron.faye.channels.check_ins}", function(data) {
-      console.log(data.event_type);
-    });
-
 meta name="viewport" content="width=device-width, initial-scale=1.0"
 meta charset="utf-8"
