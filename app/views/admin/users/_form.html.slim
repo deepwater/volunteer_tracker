@@ -5,6 +5,7 @@
     = f.input :username
     = f.input :cell_phone
     = f.input :home_phone
+    = f.association :charities, collection: Charity.order('name'), as: :select, input_html: { multiple: false, size: 1 }, include_blank: false
     = f.input :email
     = f.input :adult
     = f.input :password
