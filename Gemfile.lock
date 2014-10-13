@@ -288,7 +288,7 @@ DEPENDENCIES
   mocha (= 1.0.0)
   momentjs-rails (>= 2.8.1)
   newrelic_rpm
-  pg (= 0.17.1)
+  pg
   rails (= 3.2.19)
   rolify (= 3.4.0)
   rollbar

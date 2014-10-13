@@ -6,7 +6,7 @@ gem 'configatron', '2.13.0'
 gem 'data_migrate'
 gem 'draper', '0.18.0'
 gem 'delayed_job_active_record', '0.4.4'
-gem 'pg', '0.17.1'
+gem 'pg'
 gem 'newrelic_rpm'
 
 gem 'faye', '~> 1.0.3'
