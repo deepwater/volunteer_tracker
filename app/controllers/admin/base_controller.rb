@@ -28,7 +28,7 @@ class Admin::BaseController < ApplicationController
   end
 
   def department_tab
-    service = DepartamentService.new
+    service = DepartmentService.new
     select = OpenStruct.new(
       total_slots: true,
       estimate_hours: true,

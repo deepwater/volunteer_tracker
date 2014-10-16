@@ -27,17 +27,44 @@
 
 - if user_signed_in?
   = javascript_include_tag "#{configatron.faye.url}/client.js"
+  
   javascript:
+
+    function constructElement(data){
+      tr = "<tr><td>"+data['username']+"</td><td>"+data['schedule_start']+"</td><td>"+data['checkin_start']+"</td><td>"+
+            data['schedule_end']+"</td><td>"+data['checkin_end']+"</td><td>"+data['total_hours']+"</td><td>"+
+            data['department_name']+"</td><td>"+data['block_name']+"</td><td>"+data['actions']+"</td></tr>";
+      return $(tr);
+    }
+    
+    function colorizeElement(el){
+      $coloredEl = el.find('span.set-class-row-to');
+      switch (true) {
+        case ($coloredEl.hasClass( "red" )):
+          bgColor = "#f2dede";
+          break;
+        case ($coloredEl.hasClass( "yellow" )):
+          bgColor = "#fcf8e3";
+          break;
+        case ($coloredEl.hasClass( "green" )):
+          bgColor = "#dff0d8";
+          break;
+        default:
+          bgColor = "#f9f9f9";
+      }
+      el.find("td").css("background-color", bgColor);
+    }
+
     window.faye = new Faye.Client('#{configatron.faye.url}');
     window.faye.subscribe("/channels/#{configatron.faye.channels.check_ins}", function(data) {
-      rowData = data.data;
-      tr = "<tr><td>"+rowData['username']+"</td><td>"+rowData['schedule_start']+"</td><td>"+rowData['checkin_start']+"</td><td>"+
-            rowData['schedule_end']+"</td><td>"+rowData['checkin_end']+"</td><td>"+rowData['total_hours']+"</td><td>"+
-            rowData['department_name']+"</td><td>"+rowData['block_name']+"</td><td>"+rowData['actions']+"</td></tr>";
-      $el = $(tr);
+      $el = constructElement(data.data);
       switch(data.event_type) {
         case "check_in":
-          $("#volunteers_list_table").find("tbody").prepend($el);
+          $.post('#{is_accessible_dashboard_check_ins_path}', data, function(data) {
+            if(data.response){
+              $("#volunteers_list_table").find("tbody").prepend($el);
+            }
+          }, 'json');
           break;
         case "check_out":
           $("#"+data.id+"-checkin").parents("tr").replaceWith($el);
@@ -45,8 +72,5 @@
         default:
           alert("Something wrong with this voluunteer");
       }
-      $el.find('span.red').parents("tr").find("td").css("background-color", "#f2dede");
-      $el.find('span.yellow').parents("tr").find("td").css("background-color", "#fcf8e3");
-      $el.find('span.green').parents("tr").find("td").css("background-color", "#dff0d8");
-      $el.find('span.neutral').parents("tr").find("td").css("background-color", "#f9f9f9");
+      colorizeElement($el);
     });

@@ -4,7 +4,7 @@ class Dashboard::DepartmentsController < DashboardController
   before_filter :load_department, only: [:assistants, :edit]
 
   def show
-    service = DepartamentService.new
+    service = DepartmentService.new
     select = OpenStruct.new(
       total_slots: true,
       estimate_hours: true,
@@ -57,7 +57,7 @@ class Dashboard::DepartmentsController < DashboardController
   end
 
   def service
-    @service ||= DepartamentService.new(as: current_user)
+    @service ||= DepartmentService.new(as: current_user)
   end
 
   def load_department

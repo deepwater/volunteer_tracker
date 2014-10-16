@@ -35,7 +35,7 @@
             ' Destroy Check In
   - if index == results.size - 1
     tr
-      td
+      td colspan="2"
         = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
           = f.input :id, as: :hidden, input_html: { id: 'check_in_ids' }
           = f.input :status, as: :hidden, input_html: { value: '2' }

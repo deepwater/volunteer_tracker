@@ -87,6 +87,7 @@ VolunteerTracker::Application.routes.draw do
         get :fastpass
         put :update_batch
         post :create_batch
+        post :is_accessible
       end
     end
     match 'check_ins/scheduled/:year/:month/:day' => "check_ins#scheduled"

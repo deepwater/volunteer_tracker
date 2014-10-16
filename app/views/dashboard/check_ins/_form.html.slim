@@ -4,8 +4,8 @@
       #error_explanation
         h2 = "#{pluralize(@check_in.errors.count, "error")} prohibited this check_in from being saved:"
         ul
-          - @check_in.errors.full_messages.each do |msg|
-            li= msg
+          - @check_in.errors.values.each do |msg|
+            li= msg.join(', ')
 
     fieldset
       .form-group
@@ -18,7 +18,7 @@
         = f.label("Check Out Time", class: 'control-label col-sm-3')
         .col-sm-9
           .input-append.bootstrap-timepicker
-            =f.text_field(:check_out_time, value: @check_in.check_out_time.strftime("%m/%d/%Y %I:%M %p"), class: "input-small" )
+            =f.text_field(:check_out_time, value: (@check_in.try(:check_out_time) || DateTime.now).strftime("%m/%d/%Y %I:%M %p"), class: "input-small" )
 
     .form-group
       .col-sm-9.col-sm-offset-3

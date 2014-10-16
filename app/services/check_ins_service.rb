@@ -41,6 +41,20 @@ class CheckInsService
     paginate_results(query)
   end
 
+  def resourse_is_accessible_for_accessor(id)
+    resource = CheckIn.find id
+    case accessor.role.to_sym
+    when :super_admin, :org_admin, :event_admin then true
+    when :department_manager
+      accessor.has_role? :department_manager, resource.user_schedule.department_block.department
+    when :department_assistant, :volunteer_manager
+      accessor.has_role? accessor.role.to_sym, resource.user_schedule.department_block
+    when :volunteer
+      resource.user.id == accessor.id
+    else false
+    end
+  end
+
   def create(attributes)
     @options.merge! DEFAULT_OPTIONS[accessor.role.to_sym]
     factory = Factories::CheckIn.new(@options)

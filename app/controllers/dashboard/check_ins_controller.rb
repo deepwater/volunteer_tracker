@@ -1,7 +1,7 @@
 class Dashboard::CheckInsController < DashboardController
   DEFAULT_PER_PAGE = 10
   before_filter :set_scope, only: [:scheduled, :active, :inactive]
-  before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
+  before_filter :volunteer?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
   def show
@@ -67,14 +67,14 @@ class Dashboard::CheckInsController < DashboardController
     if @check_in.is_a? String
       render json: { errors: [*@check_in] }
     else
-      broadcast "/channels/#{configatron.faye.channels.check_ins}", \
-                { 
-                  event_type: "check_out", 
-                  id: @check_in.id,
-                  data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
-                }
+      broadcast @check_in, "check_out"
       render json: { user_data: FastPassPresenter.new.for_json(@check_in) }
     end
+  end
+
+  def is_accessible
+    service = CheckInsService.new(as: current_user)
+    render json: { status: :success, response: service.resourse_is_accessible_for_accessor(params[:id]) }
   end
 
   def create
@@ -83,17 +83,13 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.persisted?
-        broadcast "/channels/#{configatron.faye.channels.check_ins}", \
-                  { 
-                    event_type: "check_in", 
-                    id: @check_in.id,
-                    data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
-                  }
+        broadcast @check_in, "check_in"
+
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
-        format.js { render "error" }
+        format.js   { render "error" }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -105,18 +101,14 @@ class Dashboard::CheckInsController < DashboardController
 
     respond_to do |format|
       if @check_in.errors.empty?
-        broadcast "/channels/#{configatron.faye.channels.check_ins}", \
-                  { 
-                    event_type: "check_out", 
-                    id: @check_in.id,
-                    data: VolunteerDatatable.new(view_context).html_row_from_record(@check_in)
-                  }
+        broadcast @check_in, "check_out"
+
         format.html { redirect_to :back, notice: 'Check in was successfully updated.' }
-        format.js { render 'successfully_updated' }
+        format.js   { render 'successfully_updated' }
         format.json { head :no_content }
       else
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
-        format.js { render "error" }
+        format.js   { render "error" }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -127,6 +119,7 @@ class Dashboard::CheckInsController < DashboardController
     params[:check_in][:user_schedule_id].split(',').each do |item|
       @check_in = service.create(user_schedule_id: item, status: params[:check_in][:status])
       break if @check_in.errors.present?
+      broadcast(@check_in, "check_in") if @check_in.errors.empty?
     end
 
     respond_to do |format|
@@ -145,15 +138,15 @@ class Dashboard::CheckInsController < DashboardController
     params[:check_in][:id].split(',').each do |item|
       @check_in = service.update(item, status: params[:check_in][:status])
       break if @check_in.errors.present?
+      broadcast(@check_in, "check_out") if @check_in.errors.empty?
     end
 
     respond_to do |format|
       if @check_in.errors.empty?
         format.html { redirect_to :back, notice: 'Check ins was successfully updated.' }
-        format.js { render 'successfully_updated' }
+        format.js   { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
         format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
@@ -172,35 +165,44 @@ class Dashboard::CheckInsController < DashboardController
 
   private
 
-  def set_scope
-    @scope = {
-      per: (params[:per] || DEFAULT_PER_PAGE).to_i,
-      page: (params[:page] || 1).to_i,
-      q: params[:q],
-      year: params[:year],
-      month: params[:month],
-      day: params[:day],
-      order_charity: params[:order_charity],
-      order_department: params[:order_department],
-      order_name: params[:order_name],
-      order_check_in: params[:order_check_in],
-      order_check_out: params[:order_check_out]
-    }
-  end
+    def set_scope
+      @scope = {
+        per: (params[:per] || DEFAULT_PER_PAGE).to_i,
+        page: (params[:page] || 1).to_i,
+        q: params[:q],
+        year: params[:year],
+        month: params[:month],
+        day: params[:day],
+        order_charity: params[:order_charity],
+        order_department: params[:order_department],
+        order_name: params[:order_name],
+        order_check_in: params[:order_check_in],
+        order_check_out: params[:order_check_out]
+      }
+    end
 
-  def volunteer_manager?
-    redirect_to :root unless current_user.has_any_role? :volunteer_manager, :super_admin, :org_admin, :event_admin, :department_manager, :department_assistant
-  end
+    def broadcast(obj, event_type)
+      super "/channels/#{configatron.faye.channels.check_ins}", \
+            { 
+              event_type: event_type, 
+              id: obj.id,
+              data: VolunteerDatatable.new(view_context).html_row_from_record(obj)
+            }
+    end
 
-  def fastpass_acessible
-    redirect_to :root unless can?(:manage_fastpass, current_user)
-  end
+    def volunteer?
+      redirect_to :root if current_user.has_role? :volunteer
+    end
 
-  def check_ins_service
-    @service ||= CheckInsService.new(as: current_user)
-  end
+    def fastpass_acessible
+      redirect_to :root unless can?(:manage_fastpass, current_user)
+    end
 
-  def csv_service
-    @csv_service ||= CsvExporterService.new
-  end
+    def check_ins_service
+      @service ||= CheckInsService.new(as: current_user)
+    end
+
+    def csv_service
+      @csv_service ||= CsvExporterService.new
+    end
 end

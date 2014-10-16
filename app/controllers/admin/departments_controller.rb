@@ -1,7 +1,7 @@
 class Admin::DepartmentsController < Admin::BaseController
 
   def index
-    service = DepartamentService.new
+    service = DepartmentService.new
     select = OpenStruct.new(estimate_hours: true)
     @departments = service.prepare_data(select)
 
