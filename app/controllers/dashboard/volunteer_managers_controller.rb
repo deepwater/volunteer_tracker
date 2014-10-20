@@ -6,7 +6,7 @@ class Dashboard::VolunteerManagersController < DashboardController
     respond_to do |format|
       if @volunteer_manager.save
         format.html { redirect_to dashboard_department_block_path(@volunteer_manager.department_block), notice: 'Volunteer Manager was successfully created.' }
-        format.json { redirect_to dashboard_department_block_path(@volunteer_manager.department_block), notice: 'Volunteer Manager was successfully created.' }
+        format.json { render json: @volunteer_manager, status: :created, location: @volunteer_manager.department_block }
       else
         format.html { render action: "new" }
         format.json { render json: @volunteer_manager.errors, status: :unprocessable_entity }

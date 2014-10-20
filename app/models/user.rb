@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
       when 'department_manager'
         self.volunteer_manager ? self.volunteer_manager : ""
         self.department_assistant ? self.department_assistant.destroy : ""
-      when 'event_manager'
+      when 'event_admin'
         self.volunteer_manager ? self.volunteer_manager : ""
         self.department_assistant ? self.department_assistant.destroy : ""
         self.department_manager ? self.department_manager.destroy : ""

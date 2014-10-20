@@ -1,7 +1,5 @@
 class Admin::DepartmentManagersController < Admin::BaseController
 
-  # POST /department_managers
-  # POST /department_managers.json
   def create
     @department_manager = DepartmentManager.new(params[:department_manager])
 

@@ -1,4 +1,5 @@
 class Department < ActiveRecord::Base
+  resourcify
 	has_many :department_managers
 	has_many :department_assistants
 
