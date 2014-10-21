@@ -6,4 +6,4 @@
       = simple_form_for [:admin, DepartmentAssistant.new], html: { data: { type: :json } do |f|
         = f.input :user_id, as: :hidden, input_html: { value: user.id }
         = f.input :department_id, as: :hidden, input_html: { value: @department.id }
-        = f.button :submit, class: 'btn btn-success', input_html: { value: 'Assign' }
+        = f.button :submit, 'Assign', class: 'btn btn-success'

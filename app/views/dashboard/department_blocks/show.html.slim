@@ -149,12 +149,11 @@
                 tr
                   td= user.full_name
                   td
-                    = form_for [:dashboard, VolunteerManager.new], html: { data: { type: :json } } do |f|
-                      = f.hidden_field :user_id, value: user.id
-                      = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
+                    = simple_form_for [:dashboard, VolunteerManager.new], html: { data: { type: :json } } do |f|
+                      = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                      = f.input :department_block_id, as: :hidden, input_html: { value: @show_action_data.department_block.id }
 
-                      = button_tag type: "submit", class: 'btn btn-success' do
-                        ' Assign
+                      = f.button :submit, 'Assign', class: 'btn btn-success'
 
 = javascript_include_tag "libs/DYMO.Label.Framework.latest.js"
 

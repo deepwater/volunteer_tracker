@@ -62,7 +62,7 @@ VolunteerTracker::Application.routes.draw do
 
     # ROLES
     resources :department_assistants, only: [:create, :destroy, :restrict]
-    resources :volunteer_managers, only: [:index]
+    resources :volunteer_managers, only: [:create, :destroy]
     resources :volunteers, only: [:index]
     resources :users
 

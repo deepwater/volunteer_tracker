@@ -7,7 +7,6 @@ class Department < ActiveRecord::Base
 
 	def estimated_hours
 		total = 0
-
 		self.department_blocks.each do |department_block|
 			start_time = Time.parse(department_block.start_time)
 			end_time = Time.parse(department_block.end_time)
@@ -19,29 +18,22 @@ class Department < ActiveRecord::Base
 				total += department_block.suggested_number_of_workers * duration_in_hours
 			end
 		end
-
 		return total
 	end
 
 	def total_department_block_slots
-
 		count = 0
-
 		self.department_blocks.each do |department_block|
 			count = count + department_block.suggested_number_of_workers.to_i
 		end
-
 		count
 	end
 
 	def scheduled_department_block_slots
-
 		count = 0
-
 		self.department_blocks.each do |department_block|
-			count= count + department_block.user_schedules.length
+			count = count + department_block.user_schedules.length
 		end
-
 		count
 	end
 end
