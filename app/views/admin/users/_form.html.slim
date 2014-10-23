@@ -14,7 +14,7 @@
     = f.input :organisation_id, as: :hidden, input_html: { value: Organisation.first.try(:id) }
     = f.input :role, collection: Role::ROLES, include_blank: false
 
-    - show_department_collection = @user.has_any_role? :department_manager, :department_assistant, :any
+    - show_department_collection = @user.has_role?(:department_manager, :any) || @user.has_role?(:department_assistant, :any)
     - show_department_block_collection = @user.has_role? :volunteer_manager, :any
     #department_collection style="display: #{show_department_collection ? 'block' : 'none'}"
       = f.input :resource_type, as: :hidden, input_html: { value: "Department" }, disabled: !show_department_collection

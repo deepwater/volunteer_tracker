@@ -48,16 +48,15 @@ class User < ActiveRecord::Base
 
   def default_values
     self.role ||= 'volunteer'
-    self.add_role self.role unless self.has_role? self.role
   end
 
   def reset_role_associations
     if (self.role_changed? || (resource_id && resource_type && !self.has_role?(self.role, resource_type.constantize.find(resource_id))))
-      self.roles = []
-
       if (resource_id && resource_type && !self.has_role?(self.role, resource_type.constantize.find(resource_id)))
+        self.roles = []
         self.add_role self.role, resource_type.constantize.find(resource_id)
       else
+        self.roles = []
         self.add_role self.role
 
         case self.role
@@ -92,7 +91,7 @@ class User < ActiveRecord::Base
     when 'volunteer', 'event_admin', 'super_admin', 'org_admin'
       nil
     when 'volunteer_manager', 'department_manager'
-      roles.first.resource_id
+      roles.first.try(:resource_id)
     when 'department_assistant'
       Department.with_role(:department_assistant, self).try(:first).try(:id)
     end
