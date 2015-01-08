@@ -1,4 +1,8 @@
-set :dns_name, "beta.23stages.com"
+set :dns_name, "host.23stages.com"
+
+set :default_environment, {
+  'PATH' => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+}
 
 set :application, "volunteer"
 set :repository,  "git@github.com:omggroup/volunteer_tracker.git"
@@ -13,6 +17,8 @@ set :rails_env, 'staging'
 set :branch, `git rev-parse --abbrev-ref HEAD`.strip
 set :use_sudo, false
 
-set :user, 'ninja'
-set :password, 'DC93zpfqgkekHw'
+set :user, 'volunteer'
+set :password, 'PQTUV6sdfyF2qm9'
 set :port, 22
+
+set(:rbenv_ruby_version, '2.1.5')

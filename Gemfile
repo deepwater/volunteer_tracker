@@ -34,7 +34,7 @@ group :development do
   gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
-	gem 'debugger'
+	gem 'byebug'
   gem 'thin', '1.5.1'
 end
 

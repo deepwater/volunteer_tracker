@@ -1,3 +1,5 @@
+require 'capistrano-rbenv'
+
 set :dns_name, "162.243.66.189"
 
 set :application, "volunteer"
@@ -16,3 +18,5 @@ set :use_sudo, false
 set :user, 'ninja'
 set :password, 'B8M6GCTwpPpgVx'
 set :port, 22
+
+set(:rbenv_ruby_version, '2.1.0')
