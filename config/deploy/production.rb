@@ -3,7 +3,7 @@ require 'capistrano-rbenv'
 set :dns_name, "162.243.66.189"
 
 set :application, "volunteer"
-set :repository,  "git@github.com:omggroup/volunteer_tracker.git"
+set :repository,  "git@github.com:deepwater/volunteer_tracker.git"
 
 role :web, dns_name                          # Your HTTP server, Apache/etc
 role :app, dns_name                          # This may be the same as your `Web` server

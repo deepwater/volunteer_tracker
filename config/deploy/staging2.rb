@@ -4,7 +4,7 @@ set :default_environment, {
   'PATH' => "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
 }
 
-set :application, "volunteer"
+set :application, "volunteer2"
 set :repository,  "git@github.com:deepwater/volunteer_tracker.git"
 
 role :web, dns_name                          # Your HTTP server, Apache/etc
@@ -14,10 +14,10 @@ role :db,  dns_name, primary: true           # This is where Rails migrations wi
 set :deploy_to, "/data/#{application}"
 
 set :rails_env, 'staging'
-set :branch, `git rev-parse --abbrev-ref HEAD`.strip
+set :branch, 'sausalito'
 set :use_sudo, false
 
-set :user, 'volunteer'
+set :user, 'volunteer2'
 set :password, 'PQTUV6sdfyF2qm9'
 set :port, 22
 
