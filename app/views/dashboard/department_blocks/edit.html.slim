@@ -1,7 +1,7 @@
 .page-header
   h1 Editing Department Block
 
-  = form_for(@department_block, :url => dashboard_department_block_path, :html => {:class => 'form-horizontal'}) do |f|
+  = form_for( @department_block, url: dashboard_department_block_path, html: { class: 'form-horizontal clearfix' } ) do |f|
     .col-sm-8.col-sm-offset-2
       - if @department_block.errors.any?
         #error_explanation
@@ -14,25 +14,29 @@
         - if @department_block.department
           = f.hidden_field :department_id
         - else
-          = f.hidden_field :department_id, :value => @department.id     
+          = f.hidden_field :department_id, value: @department.id     
         .form-group
-          = f.label(:name, :class => 'control-label col-sm-3')
+          = f.label(:name, class: 'control-label col-sm-3')
           .col-sm-9
-            = f.text_field(:name)
+            = f.text_field(:name, class: 'form-control')
         .form-group
-          = f.label(:start_time, :class => 'control-label col-sm-3')
+          = f.label(:start_time, class: 'control-label col-sm-3')
           .col-sm-9
-            .input-append.bootstrap-timepicker
-              =f.text_field(:start_time, class:"timepicker input-small", value: in_twelve_hour_time(@department_block.start_time))
+            .input-group.date.bootstrap-timepicker
+              =f.text_field(:start_time, class: 'form-control', value: in_twelve_hour_time(@department_block.start_time))
+              span.input-group-addon
+                span.glyphicon.glyphicon-calendar
         .form-group
-          = f.label(:end_time, :class => 'control-label col-sm-3')
+          = f.label(:end_time, class: 'control-label col-sm-3')
           .col-sm-9
-            .input-append.bootstrap-timepicker
-              =f.text_field(:end_time, class:"timepicker input-small", value: in_twelve_hour_time(@department_block.end_time))
+            .input-group.date.bootstrap-timepicker
+              =f.text_field(:end_time, class: 'form-control', value: in_twelve_hour_time(@department_block.end_time))
+              span.input-group-addon
+                span.glyphicon.glyphicon-calendar
         .form-group
-          = f.label(:suggested_number_of_workers, :class => 'control-label col-sm-3')
+          = f.label(:suggested_number_of_workers, class: 'control-label col-sm-3')
           .col-sm-9
-            = f.number_field(:suggested_number_of_workers)
+            = f.number_field(:suggested_number_of_workers, class: 'form-control')
           .form-actions
             .col-sm-9.col-sm-offset-3
-              = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
+              = f.submit( class: 'btn btn-primary', value: "Save Changes" )

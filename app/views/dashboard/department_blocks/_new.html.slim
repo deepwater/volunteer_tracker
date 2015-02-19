@@ -1,4 +1,4 @@
-= form_for(@department_block, :url => dashboard_department_blocks_path, :html => {:class => 'form-horizontal clearfix'}) do |f|
+= form_for( @department_block, url: dashboard_department_blocks_path, html: { class: 'form-horizontal clearfix' } ) do |f|
   .col-sm-8.col-sm-offset-2
     - if @department_block.errors.any?
       #error_explanation
@@ -8,31 +8,35 @@
             li= msg
 
     fieldset
-      = f.hidden_field :day_id, :value => current_day.id
-      = f.hidden_field :department_id, :value => @department.id     
+      = f.hidden_field :day_id, value: current_day.id
+      = f.hidden_field :department_id, value: @department.id     
 
       .form-group
-        = f.label(:name, :class => 'col-sm-3 control-label')
+        = f.label(:name, class: 'col-sm-3 control-label')
         .col-sm-9
           = f.text_field(:name, class: 'form-control')
 
       .form-group
-        = f.label(:start_time, :class => 'col-sm-3 control-label')
+        = f.label(:start_time, class: 'col-sm-3 control-label')
         .col-sm-9
-          .input-append.bootstrap-timepicker
-            =f.text_field(:start_time, class:"timepicker timepicker-first input-small", value: "00:00", class: 'form-control')
+          .input-group.date.bootstrap-timepicker
+            =f.text_field(:start_time, class: 'input-small form-control')
+            span.input-group-addon
+              span.glyphicon.glyphicon-calendar
 
       .form-group
-        = f.label(:end_time, :class => 'col-sm-3 control-label')
+        = f.label(:end_time, class: 'col-sm-3 control-label')
         .col-sm-9
-          .input-append.bootstrap-timepicker
-            =f.text_field(:end_time, class:"timepicker timepicker-second input-small", value: "00:00", class: 'form-control')
+          .input-group.date.bootstrap-timepicker
+            =f.text_field(:end_time, class: 'form-control')
+            span.input-group-addon
+              span.glyphicon.glyphicon-calendar
 
       .form-group
-        = f.label(:suggested_number_of_workers, "Volunteers", :class => 'col-sm-3 control-label')
+        = f.label(:suggested_number_of_workers, "Volunteers", class: 'col-sm-3 control-label')
         .col-sm-9
           = f.number_field(:suggested_number_of_workers, class: 'form-control')
 
       .form-group
         .col-sm-9.col-sm-offset-3
-          = f.submit(:class => 'btn btn-primary', :value => "Save Changes")
+          = f.submit(class: 'btn btn-primary', value: "Save Changes")
