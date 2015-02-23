@@ -81,10 +81,6 @@ coffee:
               "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
 
           $(".timepicker").timepicker()
-          $(".delete-department-block").on "click", ->
-            setTimeout (->
-              window.location.reload()
-            ), 200
 
           $(".create_department_block").on "click", ->
             $el = undefined
@@ -94,7 +90,6 @@ coffee:
             setTimeout (->
               $el.focus()
             ), 300
-
 
 
     $("#department_block_department_chooser").change ->

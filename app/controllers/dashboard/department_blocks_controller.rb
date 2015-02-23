@@ -111,7 +111,6 @@
     @department_block.destroy
 
     respond_to do |format|
-      # format.html { redirect_to dashboard_department_url(@department_block.department) }
       format.html { redirect_to dashboard_department_url(@department_block.department) }
       format.json { head :no_content }
     end

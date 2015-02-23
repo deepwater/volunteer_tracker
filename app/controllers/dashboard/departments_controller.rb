@@ -42,6 +42,7 @@ class Dashboard::DepartmentsController < DashboardController
     @department_block = DepartmentBlock.new()
     @days = Day.all
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
+    render layout: false
   end
 
   private
