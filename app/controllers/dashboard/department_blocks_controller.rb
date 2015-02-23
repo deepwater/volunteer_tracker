@@ -80,7 +80,7 @@
 
     respond_to do |format|
       if @department_block.update_attributes(params[:department_block])
-        format.html { redirect_to dashboard_department_block_path(@department_block), notice: 'Department block was successfully updated.' }
+        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
