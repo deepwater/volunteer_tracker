@@ -1,5 +1,7 @@
 class Day < ActiveRecord::Base
 
+  default_scope order('date ASC')
+
   has_many :user_availabilities
   has_many :department_blocks
   has_many :user_schedules, through: :department_blocks
