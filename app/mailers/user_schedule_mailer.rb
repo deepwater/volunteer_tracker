@@ -15,4 +15,8 @@ class UserScheduleMailer < ActionMailer::Base
 
     mail(to: @user.email, cc: @user.secondary_email.to_s == '' ? nil : @user.secondary_email, from: configatron.noreply, subject: "You have been unscheduled!")
   end
+
+  def test_email
+    mail(to: "artem.gooscha@gmail.com", from: 'noreply@volunteer.gilroygarlicfestival.com', subject: "Volunteer Notice Explanation")
+  end
 end
