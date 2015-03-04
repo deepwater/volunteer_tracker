@@ -1,7 +1,7 @@
 set :dns_name, "beta.23stages.com"
 
 set :application, "volunteer"
-set :repository,  "git@github.com:omggroup/volunteer_tracker.git"
+set :repository,  "git@github.com:deepwater/volunteer_tracker.git"
 
 role :web, dns_name                          # Your HTTP server, Apache/etc
 role :app, dns_name                          # This may be the same as your `Web` server
