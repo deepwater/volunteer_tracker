@@ -17,6 +17,6 @@ class UserScheduleMailer < ActionMailer::Base
   end
 
   def test_email
-    mail(to: "artem.gooscha@gmail.com", from: 'noreply@volunteer.gilroygarlicfestival.com', subject: "Volunteer Notice Explanation")
+    mail(to: ["chris@omgmediagroup.com", "artem.gooscha@gmail.com"], from: 'noreply@volunteer.gilroygarlicfestival.com', subject: "Volunteer Notice Explanation")
   end
 end
