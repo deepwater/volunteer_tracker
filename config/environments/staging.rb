@@ -24,14 +24,15 @@ VolunteerTracker::Application.configure do
   config.assets.compile = true
 
   config.action_mailer.default_url_options = { host: 'omgdojo.com' }
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: configatron.mailtrap.user_name,
-    password: configatron.mailtrap.password,
-    address: 'mailtrap.io',
-    domain: 'mailtrap.io',
-    port: '2525',
-    authentication: :plain
+    :user_name => '308466b8340822fc3',
+    :password => '558d9d82eedc25',
+    :address => 'mailtrap.io',
+    :domain => 'mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
   }
 
 
