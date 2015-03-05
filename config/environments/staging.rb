@@ -21,9 +21,16 @@ VolunteerTracker::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  config.assets.compile =true
+  config.assets.compile = true
 
-  config.action_mailer.default_url_options = { :host => 'omgdojo.com' }
+  config.action_mailer.default_url_options = { host: 'omgdojo.com' }
+  config.action_mailer.smtp_settings = {
+    address: "mailtrap.io",
+    port: 2525,
+    authentication: :plain,
+    user_name: configatron.mailtrap.user_name,
+    password: configatron.mailtrap.password
+  }
 
 
   # Defaults to Rails.root.join("public/assets")
