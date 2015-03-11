@@ -15,7 +15,7 @@ table.table.table-bordered.table-striped
       tr
         td= link_to charity.name, admin_charity_path(charity)
         td= link_to 'Edit', edit_admin_charity_path(charity)
-        td= link_to 'Delete', admin_charity_path(charity), :method=> :delete, :'data-confirm' => 'Are you sure?'
+        td= link_to 'Delete', admin_charity_path(charity), method: :delete, data: { confirm: 'Are you sure?' }
         td= @schedules[charity.id]
 
 .pagination-wrapper

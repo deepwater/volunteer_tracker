@@ -27,8 +27,8 @@ VolunteerTracker::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name:      configatron.host,
-    password:       configatron.host,
+    user_name:      configatron.user_name,
+    password:       configatron.password,
     address:        'mailtrap.io',
     domain:         'mailtrap.io',
     port:           '2525',
