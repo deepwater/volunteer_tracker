@@ -54,7 +54,7 @@ coffee:
     firstHash = undefined
     reloadSchedule = undefined
     reloadSchedule = (dateid) ->
-      $.ajax "" + window.location.pathname + "/schedule/2014/" + dateid.slice(0, 2) + "/" + dateid.slice(2),
+      $.ajax "" + window.location.pathname + "/schedule/2015/" + dateid.slice(0, 2) + "/" + dateid.slice(2),
         type: "GET"
         dataType: "html"
         error: (jqXHR, textStatus, errorThrown) ->
