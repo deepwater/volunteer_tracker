@@ -23,7 +23,7 @@ VolunteerTracker::Application.configure do
 
   config.assets.compile = true
 
-  config.action_mailer.default_url_options = { host: configatron.host }
+  config.action_mailer.default_url_options = { host: 'volunteer2.23stages.com' }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
