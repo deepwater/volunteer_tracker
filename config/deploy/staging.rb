@@ -15,7 +15,7 @@ set :deploy_to, "/data/#{application}"
 set :deploy_via, :copy
 
 set :rails_env, 'staging'
-set :branch, `git rev-parse --abbrev-ref HEAD`.strip
+set :branch, 'saf_tracker'
 set :use_sudo, false
 
 set :user, 'volunteer'
