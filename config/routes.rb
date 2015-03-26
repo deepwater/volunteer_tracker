@@ -102,5 +102,14 @@ VolunteerTracker::Application.routes.draw do
     match 'departments/:id/export/:year/:month/:day' => "department_blocks#export"
     match 'departments/:id/schedule/:year/:month/:day' => "departments#schedule"
   end
-  root :to => 'dashboard#index'
+
+  authenticated :user do
+    root :to => 'dashboard#index'
+  end
+
+  unauthenticated do
+    devise_scope :user do
+      root :to => 'devise/sessions#new'
+    end
+  end
 end

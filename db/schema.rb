@@ -32,12 +32,6 @@ ActiveRecord::Schema.define(:version => 20140423044949) do
   add_index "check_ins", ["user_id"], :name => "index_check_ins_on_user_id"
   add_index "check_ins", ["user_schedule_id"], :name => "index_check_ins_on_user_schedule_id"
 
-  create_table "data_migrations", :id => false, :force => true do |t|
-    t.string "version", :null => false
-  end
-
-  add_index "data_migrations", ["version"], :name => "unique_data_migrations", :unique => true
-
   create_table "days", :force => true do |t|
     t.integer  "mday"
     t.integer  "month"
@@ -105,12 +99,6 @@ ActiveRecord::Schema.define(:version => 20140423044949) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.text     "email"
-  end
-
-  create_table "event_timeslots", :force => true do |t|
-    t.integer  "utc_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "events", :force => true do |t|
