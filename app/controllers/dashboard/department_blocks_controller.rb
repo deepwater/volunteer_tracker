@@ -15,6 +15,11 @@
   def show
     department_block = DepartmentBlock.find params[:id]
     raise ActionController::RoutingError.new('Not Found') unless can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
+
+    add_breadcrumb "Dashboard", dashboard_index_path
+    add_breadcrumb department_block.department.name,  dashboard_department_path(department_block.department,anchor: department_block.day.safe_short_date)
+    add_breadcrumb department_block.name, [:dashboard, department_block]
+
     service = DepartmentBlocksService.new
     scope = OpenStruct.new(
       id:               params[:id],
