@@ -3,10 +3,10 @@
 
 .row
   .col-sm-6 = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary'
-  .col-sm-6.text-right
-    = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
-      .inline-block = file_field_tag :file, class: 'form-control'
-      = submit_tag "Import", class: 'btn btn-primary'
+  / .col-sm-6.text-right
+  /   = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
+  /     .inline-block = file_field_tag :file, class: 'form-control'
+  /     = submit_tag "Import", class: 'btn btn-primary'
 
 table.table.table-bordered.table-striped#subaccounts_list_table
   thead
