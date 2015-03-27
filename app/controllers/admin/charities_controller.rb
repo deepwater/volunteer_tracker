@@ -62,9 +62,11 @@ class Admin::CharitiesController < Admin::BaseController
       if @charity.update_attributes(params[:charity])
         format.html { redirect_to admin_charity_path(@charity), notice: 'Charity was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @charity.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

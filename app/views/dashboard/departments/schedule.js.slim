@@ -23,7 +23,7 @@ table.table.table-bordered.table-striped id="blocks#{@day.safe_short_date}"
         td
           - if current_user.has_any_role? :department_manager, :super_admin, :event_admin, :org_admin
             .btn-group
-              = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
+              = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning", remote: true
               = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?', type: "json" })
 
 .separate-block

@@ -1,17 +1,18 @@
 = simple_form_for([:admin, @user], html: { class: 'form-horizontal' }) do |f|
-  .col-sm-8.col-sm-offset-2
-    = f.input :first_name
-    = f.input :last_name
-    = f.input :username
-    = f.input :cell_phone
-    = f.input :home_phone
-    = f.input :email
-    = f.input :adult
-    = f.input :password
-    = f.input :password_confirmation
-    = f.input :tshirt_size, collection: User::TSHIRT_SIZES
-    = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
-    = f.input :role, collection: Role::ROLES
-    .form-group
-      .col-sm-9.col-sm-offset-3
-        = f.button :submit, class: 'btn btn-primary'
+  .container-fluid
+    .col-sm-8.col-sm-offset-2
+      = f.input :first_name
+      = f.input :last_name
+      = f.input :username
+      = f.input :cell_phone
+      = f.input :home_phone
+      = f.input :email
+      = f.input :adult
+      = f.input :password
+      = f.input :password_confirmation
+      = f.input :tshirt_size, collection: User::TSHIRT_SIZES
+      = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
+      = f.input :role, collection: Role::ROLES
+      .form-group
+        .col-sm-9.col-sm-offset-3
+          = f.button :submit, class: 'btn btn-primary'

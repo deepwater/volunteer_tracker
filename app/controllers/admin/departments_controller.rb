@@ -71,9 +71,11 @@ class Admin::DepartmentsController < Admin::BaseController
       if @department.update_attributes(params[:department])
         format.html { redirect_to admin_department_path(@department), notice: 'Department was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @department.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
