@@ -48,6 +48,8 @@
     - @days.each_with_index do |day, index|
       div id="#{day.safe_short_date}" class=(index == 0 ? "active tab-pane" : "tab-pane")
 
+= render "shared/modal"
+
 coffee:
 
   window.initDepartmentsShowPage = ->

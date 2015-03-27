@@ -14,7 +14,7 @@ table.table.table-bordered.table-striped
     - charities.each do |charity|
       tr
         td= link_to charity.name, admin_charity_path(charity)
-        td= link_to 'Edit', edit_admin_charity_path(charity)
+        td= link_to 'Edit', edit_admin_charity_path(charity), remote: true
         td= link_to 'Delete', admin_charity_path(charity), method: :delete, data: { confirm: 'Are you sure?' }
         td= @schedules[charity.id]
 

@@ -9,6 +9,9 @@ $ ->
       bSortable: false
       aTargets: [5, 6]
     ]
-    oTableTools: 
+    oTableTools:
       "aButtons": [ "copy", "csv", "xls" ]
       "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
+
+
+  window.adminUserTable = oTable

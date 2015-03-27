@@ -33,6 +33,7 @@ class Admin::UsersController < Admin::BaseController
     respond_to do |format|
       format.html
       format.json { render json: @user }
+      format.js
     end
   end
 
@@ -64,9 +65,11 @@ class Admin::UsersController < Admin::BaseController
       if @user.update_attributes(params[:user])
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
