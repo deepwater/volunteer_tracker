@@ -8,7 +8,7 @@
   h2
     = @show_action_data.department_block.name
     - if current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager)
-      .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary'
+      .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary', remote: true
   p
     b Department
     '
@@ -159,6 +159,8 @@
 
                       = button_tag type: "submit", class: 'btn btn-success' do
                         ' Assign
+
+= render "shared/modal"
 
 = javascript_include_tag "libs/DYMO.Label.Framework.latest.js"
 

@@ -87,9 +87,11 @@
       if @department_block.update_attributes(params[:department_block])
         format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

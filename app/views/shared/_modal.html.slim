@@ -1,0 +1,29 @@
+.modal.fade.edit-modal
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+        h4.modal-title
+      .modal-body
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+        button.btn.btn-primary.edit-modal-save type="button"  Save changes
+
+
+    /! /.modal-content
+  /! /.modal-dialog
+/! /.modal
+
+javascript:
+  $(".edit-modal").on('hidden.bs.modal', function (e) {
+    $title = $(this).find(".modal-title")
+    $body = $(this).find(".modal-body")
+
+    $title.html("");
+    $body.html("");
+  });
+
+  $(".edit-modal .edit-modal-save").click(function(e){
+    $(".edit-modal form").submit();
+  });
