@@ -4,32 +4,7 @@
   ol.breadcrumb
     = render_breadcrumbs tag: :li, separator: ""
 
-.col-sm-4
-  h2
-    = @show_action_data.department_block.name
-    - if current_user.has_any_role?(:super_admin, :org_admin, :event_admin, :department_manager)
-      .pull-right = link_to 'Edit', edit_dashboard_department_block_path(@show_action_data.department_block), class: 'btn btn-sm btn-primary', remote: true
-  p
-    b Department
-    '
-    = @show_action_data.department_block.department.name
-  p
-    b Start time:
-    '
-    = in_twelve_hour_time(@show_action_data.department_block.start_time)
-    |-
-    = @show_action_data.department_block.day.short_date_with_day
-  p
-    b End time:
-    '
-    = in_twelve_hour_time(@show_action_data.department_block.end_time)
-    |-
-    = @show_action_data.department_block.day.short_date_with_day
-
-  p
-    b Maximum number of volunteers:
-    '
-    span.number_of_workers= suggested_number_of_workers
+.col-sm-12
 
   h3 Volunteer Managers
 
@@ -57,7 +32,6 @@
 
     =link_to "Save and Return to Blocks", dashboard_department_path(@show_action_data.department_block.department, anchor: @show_action_data.department_block.day.safe_short_date), class: "btn btn-primary"
 
-.col-sm-7.col-sm-offset-1
   h3 Scheduled Volunteers
 
   p
