@@ -20,20 +20,7 @@ VolunteerTracker::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  config.assets.compile =true
-
-  config.action_mailer.default_url_options = { host: 'volunteer.gilroygarlicfestival.com' }
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings   = {
-    address:              "smtp.mailgun.org",
-    port:                 587,
-    domain:               configatron.smtp.domain,
-    user_name:            configatron.smtp.username,
-    password:             configatron.smtp.password,
-    authentication:       :plain,
-    enable_starttls_auto: true  
-  }
+  config.assets.compile = true
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH

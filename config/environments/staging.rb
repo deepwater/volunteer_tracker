@@ -23,19 +23,6 @@ VolunteerTracker::Application.configure do
 
   config.assets.compile = true
 
-  config.action_mailer.default_url_options = { host: 'volunteer2.23stages.com' }
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name:      '308466b8340822fc3',
-    password:       '558d9d82eedc25',
-    address:        'mailtrap.io',
-    domain:         'mailtrap.io',
-    port:           '2525',
-    authentication: :cram_md5
-  }
-
-
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
