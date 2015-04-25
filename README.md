@@ -12,6 +12,7 @@
 ### Import DB
 
 There are 2 different application with separated DB:
+
 for ggf_tracker branch
 * `$ psql ggf_volunteer_tracker < ./db/ggf.psql`
 
@@ -23,6 +24,7 @@ master branch is provided for common functional (both saf and gaf applications)
 ## Deploy to staging
 
 Staging server of ggf_branch there - http://volunteer.23stages.com/
+
 Staging server of saf_branch there - http://volunteer2.23stages.com/
 
 Deploy ggf_tracker branch
