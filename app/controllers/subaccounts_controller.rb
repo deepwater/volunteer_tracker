@@ -26,6 +26,7 @@ class SubaccountsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @subaccount }
+      format.js
     end
   end
 
@@ -45,9 +46,11 @@ class SubaccountsController < ApplicationController
       if @subaccount.save
         format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully created.' }
         format.json { render json: @subaccount, status: :created, location: @subaccount }
+        format.js
       else
         format.html { render action: "new" }
         format.json { render json: @subaccount.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
