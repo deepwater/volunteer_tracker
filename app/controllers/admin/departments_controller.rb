@@ -1,5 +1,4 @@
 class Admin::DepartmentsController < Admin::BaseController
-  add_breadcrumb "Admin", :admin_root_path
 
   def index
     service = DepartamentService.new
@@ -16,8 +15,6 @@ class Admin::DepartmentsController < Admin::BaseController
   # GET /departments/1.json
   def show
     @department = Department.find(params[:id])
-
-    add_breadcrumb "#{@department.name}", admin_department_path(@department)
 
     @department_managers = User.includes(:department_manager).where(role: "department_manager")
     @department_managers.select!{|user| user.department_manager.nil? }
@@ -36,8 +33,6 @@ class Admin::DepartmentsController < Admin::BaseController
   # GET /departments/new.json
   def new
     @department = Department.new
-
-    add_breadcrumb "New Department", new_admin_department_path
 
     respond_to do |format|
       format.html # new.html.erb

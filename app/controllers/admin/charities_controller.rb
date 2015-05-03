@@ -1,5 +1,4 @@
 class Admin::CharitiesController < Admin::BaseController
-  add_breadcrumb "Admin", :admin_root_path
   # GET /charities
   # GET /charities.json
   def index
@@ -16,8 +15,6 @@ class Admin::CharitiesController < Admin::BaseController
   def show
     @charity = Charity.find(params[:id])
 
-    add_breadcrumb "#{@charity.name}", admin_charity_path(@charity)
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @charity }
@@ -28,8 +25,6 @@ class Admin::CharitiesController < Admin::BaseController
   # GET /charities/new.json
   def new
     @charity = Charity.new
-
-    add_breadcrumb "New Charity", new_admin_charity_path
 
     respond_to do |format|
       format.html # new.html.erb

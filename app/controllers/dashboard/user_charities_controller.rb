@@ -5,9 +5,6 @@ class Dashboard::UserCharitiesController < ApplicationController
     @user = params[:user_id].present? ? User.find(params[:user_id]) : current_user
   	@user_charity = UserCharity.new
     @charities = Charity.order('name')
-
-    add_breadcrumb "My Profile", :edit_profile_users_path
-    add_breadcrumb "Charities", :dashboard_user_charities_path
   end
 
 

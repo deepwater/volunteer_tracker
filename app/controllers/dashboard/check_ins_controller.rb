@@ -17,19 +17,15 @@ class Dashboard::CheckInsController < DashboardController
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @service = ScheduledCheckInsService.new(as: current_user)
     @results = @service.prepare_scheduled_data(@scope)
-    add_breadcrumb "Scheduled Volunteers", "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}"
   end
 
   def active
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @results = check_ins_service.prepare_check_ins_data(:active, @scope)
-
-    add_breadcrumb "Active Volunteers", "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}"
   end
 
   def inactive
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    add_breadcrumb "Inactive and Past Volunteers", "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}"
     respond_to do |format|
       format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
@@ -42,7 +38,6 @@ class Dashboard::CheckInsController < DashboardController
         )
       end
     end
-
   end
 
   def new
@@ -60,11 +55,9 @@ class Dashboard::CheckInsController < DashboardController
 
   def fastpass
     @check_in = CheckIn.new
-    add_breadcrumb "Fastpass Check-In", fastpass_dashboard_check_ins_path
   end
 
   def fastpass_out
-    add_breadcrumb "Fastpass Check-Out", dashboard_fastpass_check_out_path
   end
 
   def check_out
