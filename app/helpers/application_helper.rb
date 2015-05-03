@@ -4,7 +4,11 @@ module ApplicationHelper
     t = Time.parse(time)
     return t.strftime("%l:%M %p")
   end
-  
+
+  def pretty_role(role)
+    role.titleize.split("_").join.camelize
+  end
+
   def nav_link(link)
     recognized = Rails.application.routes.recognize_path(link)
     (recognized[:controller] == params[:controller] && recognized[:action] == params[:action]) ? "active" : ""
