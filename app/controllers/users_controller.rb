@@ -28,6 +28,7 @@ class UsersController < ApplicationController
   end
   
   def edit_profile
+    add_breadcrumb "My Profile", :edit_profile_users_path
     @user = User.find(current_user.id)
   end
 
