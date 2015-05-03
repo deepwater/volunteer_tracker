@@ -6,12 +6,12 @@
     .form-group
       .col-sm-9.col-sm-offset-3
         - if current_user.charities.any?
-          ' Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path}
+          ' Charity: #{current_user.charities.first.name} - #{link_to "Change Default Charity", dashboard_user_charities_path, class:"btn btn-primary"}
         - else
           ' You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
     .form-group
       .col-sm-9.col-sm-offset-3
-        = link_to "Change your password", edit_user_registration_path
+        = link_to "Change your password", edit_user_registration_path, class:"btn btn-primary"
     = f.input :first_name
     = f.input :last_name
     = f.input :username
