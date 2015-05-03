@@ -5,6 +5,8 @@ class SubaccountsController < ApplicationController
     @master = User.find(params[:user_id])
     @subaccounts = @master.subaccounts
 
+    add_breadcrumb "Subaccounts", user_subaccounts_path
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: SubaccountsDatatable.new(view_context) }
@@ -23,10 +25,16 @@ class SubaccountsController < ApplicationController
   def new
     @subaccount = current_user.subaccounts.build
 
+
+    # Add breadcrumbs for subaccounts
+    add_breadcrumb "Subaccounts", user_subaccounts_path
+    add_breadcrumb "New Subaccount", new_user_subaccount_path
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @subaccount }
     end
+
   end
 
   def edit

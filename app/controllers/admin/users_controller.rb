@@ -1,4 +1,5 @@
 class Admin::UsersController < Admin::BaseController
+  add_breadcrumb "Admin", :admin_root_path
 
   def index
     @users = User.all
@@ -12,14 +13,19 @@ class Admin::UsersController < Admin::BaseController
   def show
     @user = User.find(params[:id])
 
+    add_breadcrumb "#{@user.full_name}", admin_user_path(@user)
+
     respond_to do |format|
       format.html
       format.json { render json: @user }
     end
+
   end
 
   def new
     @user = User.new
+
+    add_breadcrumb "New User", new_admin_user_path
 
     respond_to do |format|
       format.html

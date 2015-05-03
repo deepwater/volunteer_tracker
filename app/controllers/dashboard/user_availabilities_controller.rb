@@ -18,6 +18,8 @@ class Dashboard::UserAvailabilitiesController < ApplicationController
     @setup_days = days.select { |day| day.day_type == 0}
     @festival_days = days.select { |day| day.day_type == 1}
     @tear_down_days = days.select { |day| day.day_type == 2}
+
+    add_breadcrumb "Availability", "/dashboard/user_availabilities"
   end
 
   def create
