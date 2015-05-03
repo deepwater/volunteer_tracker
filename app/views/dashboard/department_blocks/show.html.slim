@@ -1,6 +1,9 @@
 - suggested_number_of_workers = @show_action_data.department_block.suggested_number_of_workers
 
 .col-sm-12
+  ol.breadcrumb
+    = render_breadcrumbs tag: :li, separator: ""
+
   h3 Volunteer Managers
 
   - if @show_action_data.department_block.volunteer_managers.count == 0

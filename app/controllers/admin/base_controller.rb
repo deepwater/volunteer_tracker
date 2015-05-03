@@ -7,7 +7,6 @@ class Admin::BaseController < ApplicationController
   DEFAULT_PER_PAGE = 10
 
   def index
-    add_breadcrumb "Admin", :admin_root_path
   end
 
   def charity_tab

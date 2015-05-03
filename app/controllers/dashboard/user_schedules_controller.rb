@@ -3,7 +3,7 @@ class Dashboard::UserSchedulesController < ApplicationController
 
   def index
     @user_schedules = current_user.user_schedules.includes(:charity, department_block: [:department, :day])
-    add_breadcrumb  "Assignment Details", dashboard_user_schedules_path
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @user_schedules }
