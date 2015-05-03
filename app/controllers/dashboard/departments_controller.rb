@@ -16,6 +16,8 @@ class Dashboard::DepartmentsController < DashboardController
     @volunteer_hours = service.volunteer_hours_progress(@department.id)
     @days = Day.all
 
+    add_breadcrumb "#{@department.name}", dashboard_department_path(@department)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @department }

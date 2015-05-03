@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include UrlHelper
   protect_from_forgery
   # before_filter :current_organisation
+  add_breadcrumb "Dashboard", :root_path
 
   def after_sign_in_path_for(resource)
     if resource.username.present?
