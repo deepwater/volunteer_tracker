@@ -1,0 +1,19 @@
+//  Select the elements for re-use
+$modal = $('.edit-modal');
+$title = $modal.find('.modal-title');
+$body = $modal.find('.modal-body');
+
+// Set the title of the modal to an instance-relevant title
+title = 'Edit Profile';
+
+// Set the modal's title and body to the above values
+$title.html(title);
+$body.html("<%= escape_javascript(render partial: 'user_profile', locals: { user: @user}) %>");
+
+// Hide the submit button (it'd be a duplicate) and make the form remote
+$body.find('input[type="submit"]').hide();
+
+// Display the modal
+$modal.modal();
+
+
