@@ -1,5 +1,5 @@
-$table = $("#scheduled-check-ins-table-<%= @day.safe_short_date %>");
-$table.find("tbody").empty().append("<%= j(render('scheduled_items', scheduled: @results)) %>");
+$table = $("#inactive-check-ins-table-<%= @day.safe_short_date %>");
+$table.find("tbody").empty().append("<%= j(render('inactive', results: @results)) %>");
 
 $pagination = $("#pagination-<%= @day.safe_short_date %>")
 $pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
