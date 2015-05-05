@@ -13,32 +13,27 @@
 
 There are 2 different application with separated DB:
 
-for ggf_tracker branch
-* `$ psql ggf_volunteer_tracker < ./db/ggf.psql`
+for master branch
+* `$ psql volunteer_tracker < ./db/ggf_data.psql`
 
-for saf_tracker branch
-* `$ psql saf_volunteer_tracker < ./db/saf.psql`
-
-master branch is provided for common functional (both saf and gaf applications)
+for event_hub branch
+* `$ psql volunteer_tracker_event_hub < ./db/eh_data.psql`
 
 ## Deploy to staging
 
-Staging server of ggf_branch there - http://volunteer.23stages.com/
+Staging server of master there - http://volunteer.23stages.com/ (admin credentials - admin@example.com // password)
 
-Staging server of saf_branch there - http://volunteer2.23stages.com/
+Staging server of event_hub there - http://volunteer2.23stages.com/
 
-Deploy ggf_tracker branch
+Deploy master branch
 * $ `cap staging deploy`
 
-Deploy saf_tracker branch
+Deploy event_hub branch
 * $ `cap staging2 deploy`
 
 ## Deploy to production
-Deploy ggf_tracker_production branch
+Deploy master branch
 * $ `cap production deploy`
-
-Deploy saf_tracker_production branch (not presently configured)
-* $ `cap production2 deploy`
 
 ## Setup SSH Access
 * $ `brew install ssh-copy-id`

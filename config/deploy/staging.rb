@@ -15,7 +15,7 @@ set :deploy_to, "/data/#{application}"
 set :deploy_via, :copy
 
 set :rails_env, 'staging'
-set :branch, 'ggf_tracker'
+set :branch, 'master'
 set :use_sudo, false
 
 set :user, 'volunteer'
