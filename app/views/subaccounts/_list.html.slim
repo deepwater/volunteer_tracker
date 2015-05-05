@@ -2,7 +2,7 @@
   h1 Subaccounts List
 
 .row
-  .col-sm-6 = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary'
+  .col-sm-6 = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary', remote: true
   / .col-sm-6.text-right
   /   = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
   /     .inline-block = file_field_tag :file, class: 'form-control'
@@ -26,3 +26,5 @@ table.table.table-bordered.table-striped#subaccounts_list_table
         td = link_to 'Set availabilities', user_user_availabilities_path(subaccount)
         td = link_to 'Edit', edit_user_subaccount_path(current_user, subaccount)
         td = link_to 'Delete', user_subaccount_path(current_user, subaccount), method: :delete, confirm: "Are you sure?", remote: true
+        
+= render "shared/modal" 
