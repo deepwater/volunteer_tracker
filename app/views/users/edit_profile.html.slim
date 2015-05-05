@@ -1,5 +1,5 @@
 .page-header
-  h1 = "#{current_user.full_name} (#{current_user.role.camelize})"
+  h1 = "#{current_user.full_name} (#{pretty_role(current_user.role)})"
 
 = simple_form_for @user, url: registration_path(:user), method: :put, html: {class: 'form-horizontal', novalidate: true} do |f|
   fieldset.col-sm-8.col-sm-offset-2
