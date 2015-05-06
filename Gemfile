@@ -13,6 +13,9 @@ gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
 
+gem 'roo', '~> 2.0.0'
+gem 'roo-xls'
+
 gem 'haml', '4.0.3'
 gem 'slim'
 

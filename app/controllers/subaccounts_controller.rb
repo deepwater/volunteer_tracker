@@ -2,9 +2,6 @@ class SubaccountsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @master = User.find(params[:user_id])
-    @subaccounts = @master.subaccounts
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: SubaccountsDatatable.new(view_context) }
@@ -81,12 +78,15 @@ class SubaccountsController < ApplicationController
   end
 
   def import
-    return redirect_to user_subaccounts_url(current_user), alert: "File was not uploaded" if params[:file].blank? && params[:data].blank?
-    @subaccounts = current_user.subaccounts
-    service = Subaccounts::CsvImporter.new(as: current_user)
+    service = Subaccounts::Importer.new(as: current_user)
     @response = service.import(params)
-    if @response.status == :success
-      redirect_to user_subaccounts_url(current_user), notice: "#{@response.successfully_created} subaccounts imported."
+
+    if @response.not_valid_rows.present?
+      flash.now[:alert] = "We need a few corrections from you in order to fully import your list..."
+    elsif @response.errors.present?
+      redirect_to user_subaccounts_url(current_user), alert: "#{@response.errors.join(' ,')}"
+    else
+      redirect_to user_subaccounts_url(current_user), notice: "#{@response.created_count} subaccounts imported."
     end
   end
 

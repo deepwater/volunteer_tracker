@@ -8,7 +8,7 @@
       .inline-block = file_field_tag :file, class: 'form-control'
       = submit_tag "Import", class: 'btn btn-primary'
 
-table.table.table-bordered.table-striped#subaccounts_list_table
+table.table.table-bordered.table-striped#subaccounts_list_table data-source=(user_subaccounts_url(current_user, format: :json))
   thead
     tr
       th Username
@@ -18,13 +18,5 @@ table.table.table-bordered.table-striped#subaccounts_list_table
       th
       th
   tbody
-    - subaccounts.each do |subaccount|
-      tr
-        td = link_to subaccount.username, user_subaccount_path(current_user, subaccount)
-        td = subaccount.full_name
-        td = subaccount.charities.first.try(:name)
-        td = link_to 'Set availabilities', user_user_availabilities_path(subaccount)
-        td = link_to 'Edit', edit_user_subaccount_path(current_user, subaccount)
-        td = link_to 'Delete', user_subaccount_path(current_user, subaccount), method: :delete, confirm: "Are you sure?", remote: true
         
 = render "shared/modal" 

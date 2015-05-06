@@ -16,10 +16,7 @@ VolunteerTracker::Application.routes.draw do
     end
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
-      collection do
-        post :import
-        get :download
-      end
+      post :import, on: :collection
     end
   end
 
