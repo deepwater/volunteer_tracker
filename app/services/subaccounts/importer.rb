@@ -38,7 +38,7 @@ class Subaccounts::Importer
   def process_data_row(row)
     errors = {}
     errors[:charity] = "Charity is invalid" if Charity.find_by_name(row[7]).blank?
-    errors[:abilities] = "Subaccount with no availabilities" if row.slice(9, 12).compact.blank?
+    errors[:abilities] = "Subaccount with no availabilities" unless row.slice(9, 12).include?("yes")
     user = build_from_row(row)
     user.skip_confirmation!
     if user.valid?
@@ -78,7 +78,7 @@ class Subaccounts::Importer
 
   def set_availabilities(user, row)
     Day.all.each_with_index do |day, index|
-      day.user_availabilities.create(start_time: "00:00", end_time: "23:59", user_id: user.id) if row[index].present?
+      day.user_availabilities.create(start_time: "00:00", end_time: "23:59", user_id: user.id) if row[index] == 'yes'
     end
   end
 
