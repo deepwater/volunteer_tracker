@@ -1,23 +1,23 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.16'
+gem 'rails', '3.2.20'
 
 gem 'configatron', '2.13.0'
-gem 'data_migrate'
+gem 'data_migrate', '1.2.0'
 gem 'draper', '0.18.0'
 gem 'delayed_job_active_record', '0.4.4'
 gem 'pg', '0.17.1'
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', '3.7.1.182'
 
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
 
 gem 'roo', '~> 2.0.0'
-gem 'roo-xls'
+gem 'roo-xls', '1.0.0'
 
 gem 'haml', '4.0.3'
-gem 'slim'
+gem 'slim', '2.0.2'
 
 gem 'kaminari', '0.15.1'
 gem 'simple_form', '2.1.1'
@@ -25,20 +25,20 @@ gem 'simple_form', '2.1.1'
 gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
 gem 'ajax-datatables-rails', '0.0.1'
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'jquery-datatables-rails', '1.12.2'
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '3.3.4.1'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
 gem 'bootstrap-timepicker-rails', '0.1.3'
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
-gem "breadcrumbs_on_rails"
+gem 'breadcrumbs_on_rails', '2.3.0'
 
 group :development do
   gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
-	gem 'byebug'
+	gem 'byebug', '3.5.1'
   gem 'thin', '1.5.1'
 end
 
@@ -54,8 +54,8 @@ group :test do
 end
 
 group :production do
-	gem 'dalli'
-	gem 'memcachier'
+	gem 'dalli', '2.7.4'
+	gem 'memcachier', '0.0.2'
 end
 
 group :production, :staging do
@@ -63,10 +63,10 @@ group :production, :staging do
 end
 
 group :assets do
-	gem 'sass-rails'
+	gem 'sass-rails', '3.2.6'
 	gem 'coffee-rails', '~> 3.2.1'
 	gem 'haml-rails', '0.4'
 	gem 'uglifier', '>= 1.0.3'
-	gem 'therubyracer', platforms: :ruby, require: 'v8'
-  gem 'turbo-sprockets-rails3'
+	gem 'therubyracer', '0.12.1', platforms: :ruby, require: 'v8'
+  gem 'turbo-sprockets-rails3', '0.3.14'
 end
