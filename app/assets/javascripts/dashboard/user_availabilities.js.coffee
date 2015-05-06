@@ -6,7 +6,7 @@ $ ->
     first_time = $(@).find('.timepicker-first').val()
     second_time = $(@).find('.timepicker-second').val()
 
-    difference = Date.parse("01/01/2014 " +second_time) - Date.parse("01/01/2014 " +first_time)
+    difference = Date.parse("01/01/2015 " +second_time) - Date.parse("01/01/2015 " +first_time)
 
     if difference == 0 or difference < 0
       alert "Please enter an End time that is after the Start time"
@@ -19,13 +19,13 @@ $ ->
     $matchingTable.find('tbody tr').each (index, element) =>
       $tableColumns = $(element).children('td')
 
-      startTime = Date.parse("01/01/2014 " +$($tableColumns[0]).text())
-      endTime = Date.parse("01/01/2014 " +$($tableColumns[1]).text())
+      startTime = Date.parse("01/01/2015 " +$($tableColumns[0]).text())
+      endTime = Date.parse("01/01/2015 " +$($tableColumns[1]).text())
 
       arrayOfTimes.push {start_time:startTime, end_time: endTime}
 
-      new_start_time = Date.parse("01/01/2014 " +first_time)
-      new_end_time = Date.parse("01/01/2014 " +second_time)
+      new_start_time = Date.parse("01/01/2015 " +first_time)
+      new_end_time = Date.parse("01/01/2015 " +second_time)
 
 
       $.each arrayOfTimes, (index, element) ->

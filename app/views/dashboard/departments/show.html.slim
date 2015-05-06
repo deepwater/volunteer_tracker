@@ -48,13 +48,15 @@
     - @days.each_with_index do |day, index|
       div id="#{day.safe_short_date}" class=(index == 0 ? "active tab-pane" : "tab-pane")
 
+= render "shared/modal"
+
 coffee:
 
   window.initDepartmentsShowPage = ->
     firstHash = undefined
     reloadSchedule = undefined
     reloadSchedule = (dateid) ->
-      $.ajax "" + window.location.pathname + "/schedule/2014/" + dateid.slice(0, 2) + "/" + dateid.slice(2),
+      $.ajax "" + window.location.pathname + "/schedule/2015/" + dateid.slice(0, 2) + "/" + dateid.slice(2),
         type: "GET"
         dataType: "html"
         error: (jqXHR, textStatus, errorThrown) ->
@@ -77,14 +79,10 @@ coffee:
               ]
             ]
             oTableTools:
-              "aButtons": [ "copy", "csv", "xls" ]
-              "sSwfPath": "/datatables/copy_csv_xls_pdf.swf"
+              aButtons : [ "copy", "csv", "xls", "pdf" ]
+              sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
 
           $(".timepicker").timepicker()
-          $(".delete-department-block").on "click", ->
-            setTimeout (->
-              window.location.reload()
-            ), 200
 
           $(".create_department_block").on "click", ->
             $el = undefined
@@ -94,7 +92,6 @@ coffee:
             setTimeout (->
               $el.focus()
             ), 300
-
 
 
     $("#department_block_department_chooser").change ->

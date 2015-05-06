@@ -13,13 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20140423044949) do
 
-  create_table "blog_posts", :force => true do |t|
-    t.integer  "user_id"
-    t.text     "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "charities", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -112,6 +105,12 @@ ActiveRecord::Schema.define(:version => 20140423044949) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.text     "email"
+  end
+
+  create_table "event_timeslots", :force => true do |t|
+    t.integer  "utc_date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "events", :force => true do |t|

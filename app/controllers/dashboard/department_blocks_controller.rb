@@ -15,6 +15,11 @@
   def show
     department_block = DepartmentBlock.find params[:id]
     raise ActionController::RoutingError.new('Not Found') unless can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
+
+    add_breadcrumb "Dashboard", dashboard_index_path
+    add_breadcrumb department_block.department.name,  dashboard_department_path(department_block.department,anchor: department_block.day.safe_short_date)
+    add_breadcrumb department_block.name, [:dashboard, department_block]
+
     service = DepartmentBlocksService.new
     scope = OpenStruct.new(
       id:               params[:id],
@@ -80,11 +85,13 @@
 
     respond_to do |format|
       if @department_block.update_attributes(params[:department_block])
-        format.html { redirect_to dashboard_department_block_path(@department_block), notice: 'Department block was successfully updated.' }
+        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -111,7 +118,6 @@
     @department_block.destroy
 
     respond_to do |format|
-      # format.html { redirect_to dashboard_department_url(@department_block.department) }
       format.html { redirect_to dashboard_department_url(@department_block.department) }
       format.json { head :no_content }
     end

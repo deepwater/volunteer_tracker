@@ -6,7 +6,8 @@
       = select_tag :on_behalf, options_for_select([["Master account: #{current_user.master.full_name}", current_user.master.id]] + current_user.master.subaccounts.map {|u| ["Sub account: #{u.full_name}", u.id]}, current_user.id)
   h1
     ' #{current_user.full_name}
-    small = current_user.role.camelize
+    small = pretty_role(current_user.role)
+    = link_to "Edit Profile", edit_profile_users_url, class: "btn btn-primary btn-edit", remote: true
 
 ul.thumbnails.nav
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
@@ -29,6 +30,8 @@ ul.thumbnails.nav
   /   = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
+
+= render "shared/modal"
 
 javascript:
   $(function() {

@@ -1,0 +1,34 @@
+= simple_form_for user, url: registration_path(:user), method: :put, html: {class: 'form-horizontal clearfix', novalidate: true} do |f|
+  fieldset.col-sm-8.col-sm-offset-2
+
+    .form-group
+      .col-sm-3
+        = f.label "Charity"
+      .col-sm-9
+        - if current_user.charities.any?
+          '#{current_user.charities.first.name} #{link_to "Change default charity", dashboard_user_charities_path, class:"btn btn-xs btn-primary"}
+        - else
+          ' You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
+
+
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :username
+    = f.input :cell_phone
+    = f.input :home_phone
+    = f.input :email
+    = f.input :adult, input_html: { checked: current_user.adult }
+    = f.input :secondary_email, as: :string, hint: "(If you would like to send email notifications to a second email)"
+    = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
+    = f.input :tshirt_size, collection: User::TSHIRT_SIZES
+
+    .form-group
+      .col-sm-9.col-sm-offset-3
+
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = link_to "Change your password", edit_user_registration_path, class:"btn btn-primary"
+
+    .form-group
+      .col-sm-9.col-sm-offset-3
+        = f.button :submit, class: 'btn btn-primary'

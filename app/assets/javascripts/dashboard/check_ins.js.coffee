@@ -3,4 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('.bootstrap-timepicker').datetimepicker()
+  $('.bootstrap-timepicker').datetimepicker
+  	format: "hh:mm a"

@@ -13,7 +13,7 @@ table.table.table-bordered.table-striped
       tr
         td= link_to organisation.name, admin_organisation_path(organisation)
         td= link_to 'Edit', edit_admin_organisation_path(organisation)
-        td= link_to 'Delete', admin_organisation_path(organisation), :method=> :delete, :'data-confirm' => 'Are you sure?'
+        td= link_to 'Delete', admin_organisation_path(organisation), method: :delete, data: { confirm: 'Are you sure?' }
 
 .pagination-wrapper
   #pagination

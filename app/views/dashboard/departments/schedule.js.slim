@@ -1,5 +1,5 @@
 h3 = @day.short_date_with_long_day
-table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#{@day.safe_short_date}"
+table.table.table-bordered.table-striped id="blocks#{@day.safe_short_date}"
   thead
     th Name
     th Start Time
@@ -22,8 +22,9 @@ table.table.table-bordered.table-striped.dataTablesWithoutPagination id="blocks#
           = department_block.suggested_number_of_workers
         td
           - if current_user.has_any_role? :department_manager, :super_admin, :event_admin, :org_admin
-            = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning"
-            = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger delete-department-block", method: :delete, data: { confirm: 'Are you sure?', type: "json" })
+            .btn-group
+              = link_to 'Edit', edit_dashboard_department_block_path(department_block), class: "btn btn-warning", remote: true
+              = link_to('Delete', dashboard_department_block_path(department_block), remote: true, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?', type: "json" })
 
 .separate-block
 

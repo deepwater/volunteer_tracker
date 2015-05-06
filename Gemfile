@@ -13,6 +13,9 @@ gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
 
+gem 'roo', '~> 2.0.0'
+gem 'roo-xls'
+
 gem 'haml', '4.0.3'
 gem 'slim'
 
@@ -27,14 +30,15 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 gem 'bootstrap-sass'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
 gem 'bootstrap-timepicker-rails', '0.1.3'
-gem 'momentjs-rails', '>= 2.8.1'
-gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
+gem "breadcrumbs_on_rails"
 
 group :development do
   gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false
 	gem 'capistrano-rbenv', require: false
-	gem 'debugger'
+	gem 'byebug'
   gem 'thin', '1.5.1'
 end
 
