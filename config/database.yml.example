@@ -1,7 +1,7 @@
 defaults: &defaults
   adapter: postgresql
   encoding: utf8
-  database: volunteer_tracker
+  database: volunteer_tracker_event_hub
   host: 127.0.0.1
 
 development:

@@ -15,7 +15,7 @@ set :deploy_to, "/data/#{application}"
 set :deploy_via, :copy
 
 set :rails_env, 'staging'
-set :branch, 'master'
+set :branch, 'events-hub'
 set :use_sudo, false
 
 set :user, 'volunteer'
