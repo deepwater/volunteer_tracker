@@ -28,8 +28,8 @@ class UsersDatatable < AjaxDatatablesRails
         "#{user.email}<br>#{user.secondary_email}",
         user.username,
         user.last_sign_in_at ? user.last_sign_in_at.to_formatted_s(:long_ordinal) : "Has not been logged yet",
-        %w[department_assistant department_manager].include?(user.role) && user.role.present? ? "#{user.role} (#{user.send(user.role).department.name})" : user.role,
-        user.charities.any? ? user.charities.first.name : "Not assigned",
+        %w[department_assistant department_manager].include?(user.role) ? user_role_with_department_name(user) : user.role,
+        user.charities.any? ? user.charities.first.try(:name) : "Not assigned",
         link_to('Edit', edit_admin_user_path(user), remote: true),
         link_to('Delete', admin_user_path(user), method: :delete, confirm: "Are you sure you want to delete this user?", remote: true)
       ]
@@ -66,5 +66,13 @@ class UsersDatatable < AjaxDatatablesRails
 
   def get_raw_record_count
     search_records(get_raw_records).count
+  end
+
+  def user_role_with_department_name(user)
+    if user.send(user.role).try(:department).present?
+      "#{user.role} (#{user.send(user.role).department.name})"
+    else
+      "#{user.role} (Not assigned to any department)"
+    end
   end
 end
