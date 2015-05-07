@@ -1,3 +1,9 @@
+- if current_user.transfer_status == "PENDING"
+  .alert.alert-warning.clearfix
+    span You have pending transfers.
+    = link_to "Accept", accept_transfer_dashboard_become_users_path(user_id: current_user.id), class: 'btn btn-success btn-margin'
+    = link_to "Decline", decline_transfer_dashboard_become_users_path(user_id: current_user.id), class: 'btn btn-danger btn-margin'
+
 .page-header
   .pull-right.switcher
     - if current_user.master?
@@ -7,7 +13,7 @@
   h1
     ' #{current_user.full_name}
     small = pretty_role(current_user.role)
-    = link_to "Edit Profile", edit_profile_users_url, class: "btn btn-primary btn-edit", remote: true
+    = link_to "Edit Profile", edit_profile_users_url, class: "btn btn-primary btn-margin", remote: true
 
 ul.thumbnails.nav
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager

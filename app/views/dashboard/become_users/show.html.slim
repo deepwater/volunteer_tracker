@@ -1,0 +1,18 @@
+- if @user.subaccounts.present?
+  .col-md-8.col-md-offset-2
+    .thumbnail
+      .caption.clearfix
+        h2 Please select the subaccounts you wish to transfer
+        = simple_form_for :user, url: edit_dashboard_become_user_url, method: :get, html: {class: '', novalidate: true}, remote: true do |f|
+          = f.input 'subaccount_ids',
+                    as: :check_boxes,
+                    collection: @user.subaccounts,
+                    label_method: :full_name,
+                    value_method: :id,
+                    include_blank: false,
+                    label: "Subaccounts"
+          = f.submit "Select User to Transfer", class: 'btn btn-primary pull-right'
+  = render "user_modal"
+- else
+  h2 There are no subaccounts for this user.
+  = link_to "Go Back", :back

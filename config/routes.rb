@@ -86,9 +86,18 @@ VolunteerTracker::Application.routes.draw do
         post :create_batch
       end
     end
+
+    resources :become_users, only: [:index, :show, :update, :edit] do
+      collection do
+        get :accept_transfer
+        get :decline_transfer
+      end
+    end
+
     match 'check_ins/scheduled/:year/:month/:day' => "check_ins#scheduled"
     match 'check_ins/active/:year/:month/:day' => "check_ins#active"
     match 'check_ins/inactive/:year/:month/:day' => "check_ins#inactive"
+
 
     get 'check_outs/fastpass' => "check_ins#fastpass_out", as: :fastpass_check_out
     post 'check_outs' => "check_ins#check_out", as: :check_out
