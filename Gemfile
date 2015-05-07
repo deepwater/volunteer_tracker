@@ -5,7 +5,6 @@ gem 'rails', '3.2.20'
 gem 'configatron', '2.13.0'
 gem 'data_migrate', '1.2.0'
 gem 'draper', '0.18.0'
-gem 'delayed_job_active_record', '0.4.4'
 gem 'pg', '0.17.1'
 gem 'newrelic_rpm', '3.7.1.182'
 
