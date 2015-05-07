@@ -28,7 +28,7 @@ class Admin::BaseController < ApplicationController
   end
 
   def department_tab
-    service = DepartamentService.new
+    service = DepartmentService.new
     select = OpenStruct.new(
       total_slots: true,
       estimate_hours: true,
@@ -41,7 +41,7 @@ class Admin::BaseController < ApplicationController
   def list
     respond_to do |format|
       format.html
-      format.json { render json: UsersDatatable.new(view_context)}
+      format.json { render json: UserDatatable.new(view_context) }
     end
   end
 

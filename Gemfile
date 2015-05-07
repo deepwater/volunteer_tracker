@@ -8,6 +8,8 @@ gem 'draper', '0.18.0'
 gem 'pg', '0.17.1'
 gem 'newrelic_rpm', '3.7.1.182'
 
+gem 'faye', '~> 1.0.3'
+
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
@@ -22,8 +24,8 @@ gem 'simple_form', '2.1.1'
 
 gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
-gem 'ajax-datatables-rails', '0.0.1'
-gem 'jquery-datatables-rails', '1.12.2'
+gem 'jquery-datatables-rails', '2.2.3'
+gem 'ajax-datatables-rails', '0.2.0'
 
 gem 'bootstrap-sass', '3.1.1.1'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'

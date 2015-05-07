@@ -26,7 +26,9 @@
           td= volunteer_manager.user.username
           td
             - if @show_action_data.volunteer_managers[volunteer_manager.user_id].present?
-              = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), confirm: 'Are you sure?', method: :delete, data: { type: "json" }, class: 'unassign-volunteer-manager btn btn-danger'
+              = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), data: { confirm: 'Are you sure?', type: :json }, class: 'unassign-volunteer-manager btn btn-danger'
+
+    =link_to "Save and Return to Blocks", dashboard_department_path(@show_action_data.department_block.department, anchor: @show_action_data.department_block.day.safe_short_date), class: "btn btn-primary"
 
   h3 Scheduled Volunteers
 
@@ -58,7 +60,7 @@
           td= user.username
           td
             - if @show_action_data.user_schedules[user.id].present?
-              = link_to 'Unschedule', dashboard_user_schedule_path(@show_action_data.user_schedules[user.id]), confirm: 'Are you sure?', method: :delete, data: { type: "json" }, class: 'unschedule-user btn btn-danger'
+              = link_to 'Unschedule', dashboard_user_schedule_path(@show_action_data.user_schedules[user.id]), data: { confirm: 'Are you sure?', type: :json }, class: 'unschedule-user btn btn-danger'
             |&nbsp;
             = link_to 'Print', dymo_dashboard_user_schedule_path(@show_action_data.user_schedules[user.id], format: :xml), class: "btn btn-info print-dymo-label"
 
@@ -125,12 +127,11 @@
                 tr
                   td= user.full_name
                   td
-                    = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
-                      = f.hidden_field :user_id, value: user.id
-                      = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
+                    = simple_form_for [:dashboard, VolunteerManager.new], html: { data: { type: :json } } do |f|
+                      = f.input :user_id, as: :hidden, input_html: { value: user.id }
+                      = f.input :department_block_id, as: :hidden, input_html: { value: @show_action_data.department_block.id }
 
-                      = button_tag type: "submit", class: 'btn btn-success' do
-                        ' Assign
+                      = f.button :submit, 'Assign', class: 'btn btn-success'
 
 = render "shared/modal"
 

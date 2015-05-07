@@ -1,4 +1,5 @@
 class DepartmentBlock < ActiveRecord::Base
+  resourcify
   belongs_to :department
   belongs_to :day
 

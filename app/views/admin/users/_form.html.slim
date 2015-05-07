@@ -1,4 +1,4 @@
-= simple_form_for([:admin, @user], html: { class: 'form-horizontal' }) do |f|
+= simple_form_for [:admin, @user], html: { class: 'form-horizontal' } do |f|
   .container-fluid
     .col-sm-8.col-sm-offset-2
       = f.input :first_name
@@ -6,13 +6,41 @@
       = f.input :username
       = f.input :cell_phone
       = f.input :home_phone
+      = f.association :charities, collection: Charity.order('name'), as: :select, input_html: { multiple: false, size: 1 }, include_blank: false
       = f.input :email
       = f.input :adult
       = f.input :password
       = f.input :password_confirmation
       = f.input :tshirt_size, collection: User::TSHIRT_SIZES
-      = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
-      = f.input :role, collection: Role::ROLES
+      = f.input :organisation_id, as: :hidden, input_html: { value: Organisation.first.try(:id) }
+      = f.input :role, collection: Role::ROLES, include_blank: false
+
+      - show_department_collection = @user.has_role?(:department_manager, :any) || @user.has_role?(:department_assistant, :any)
+      - show_department_block_collection = @user.has_role? :volunteer_manager, :any
+      #department_collection style="display: #{show_department_collection ? 'block' : 'none'}"
+        = f.input :resource_type, as: :hidden, input_html: { value: "Department" }, disabled: !show_department_collection
+        = f.input :resource_id, collection: Department.all, label_method: :name, value_method: :id, label: 'Resource', \
+                  disabled: !show_department_collection, selected: @user.get_resource_id, include_blank: false
+      #department_block_collection style="display: #{show_department_block_collection ? 'block' : 'none'}"
+        = f.input :resource_type, as: :hidden, input_html: { value: "DepartmentBlock" }, disabled: !show_department_block_collection
+        = f.input :resource_id, collection: DepartmentBlock.all.map(&:decorate), label_method: :name_with_date_and_period, value_method: :id, \
+                  label: 'Resource', disabled: !show_department_block_collection, selected: @user.get_resource_id, include_blank: false
       .form-group
         .col-sm-9.col-sm-offset-3
           = f.button :submit, class: 'btn btn-primary'
+
+coffee:
+  $ ->
+    $(document).on 'change', '#user_role', (e)->
+      $departmentsEl = $('#department_collection')
+      $departmentBlocksEl = $('#department_block_collection')
+
+      $departmentsEl.hide().find('select, input').prop('disabled', 'disabled')
+      $departmentBlocksEl.hide().find('select, input').prop('disabled', 'disabled')
+
+      switch $(e.target).val()
+        when "department_manager", "department_assistant"
+          $departmentsEl.show().find('select, input').removeAttr('disabled')
+        when "volunteer_manager"
+          $departmentBlocksEl.show().find('select, input').removeAttr('disabled')
+      return

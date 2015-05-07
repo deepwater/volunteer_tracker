@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  resourcify
   attr_accessible :name, :assigned_to, :organisation_id, :route_type, :address_line_1, :address_line_2,
                   :city, :state, :zip, :other, :day_of_start, :day_of_finish, :days_for_setup,
                   :days_for_tear_down

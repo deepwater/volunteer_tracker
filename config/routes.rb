@@ -5,9 +5,9 @@ VolunteerTracker::Application.routes.draw do
   resources :charities, only: [:index, :show]
 
   devise_for :users, controllers: {
-    registrations: "registrations",
-    sessions: "sessions",
-    passwords: "passwords"
+    registrations: 'registrations',
+    sessions: 'sessions',
+    passwords: 'passwords'
   }
 
   resources :users do
@@ -20,7 +20,7 @@ VolunteerTracker::Application.routes.draw do
     end
   end
 
-  match '/welcome' => "welcome#index"
+  match '/welcome' => 'welcome#index'
 
   namespace :admin do
     resources :users
@@ -42,7 +42,7 @@ VolunteerTracker::Application.routes.draw do
         get :organisation_tab
       end
     end
-    match 'list' => "base#list"
+    match 'list' => 'base#list'
     root to: 'base#index'
   end
 
@@ -58,8 +58,8 @@ VolunteerTracker::Application.routes.draw do
     resources :user_charities
 
     # ROLES
-    resources :department_assistants
-    resources :volunteer_managers
+    resources :department_assistants, only: [:create, :destroy, :restrict]
+    resources :volunteer_managers, only: [:create, :destroy]
     resources :volunteers, only: [:index]
     resources :users
 
@@ -84,20 +84,22 @@ VolunteerTracker::Application.routes.draw do
         get :fastpass
         put :update_batch
         post :create_batch
+        post :is_accessible
       end
     end
-    match 'check_ins/scheduled/:year/:month/:day' => "check_ins#scheduled"
-    match 'check_ins/active/:year/:month/:day' => "check_ins#active"
-    match 'check_ins/inactive/:year/:month/:day' => "check_ins#inactive"
+    match 'check_ins/scheduled/:year/:month/:day' => 'check_ins#scheduled'
+    match 'check_ins/active/:year/:month/:day' => 'check_ins#active'
+    match 'check_ins/inactive/:year/:month/:day' => 'check_ins#inactive'
+    match 'volunteers/:year/:month/:day' => 'volunteers#index'
 
-    get 'check_outs/fastpass' => "check_ins#fastpass_out", as: :fastpass_check_out
-    post 'check_outs' => "check_ins#check_out", as: :check_out
+    get 'check_outs/fastpass' => 'check_ins#fastpass_out', as: :fastpass_check_out
+    post 'check_outs' => 'check_ins#check_out', as: :check_out
 
     resources :flags
 
-    match 'department_blocks/:id/copy/' => "department_blocks#copy"
-    match 'departments/:id/export/:year/:month/:day' => "department_blocks#export"
-    match 'departments/:id/schedule/:year/:month/:day' => "departments#schedule"
+    match 'department_blocks/:id/copy/' => 'department_blocks#copy'
+    match 'departments/:id/export/:year/:month/:day' => 'department_blocks#export'
+    match 'departments/:id/schedule/:year/:month/:day' => 'departments#schedule'
   end
 
   authenticated :user do

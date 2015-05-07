@@ -29,11 +29,13 @@ h3 Department Managers
     thead
       tr
         th Name
+        th Username
         th Actions
     tbody
       - @department.department_managers.each do |department_manager|
         tr
           td= department_manager.user.full_name
+          td= department_manager.user.username
           td
             = link_to 'Unassign', admin_department_manager_path(department_manager), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: :json }, class: 'unassign-department-manager btn btn-danger'
 

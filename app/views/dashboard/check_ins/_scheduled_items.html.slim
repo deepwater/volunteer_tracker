@@ -21,7 +21,7 @@
           ' Check In
   - if index == scheduled.size - 1
     tr
-      td
+      td colspan="2"
         = simple_form_for CheckIn.new, url: create_batch_dashboard_check_ins_path, method: :post do |f|
           = f.input :user_schedule_id, as: :hidden, input_html: { id: 'user_schedule_ids' }
           = f.input :status, as: :hidden, input_html: { value: '1' }

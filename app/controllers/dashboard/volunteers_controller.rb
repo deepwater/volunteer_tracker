@@ -1,12 +1,19 @@
 class Dashboard::VolunteersController < DashboardController
+  before_filter :volunteer?
 
   def index
-    @volunteers = User.with_role(:volunteer)
-
+    # TODO: fetch day differents way for each format
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: VolunteersDatatable.new(view_context) }
+      format.html
+      format.json { render json: VolunteerDatatable.new(view_context, { spectator: current_user, day: @day }) }
     end
   end
+
+  private
+  
+    def volunteer?
+      redirect_to :root if current_user.has_role? :volunteer
+    end
 
 end

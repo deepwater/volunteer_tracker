@@ -8,13 +8,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
-  # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name,
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id,
                   :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login,
-                  :charity_ids
+                  :charity_ids, :resource_id, :resource_type
 
-  attr_accessor :login
+  attr_accessor :login, :resource_id, :resource_type
 
   validates :first_name, :last_name, presence: true
   validates :organisation_id, presence: true, unless: :super_admin?
@@ -26,27 +25,23 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, if: :password_required?
   validate :email_uniquality_for_main_acccount
 
+
   has_many :user_availabilities, dependent: :destroy
-
   has_many :check_ins, dependent: :destroy
-
   has_many :user_schedules, dependent: :destroy
   has_many :department_blocks, through: :user_schedules
-
   has_many :user_charities, dependent: :destroy
-  has_many :charities, through: :user_charities
-  accepts_nested_attributes_for :charities
-
   has_many :events
-
+  belongs_to :organisation
   belongs_to :master, class_name: 'User'
   has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
-
   has_one :department_manager, dependent: :destroy
   has_one :department_assistant, dependent: :destroy
   has_one :volunteer_manager, dependent: :destroy
+  has_many :charities, through: :user_charities
 
-  belongs_to :organisation
+  accepts_nested_attributes_for :charities
+
 
   before_save :default_values
   before_save :process_name
@@ -54,37 +49,53 @@ class User < ActiveRecord::Base
 
   def default_values
     self.role ||= 'volunteer'
-    self.add_role self.role unless self.has_role? self.role
   end
 
   def reset_role_associations
-    if self.role_changed?
-      self.roles = []
-      self.add_role self.role
-      case self.role
-      when 'volunteer'
-        self.volunteer_manager ? self.volunteer_manager : ""
-        self.department_assistant ? self.department_assistant.destroy : ""
-        self.department_manager ? self.department_manager.destroy : ""
-      when 'volunteer_manager'
-        self.department_assistant ? self.department_assistant : ""
-        self.department_manager ? self.department_manager.destroy : ""
-      when 'department_assistant'
-        self.volunteer_manager ? self.volunteer_manager : ""
-        self.department_manager ? self.department_manager.destroy : ""
-      when 'department_manager'
-        self.volunteer_manager ? self.volunteer_manager : ""
-        self.department_assistant ? self.department_assistant.destroy : ""
-      when 'event_manager'
-        self.volunteer_manager ? self.volunteer_manager : ""
-        self.department_assistant ? self.department_assistant.destroy : ""
-        self.department_manager ? self.department_manager.destroy : ""
+    if (self.role_changed? || (resource_id && resource_type && !self.has_role?(self.role, resource_type.constantize.find(resource_id))))
+      if (resource_id && resource_type && !self.has_role?(self.role, resource_type.constantize.find(resource_id)))
+        self.roles = []
+        self.add_role self.role, resource_type.constantize.find(resource_id)
+      else
+        self.roles = []
+        self.add_role self.role
+
+        case self.role
+        when 'volunteer'
+          self.volunteer_manager ? self.volunteer_manager : ""
+          self.department_assistant ? self.department_assistant.destroy : ""
+          self.department_manager ? self.department_manager.destroy : ""
+        when 'volunteer_manager'
+          self.department_assistant ? self.department_assistant : ""
+          self.department_manager ? self.department_manager.destroy : ""
+        when 'department_assistant'
+          self.volunteer_manager ? self.volunteer_manager : ""
+          self.department_manager ? self.department_manager.destroy : ""
+        when 'department_manager'
+          self.volunteer_manager ? self.volunteer_manager : ""
+          self.department_assistant ? self.department_assistant.destroy : ""
+        when 'event_admin'
+          self.volunteer_manager ? self.volunteer_manager : ""
+          self.department_assistant ? self.department_assistant.destroy : ""
+          self.department_manager ? self.department_manager.destroy : ""
+        end
       end
     end
   end
 
   def full_name
     "#{self.first_name.capitalize} #{self.last_name.capitalize}"
+  end
+
+  def get_resource_id
+    case self.role
+    when 'volunteer', 'event_admin', 'super_admin', 'org_admin'
+      nil
+    when 'volunteer_manager', 'department_manager'
+      roles.first.try(:resource_id)
+    when 'department_assistant'
+      Department.with_role(:department_assistant, self).try(:first).try(:id)
+    end
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)

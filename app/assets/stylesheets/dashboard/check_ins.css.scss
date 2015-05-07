@@ -1,5 +1,14 @@
 .side-by-side{
-	float:left;
-	display:inline;
-	margin-right:10px
+  float:left;
+  display:inline;
+  margin-right:10px
+}
+#volunteers_list_table_wrapper {
+  .actions-col{
+    width: 250px;
+    .simple_form {
+      display: inline;
+      margin-left: 10px;
+    }
+  }
 }

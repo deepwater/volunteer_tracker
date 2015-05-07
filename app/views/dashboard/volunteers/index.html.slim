@@ -1,21 +1,76 @@
-.page-header
-  h1 Volunteers List
+- days = Day.all
+.col-sm-12
+  .page-header
+    h1 Volunteers List
+  ul.nav.nav-tabs
+    - days.each do |day|
+      li class=(day.mday == params[:day].to_i ? "active" : "")
+        = link_to "#{dashboard_volunteers_path}/#{day.year}/#{day.month}/#{day.mday}" do
+          = day.day_name
+          = day.short_date
 
-table.table.table-bordered.table-striped#volunteers_list_table data-source=(dashboard_volunteers_path(format: :json))
-  thead
-    tr
-      th Full Name
-      th Email
-      th T Shirt Size
-      th Role
-      th
-      th
-  tbody
-    - @volunteers.each do |volunteer|
-      tr
-        td= content_tag(:div, volunteer.full_name, class: 'dropdown-wrapper', id: "#{volunteer.id}-volunteer")
-        td= volunteer.email
-        td= volunteer.tshirt_size
-        td= volunteer.role
-        td= link_to 'Edit', edit_admin_user_path(volunteer)
-        td= link_to 'Delete', admin_user_path(volunteer), method: :delete, confirm: "Are you sure?", remote: true
+  .tab-content
+    table.table.table-bordered.table-striped#volunteers_list_table data-source=(dashboard_volunteers_path(day: @day, format: :json))
+      thead
+        tr
+          th Username
+          th Scheduled Time In
+          th Check In Time
+          th Scheduled Time Out
+          th Check Out Time
+          th Total Time
+          th Department
+          th Block
+          th Action
+      tbody
+
+
+- if user_signed_in?
+  = javascript_include_tag "#{configatron.faye.url}/client.js"
+  
+  javascript:
+
+    function constructElement(data){
+      tr = "<tr><td>"+data['username']+"</td><td>"+data['schedule_start']+"</td><td>"+data['checkin_start']+"</td><td>"+
+            data['schedule_end']+"</td><td>"+data['checkin_end']+"</td><td>"+data['total_hours']+"</td><td>"+
+            data['department_name']+"</td><td>"+data['block_name']+"</td><td>"+data['actions']+"</td></tr>";
+      return $(tr);
+    }
+    
+    function colorizeElement(el){
+      $coloredEl = el.find('span.set-class-row-to');
+      switch (true) {
+        case ($coloredEl.hasClass( "red" )):
+          bgColor = "#f2dede";
+          break;
+        case ($coloredEl.hasClass( "yellow" )):
+          bgColor = "#fcf8e3";
+          break;
+        case ($coloredEl.hasClass( "green" )):
+          bgColor = "#dff0d8";
+          break;
+        default:
+          bgColor = "#f9f9f9";
+      }
+      el.find("td").css("background-color", bgColor);
+    }
+
+    window.faye = new Faye.Client('#{configatron.faye.url}');
+    window.faye.subscribe("/channels/#{configatron.faye.channels.check_ins}", function(data) {
+      $el = constructElement(data.data);
+      switch(data.event_type) {
+        case "check_in":
+          $.post('#{is_accessible_dashboard_check_ins_path}', data, function(data) {
+            if(data.response){
+              $("#volunteers_list_table").find("tbody").prepend($el);
+            }
+          }, 'json');
+          break;
+        case "check_out":
+          $("#"+data.id+"-checkin").parents("tr").replaceWith($el);
+          break;
+        default:
+          alert("Something wrong with this voluunteer");
+      }
+      colorizeElement($el);
+    });
