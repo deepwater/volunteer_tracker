@@ -32,7 +32,9 @@ class User < ActiveRecord::Base
   has_many :department_blocks, through: :user_schedules
   has_many :user_charities, dependent: :destroy
   has_many :events
+  has_many :blog_posts
   belongs_to :organisation
+
   belongs_to :master, class_name: 'User'
   has_many :subaccounts, class_name: 'User', foreign_key: :master_id, dependent: :destroy
   has_one :department_manager, dependent: :destroy

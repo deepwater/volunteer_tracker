@@ -13,6 +13,13 @@
 
 ActiveRecord::Schema.define(:version => 20150507111512) do
 
+  create_table "blog_posts", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "charities", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
