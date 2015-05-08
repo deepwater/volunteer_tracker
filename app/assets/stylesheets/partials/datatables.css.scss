@@ -4,3 +4,6 @@
 .dataTables_filter {
   float: none !important;
 }
+table.dataTable tr.DTTT_selected.odd td {
+  background-color: #9FAFD1;
+}

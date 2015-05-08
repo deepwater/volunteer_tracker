@@ -2,7 +2,6 @@ $ ->
   $('#volunteers_list_table').dataTable
     processing: true
     serverSide: true
-    # paging: false
     pagingType: 'full_numbers'
     lengthMenu: [ 99999 ]
     ajax: $('#volunteers_list_table').data('source')

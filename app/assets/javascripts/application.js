@@ -12,15 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require dataTables/extras/dataTables.tableTools
 //= require bootstrap
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker
 //= require moment
 //= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
+//= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require dataTables/extras/dataTables.tableTools
 
 //= require admin/departments
 //= require admin/events

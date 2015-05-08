@@ -4,11 +4,11 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
   def_delegators :@view, :link_to, :content_tag, :edit_admin_user_path, :admin_user_path
 
   def sortable_columns
-    @sortable_columns ||= [ "users.first_name", "users.email", "users.tshirt_size", "users.role",  "charities.name" ]
+    @sortable_columns ||= [ "User.first_name", "User.email", "User.tshirt_size", "User.role",  "Charity.name" ]
   end
 
   def searchable_columns
-    @searchable_columns ||= [ "users.email", "users.tshirt_size", "users.role",  "charities.name" ]
+    @searchable_columns ||= [ "User.email", "User.tshirt_size", "User.role",  "Charity.name" ]
   end
 
   private
@@ -30,6 +30,4 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     User.with_role(:volunteer).includes(:charities)
   end
-
-  # ==== Insert 'presenter'-like methods below if necessary
 end

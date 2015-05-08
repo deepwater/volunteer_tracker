@@ -8,8 +8,6 @@ gem 'draper', '0.18.0'
 gem 'pg', '0.17.1'
 gem 'newrelic_rpm', '3.7.1.182'
 
-gem 'faye'
-
 gem 'devise', '2.2.4'
 gem 'cancan', '1.6.10'
 gem 'rolify', '3.4.0'
@@ -24,8 +22,8 @@ gem 'simple_form', '2.1.1'
 
 gem 'jquery-rails', '3.0.1'
 gem 'jquery-ui-rails', '4.0.3'
-gem 'jquery-datatables-rails', '2.2.3', github: 'rweng/jquery-datatables-rails', branch: 'master'
-gem 'ajax-datatables-rails', '0.2.0'
+gem 'jquery-datatables-rails', '3.3.0'
+gem 'ajax-datatables-rails', '0.3.0'
 
 gem 'bootstrap-sass', '3.1.1.1'
 gem 'bootstrap-datepicker-rails', '1.3.0.1'
@@ -45,6 +43,8 @@ end
 group :test do
   gem 'rspec-rails', '2.14.1'
   gem 'factory_girl_rails', '4.3.0'
+  gem 'capybara', '2.4.4'
+  gem 'poltergeist', '1.6.0'
   gem 'shoulda', '3.5.0'
   gem 'database_cleaner', '1.2.0'
   gem 'mocha', '1.0.0', require: 'mocha/setup'

@@ -8,13 +8,14 @@
 
 @import 'libs/bootstrap-tour';
 
+@import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap';
+@import 'dataTables/extras/dataTables.tableTools';
+@import 'partials/datatables';
+
 @import 'partials/layout';
 @import 'partials/theme';
 @import 'partials/devise';
 @import 'partials/admin';
-@import 'dataTables/jquery.dataTables';
-@import 'dataTables/extras/TableTools';
-@import 'dataTables/extras/TableTools_JUI';
 @import 'partials/dashboard';
 @import 'partials/department_blocks';
 @import 'partials/user_schedules';
@@ -23,5 +24,3 @@
 @import 'dashboard/departments';
 @import 'dashboard/flags';
 @import 'dashboard/user_availabilities';
-
-@import 'partials/datatables';
