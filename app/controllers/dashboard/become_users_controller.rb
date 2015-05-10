@@ -1,11 +1,9 @@
 class Dashboard::BecomeUsersController < DashboardController
 
   def index
-    @users = User.with_any_role(:volunteer, :volunteer_manager, :department_assistant)
-    puts "#{current_user.full_name}"
-
     respond_to do |format|
       format.html
+      format.json { render json: BecomeUserDatatable.new(view_context) }
     end
   end
 

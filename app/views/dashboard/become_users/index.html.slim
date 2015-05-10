@@ -1,17 +1,11 @@
 .page-header
   h1 Become a User
 
-table.table.table-bordered.table-striped#become_user_list_table
+table.table.table-bordered.table-striped#become_list_table data-source=(dashboard_become_users_path(format: :json))
   thead
     tr
-      th Full Name
+      th Name
+      th Username
       th Email
       th Role
-      th
   tbody
-    - @users.each do |user|
-      tr
-        td= content_tag(:div, user.full_name, class: 'dropdown-wrapper', id: "#{user.id}-user")
-        td= user.email
-        td= user.role
-        td= link_to 'Become User', dashboard_become_user_path(user)
