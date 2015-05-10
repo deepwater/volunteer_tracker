@@ -32,8 +32,7 @@ ul.thumbnails.nav
   - if current_user.role != "volunteer"
     = render "dashboard/dashboard_modules/active_volunteers"
     = render "dashboard/dashboard_modules/inactive_volunteers"
-  / - if current_user.role != "volunteer"
-  /   = render "dashboard/dashboard_modules/volunteers"
+    / # = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
 

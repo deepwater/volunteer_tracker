@@ -1,13 +1,18 @@
 $ ->
-  oTable = $('#volunteers_list_table').dataTable
-    bProcessing: true
-    bServerSide: true
-    bPaginate: false
-    sAjaxSource: $('#volunteers_list_table').data('source')
-    sDom: 'T<"clear">lfrtip'
-    aoColumnDefs: [
-      bSortable: false
-      aTargets: [4, 5]
+  $('#volunteers_list_table').dataTable
+    processing: true
+    serverSide: true
+    pagingType: 'full_numbers'
+    lengthMenu: [ 99999 ]
+    ajax: $('#volunteers_list_table').data('source')
+    dom: 'T<"clear">lfrtip'
+    columnDefs: [
+      targets: [ -1, -2 ]
+      sortable: false
     ]
-    oTableTools:
-      "aButtons": false
+    tableTools:
+      aButtons: false
+
+  # FIXME: move this hack to css
+  $('#volunteers_list_table_length').hide()
+  $('#volunteers_list_table_paginate').hide()

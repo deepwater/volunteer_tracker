@@ -3,8 +3,8 @@ class SubaccountsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: SubaccountsDatatable.new(view_context) }
+      format.html
+      format.json { render json: SubaccountDatatable.new(view_context, { user: current_user }) }
     end
   end
 
