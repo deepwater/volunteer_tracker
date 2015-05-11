@@ -3,6 +3,7 @@
 
 .row
   .col-sm-12.subaccounts-import-form
+    = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary', remote: true
     = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
       .inline-block
         = file_field_tag :file, class: 'form-control'
@@ -20,11 +21,6 @@ table.table.table-bordered.table-striped#subaccounts_list_table data-source=(use
   tbody
         
 = render "shared/modal"
-
-javascript:
-  $(function(){
-    window.newSubaccountPath = "#{ new_user_subaccount_path(current_user) }";
-  })
 
 coffee:
   $ ->
@@ -52,25 +48,8 @@ coffee:
               { sExtends: 'xls', mColumns: 'sortable', sFileName: "subaccounts-#{window.currentDate()}.csv" }
               { sExtends: 'pdf', mColumns: 'sortable', sFileName: "subaccounts-#{window.currentDate()}.pdf" }
             ]
-            sButtonClass: 'btn btn-primary btn-margin'
-            fnInit: (node) ->
-              $(node).removeClass('DTTT_button')
-              return
           }
           {
             sExtends:     'print'
-            sButtonClass: 'btn btn-primary btn-margin'
-            fnInit: (node) ->
-              $(node).removeClass('DTTT_button')
-              return
-          }
-          {
-            sExtends:     'gotoURL'
-            sButtonClass: 'btn btn-primary btn-margin'
-            sButtonText:  'New Subaccount'
-            sGoToURL:     window.newSubaccountPath
-            fnInit: (node) ->
-              $(node).removeClass('DTTT_button')
-              return
           }
         ]
