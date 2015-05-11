@@ -2,10 +2,10 @@
   h1 Subaccounts List
 
 .row
-  .col-sm-6 = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary', remote: true
-  .col-sm-6.text-right
+  .col-sm-12.subaccounts-import-form
     = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
-      .inline-block = file_field_tag :file, class: 'form-control'
+      .inline-block
+        = file_field_tag :file, class: 'form-control'
       = submit_tag "Import", class: 'btn btn-primary'
 
 table.table.table-bordered.table-striped#subaccounts_list_table data-source=(user_subaccounts_url(current_user, format: :json))
@@ -19,4 +19,58 @@ table.table.table-bordered.table-striped#subaccounts_list_table data-source=(use
       th
   tbody
         
-= render "shared/modal" 
+= render "shared/modal"
+
+javascript:
+  $(function(){
+    window.newSubaccountPath = "#{ new_user_subaccount_path(current_user) }";
+  })
+
+coffee:
+  $ ->
+    $('#subaccounts_list_table').dataTable
+      processing: true
+      serverSide: true
+      ajax: $('#subaccounts_list_table').data('source')
+      lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+      dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+      columnDefs: [
+        targets: [ -1, -2 , -3]
+        sortable: false
+      ]
+      pagingType: 'full_numbers'
+      tableTools:
+        sRowSelect: 'os'
+        sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+        aButtons: [
+          {
+            sExtends:     'collection'
+            sButtonText:  'Save clipboard to / CSV / PDF'
+            aButtons:     [ 
+              { sExtends: 'copy', mColumns: 'sortable' }
+              { sExtends: 'csv', mColumns: 'sortable', sFileName: "subaccounts-#{window.currentDate()}.csv" }
+              { sExtends: 'xls', mColumns: 'sortable', sFileName: "subaccounts-#{window.currentDate()}.csv" }
+              { sExtends: 'pdf', mColumns: 'sortable', sFileName: "subaccounts-#{window.currentDate()}.pdf" }
+            ]
+            sButtonClass: 'btn btn-primary btn-margin'
+            fnInit: (node) ->
+              $(node).removeClass('DTTT_button')
+              return
+          }
+          {
+            sExtends:     'print'
+            sButtonClass: 'btn btn-primary btn-margin'
+            fnInit: (node) ->
+              $(node).removeClass('DTTT_button')
+              return
+          }
+          {
+            sExtends:     'gotoURL'
+            sButtonClass: 'btn btn-primary btn-margin'
+            sButtonText:  'New Subaccount'
+            sGoToURL:     window.newSubaccountPath
+            fnInit: (node) ->
+              $(node).removeClass('DTTT_button')
+              return
+          }
+        ]

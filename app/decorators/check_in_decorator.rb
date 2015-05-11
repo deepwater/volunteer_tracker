@@ -1,5 +1,5 @@
-class CheckInDecorator < Draper::Base
-  decorates :check_in
+class CheckInDecorator < Draper::Decorator
+  delegate_all
 
   def full_name
     user_schedule.try(:user).try(:full_name) || "User Missing"
@@ -18,19 +18,19 @@ class CheckInDecorator < Draper::Base
   end
 
   def check_date
-    model.created_at.strftime("%Y-%m-%d")
+    object.created_at.strftime("%Y-%m-%d")
   end
 
   def check_in_time
-    model.created_at.strftime("%l:%M%p")
+    object.created_at.strftime("%l:%M%p")
   end
 
   def check_out_date
-    model.check_out_time.strftime("%Y-%m-%d")
+    object.check_out_time.strftime("%Y-%m-%d")
   end
 
   def check_out_time
-    model.check_out_time.strftime("%l:%M%p")
+    object.check_out_time.strftime("%l:%M%p")
   end
 
   def charity
@@ -38,8 +38,8 @@ class CheckInDecorator < Draper::Base
   end
 
   def hours_worked
-    if model.status == "2"
-      seconds = (model.check_out_time - model.created_at).to_i
+    if object.status == "2"
+      seconds = (object.check_out_time - object.created_at).to_i
       hours = seconds / 3600
       minutes = (seconds - hours * 3600) / 60
       "%02d:" % hours + "%02d" % minutes
