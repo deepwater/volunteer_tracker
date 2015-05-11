@@ -7,6 +7,39 @@ class Dashboard::BecomeUsersController < DashboardController
     end
   end
 
+  def accept_transfer
+    user = User.find(params[:user_id])
+
+    subaccounts = User.where("pending_master_id = ?", user.id)
+
+    if not subaccounts.blank?
+      subaccounts.each do |subaccount|
+        subaccount.master_id = user.id
+        subaccount.pending_master_id = -1
+        subaccount.save!
+      end
+    end
+    user.transfer_status = ""
+    user.save!
+
+    redirect_to dashboard_index_path
+  end
+
+  def decline_transfer
+    user = User.find(params[:user_id])
+    subaccounts = User.where("pending_master_id = ?", @user.id)
+    if not subaccounts.blank?
+      subaccounts.each do |subaccount|
+        subaccount.pending_master_id = -1
+        subaccount.save!
+      end
+    end
+    @user.transfer_status = ""
+    @user.save!
+
+    redirect_to dashboard_index_path
+  end
+
   def show
     @user = User.find(params[:id])
   end
@@ -65,38 +98,4 @@ class Dashboard::BecomeUsersController < DashboardController
     end
 
   end
-
-  def accept_transfer
-    user = User.find(params[:user_id])
-    subaccounts = User.where("pending_master_id = ?", user.id)
-
-    if not subaccounts.blank?
-      subaccounts.each do |subaccount|
-        subaccount.master_id = user.id
-        subaccount.pending_master_id = -1
-        subaccount.save!
-      end
-    end
-    user.transfer_status = ""
-    user.save!
-
-    redirect_to dashboard_path
-  end
-
-  def decline_transfer
-    user = User.find(params[:user_id])
-    subaccounts = User.where("pending_master_id = ?", @user.id)
-    if not subaccounts.blank?
-      subaccounts.each do |subaccount|
-        subaccount.pending_master_id = -1
-        subaccount.save!
-      end
-    end
-    @user.transfer_status = ""
-    @user.save!
-
-    redirect_to dashboard_path
-  end
-
-
 end
