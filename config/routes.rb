@@ -81,6 +81,7 @@ VolunteerTracker::Application.routes.draw do
       collection do
         get :accept_transfer
         get :decline_transfer
+        get :get_user_list
       end
     end
 

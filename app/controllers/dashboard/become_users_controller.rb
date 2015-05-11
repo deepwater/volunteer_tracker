@@ -7,6 +7,13 @@ class Dashboard::BecomeUsersController < DashboardController
     end
   end
 
+  def get_user_list
+    respond_to do |format|
+      format.html
+      format.json { render json: TransferUserDatatable.new(view_context) }
+    end
+  end
+
   def accept_transfer
     user = User.find(params[:user_id])
 

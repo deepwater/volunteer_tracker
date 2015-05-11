@@ -1,15 +1,7 @@
-- if users.blank?
-  p Please go back and select at least one subaccount to transfer.
-- else
-  table.table.table-bordered.table-striped#select_user_list_table
-    thead
-      tr
-        th Full Name
-        th Email
-        th
-    tbody
-      - users.each do |user|
-        tr
-          td= user.full_name
-          td= user.email
-          td= link_to 'Transfer', dashboard_become_user_path(master_id: user.id, subaccounts: subaccounts.to_a), method: :put, remote: :true, confirm: "Are you sure you wish to transfer?"
+table.table.table-bordered.table-striped#get_user_list_table data-source=(get_user_list_dashboard_become_users_path(format: :json))
+  thead
+    tr
+      th Full Name
+      th Email
+      th Roles
+  tbody
