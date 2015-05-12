@@ -17,4 +17,4 @@ production:
 
 test:
   <<: *defaults
-  database: volunteer_tracker_test
+  database: volunteer_tracker_event_hub_test
