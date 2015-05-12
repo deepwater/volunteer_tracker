@@ -1,12 +1,12 @@
-- subaccount_ids = subaccounts.to_a.map(&:id)
 = simple_form_for :user, url: dashboard_become_user_url, method: :put, html: {class: '', novalidate: true}, remote: true do |f|
-  = f.input 'subaccounts', as: :hidden, input_html: {value: subaccount_ids}
+  = hidden_field_tag 'subaccount_ids[]', subaccounts
   = f.input 'master_id', as: :hidden
 
-  table.table.table-bordered.table-striped#get_user_list_table data-source=(get_user_list_dashboard_become_users_path(format: :json))
+  table.table.table-bordered.table-striped.table-hover#get_user_list_table data-source=(get_user_list_dashboard_become_users_path(format: :json))
     thead
       tr
         th Full Name
         th Email
         th Role
+        th Select
     tbody

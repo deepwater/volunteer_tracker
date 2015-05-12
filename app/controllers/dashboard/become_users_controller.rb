@@ -9,7 +9,6 @@ class Dashboard::BecomeUsersController < DashboardController
 
   def get_user_list
     respond_to do |format|
-      format.html
       format.json { render json: TransferUserDatatable.new(view_context) }
     end
   end
@@ -64,7 +63,7 @@ class Dashboard::BecomeUsersController < DashboardController
           subaccount = User.find(id)
           if not subaccount.blank?
             accounts_exist = true
-            @subaccounts << subaccount
+            @subaccounts << subaccount.id
           end
         end
       end
@@ -76,26 +75,40 @@ class Dashboard::BecomeUsersController < DashboardController
   end
 
   def update
-    master_user = User.find(params[:master_id])
-    master_user.transfer_status = "PENDING"
-    master_user.save!
+    accounts_exist = false
+    @master_user = params[:user][:master_id].present? ? User.find(params[:user][:master_id]) : nil
+    @master_exists = @master_user.nil? ? false : true
 
-    subaccount_ids = params[:subaccounts]
+    if @master_exists
+      subaccount_ids = params[:subaccount_ids]
 
-    if not subaccount_ids.blank?
-      subaccount_ids.each do |id|
-        if not id.blank?
-          subaccount = User.find(id)
-          if not subaccount.blank?
-            subaccount.pending_master_id = master_user.id
-            subaccount.save!
+      if not subaccount_ids.blank?
+        subaccount_ids.split(" ").each do |id|
+          if not id.blank?
+            @subaccount = User.find(id)
+            if not @subaccount.blank?
+              accounts_exist = true
+
+              @subaccount.pending_master_id = @master_user.id
+
+              @subaccount.save!
+            end
           end
         end
+      end
+
+      if accounts_exist
+        @master_user.transfer_status = "PENDING"
+        @master_user.save!
       end
     end
 
     respond_to do |format|
-      format.js
+      if not @master_exists
+        format.js
+      else
+        redirect_to dashboard_index_path, flash: { success:  "Successfully began a transfer. The user must now accept the transfer." }
+      end
     end
 
   end
