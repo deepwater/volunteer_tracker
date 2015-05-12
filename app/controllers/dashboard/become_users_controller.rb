@@ -48,46 +48,25 @@ class Dashboard::BecomeUsersController < DashboardController
 
   def show
     @user = User.find(params[:id])
-  end
-
-  def edit
-    # create new variables
-    accounts_exist = false
-    @subaccounts = []
-
-    subaccount_ids = params[:user][:subaccount_ids]
-
-    if not subaccount_ids.blank?
-      subaccount_ids.each do |id|
-        if not id.blank?
-          subaccount = User.find(id)
-          if not subaccount.blank?
-            accounts_exist = true
-            @subaccounts << subaccount.id
-          end
-        end
-      end
-    end
-
     respond_to do |format|
       format.js
     end
   end
 
   def update
-    accounts_exist = false
+    @accounts_exist = false
     @master_user = params[:user][:master_id].present? ? User.find(params[:user][:master_id]) : nil
     @master_exists = @master_user.nil? ? false : true
 
     if @master_exists
-      subaccount_ids = params[:subaccount_ids]
+      subaccount_ids = params[:user][:subaccount_ids]
 
       if not subaccount_ids.blank?
-        subaccount_ids.split(" ").each do |id|
+        subaccount_ids.each do |id|
           if not id.blank?
             @subaccount = User.find(id)
             if not @subaccount.blank?
-              accounts_exist = true
+              @accounts_exist = true
 
               @subaccount.pending_master_id = @master_user.id
 
@@ -97,18 +76,16 @@ class Dashboard::BecomeUsersController < DashboardController
         end
       end
 
-      if accounts_exist
+      if @accounts_exist
         @master_user.transfer_status = "PENDING"
         @master_user.save!
       end
     end
 
     respond_to do |format|
-      if not @master_exists
+        format.html { redirect_to dashboard_index_path, notice:  "Successfully began a transfer. The user must now accept the transfer."  }
+        format.json { head :no_content }
         format.js
-      else
-        redirect_to dashboard_index_path, flash: { success:  "Successfully began a transfer. The user must now accept the transfer." }
-      end
     end
 
   end

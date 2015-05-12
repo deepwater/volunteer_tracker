@@ -1,5 +1,11 @@
-= simple_form_for :user, url: dashboard_become_user_url, method: :put, html: {class: '', novalidate: true}, remote: true do |f|
-  = hidden_field_tag 'subaccount_ids[]', subaccounts
+= simple_form_for :user, url: dashboard_become_user_url, method: :put, html: {class: 'clearfix', novalidate: true}, remote: true do |f|
+  = f.input 'subaccount_ids',
+            as: :check_boxes,
+            collection: user.subaccounts,
+            label_method: :full_name,
+            value_method: :id,
+            include_blank: false,
+            label: "Please select subaccounts to transfer"
   = f.input 'master_id', as: :hidden
 
   table.table.table-bordered.table-striped.table-hover#get_user_list_table data-source=(get_user_list_dashboard_become_users_path(format: :json))

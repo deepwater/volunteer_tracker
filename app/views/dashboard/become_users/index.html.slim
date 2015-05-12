@@ -1,6 +1,8 @@
 .page-header
   h1 Become a User
 
+= render 'user_modal'
+
 table.table.table-bordered.table-striped#become_list_table data-source=(dashboard_become_users_path(format: :json))
   thead
     tr

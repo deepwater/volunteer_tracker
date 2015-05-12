@@ -1,7 +1,7 @@
 class BecomeUserDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view, :link_to, :dashboard_become_user_path
+  def_delegators :@view, :link_to, :dashboard_become_user_path, :remote
 
   def sortable_columns
     @sortable_columns ||= ["User.first_name", "User.email", "User.username", "User.role"]
@@ -16,7 +16,7 @@ class BecomeUserDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-          link_to(record.full_name, dashboard_become_user_path(record)),
+          link_to(record.full_name, dashboard_become_user_path(record), remote: true),
           record.email,
           record.username,
           record.role

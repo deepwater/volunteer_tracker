@@ -4,22 +4,22 @@ $title = $modal.find('.modal-title');
 $body = $modal.find('.modal-body');
 
 // Set the title of the modal to an instance-relevant title
-title = 'Select the user';
+title = 'Select the subaccounts and the user you wish to transfer to.';
 
 // Set the modal's title and body to the above values
 $title.html(title);
 
-<% if @subaccounts.blank? %>
+<% if @user.subaccounts.blank? %>
     $modal.find(".user-select-modal-save").hide();
     $title.html("");
     $title.html("Oops.");
 
-    $body.html("Sorry, please select the subaccounts you wish to transfer.");
+    $body.html("Sorry, this user does not have any subaccounts.");
 
     // Display the modal
     $modal.modal();
 <% else %>
-    $body.html("<%= escape_javascript(render partial: 'user_table', locals: {subaccounts: @subaccounts}) %>");
+    $body.html("<%= escape_javascript(render partial: 'user_table', locals: {user: @user}) %>");
 
     // Hide the submit button (it'd be a duplicate) and make the form remote
     $body.find('input[type="submit"]').hide();
@@ -46,6 +46,7 @@ $title.html(title);
     });
 
 <% end %>
+
 
 
 

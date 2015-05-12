@@ -5,6 +5,10 @@ $body = $modal.find('.modal-body');
 // Remove any past alerts and put a new alert in
 $body.find('.alert').remove();
 
+<%- if not @accounts_exist %>
+    $body.append('<div class="alert alert-warning"><p>Please select at least one subaccount.</p></div>');
+<% end %>
+
 <%- if @master_exists %>
     $body.append('<div class="alert alert-success"><p>Changes saved! You may now close this window.</p></div>');
 <% else %>
