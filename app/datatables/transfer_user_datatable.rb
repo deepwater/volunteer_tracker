@@ -1,7 +1,7 @@
 class TransferUserDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view
+  def_delegators :@view, :content_tag
 
   def sortable_columns
     @sortable_columns ||= ["User.first_name", "User.email", "User.role"]
@@ -16,7 +16,7 @@ class TransferUserDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-          record.full_name,
+          content_tag(:div, record.full_name, id: "user_#{record.id}"),
           record.email,
           record.role
       ]
@@ -24,6 +24,6 @@ class TransferUserDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    User.all
+    User.includes(:subaccounts)
   end
 end

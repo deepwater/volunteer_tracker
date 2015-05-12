@@ -12,7 +12,7 @@
                     include_blank: false,
                     label: "Subaccounts"
           = f.submit "Select User to Transfer", class: 'btn btn-primary pull-right'
-  #select-user-table
+  = render "user_modal"
 - else
   h2 There are no subaccounts for this user.
   = link_to "Go Back", :back

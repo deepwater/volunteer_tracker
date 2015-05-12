@@ -1,5 +1,52 @@
 //  Select the elements for re-use
-$table = $('#select-user-table');
+$modal = $('.user-select-modal');
+$title = $modal.find('.modal-title');
+$body = $modal.find('.modal-body');
 
-$table.html("<%= escape_javascript(render partial: 'user_table') %>");
+// Set the title of the modal to an instance-relevant title
+title = 'Select the user';
+
+// Set the modal's title and body to the above values
+$title.html(title);
+
+<% if @subaccounts.blank? %>
+    $modal.find(".user-select-modal-save").hide();
+    $title.html("");
+    $title.html("Oops.");
+
+    $body.html("Sorry, please select the subaccounts you wish to transfer.");
+
+    // Display the modal
+    $modal.modal();
+<% else %>
+    $body.html("<%= escape_javascript(render partial: 'user_table', locals: {subaccounts: @subaccounts}) %>");
+
+    // Hide the submit button (it'd be a duplicate) and make the form remote
+    $body.find('input[type="submit"]').hide();
+
+    // Display the modal
+    $modal.modal();
+
+    $('#get_user_list_table').dataTable({
+        processing: true,
+        serverSide: true,
+        pagingType: 'full_numbers',
+        lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]],
+        ajax: $('#get_user_list_table').data('source'),
+        dom: 'T<"clear">lfrtip',
+        columnDefs: [
+            {
+                targets: [-1, -2],
+                sortable: false
+            }
+        ],
+        tableTools: {
+            aButtons: false
+        }
+    });
+<% end %>
+
+
+
+
 

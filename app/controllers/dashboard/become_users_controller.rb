@@ -55,7 +55,6 @@ class Dashboard::BecomeUsersController < DashboardController
     # create new variables
     accounts_exist = false
     @subaccounts = []
-    @users = []
 
     subaccount_ids = params[:user][:subaccount_ids]
 
@@ -69,11 +68,6 @@ class Dashboard::BecomeUsersController < DashboardController
           end
         end
       end
-    end
-
-    # if accounts exist then get all Users (otherwise unnecessary call)
-    if accounts_exist
-      @users = User.all
     end
 
     respond_to do |format|
