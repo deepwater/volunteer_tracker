@@ -1,4 +1,5 @@
 configatron.host = 'volunteer2.23stages.com'
+
 configatron.smtp.address = 'mailtrap.io'
 configatron.smtp.port = '2525'
 configatron.smtp.domain = 'mailtrap.io'

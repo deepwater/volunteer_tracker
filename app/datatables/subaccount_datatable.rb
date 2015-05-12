@@ -4,11 +4,11 @@ class SubaccountDatatable < AjaxDatatablesRails::Base
   def_delegators :@view, :link_to, :user_user_availabilities_path, :edit_user_subaccount_path, :user_subaccount_path
 
   def sortable_columns
-    @sortable_columns ||= [ "users.username", "users.first_name", "charities.name" ]
+    @sortable_columns ||= [ "User.username", "User.first_name", "Charity.name" ]
   end
 
   def searchable_columns
-    @searchable_columns ||= [ "users.username", "charities.name"]
+    @searchable_columns ||= [ "User.username", "Charity.name"]
   end
 
   private
@@ -29,6 +29,4 @@ class SubaccountDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     options[:user].subaccounts.includes(:charities)
   end
-
-  # ==== Insert 'presenter'-like methods below if necessary
 end

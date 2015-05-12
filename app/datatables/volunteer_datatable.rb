@@ -4,11 +4,11 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
   def_delegators :@view, :link_to, :content_tag, :edit_admin_user_path, :admin_user_path, :simple_form_for, :button_tag, :input
 
   def sortable_columns
-    @sortable_columns ||= [ "users.username" ]
+    @sortable_columns ||= [ "User.username" ]
   end
 
   def searchable_columns
-    @searchable_columns ||= [ "users.username" ]
+    @searchable_columns ||= [ "User.username" ]
   end
 
   def html_row_from_record(record)
@@ -102,5 +102,3 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
     status
   end
 end
-
-
