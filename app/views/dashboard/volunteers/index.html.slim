@@ -11,11 +11,23 @@ table.table.table-bordered.table-striped#volunteers_list_table data-source=(dash
       th
       th
   tbody
-    - @volunteers.each do |volunteer|
-      tr
-        td= content_tag(:div, volunteer.full_name, class: 'dropdown-wrapper', id: "#{volunteer.id}-volunteer")
-        td= volunteer.email
-        td= volunteer.tshirt_size
-        td= volunteer.role
-        td= link_to 'Edit', edit_admin_user_path(volunteer)
-        td= link_to 'Delete', admin_user_path(volunteer), method: :delete, confirm: "Are you sure?", remote: true
+
+coffee:
+  $ ->
+    $('#volunteers_list_table').dataTable
+      processing: true
+      serverSide: true
+      pagingType: 'full_numbers'
+      lengthMenu: [ 99999 ]
+      ajax: $('#volunteers_list_table').data('source')
+      dom: 'T<"clear">lfrtip'
+      columnDefs: [
+        targets: [ -1, -2 ]
+        sortable: false
+      ]
+      tableTools:
+        aButtons: false
+
+    # FIXME: move this hack to css
+    $('#volunteers_list_table_length').hide()
+    $('#volunteers_list_table_paginate').hide()

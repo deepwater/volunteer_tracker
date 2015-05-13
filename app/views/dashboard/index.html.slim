@@ -7,7 +7,6 @@
   h1
     ' #{current_user.full_name}
     small = pretty_role(current_user.role)
-    = link_to "Edit Profile", edit_profile_users_url, class: "btn btn-primary btn-edit", remote: true
 
 ul.thumbnails.nav
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
@@ -26,8 +25,7 @@ ul.thumbnails.nav
   - if current_user.role != "volunteer"
     = render "dashboard/dashboard_modules/active_volunteers"
     = render "dashboard/dashboard_modules/inactive_volunteers"
-  / - if current_user.role != "volunteer"
-  /   = render "dashboard/dashboard_modules/volunteers"
+    / # = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
 
