@@ -8,7 +8,7 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
   end
 
   def searchable_columns
-    @searchable_columns ||= [ "User.email", "User.tshirt_size", "User.role",  "Charity.name" ]
+    @searchable_columns ||= [ "User.first_name", "User.last_name", "User.email", "User.tshirt_size", "User.role",  "Charity.name" ]
   end
 
   private
