@@ -58,7 +58,7 @@ group :production do
 end
 
 group :production, :staging do
-  gem 'rollbar', '0.12.15', require: 'rollbar/rails'
+  gem 'rollbar', '~> 1.2.7'
 end
 
 group :assets do
