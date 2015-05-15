@@ -1,7 +1,6 @@
 require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 require 'rollbar/capistrano'
-set :rollbar_token, 'POST_SERVER_ITEM_ACCESS_TOKEN'
 
 set :stages, %w(staging production staging2 production2)
 set :default_stage, "staging"
