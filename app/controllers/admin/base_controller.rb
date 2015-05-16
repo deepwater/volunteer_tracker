@@ -47,6 +47,7 @@ class Admin::BaseController < ApplicationController
 
   private
 
+  # TODO: Tidy up pagination on whole app
   def prepare_scope
     @scope = {
       per: DEFAULT_PER_PAGE,

@@ -10,15 +10,14 @@ FactoryGirl.define do
   end
 
   factory :super_admin, parent: :user do
-    role 'super_admin'
+    role :super_admin
   end
 
   factory :volunteer, parent: :user do
-    role 'volunteer'
+    role :volunteer
   end
 
-  factory :subaccount, parent: :user do
-    role 'volunteer'
+  factory :subaccount, parent: :volunteer do
     master
   end
 end

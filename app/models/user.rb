@@ -45,12 +45,18 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :charities
 
 
+  # TODO: Remove all these hooks with role column in user model
   before_save :default_values
   before_save :process_name
   after_update :reset_role_associations
+  after_create :add_role_associations
 
   def default_values
     self.role ||= 'volunteer'
+  end
+
+  def add_role_associations
+    self.add_role self.role unless self.has_role? self.role
   end
 
   def reset_role_associations

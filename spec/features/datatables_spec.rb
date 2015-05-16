@@ -3,6 +3,8 @@ require 'rails_helper'
 describe 'datatables loads successfully' do
   before do
     organisation = FactoryGirl.create(:organisation)
+    event        = FactoryGirl.create(:event, organisation: organisation)
+    day          = FactoryGirl.create(:day, event: event)
     @super_admin = FactoryGirl.create(:super_admin, organisation: organisation)
     @volunteer   = FactoryGirl.create(:volunteer, organisation: organisation)
     @subaccount  = FactoryGirl.create(:super_admin, organisation: organisation, master: @volunteer)

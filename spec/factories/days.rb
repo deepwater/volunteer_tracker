@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :day do
-    name 'Some organization'
-    sequence(:subdomain) { |n| "subdomain#{n}" }
+    mday Time.now.mday 
+    month Time.now.month
+    year Time.now.year
+    day_type  %w(1 2 3).sample
+    event
+    date Time.now
   end
 end
