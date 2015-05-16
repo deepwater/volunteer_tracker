@@ -22,10 +22,11 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require dataTables/extras/dataTables.tableTools
 
+//= require partials/common
+
 //= require admin/departments
 //= require admin/events
 //= require admin/index
-//= require admin/users
 
 //= require dashboard/check_ins
 //= require dashboard/dashboard
@@ -34,10 +35,8 @@
 //= require dashboard/become_users
 //= require dashboard/flags
 //= require dashboard/user_availabilities
-//= require dashboard/volunteers
 
 //= require partials/department_blocks
 //= require partials/departments
-//= require partials/subaccounts
 //= require partials/user_schedules
 //= require partials/tours

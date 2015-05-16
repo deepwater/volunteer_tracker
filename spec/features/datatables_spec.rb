@@ -1,16 +1,22 @@
-require 'spec_helper'
-include Warden::Test::Helpers
-Warden.test_mode!
+require 'rails_helper'
 
-feature 'datatables loads successfully' do
-  background do
-  	@volunteer = FactoryGirl.create(:volunteer)
-  	@super_admin = FactoryGirl.create(:super_admin)
-  	login_as @super_admin
+describe 'datatables loads successfully' do
+  before do
+    organisation = FactoryGirl.create(:organisation)
+    @super_admin = FactoryGirl.create(:super_admin, organisation: organisation)
+    @volunteer   = FactoryGirl.create(:volunteer, organisation: organisation)
+    @subaccount  = FactoryGirl.create(:super_admin, organisation: organisation, master: @volunteer)
   end
 
-  scenario 'admin users page', js: true do
-  	visit admin_path
+  it 'admin users page', js: true do
+    sign_in @super_admin
+    visit admin_root_path
     expect(page).to have_content @volunteer.email
+  end
+
+  it 'subaccounts page', js: true do
+    sign_in @volunteer
+    visit user_subaccounts_path(@volunteer)
+    expect(page).to have_content @subaccount.username
   end
 end

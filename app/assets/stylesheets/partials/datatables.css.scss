@@ -1,9 +1,13 @@
-.dataTables_wrapper {
-  margin: 15px 0 0;
-}
 .dataTables_filter {
-  float: none !important;
+	display: inline;
+  float: right;
 }
 table.dataTable tr.DTTT_selected.odd td {
   background-color: #9FAFD1;
+}
+div.DTTT_container {
+	display: inline;
+	a {
+		margin-right: 5px;
+	}
 }
