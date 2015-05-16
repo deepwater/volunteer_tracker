@@ -22,11 +22,11 @@ class Dashboard::BecomeUsersController < DashboardController
       subaccounts.each do |subaccount|
         subaccount.master_id = user.id
         subaccount.pending_master_id = -1
-        subaccount.save!
+        subaccount.save(:validate => false)
       end
     end
     user.transfer_status = ""
-    user.save!
+    user.save(:validate => false)
 
     redirect_to dashboard_index_path
   end
@@ -37,11 +37,11 @@ class Dashboard::BecomeUsersController < DashboardController
     if not subaccounts.blank?
       subaccounts.each do |subaccount|
         subaccount.pending_master_id = -1
-        subaccount.save!
+        subaccount.save(:validate => false)
       end
     end
     @user.transfer_status = ""
-    @user.save!
+    @user.save(:validate => false)
 
     redirect_to dashboard_index_path
   end
@@ -70,7 +70,7 @@ class Dashboard::BecomeUsersController < DashboardController
 
               @subaccount.pending_master_id = @master_user.id
 
-              @subaccount.save!
+              @subaccount.save(:validate => false)
             end
           end
         end
@@ -78,7 +78,7 @@ class Dashboard::BecomeUsersController < DashboardController
 
       if @accounts_exist
         @master_user.transfer_status = "PENDING"
-        @master_user.save!
+        @master_user.save(:validate => false)
       end
     end
 
