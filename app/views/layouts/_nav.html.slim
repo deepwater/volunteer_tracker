@@ -19,11 +19,17 @@ header#header
               i.icon-user.icon-white
               ' My Profile
           - if user_signed_in?
+            - if current_user.has_any_role? :event_admin, :org_admin, :super_admin, :department_manager
+              li
+                = link_to dashboard_become_users_path do
+                  i.icon-home.icon-white
+                  ' Become User
             - unless current_user.subaccount?
               li
                 = link_to user_subaccounts_url(current_user) do
                   i.icon-plus.icon-white
                   ' Subaccounts
+
           - if user_signed_in?
             - if current_user.has_any_role? :event_admin, :org_admin, :super_admin
               li
