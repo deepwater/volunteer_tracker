@@ -1,85 +1,60 @@
 class Admin::CharitiesController < Admin::BaseController
-  # GET /charities
-  # GET /charities.json
+  before_action :charity, only: [:show, :edit, :update, :destroy]
+  
   def index
     @charities = Charity.order('name')
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @charities }
-    end
   end
 
-  # GET /charities/1
-  # GET /charities/1.json
   def show
-    @charity = Charity.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @charity }
-    end
   end
 
-  # GET /charities/new
-  # GET /charities/new.json
   def new
     @charity = Charity.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @charity }
-    end
   end
 
-  # GET /charities/1/edit
   def edit
-    @charity = Charity.find(params[:id])
   end
 
-  # POST /charities
-  # POST /charities.json
   def create
-    @charity = Charity.new(params[:charity])
+    @charity = Charity.new(charity_params)
 
     respond_to do |format|
       if @charity.save
-        format.html { redirect_to admin_charity_path(@charity), notice: 'Charity was successfully created.' }
-        format.json { render json: @charity, status: :created, location: @charity }
+        format.html { redirect_to @charity, notice: 'Charity was successfully created.' }
+        format.json { render :show, status: :created, location: @charity }
       else
-        format.html { render action: "new" }
+        format.html { render :new }
         format.json { render json: @charity.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /charities/1
-  # PUT /charities/1.json
   def update
-    @charity = Charity.find(params[:id])
-
     respond_to do |format|
-      if @charity.update_attributes(params[:charity])
-        format.html { redirect_to admin_charity_path(@charity), notice: 'Charity was successfully updated.' }
-        format.json { head :no_content }
-        format.js
+      if @charity.update(charity_params)
+        format.html { redirect_to @charity, notice: 'Charity was successfully updated.' }
+        format.json { render :show, status: :ok, location: @charity }
       else
-        format.html { render action: "edit" }
+        format.html { render :edit }
         format.json { render json: @charity.errors, status: :unprocessable_entity }
-        format.js
       end
     end
   end
 
-  # DELETE /charities/1
-  # DELETE /charities/1.json
   def destroy
-    @charity = Charity.find(params[:id])
     @charity.destroy
-
     respond_to do |format|
-      format.html { redirect_to admin_charities_url }
+      format.html { redirect_to admin_charities_url, notice: 'Charity was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
+  end 
+
+  private
+    def charity
+      @charity = Charity.find(params[:id])
+    end
+
+    def charity_params
+      params.require(:charity).permit(:name)
+    end
 end

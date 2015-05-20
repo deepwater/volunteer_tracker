@@ -20,7 +20,7 @@ VolunteerTracker::Application.routes.draw do
     end
   end
 
-  match '/welcome' => 'welcome#index'
+  get '/welcome' => 'welcome#index'
 
   namespace :admin do
     resources :users
@@ -42,7 +42,7 @@ VolunteerTracker::Application.routes.draw do
         get :organisation_tab
       end
     end
-    match 'list' => 'base#list'
+    get 'list' => 'base#list'
     root to: 'base#index'
   end
 
@@ -87,28 +87,27 @@ VolunteerTracker::Application.routes.draw do
         post :is_accessible
       end
     end
-    match 'check_ins/scheduled/:year/:month/:day' => 'check_ins#scheduled'
-    match 'check_ins/active/:year/:month/:day' => 'check_ins#active'
-    match 'check_ins/inactive/:year/:month/:day' => 'check_ins#inactive'
-    match 'volunteers/:year/:month/:day' => 'volunteers#index'
+    get 'check_ins/scheduled/:year/:month/:day' => 'check_ins#scheduled'
+    get 'check_ins/active/:year/:month/:day' => 'check_ins#active'
+    get 'check_ins/inactive/:year/:month/:day' => 'check_ins#inactive'
+    get 'volunteers/:year/:month/:day' => 'volunteers#index'
 
     get 'check_outs/fastpass' => 'check_ins#fastpass_out', as: :fastpass_check_out
     post 'check_outs' => 'check_ins#check_out', as: :check_out
 
     resources :flags
 
-    match 'department_blocks/:id/copy/' => 'department_blocks#copy'
-    match 'departments/:id/export/:year/:month/:day' => 'department_blocks#export'
-    match 'departments/:id/schedule/:year/:month/:day' => 'departments#schedule'
+    get 'department_blocks/:id/copy/' => 'department_blocks#copy'
+    get 'departments/:id/export/:year/:month/:day' => 'department_blocks#export'
+    get 'departments/:id/schedule/:year/:month/:day' => 'departments#schedule'
   end
 
   authenticated :user do
-    root :to => 'dashboard#index'
+    root to: 'dashboard#index', as: :authenticated_root
   end
-
   unauthenticated do
     devise_scope :user do
-      root :to => 'devise/sessions#new'
+      root to: 'devise/sessions#new', as: :root
     end
   end
 end

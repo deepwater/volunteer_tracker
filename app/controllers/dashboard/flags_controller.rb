@@ -1,6 +1,5 @@
 class Dashboard::FlagsController < DashboardController
-  # GET /flags
-  # GET /flags.json
+
   def index
     @flags = Flag.all
 
@@ -10,8 +9,6 @@ class Dashboard::FlagsController < DashboardController
     end
   end
 
-  # GET /flags/1
-  # GET /flags/1.json
   def show
     @flag = Flag.find(params[:id])
 
@@ -21,8 +18,6 @@ class Dashboard::FlagsController < DashboardController
     end
   end
 
-  # GET /flags/new
-  # GET /flags/new.json
   def new
     @flag = Flag.new
 
@@ -32,13 +27,10 @@ class Dashboard::FlagsController < DashboardController
     end
   end
 
-  # GET /flags/1/edit
   def edit
     @flag = Flag.find(params[:id])
   end
 
-  # POST /flags
-  # POST /flags.json
   def create
     @flag = Flag.new(params[:flag])
 
@@ -53,8 +45,6 @@ class Dashboard::FlagsController < DashboardController
     end
   end
 
-  # PUT /flags/1
-  # PUT /flags/1.json
   def update
     @flag = Flag.find(params[:id])
 
@@ -69,8 +59,6 @@ class Dashboard::FlagsController < DashboardController
     end
   end
 
-  # DELETE /flags/1
-  # DELETE /flags/1.json
   def destroy
     @flag = Flag.find(params[:id])
     @flag.destroy

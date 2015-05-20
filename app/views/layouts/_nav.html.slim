@@ -2,7 +2,7 @@ header#header
   .navbar.navbar-inverse.navbar-fixed-top role="navigation"
     .container-fluid
       .navbar-header
-        = link_to 'Eventus', root_path, class: 'navbar-brand'
+        = link_to 'Eventus', authenticated_root_path, class: 'navbar-brand'
         button.navbar-toggle type="button" data-toggle="collapse" data-target="#main-nav-toggle"
           span.sr-only Toggle navigation
           span.icon-bar
@@ -38,5 +38,5 @@ header#header
           li.nav-tour-link.hide-temporarily
             = link_to "View Tour", "#", id: "tour-trigger"
           li
-            = link_to "Logout", destroy_user_session_url, method: :delete, confirm: "Are you sure you want to logout?"
+            = link_to "Logout", destroy_user_session_url, method: :delete, data: { confirm: 'Are you sure you want to logout?' }
 = render "layouts/edit_profile_modal"

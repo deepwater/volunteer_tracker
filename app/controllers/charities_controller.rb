@@ -9,8 +9,6 @@ class CharitiesController < ApplicationController
     end
   end
 
-  # GET /charities/1
-  # GET /charities/1.json
   def show
     @charity = Charity.find(params[:id])
 

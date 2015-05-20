@@ -8,7 +8,7 @@ class DepartmentBlock < ActiveRecord::Base
 
   has_many :volunteer_managers
 
-  scope :ordered_by_date, order('day_id').order('start_time')
+  scope :ordered_by_date, -> { order('day_id').order('start_time') }
 
   def readable_start_time
     t = Time.parse("#{start_time} #{day.mday}/#{day.month}/#{day.year}")

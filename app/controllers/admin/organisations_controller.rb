@@ -1,46 +1,22 @@
 class Admin::OrganisationsController < Admin::BaseController
-  # GET /organisations
-  # GET /organisations.json
+  before_action :organisation, only: [:show, :edit, :update, :destroy]
+
   def index
     @organisations = Organisation.order('name')
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @organisations }
-    end
   end
 
-  # GET /organisations/1
-  # GET /organisations/1.json
   def show
-    @organisation = Organisation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @organisation }
-    end
   end
 
-  # GET /organisations/new
-  # GET /organisations/new.json
   def new
     @organisation = Organisation.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @organisation }
-    end
   end
 
-  # GET /organisations/1/edit
   def edit
-    @organisation = Organisation.find(params[:id])
   end
 
-  # POST /organisations
-  # POST /organisations.json
   def create
-    @organisation = Organisation.new(params[:organisation])
+    @organisation = Organisation.new(organisation_params)
 
     respond_to do |format|
       if @organisation.save
@@ -53,13 +29,9 @@ class Admin::OrganisationsController < Admin::BaseController
     end
   end
 
-  # PUT /organisations/1
-  # PUT /organisations/1.json
   def update
-    @organisation = Organisation.find(params[:id])
-
     respond_to do |format|
-      if @organisation.update_attributes(params[:organisation])
+      if @organisation.update_attributes(organisation_params)
         format.html { redirect_to admin_organisation_path(@organisation), notice: 'Organisation was successfully updated.' }
         format.json { head :no_content }
       else
@@ -69,10 +41,7 @@ class Admin::OrganisationsController < Admin::BaseController
     end
   end
 
-  # DELETE /organisations/1
-  # DELETE /organisations/1.json
   def destroy
-    @organisation = Organisation.find(params[:id])
     @organisation.destroy
 
     respond_to do |format|
@@ -80,4 +49,13 @@ class Admin::OrganisationsController < Admin::BaseController
       format.json { head :no_content }
     end
   end
+
+  private
+    def organisation
+      @organisation = Organisation.find(params[:id])
+    end
+
+    def organisation_params
+      params.require(:organisation).permit!
+    end
 end

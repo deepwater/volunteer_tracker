@@ -11,15 +11,12 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
-
-//= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require dataTables/extras/dataTables.tableTools
 
 //= require bootstrap
 //= require bootstrap-timepicker
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
 //= require moment
 //= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
@@ -44,3 +41,5 @@
 //= require partials/departments
 //= require partials/user_schedules
 //= require partials/tours
+
+//= require turbolinks

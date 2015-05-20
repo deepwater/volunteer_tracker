@@ -10,33 +10,27 @@
 
 .row
   .col-sm-5
-    = image_tag "ggf_logo.png", alt: '', class: "main-logo"
+    = image_tag 'ggf_logo.png', class: 'main-logo'
   .col-sm-6
 
     .row
       .col-sm-9.col-sm-offset-3
         h2 Create your profile
     
-    = simple_form_for resource, url: registration_path(:user), method: :post, html: {class: 'form-horizontal', novalidate: true} do |f|
-      fieldset
-        = f.input :first_name, required: true, autofocus: true
-        = f.input :last_name, required: true
-        = f.input :username
-        = f.input :cell_phone
-        = f.input :home_phone
-        = f.input :email, required: true
-        = f.input :adult, input_html: { checked: false }, label: "Age 18 or over?"
-        = f.input :password, required: true
-        = f.input :password_confirmation, required: true
-        = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
-        = f.input :tshirt_size, collection: User::TSHIRT_SIZES
-        
-        .form-group
-          .col-sm-9.col-sm-offset-3
-              p
-                small
-                  ' *Note: We never share your information with ANYONE outside of the Gilroy Garlic Festival organization and will only use this information to better assist us with coordinating the event.
-        .form-group
-          .col-sm-9.col-sm-offset-3
+        = simple_form_for resource, url: registration_path(:user), method: :post do |f|
+            = f.input :first_name, required: true, autofocus: true
+            = f.input :last_name, required: true
+            = f.input :username
+            = f.input :cell_phone
+            = f.input :home_phone
+            = f.input :email, required: true
+            = f.input :adult, input_html: { checked: false }, label: "Age 18 or over?"
+            = f.input :password, required: true
+            = f.input :password_confirmation, required: true
+            = f.input :organisation_id, as: :hidden, input_html: { value: Organisation.first.try(:id) }
+            = f.input :tshirt_size, collection: User::TSHIRT_SIZES
+            p
+              small
+                ' *Note: We never share your information with ANYONE outside of the Gilroy Garlic Festival organization and will only use this information to better assist us with coordinating the event.
             = f.button :submit, class: 'btn btn-primary'
             = render "links"

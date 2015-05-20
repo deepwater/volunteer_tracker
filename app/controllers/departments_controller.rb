@@ -46,8 +46,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  # PUT /departments/1
-  # PUT /departments/1.json
   def update
     @department = Department.find(params[:id])
 
@@ -62,8 +60,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  # DELETE /departments/1
-  # DELETE /departments/1.json
   def destroy
     @department = Department.find(params[:id])
     @department.destroy

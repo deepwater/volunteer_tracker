@@ -8,11 +8,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name,
-                  :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id,
-                  :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login,
-                  :charity_ids, :resource_id, :resource_type
-
   attr_accessor :login, :resource_id, :resource_type
 
   validates :first_name, :last_name, presence: true

@@ -22,8 +22,8 @@ class UserDatatable < AjaxDatatablesRails::Base
         record.last_sign_in_at ? record.last_sign_in_at.to_formatted_s(:long_ordinal) : "Has not been logged yet",
         %w[department_assistant department_manager].include?(record.role) ? user_role_with_department_name(record) : record.role,
         record.charities.any? ? record.charities.first.try(:name) : "Not assigned",
-        link_to('Edit', edit_admin_user_path(record)),
-        link_to('Delete', admin_user_path(record), method: :delete, confirm: "Are you sure you want to delete this user?", remote: true)
+        link_to('Edit', edit_admin_user_path(record), remote: true),
+        link_to('Delete', admin_user_path(record), remote: true, method: :delete, data: { confirm: "Are you sure you want to delete this user?" })
       ]
     end
   end

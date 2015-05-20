@@ -21,7 +21,7 @@ class SubaccountDatatable < AjaxDatatablesRails::Base
         record.charities.first.try(:name),
         link_to('Set availabilities', user_user_availabilities_path(record)),
         link_to('Edit', edit_user_subaccount_path(options[:user], record)),
-        link_to('Delete', user_subaccount_path(options[:user], record), method: :delete, confirm: "Are you sure?", remote: true)
+        link_to('Delete', user_subaccount_path(options[:user], record), remote: true, method: :delete, data: { confirm: "Are you sure?" })
       ]
     end
   end

@@ -1,7 +1,5 @@
 class Dashboard::UsersController < DashboardController
 
-  # PUT /users/1
-  # PUT /users/1.json
   def update
     @user = User.find(params[:id])
     @user.attributes = params[:user]

@@ -19,7 +19,7 @@
     = f.input :email
     = f.input :adult, input_html: { checked: current_user.adult }
     = f.input :secondary_email, as: :string, hint: "(If you would like to send email notifications to a second email)"
-    = f.hidden_field :organisation_id, value: Organisation.first.try(:id)
+    = f.input :organisation_id, as: :hidden, input_html: { value: Organisation.first.try(:id) }
     = f.input :tshirt_size, collection: User::TSHIRT_SIZES
 
     .form-group

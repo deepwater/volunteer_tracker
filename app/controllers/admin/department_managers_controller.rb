@@ -1,7 +1,8 @@
 class Admin::DepartmentManagersController < Admin::BaseController
+  before_action :department_manager, only: [:destroy]
 
   def create
-    @department_manager = DepartmentManager.new(params[:department_manager])
+    @department_manager = DepartmentManager.new(department_manager_params)
 
     # Update user role
     user = @department_manager.user
@@ -22,7 +23,6 @@ class Admin::DepartmentManagersController < Admin::BaseController
   end
 
   def destroy
-    @department_manager = DepartmentManager.find(params[:id])
     @department_manager.user.remove_role(:department_manager)
     @department_manager.destroy
 
@@ -31,4 +31,13 @@ class Admin::DepartmentManagersController < Admin::BaseController
       format.json { head :no_content }
     end
   end
+
+  private
+    def department_manager
+      @department_manager = DepartmentManager.find(params[:id])
+    end
+
+    def department_manager_params
+      params.require(:department_manager).permit!
+    end
 end

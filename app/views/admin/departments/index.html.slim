@@ -18,4 +18,4 @@ table.table.table-bordered.table-striped
             .progress-bar class=(get_department_usage_class(department.estimate_hours_total, department.budgeted_hours)) style="width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"
           ' #{department.estimate_hours_total} / #{department.budgeted_hours}
         td= link_to 'Edit', edit_admin_department_path(department)
-        td= link_to 'Delete', admin_department_path(department), :method => :delete, :'data-confirm' => 'Are you sure?'
+        td= link_to 'Delete', admin_department_path(department), method: :delete, data: { confirm: 'Are you sure?' }

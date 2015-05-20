@@ -16,4 +16,4 @@ table.table.table-bordered.table-striped
         td= flag.user.full_name
         td= flag.description
         td= link_to 'View Check-In', [:edit, :dashboard, flag.check_in], class: "btn btn-success btn-sm"
-        td= link_to 'Delete', [:dashboard, flag], :method => :delete, class: "btn btn-danger btn-sm", :data => { :confirm => 'Are you sure?' }
+        td= link_to 'Delete', [:dashboard, flag], class: "btn btn-danger btn-sm", method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,19 +1,18 @@
 .row
   .col-md-5
-    = image_tag "ggf_logo.png", alt: '', class: "main-logo"
+    = image_tag 'ggf_logo.png', class: 'main-logo'
   .col-md-6
 
     .row.devise-form
       .col-md-9.col-md-offset-3
         h2 Sign In
 
-    = simple_form_for(resource, url: session_path(:user), html: { id: "sign_in", class: 'form-horizontal', novalidate: true }) do |f|
-      fieldset
-        = f.input :login, required: false, autofocus: true
-        = f.input :password, required: false
-        - if devise_mapping.rememberable?
-          = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
-        .form-group
-          .col-md-9.col-md-offset-3
+        = simple_form_for(resource, url: session_path(:user)) do |f|
+          fieldset
+            = f.input :login, required: false, autofocus: true
+            = f.input :password, required: false
+            - if devise_mapping.rememberable?
+              = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
+
             = f.button :submit, "Sign in", class: 'btn btn-lg btn-primary'
             = render "links"

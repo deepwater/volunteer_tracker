@@ -1,4 +1,5 @@
 class Admin::UsersController < Admin::BaseController
+  before_action :user, only: [:show, :edit, :update, :destroy]
 
   def index
     respond_to do |format|
@@ -8,26 +9,13 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def show
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @user }
-    end
   end
 
   def new
     @user = User.new
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @user }
-    end
   end
 
   def edit
-    @user = User.find(params[:id])
-
     respond_to do |format|
       format.html
       format.json { render json: @user }
@@ -36,7 +24,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
@@ -50,8 +38,6 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    @user = User.find(params[:id])
-
     if params[:user][:password].blank?
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
@@ -60,7 +46,7 @@ class Admin::UsersController < Admin::BaseController
     @user.skip_reconfirmation!
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
         format.json { head :no_content }
         format.js
@@ -73,7 +59,6 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
 
     respond_to do |format|
@@ -82,4 +67,13 @@ class Admin::UsersController < Admin::BaseController
       format.json { head :no_content }
     end
   end
+
+  private
+    def user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit!
+    end
 end

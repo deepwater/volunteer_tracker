@@ -1,9 +1,10 @@
-@import 'jquery.ui.all';
+@import 'jquery-ui';
 
+@import 'bootstrap-sprockets';
 @import 'bootstrap';
 
 @import 'bootstrap-timepicker';
-@import 'bootstrap-datepicker';
+@import 'bootstrap-datepicker3';
 @import 'bootstrap-datetimepicker';
 
 @import 'libs/bootstrap-tour';

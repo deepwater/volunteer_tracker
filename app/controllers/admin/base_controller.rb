@@ -1,5 +1,4 @@
 class Admin::BaseController < ApplicationController
-	# layout 'admin'
 	before_filter :authenticate_user!
   before_filter :authenticate_admin
   before_filter :prepare_scope, only: [:charity_tab, :department_tab, :event_tab, :organisation_tab]
@@ -56,6 +55,6 @@ class Admin::BaseController < ApplicationController
   end
 
   def authenticate_admin
-    redirect_to root_path unless current_user.has_any_role? :super_admin, :org_admin, :event_admin
+    redirect_to authenticated_root_path unless current_user.has_any_role? :super_admin, :org_admin, :event_admin
   end
 end

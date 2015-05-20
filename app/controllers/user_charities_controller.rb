@@ -32,8 +32,6 @@ class UserCharitiesController < ApplicationController
     @user_charity = UserCharity.find(params[:id])
   end
 
-  # POST /user_charities
-  # POST /user_charities.json
   def create
     @user_charity = UserCharity.new(params[:user_charity])
 
@@ -48,8 +46,6 @@ class UserCharitiesController < ApplicationController
     end
   end
 
-  # PUT /user_charities/1
-  # PUT /user_charities/1.json
   def update
     @user_charity = UserCharity.find(params[:id])
 
@@ -64,8 +60,6 @@ class UserCharitiesController < ApplicationController
     end
   end
 
-  # DELETE /user_charities/1
-  # DELETE /user_charities/1.json
   def destroy
     @user_charity = UserCharity.find(params[:id])
     @user_charity.destroy

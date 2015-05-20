@@ -13,4 +13,4 @@ table.table.table-bordered.table-striped
       tr
         td= link_to event.name, admin_event_path(event)
         td= link_to 'Edit', edit_admin_event_path(event)
-        td= link_to 'Delete', admin_event_path(event), :method=> :delete, :'data-confirm' => 'Are you sure?'
+        td= link_to 'Delete', admin_event_path(event), method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,4 +1,5 @@
 class Admin::DepartmentsController < Admin::BaseController
+  before_action :department, only: [:show, :edit, :update, :destroy]
 
   def index
     service = DepartmentService.new
@@ -11,11 +12,7 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # GET /departments/1
-  # GET /departments/1.json
   def show
-    @department = Department.find(params[:id])
-
     @department_managers = User.includes(:department_manager).where(role: "department_manager")
     @department_managers.select!{|user| user.department_manager.nil? }
 
@@ -29,27 +26,16 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # GET /departments/new
-  # GET /departments/new.json
   def new
     @department = Department.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @department }
-    end
   end
 
-  # GET /departments/1/edit
   def edit
-    @department = Department.find(params[:id])
     @department_manager = DepartmentManager.new
   end
 
-  # POST /departments
-  # POST /departments.json
   def create
-    @department = Department.new(params[:department])
+    @department = Department.new(department_params)
 
     respond_to do |format|
       if @department.save
@@ -62,13 +48,9 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # PUT /departments/1
-  # PUT /departments/1.json
   def update
-    @department = Department.find(params[:id])
-
     respond_to do |format|
-      if @department.update_attributes(params[:department])
+      if @department.update_attributes(department_params)
         format.html { redirect_to admin_department_path(@department), notice: 'Department was successfully updated.' }
         format.json { head :no_content }
         format.js
@@ -80,16 +62,21 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # DELETE /departments/1
-  # DELETE /departments/1.json
   def destroy
-    @department = Department.find(params[:id])
     @department.destroy
-
     respond_to do |format|
       format.html { redirect_to admin_departments_url }
       format.json { head :no_content }
     end
   end
+
+  private
+    def department
+      @department = Department.find(params[:id])
+    end
+
+    def department_params
+      params.require(:department).permit!
+    end
 
 end

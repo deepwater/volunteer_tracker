@@ -23,7 +23,7 @@
             td= department_assistant.user.full_name
             td
               - if current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
-                = link_to 'Unassign', admin_department_assistant_path(department_assistant), confirm: 'Are you sure?', method: :delete, remote: true, data: { type: "json" }, class: 'btn unassign-department-assistant btn btn-danger'
+                = link_to 'Unassign', admin_department_assistant_path(department_assistant), remote: true, method: :delete, data: { confirm: 'Are you sure?', type: :json }, class: 'btn unassign-department-assistant btn btn-danger'
                 |&nbsp;
                 = link_to "Restrict Access", show_modal_admin_department_assistant_path(department_assistant), class: "button btn btn-info", remote: true
 

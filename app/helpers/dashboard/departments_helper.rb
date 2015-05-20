@@ -19,17 +19,14 @@ module Dashboard::DepartmentsHelper
 
 
   def get_department_usage(estimated_hours, allocated_hours)
-
     if allocated_hours == 0
       return 100
     else
       return ( estimated_hours.to_f / allocated_hours.to_f ) * 100
     end
-
   end
 
   def get_department_usage_class(estimated_hours, allocated_hours)
-
     if estimated_hours.to_f > allocated_hours.to_f
       return "progress-bar-danger"
     else

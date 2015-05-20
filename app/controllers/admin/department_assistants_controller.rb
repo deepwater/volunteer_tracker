@@ -1,8 +1,9 @@
 class Admin::DepartmentAssistantsController < DashboardController
+  before_action :department_assistant, only: [:destroy, :restrict_blocks, :show_modal]
   respond_to :js, only: [:show_modal]
 
   def create
-    @department_assistant = DepartmentAssistant.new(params[:department_assistant])
+    @department_assistant = DepartmentAssistant.new(department_assistant_params)
 
     user = @department_assistant.user
     user.role = "department_assistant"
@@ -22,7 +23,6 @@ class Admin::DepartmentAssistantsController < DashboardController
   end
 
   def destroy
-    @department_assistant = DepartmentAssistant.find(params[:id])
     @department_assistant.user.remove_role(:department_assistant)
     @department_assistant.destroy
 
@@ -33,7 +33,6 @@ class Admin::DepartmentAssistantsController < DashboardController
   end
 
   def restrict_blocks
-    @department_assistant = DepartmentAssistant.find(params[:id])
     user = @department_assistant.user
     if params[:department_blocks_ids].present?
       user.remove_role(:department_assistant)
@@ -45,7 +44,15 @@ class Admin::DepartmentAssistantsController < DashboardController
   end
 
   def show_modal
-    @department_assistant = DepartmentAssistant.find(params[:id])
-  end
+  end  
+
+  private
+    def department_assistant
+      @department_assistant = DepartmentAssistant.find(params[:id])
+    end
+
+    def department_assistant_params
+      params.require(:department_assistant).permit!
+    end
 
 end
