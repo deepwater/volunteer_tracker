@@ -10,10 +10,7 @@ VolunteerTracker::Application.routes.draw do
     passwords: "passwords"
   }
 
-  resources :users do
-    collection do
-      get :edit_profile
-    end
+  resources :users, only: [:edit] do
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
       post :import, on: :collection
