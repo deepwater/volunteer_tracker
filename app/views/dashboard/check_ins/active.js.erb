@@ -1,4 +1,4 @@
-
+$("#active_volunteers").html("<%= j(render('active', results: @results)) %>")
 
 $table = $("#active-check-ins-table-<%= @day.safe_short_date %>");
 $table.find("tbody").empty().append("<%= j(render('active_items', results: @results)) %>");

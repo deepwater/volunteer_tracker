@@ -1,11 +1,12 @@
 - days = Day.all
+- @active_items = results
 .col-sm-12
   .page-header
-    h1 Active Volunteers
+    h2 Active Volunteers
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{active_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}" do
+        = link_to "#{active_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
           = day.day_name
           = day.short_date
 
@@ -45,13 +46,13 @@
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "active_items", results: @results
+            = render "active_items", results: @active_items
 
         .pagination-wrapper
           .div id="pagination-#{day.safe_short_date}"
-            = paginate @results, remote: true
+            = paginate @active_items
           .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @results
+            = page_entries_info @active_items
 coffee:
   $ ->
     populateIds = ->

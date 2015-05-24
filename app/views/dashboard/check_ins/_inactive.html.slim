@@ -2,7 +2,7 @@
 - @inactive_items = results
 .col-sm-12
   .page-header
-    h1 Inactive / Past Volunteers
+    h2 Inactive / Past Volunteers
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
