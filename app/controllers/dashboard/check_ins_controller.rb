@@ -1,6 +1,6 @@
 class Dashboard::CheckInsController < DashboardController
   DEFAULT_PER_PAGE = 10
-  before_filter :set_scope, only: [:scheduled, :active, :inactive]
+  before_filter :set_scope, only: [:scheduled_tab, :active_tab, :inactive_tab, :manage]
   before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
@@ -13,22 +13,35 @@ class Dashboard::CheckInsController < DashboardController
     end
   end
 
-  def scheduled
+  # Same as scheduled tab
+  def manage
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @service = ScheduledCheckInsService.new(as: current_user)
     @results = @service.prepare_scheduled_data(@scope)
   end
 
-  def active
+  def scheduled_tab
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @results = check_ins_service.prepare_check_ins_data(:active, @scope)
+    @service = ScheduledCheckInsService.new(as: current_user)
+    @results = @service.prepare_scheduled_data(@scope)
+    respond_to do |format|
+      format.js
+    end
   end
 
-  def inactive
+  def active_tab
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
+    @results = check_ins_service.prepare_check_ins_data(:active, @scope)
     respond_to do |format|
-      format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
-      format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
+      format.js
+    end
+  end
+
+  def inactive_tab
+    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
+    @results = check_ins_service.prepare_check_ins_data(:inactive, @scope)
+    respond_to do |format|
+      format.js
       format.csv do
         @scope.delete(:per)
         data = check_ins_service.prepare_check_ins_data(:inactive, @scope)

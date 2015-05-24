@@ -1,0 +1,5 @@
+li.col-sm-4
+  .thumbnail
+    .caption
+      h4 Manage Volunteers
+      p = link_to "Manage", "#{manage_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", class: "btn btn-block btn-primary"

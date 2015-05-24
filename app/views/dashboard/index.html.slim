@@ -29,9 +29,9 @@ ul.thumbnails.nav
   - if can?(:manage_fastpass, current_user) || current_user.has_any_role?(:department_manager, :department_assistant, :volunteer_manager)
     = render "dashboard/dashboard_modules/checkin_volunteer"
   - if current_user.role != "volunteer"
-    = render "dashboard/dashboard_modules/active_volunteers"
-    = render "dashboard/dashboard_modules/inactive_volunteers"
-    / # = render "dashboard/dashboard_modules/volunteers"
+    = render "dashboard/dashboard_modules/manage_volunteers"
+  / - if current_user.role != "volunteer"
+  /   = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
 
