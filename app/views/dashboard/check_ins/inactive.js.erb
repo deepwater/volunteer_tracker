@@ -1,3 +1,5 @@
+$("#inactive_volunteers").html("<%= j(render('inactive', results: @results)) %>")
+
 $table = $("#inactive-check-ins-table-<%= @day.safe_short_date %>");
 $table.find("tbody").empty().append("<%= j(render('inactive_items', results: @results)) %>");
 
@@ -6,4 +8,3 @@ $pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
 
 $pagination_info = $("#pagination-info-<%= @day.safe_short_date %>")
 $pagination_info.empty().append("<%= j(page_entries_info @results)%>")
-

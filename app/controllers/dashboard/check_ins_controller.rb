@@ -17,17 +17,22 @@ class Dashboard::CheckInsController < DashboardController
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @service = ScheduledCheckInsService.new(as: current_user)
     @results = @service.prepare_scheduled_data(@scope)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def active
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     @results = check_ins_service.prepare_check_ins_data(:active, @scope)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def inactive
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
     respond_to do |format|
-      format.html { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.csv do
         @scope.delete(:per)

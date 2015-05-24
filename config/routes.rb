@@ -82,6 +82,7 @@ VolunteerTracker::Application.routes.draw do
         get :active
         get :inactive
         get :fastpass
+        get :manage
         put :update_batch
         post :create_batch
       end

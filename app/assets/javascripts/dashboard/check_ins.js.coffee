@@ -5,3 +5,13 @@
 $ ->
   $('.bootstrap-timepicker').datetimepicker
   	format: "hh:mm a"
+
+  $('[data-toggle="tabajax"]').click (e) ->
+    $this = $(this)
+    $(".section-tab").html('')
+    loadurl = $this.data('url')
+    $.ajax
+      url: loadurl
+      type: 'get'
+    $this.tab 'show'
+    false

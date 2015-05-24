@@ -1,11 +1,12 @@
 - days = Day.all
+- @inactive_items = results
 .col-sm-12
   .page-header
     h1 Inactive / Past Volunteers
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}" do
+        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
           = day.day_name
           = day.short_date
 
@@ -13,7 +14,7 @@
     - days.each do |day|
       div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}.csv", class: "DTTT_button DTTT_button_csv btn btn-info" do
+        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}.csv", remote: :true, class: "DTTT_button DTTT_button_csv btn btn-info" do
           span Export CSV
         .dataTables_length
           label
@@ -46,10 +47,10 @@
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "inactive_items", results: @results
+            = render "inactive_items", results: @inactive_items
 
         .pagination-wrapper
           .div id="pagination-#{day.safe_short_date}"
-            = paginate @results, remote: true
+            = paginate @inactive_items, remote: true
           .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @results
+            = page_entries_info @inactive_items
