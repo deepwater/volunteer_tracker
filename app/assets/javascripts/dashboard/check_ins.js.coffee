@@ -14,10 +14,12 @@ $ ->
   $('.bootstrap-timepicker').datetimepicker
   	format: "hh:mm a"
 
-  element = $('#volunteer-section-tabs li.active')
-  loadData(element)
-
   $('[data-toggle="tabajax"]').click (e) ->
     $(".section-tab").html('')
     $element = $(this)
     loadData($element)
+
+$(window).load ->
+  element = $("#volunteer-section-tabs li.active a")
+  loadData(element)
+  return
