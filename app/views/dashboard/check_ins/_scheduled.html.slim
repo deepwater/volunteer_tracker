@@ -6,7 +6,7 @@
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{scheduled_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}" do
+        = link_to "#{scheduled_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
           = day.day_name
           = day.short_date
 
