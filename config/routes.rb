@@ -10,10 +10,7 @@ VolunteerTracker::Application.routes.draw do
     passwords: "passwords"
   }
 
-  resources :users do
-    collection do
-      get :edit_profile
-    end
+  resources :users, only: [:edit] do
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
       post :import, on: :collection
@@ -87,9 +84,10 @@ VolunteerTracker::Application.routes.draw do
 
     resources :check_ins do
       collection do
-        get :scheduled
-        get :active
-        get :inactive
+        get :scheduled_tab
+        get :manage
+        get :active_tab
+        get :inactive_tab
         get :fastpass
         get :manage
         put :update_batch
@@ -97,9 +95,10 @@ VolunteerTracker::Application.routes.draw do
       end
     end
 
-    match 'check_ins/scheduled/:year/:month/:day' => "check_ins#scheduled"
-    match 'check_ins/active/:year/:month/:day' => "check_ins#active"
-    match 'check_ins/inactive/:year/:month/:day' => "check_ins#inactive"
+    match 'check_ins/scheduled_tab/:year/:month/:day' => "check_ins#scheduled_tab"
+    match 'check_ins/active_tab/:year/:month/:day' => "check_ins#active_tab"
+    match 'check_ins/inactive_tab/:year/:month/:day' => "check_ins#inactive_tab"
+    match 'check_ins/manage/:year/:month/:day' => "check_ins#manage"
 
     get 'check_outs/fastpass' => "check_ins#fastpass_out", as: :fastpass_check_out
     post 'check_outs' => "check_ins#check_out", as: :check_out

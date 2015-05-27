@@ -16,7 +16,7 @@ header#header
               ' Dashboard
           - if user_signed_in?
             li
-              = link_to edit_profile_users_url, remote: true do
+              = link_to edit_user_url(current_user), remote: true do
                 i.icon-user.icon-white
                 ' My Profile
             - if current_user.has_any_role? :event_admin, :org_admin, :super_admin, :department_manager
@@ -44,4 +44,5 @@ header#header
             = link_to "View Tour", "#", id: "tour-trigger"
           li
             = link_to "Logout", destroy_user_session_url, method: :delete, confirm: "Are you sure you want to logout?"
-= render "layouts/edit_profile_modal"
+            
+= render "users/edit_profile_modal"

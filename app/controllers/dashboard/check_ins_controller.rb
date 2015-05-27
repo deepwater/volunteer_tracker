@@ -1,6 +1,6 @@
 class Dashboard::CheckInsController < DashboardController
   DEFAULT_PER_PAGE = 10
-  before_filter :set_scope, only: [:scheduled, :active, :inactive]
+  before_filter :set_scope, only: [:scheduled_tab, :active_tab, :inactive_tab, :manage]
   before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
@@ -11,6 +11,10 @@ class Dashboard::CheckInsController < DashboardController
       format.html # show.html.erb
       format.json { render json: @check_in }
     end
+  end
+
+  # Same as scheduled tab
+  def manage
   end
 
   def scheduled
@@ -32,6 +36,7 @@ class Dashboard::CheckInsController < DashboardController
 
   def inactive
     @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
+    @results = check_ins_service.prepare_check_ins_data(:inactive, @scope)
     respond_to do |format|
       format.js { @results = check_ins_service.prepare_check_ins_data(:inactive, @scope) }
       format.csv do

@@ -1,0 +1,10 @@
+li.col-sm-4
+  .thumbnail
+    .caption
+      h4 Check-In Volunteer
+      p
+        - if can?(:manage_fastpass, current_user)
+          br
+          = link_to "Fastpass Check In", fastpass_dashboard_check_ins_path, class: "btn btn-block btn-primary"
+          br
+          = link_to "Fastpass Check Out", dashboard_fastpass_check_out_path, class: "btn btn-block btn-primary"
