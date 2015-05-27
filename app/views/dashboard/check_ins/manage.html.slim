@@ -1,19 +1,26 @@
 .page-header
   h1 Manage Volunteers
 
-ul#section-navigation.nav.nav-tabs
-  li.active
-    = link_to "Scheduled Volunteers", "#scheduled_volunteers", remote: true, data: {url: scheduled_tab_dashboard_check_ins_url}
-  li
-    = link_to "Active Volunteers", "#active_volunteers", remote: true, data: {url: active_tab_dashboard_check_ins_url}
-  li
-    = link_to "Inactive/Past Volunteers", "#inactive_volunteers", remote: true, data: {url: inactive_tab_dashboard_check_ins_url}
+- @day = Day.first
+- if current_user.role != "volunteer"
+  ul#volunteer-section-tabs.nav.nav-tabs
+    li.active
+      = link_to "Active Volunteers", "#active_volunteers", data: { url: "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+    li
+      = link_to "Inactive Volunteers", "#inactive_volunteers", data: { url: "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+    li
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
 
-#section-tabs
-  .clearfix
-  #scheduled_volunteers.section-tab
-  #active_volunteers.section-tab
-  #inactive_volunteers.section-tab
+  #volunteer-tabs
+    .clearfix
+    #active_volunteers.section-tab
+    #inactive_volunteers.section-tab
+    #scheduled_volunteers.section-tab
+- else
+  ul#volunteer-section-tabs.nav.nav-tabs
+    li.active
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
 
-= render "shared/modal"
-
+  #volunteer-tabs
+    .clearfix
+    #scheduled_volunteers.section-tab

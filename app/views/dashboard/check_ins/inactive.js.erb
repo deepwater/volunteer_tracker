@@ -1,9 +1,7 @@
-$table = $("#active-check-ins-table-<%= @day.safe_short_date %>");
-$table.find("tbody").empty().append("<%= j(render('active', results: @results)) %>");
+$("#inactive_volunteers").html("<%= j(render('inactive', results: @results)) %>")
 
 $pagination = $("#pagination-<%= @day.safe_short_date %>")
 $pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
 
 $pagination_info = $("#pagination-info-<%= @day.safe_short_date %>")
 $pagination_info.empty().append("<%= j(page_entries_info @results)%>")
-
