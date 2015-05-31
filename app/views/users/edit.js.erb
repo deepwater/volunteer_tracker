@@ -8,7 +8,7 @@ title = 'Edit Profile';
 
 // Set the modal's title and body to the above values
 $title.html(title);
-$body.html("<%= escape_javascript(render partial: 'user_profile', locals: { user: @user}) %>");
+$body.html("<%= escape_javascript(render partial: '/users/user_profile', locals: { user: @user}) %>");
 
 // Hide the submit button (it'd be a duplicate) and make the form remote
 $body.find('input[type="submit"]').hide();

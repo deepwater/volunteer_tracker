@@ -23,6 +23,8 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require dataTables/extras/dataTables.tableTools
+//= require sweet-alert
+//= require sweet-alert-confirm
 
 //= require partials/common
 
@@ -34,6 +36,7 @@
 //= require dashboard/dashboard
 //= require dashboard/department_blocks
 //= require dashboard/fast_pass
+//= require dashboard/become_users
 //= require dashboard/flags
 //= require dashboard/user_availabilities
 

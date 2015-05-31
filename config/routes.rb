@@ -10,10 +10,7 @@ VolunteerTracker::Application.routes.draw do
     passwords: 'passwords'
   }
 
-  resources :users do
-    collection do
-      get :edit_profile
-    end
+  resources :users, only: [:edit] do
     resources :user_availabilities, only: [:index, :create, :destroy]
     resources :subaccounts do
       post :import, on: :collection
@@ -76,17 +73,29 @@ VolunteerTracker::Application.routes.draw do
       get :dymo, on: :member
     end
 
+
+    resources :become_users do
+      collection do
+        get :accept_transfer
+        get :decline_transfer
+        get :get_user_list
+      end
+    end
+
     resources :check_ins do
       collection do
         get :scheduled
+        get :manage
         get :active
         get :inactive
         get :fastpass
+        get :manage
         put :update_batch
         post :create_batch
         post :is_accessible
       end
     end
+    
     get 'check_ins/scheduled/:year/:month/:day' => 'check_ins#scheduled'
     get 'check_ins/active/:year/:month/:day' => 'check_ins#active'
     get 'check_ins/inactive/:year/:month/:day' => 'check_ins#inactive'

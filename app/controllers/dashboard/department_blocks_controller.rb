@@ -20,6 +20,7 @@
     add_breadcrumb department_block.department.name,  dashboard_department_path(department_block.department,anchor: department_block.day.safe_short_date)
     add_breadcrumb department_block.name, [:dashboard, department_block]
 
+    # TODO: implement all this stuff with native datatables capabilities
     service = DepartmentBlocksService.new
     scope = OpenStruct.new(
       id:               params[:id],

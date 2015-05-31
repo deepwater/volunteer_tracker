@@ -46,6 +46,8 @@ class User < ActiveRecord::Base
   after_update :reset_role_associations
   after_create :add_role_associations
 
+
+
   def default_values
     self.role ||= 'volunteer'
   end

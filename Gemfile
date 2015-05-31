@@ -46,6 +46,10 @@ gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
 
+# CUSTOM JS
+gem 'sweet-alert' # Custom alerts
+gem 'sweet-alert-confirm' # Override default Rails UJS confirms
+
 group :development do
   gem 'quiet_assets'
   gem 'capistrano', '2.15.5', require: false

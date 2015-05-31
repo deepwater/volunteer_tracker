@@ -37,7 +37,7 @@ class UserAvailabilityRepository
       )
     end
 
-    if with_overlaps_in_other_department_blocks_user_ids.present?
+    if with_overlaps_in_other_department_blocks_user_ids.present? && scope.q.blank?
       criteria = criteria.where(
         "user_availabilities.user_id NOT IN (#{with_overlaps_in_other_department_blocks_user_ids.join(',')})"
       )

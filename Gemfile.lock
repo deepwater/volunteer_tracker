@@ -40,7 +40,7 @@ GEM
     ajax-datatables-rails (0.3.0)
       railties (>= 3.1)
     arel (6.0.0)
-    autoprefixer-rails (5.1.11)
+    autoprefixer-rails (5.2.0)
       execjs
       json
     bcrypt (3.1.10)
@@ -93,7 +93,7 @@ GEM
       rails (>= 3.0.0)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
-    devise (3.4.1)
+    devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -162,9 +162,9 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     memcachier (0.0.2)
-    mime-types (2.5)
+    mime-types (2.6.1)
     mini_portile (0.6.2)
-    minitest (5.6.1)
+    minitest (5.7.0)
     momentjs-rails (2.10.2)
       railties (>= 3.1)
     multi_json (1.11.0)
@@ -248,7 +248,7 @@ GEM
     rspec-support (3.2.2)
     ruby-ole (1.2.11.8)
     rubyzip (1.1.7)
-    sass (3.4.13)
+    sass (3.4.14)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -270,6 +270,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sweet-alert (0.0.7)
+    sweet-alert-confirm (0.2.0)
+      jquery-rails
+      sweet-alert
     temple (0.7.5)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
@@ -342,6 +346,8 @@ DEPENDENCIES
   simple_form
   slim
   spring
+  sweet-alert
+  sweet-alert-confirm
   therubyracer
   turbolinks
   uglifier

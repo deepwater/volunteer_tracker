@@ -214,6 +214,8 @@ ActiveRecord::Schema.define(:version => 20150507111512) do
     t.string   "username"
     t.integer  "organisation_id"
     t.boolean  "adult",                  :default => true
+    t.integer  "pending_master_id"
+    t.string   "transfer_status"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

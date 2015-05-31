@@ -6,8 +6,8 @@
         td=check_in.user_schedule.try(:user).try(:username)
         td=check_in.user_schedule.try(:user).try(:full_name) || "User missing"
         td=check_in.user_schedule.try(:user).try(:email)
-        td=link_to check_in.user_schedule.department_block.department.name, [:dashboard,check_in.user_schedule.department_block.department]
-        td=link_to check_in.user_schedule.department_block.name, [:dashboard,check_in.user_schedule.department_block]
+        td=link_to check_in.user_schedule.department_block.department.name, [:dashboard, check_in.user_schedule.department_block.department]
+        td=link_to check_in.user_schedule.department_block.name, [:dashboard, check_in.user_schedule.department_block]
         td=in_twelve_hour_time(check_in.user_schedule.department_block.start_time)
         td=in_twelve_hour_time(check_in.user_schedule.department_block.end_time)
         td=check_in.created_at.strftime("%l:%M%p %b %-d")
@@ -18,7 +18,7 @@
             ' Not assigned
         td
           = simple_form_for [:dashboard, check_in], html: {class: "side-by-side"} do |f|
-            = f.input :status, as: :hidden, input_html: { value: '2' }
+            = f.input :status, as: :hidden, input_html: {value: '2'}
             = button_tag type: "submit", class: 'btn btn-mini btn-success' do
               i.icon-ok-sign.icon-white
               ' Check Out
@@ -37,7 +37,7 @@
     tr
       td colspan="2"
         = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
-          = f.input :id, as: :hidden, input_html: { id: 'check_in_ids' }
-          = f.input :status, as: :hidden, input_html: { value: '2' }
+          = f.input :id, as: :hidden, input_html: {id: 'check_in_ids'}
+          = f.input :status, as: :hidden, input_html: {value: '2'}
           = button_tag type: "submit", class: 'btn btn-success' do
             ' Check Out All

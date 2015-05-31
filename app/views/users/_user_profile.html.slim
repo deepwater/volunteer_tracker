@@ -1,4 +1,4 @@
-= simple_form_for user, url: registration_path(:user), method: :put, html: {class: 'form-horizontal clearfix', novalidate: true} do |f|
+= simple_form_for user, url: registration_path(:user), remote: true, method: :put, html: {class: 'form-horizontal clearfix', novalidate: true} do |f|
   fieldset.col-sm-8.col-sm-offset-2
 
     .form-group
@@ -9,7 +9,6 @@
           '#{current_user.charities.first.name} #{link_to "Change default charity", dashboard_user_charities_path, class:"btn btn-xs btn-primary"}
         - else
           ' You don't have a charity -  #{link_to "Choose a Charity", dashboard_user_charities_path}
-
 
     = f.input :first_name
     = f.input :last_name
