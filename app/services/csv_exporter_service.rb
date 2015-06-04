@@ -5,11 +5,10 @@ class CsvExporterService
 
   def export(name, data)
     @settings = CSV_EXPORT_SETTINGS[name.to_s]
-    data = data.try(:decorate)
     results = CSV.generate col_sep: ',' do |csv|
       csv << column_names(name)
       data.find_each do |row|
-        row =row.decorate
+        row = row.decorate
         csv << settings["fields"].map { |field| row.send(field) }
       end
     end

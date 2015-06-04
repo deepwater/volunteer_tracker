@@ -1,3 +1,9 @@
+- if current_user.transfer_status == "PENDING"
+  .alert.alert-warning.clearfix
+    span You have pending transfers.
+    = link_to "Accept", accept_transfer_dashboard_become_users_path(user_id: current_user.id), class: 'btn btn-success btn-margin'
+    = link_to "Decline", decline_transfer_dashboard_become_users_path(user_id: current_user.id), class: 'btn btn-danger btn-margin'
+
 .page-header
   .pull-right.switcher
     - if current_user.master?
@@ -20,12 +26,10 @@ ul.thumbnails.nav
     = render "dashboard/dashboard_modules/department_assistant_management"
 
 ul.thumbnails.nav
-  - if can?(:manage_fastpass, current_user) || current_user.has_any_role?(:department_manager, :department_assistant, :volunteer_manager)
-    = render "dashboard/dashboard_modules/checkin_volunteer"
-  - if current_user.role != "volunteer"
-    = render "dashboard/dashboard_modules/active_volunteers"
-    = render "dashboard/dashboard_modules/inactive_volunteers"
-    / # = render "dashboard/dashboard_modules/volunteers"
+  - if can?(:manage_fastpass, current_user)
+    = render "dashboard/dashboard_modules/manage_fastpass"
+  - if current_user.has_any_role?(:department_manager, :department_assistant, :volunteer_manager) || current_user.role != "volunteer"
+    = render "dashboard/dashboard_modules/manage_volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
 

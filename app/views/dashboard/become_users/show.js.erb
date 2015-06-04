@@ -1,0 +1,54 @@
+//  Select the elements for re-use
+$modal = $('.user-select-modal');
+$title = $modal.find('.modal-title');
+$body = $modal.find('.modal-body');
+
+// Set the title of the modal to an instance-relevant title
+title = 'Select the subaccounts and the user you wish to transfer to.';
+
+// Set the modal's title and body to the above values
+$title.html(title);
+
+<% if @user.subaccounts.blank? %>
+    $modal.find(".user-select-modal-save").hide();
+    $title.html("");
+    $title.html("Oops.");
+
+    $body.html("Sorry, this user does not have any subaccounts.");
+
+    // Display the modal
+    $modal.modal();
+<% else %>
+    $body.html("<%= escape_javascript(render partial: 'user_table', locals: {user: @user}) %>");
+
+    // Hide the submit button (it'd be a duplicate) and make the form remote
+    $body.find('input[type="submit"]').hide();
+
+    // Display the modal
+    $modal.modal();
+
+    $('#get_user_list_table').dataTable({
+        processing: true,
+        serverSide: true,
+        pagingType: 'full_numbers',
+        lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]],
+        ajax: $('#get_user_list_table').data('source'),
+        dom: 'T<"clear">lfrtip',
+        columnDefs: [
+            {
+                targets: [-1, -2],
+                sortable: false
+            }
+        ],
+        tableTools: {
+            aButtons: false
+        }
+    });
+
+<% end %>
+
+
+
+
+
+

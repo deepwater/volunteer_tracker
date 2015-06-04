@@ -1,11 +1,12 @@
 - days = Day.all
+- @scheduled = results
 .col-sm-12
   .page-header
-    h1 Active Volunteers
+    h1 Scheduled Volunteers
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{active_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}" do
+        = link_to "#{scheduled_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
           = day.day_name
           = day.short_date
 
@@ -24,45 +25,45 @@
             ' entries
         .dataTables_filter
           label
-            ' Search:
+            'Search:
             input.search type="text"
 
-        table.table.table-bordered.table-striped.check-ins-table id="active-check-ins-table-#{day.safe_short_date}"
+        table.table.table-bordered.table-striped.check-ins-table id="scheduled-check-ins-table-#{day.safe_short_date}"
           thead
             tr
               th
                 label
                   = check_box_tag 'check_all', '1', false, class: "check_all"
                   ' All
+              th Start Time
+              th End Time
               th Username
               th.sortable.sorting.name Name
               th Email
               th.sortable.sorting.department Department
               th Department Block
-              th Start Time
-              th End Time
-              th.sortable.sorting.check_in Check In Time
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "active_items", results: @results
+            = render "scheduled_items", scheduled: @scheduled
 
         .pagination-wrapper
           .div id="pagination-#{day.safe_short_date}"
-            = paginate @results, remote: true
+            = paginate @scheduled, remote: true
           .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @results
+            = page_entries_info @scheduled
+
 coffee:
   $ ->
     populateIds = ->
       ids = []
-      $(".tab-content").find(".check_in_id:checked").each ->
+      $(".tab-content").find(".user_schedule_id:checked").each ->
         ids.push($(this).val())
-      $('.tab-content #check_in_ids').val("#{ids.join(',')}")
+      $('.tab-content #user_schedule_ids').val("#{ids.join(',')}")
 
     $(document).on 'change', '.check_all', ->
       $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
       populateIds()
 
-    $(document).on 'change', '.check_in_id', ->
+    $(document).on 'change', '.user_schedule_id', ->
       populateIds()

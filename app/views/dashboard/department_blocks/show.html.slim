@@ -125,12 +125,11 @@
                 tr
                   td= user.full_name
                   td
-                    = form_for [:dashboard, VolunteerManager.new], html: {:"data-type" => "json"} do |f|
+                    = form_for [:dashboard, VolunteerManager.new], html: { data: { type: :json } } do |f|
                       = f.hidden_field :user_id, value: user.id
                       = f.hidden_field :department_block_id, value: @show_action_data.department_block.id
 
-                      = button_tag type: "submit", class: 'btn btn-success' do
-                        ' Assign
+                      = button_tag 'Assign', type: "submit", class: 'btn btn-success'
 
 = render "shared/modal"
 

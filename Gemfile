@@ -32,6 +32,10 @@ gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'breadcrumbs_on_rails', '2.3.0'
 
+# CUSTOM JS
+gem 'sweet-alert' # Custom alerts
+gem 'sweet-alert-confirm' # Override default Rails UJS confirms
+
 group :development do
   gem 'letter_opener', '1.2.0'
 	gem 'capistrano', '2.15.5', require: false

@@ -1,11 +1,12 @@
 - days = Day.all
+- @active_items = results
 .col-sm-12
   .page-header
-    h1 Inactive / Past Volunteers
+    h2 Active Volunteers
   ul.nav.nav-tabs
     - days.each do |day|
       li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}" do
+        = link_to "#{active_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
           = day.day_name
           = day.short_date
 
@@ -13,8 +14,6 @@
     - days.each do |day|
       div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}.csv", class: "DTTT_button DTTT_button_csv btn btn-info" do
-          span Export CSV
         .dataTables_length
           label
             ' Show
@@ -23,33 +22,48 @@
               option value="25" 25
               option value="50" 50
               option value="100" 100
-              option value="99999" ALL
             ' entries
         .dataTables_filter
           label
             ' Search:
             input.search type="text"
 
-        table.table.table-bordered.table-striped.check-ins-table id="inactive-check-ins-table-#{day.safe_short_date}"
+        table.table.table-bordered.table-striped.check-ins-table id="active-check-ins-table-#{day.safe_short_date}"
           thead
             tr
+              th
+                label
+                  = check_box_tag 'check_all', '1', false, class: "check_all"
+                  ' All
               th Username
               th.sortable.sorting.name Name
               th Email
               th.sortable.sorting.department Department
               th Department Block
-              th Check In Date
+              th Start Time
+              th End Time
               th.sortable.sorting.check_in Check In Time
-              th Check Out Date
-              th.sortable.sorting.check_out Check Out Time
-              th Hours Worked
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "inactive_items", results: @results
+            = render "active_items", results: @active_items
 
         .pagination-wrapper
           .div id="pagination-#{day.safe_short_date}"
-            = paginate @results, remote: true
+            = paginate @active_items
           .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @results
+            = page_entries_info @active_items
+coffee:
+  $ ->
+    populateIds = ->
+      ids = []
+      $(".tab-content").find(".check_in_id:checked").each ->
+        ids.push($(this).val())
+      $('.tab-content #check_in_ids').val("#{ids.join(',')}")
+
+    $(document).on 'change', '.check_all', ->
+      $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
+      populateIds()
+
+    $(document).on 'change', '.check_in_id', ->
+      populateIds()

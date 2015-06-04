@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name,
                   :last_name, :tshirt_size, :role, :cell_phone, :home_phone, :master_id,
                   :department_block_id, :secondary_email, :username, :organisation_id, :adult, :login,
-                  :charity_ids
+                  :charity_ids, :pending_master_id, :transfer_status
 
   attr_accessor :login
 
@@ -51,6 +51,8 @@ class User < ActiveRecord::Base
   before_save :default_values
   before_save :process_name
   after_update :reset_role_associations
+
+
 
   def default_values
     self.role ||= 'volunteer'
