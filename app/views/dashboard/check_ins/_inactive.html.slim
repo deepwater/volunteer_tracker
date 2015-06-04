@@ -1,5 +1,4 @@
 - days = Day.all
-- @inactive_items = results
 .col-sm-12
   .page-header
     h2 Inactive / Past Volunteers
@@ -47,10 +46,4 @@
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "inactive_items", results: @inactive_items
-
-        .pagination-wrapper
-          .div id="pagination-#{day.safe_short_date}"
-            = paginate @inactive_items, remote: true
-          .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @inactive_items
+            = render "inactive_items", results: @results

@@ -9,113 +9,116 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150507111512) do
+ActiveRecord::Schema.define(version: 20150507111512) do
 
-  create_table "blog_posts", :force => true do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "blog_posts", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "charities", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "charities", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  create_table "check_ins", :force => true do |t|
+  create_table "check_ins", force: :cascade do |t|
     t.integer  "user_schedule_id"
     t.integer  "user_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.text     "status"
     t.datetime "check_out_time"
   end
 
-  add_index "check_ins", ["status"], :name => "index_check_ins_on_status"
-  add_index "check_ins", ["user_id"], :name => "index_check_ins_on_user_id"
-  add_index "check_ins", ["user_schedule_id"], :name => "index_check_ins_on_user_schedule_id"
+  add_index "check_ins", ["status"], name: "index_check_ins_on_status", using: :btree
+  add_index "check_ins", ["user_id"], name: "index_check_ins_on_user_id", using: :btree
+  add_index "check_ins", ["user_schedule_id"], name: "index_check_ins_on_user_schedule_id", using: :btree
 
-  create_table "data_migrations", :id => false, :force => true do |t|
-    t.string "version", :null => false
+  create_table "data_migrations", id: false, force: :cascade do |t|
+    t.string "version", limit: 255, null: false
   end
 
-  add_index "data_migrations", ["version"], :name => "unique_data_migrations", :unique => true
+  add_index "data_migrations", ["version"], name: "unique_data_migrations", unique: true, using: :btree
 
-  create_table "days", :force => true do |t|
+  create_table "days", force: :cascade do |t|
     t.integer  "mday"
     t.integer  "month"
     t.integer  "year"
     t.integer  "day_type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "event_id"
     t.datetime "date"
   end
 
-  create_table "department_assistants", :force => true do |t|
+  create_table "department_assistants", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "department_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  add_index "department_assistants", ["department_id"], :name => "index_department_assistants_on_department_id"
-  add_index "department_assistants", ["user_id"], :name => "index_department_assistants_on_user_id"
+  add_index "department_assistants", ["department_id"], name: "index_department_assistants_on_department_id", using: :btree
+  add_index "department_assistants", ["user_id"], name: "index_department_assistants_on_user_id", using: :btree
 
-  create_table "department_blocks", :force => true do |t|
+  create_table "department_blocks", force: :cascade do |t|
     t.integer  "suggested_number_of_workers"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "department_id"
     t.text     "name"
     t.integer  "day_id"
-    t.string   "start_time"
-    t.string   "end_time"
+    t.string   "start_time",                  limit: 255
+    t.string   "end_time",                    limit: 255
   end
 
-  add_index "department_blocks", ["day_id"], :name => "index_department_blocks_on_day_id"
-  add_index "department_blocks", ["department_id"], :name => "index_department_blocks_on_department_id"
+  add_index "department_blocks", ["day_id"], name: "index_department_blocks_on_day_id", using: :btree
+  add_index "department_blocks", ["department_id"], name: "index_department_blocks_on_department_id", using: :btree
 
-  create_table "department_managers", :force => true do |t|
+  create_table "department_managers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "department_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  add_index "department_managers", ["department_id"], :name => "index_department_managers_on_department_id"
-  add_index "department_managers", ["user_id"], :name => "index_department_managers_on_user_id"
+  add_index "department_managers", ["department_id"], name: "index_department_managers_on_department_id", using: :btree
+  add_index "department_managers", ["user_id"], name: "index_department_managers_on_user_id", using: :btree
 
-  create_table "departments", :force => true do |t|
+  create_table "departments", force: :cascade do |t|
     t.text     "name"
     t.integer  "budgeted_hours"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.text     "email"
   end
 
-  create_table "event_timeslots", :force => true do |t|
+  create_table "event_timeslots", force: :cascade do |t|
     t.integer  "utc_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "events", :force => true do |t|
-    t.string   "name"
+  create_table "events", force: :cascade do |t|
+    t.string   "name",               limit: 255
     t.integer  "assigned_to"
     t.integer  "route_type"
-    t.string   "address_line_1"
-    t.string   "address_line_2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
+    t.string   "address_line_1",     limit: 255
+    t.string   "address_line_2",     limit: 255
+    t.string   "city",               limit: 255
+    t.string   "state",              limit: 255
+    t.string   "zip",                limit: 255
     t.text     "other"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.date     "day_of_start"
     t.date     "day_of_finish"
     t.integer  "days_for_setup"
@@ -123,123 +126,123 @@ ActiveRecord::Schema.define(:version => 20150507111512) do
     t.integer  "organisation_id"
   end
 
-  create_table "flags", :force => true do |t|
+  create_table "flags", force: :cascade do |t|
     t.integer  "check_in_id"
     t.integer  "user_id"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  add_index "flags", ["check_in_id"], :name => "index_flags_on_check_in_id"
-  add_index "flags", ["user_id"], :name => "index_flags_on_user_id"
+  add_index "flags", ["check_in_id"], name: "index_flags_on_check_in_id", using: :btree
+  add_index "flags", ["user_id"], name: "index_flags_on_user_id", using: :btree
 
-  create_table "organisations", :force => true do |t|
-    t.string   "name"
-    t.string   "subdomain"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "organisations", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "subdomain",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  create_table "roles", :force => true do |t|
-    t.string   "name"
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",          limit: 255
     t.integer  "resource_id"
-    t.string   "resource_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string   "resource_type", limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
-  add_index "roles", ["name"], :name => "index_roles_on_name"
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
-  create_table "user_availabilities", :force => true do |t|
+  create_table "user_availabilities", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "day_id"
     t.text     "start_time"
     t.text     "end_time"
   end
 
-  add_index "user_availabilities", ["day_id"], :name => "index_user_availabilities_on_day_id"
-  add_index "user_availabilities", ["user_id"], :name => "index_user_availabilities_on_user_id"
+  add_index "user_availabilities", ["day_id"], name: "index_user_availabilities_on_day_id", using: :btree
+  add_index "user_availabilities", ["user_id"], name: "index_user_availabilities_on_user_id", using: :btree
 
-  create_table "user_charities", :force => true do |t|
+  create_table "user_charities", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "charity_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "user_charities", ["charity_id"], :name => "index_user_charities_on_charity_id"
-  add_index "user_charities", ["user_id"], :name => "index_user_charities_on_user_id"
+  add_index "user_charities", ["charity_id"], name: "index_user_charities_on_charity_id", using: :btree
+  add_index "user_charities", ["user_id"], name: "index_user_charities_on_user_id", using: :btree
 
-  create_table "user_schedules", :force => true do |t|
+  create_table "user_schedules", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "department_block_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "charity_id"
   end
 
-  add_index "user_schedules", ["charity_id"], :name => "index_user_schedules_on_charity_id"
-  add_index "user_schedules", ["department_block_id"], :name => "index_user_schedules_on_department_block_id"
-  add_index "user_schedules", ["user_id"], :name => "index_user_schedules_on_user_id"
+  add_index "user_schedules", ["charity_id"], name: "index_user_schedules_on_charity_id", using: :btree
+  add_index "user_schedules", ["department_block_id"], name: "index_user_schedules_on_department_block_id", using: :btree
+  add_index "user_schedules", ["user_id"], name: "index_user_schedules_on_user_id", using: :btree
 
-  create_table "users", :force => true do |t|
-    t.string   "email",                  :default => ""
-    t.string   "encrypted_password",     :default => "",   :null => false
-    t.string   "reset_password_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: ""
+    t.string   "encrypted_password",     limit: 255, default: "",   null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "first_name",                               :null => false
-    t.string   "last_name",                                :null => false
-    t.string   "tshirt_size"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
-    t.string   "role"
-    t.string   "cell_phone"
-    t.string   "home_phone"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "first_name",             limit: 255,                null: false
+    t.string   "last_name",              limit: 255,                null: false
+    t.string   "tshirt_size",            limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "role",                   limit: 255
+    t.string   "cell_phone",             limit: 255
+    t.string   "home_phone",             limit: 255
     t.text     "secondary_email"
-    t.string   "confirmation_token"
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
+    t.string   "unconfirmed_email",      limit: 255
     t.integer  "master_id"
-    t.string   "username"
+    t.string   "username",               limit: 255
     t.integer  "organisation_id"
-    t.boolean  "adult",                  :default => true
+    t.boolean  "adult",                              default: true
     t.integer  "pending_master_id"
-    t.string   "transfer_status"
+    t.string   "transfer_status",        limit: 255
   end
 
-  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["first_name", "last_name"], :name => "index_users_on_first_name_and_last_name"
-  add_index "users", ["first_name"], :name => "index_users_on_first_name"
-  add_index "users", ["last_name"], :name => "index_users_on_last_name"
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-  add_index "users", ["role"], :name => "index_users_on_role"
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["first_name", "last_name"], name: "index_users_on_first_name_and_last_name", using: :btree
+  add_index "users", ["first_name"], name: "index_users_on_first_name", using: :btree
+  add_index "users", ["last_name"], name: "index_users_on_last_name", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role"], name: "index_users_on_role", using: :btree
 
-  create_table "users_roles", :id => false, :force => true do |t|
+  create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
   end
 
-  add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
-  create_table "volunteer_managers", :force => true do |t|
+  create_table "volunteer_managers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "department_block_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
-  add_index "volunteer_managers", ["department_block_id"], :name => "index_volunteer_managers_on_department_block_id"
-  add_index "volunteer_managers", ["user_id"], :name => "index_volunteer_managers_on_user_id"
+  add_index "volunteer_managers", ["department_block_id"], name: "index_volunteer_managers_on_department_block_id", using: :btree
+  add_index "volunteer_managers", ["user_id"], name: "index_volunteer_managers_on_user_id", using: :btree
 
 end

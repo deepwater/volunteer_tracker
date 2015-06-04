@@ -1,5 +1,4 @@
 - days = Day.all
-- @active_items = results
 .col-sm-12
   .page-header
     h2 Active Volunteers
@@ -46,13 +45,7 @@
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "active_items", results: @active_items
-
-        .pagination-wrapper
-          .div id="pagination-#{day.safe_short_date}"
-            = paginate @active_items
-          .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @active_items
+            = render "active_items", results: @results
 coffee:
   $ ->
     populateIds = ->

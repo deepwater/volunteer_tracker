@@ -1,5 +1,4 @@
 - days = Day.all
-- @scheduled = results
 .col-sm-12
   .page-header
     h1 Scheduled Volunteers
@@ -45,13 +44,7 @@
               th.sortable.sorting.charity Charity
               th Actions
           tbody
-            = render "scheduled_items", scheduled: @scheduled
-
-        .pagination-wrapper
-          .div id="pagination-#{day.safe_short_date}"
-            = paginate @scheduled, remote: true
-          .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @scheduled
+            = render "scheduled_items", scheduled: @results
 
 coffee:
   $ ->

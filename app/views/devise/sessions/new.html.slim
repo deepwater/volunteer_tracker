@@ -3,16 +3,15 @@
     = image_tag 'ggf_logo.png', class: 'main-logo'
   .col-md-6
 
-    .row.devise-form
+    .row.top100
       .col-md-9.col-md-offset-3
         h2 Sign In
 
         = simple_form_for(resource, url: session_path(:user)) do |f|
-          fieldset
-            = f.input :login, required: false, autofocus: true
-            = f.input :password, required: false
-            - if devise_mapping.rememberable?
-              = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
+          = f.input :login, required: false, autofocus: true
+          = f.input :password, required: false
+          - if devise_mapping.rememberable?
+            = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
 
-            = f.button :submit, "Sign in", class: 'btn btn-lg btn-primary'
-            = render "links"
+          = f.button :submit, "Sign in", class: 'btn btn-lg btn-primary'
+          = render "links"

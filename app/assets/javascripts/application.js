@@ -20,6 +20,7 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
+//= require libs/jquery.stickytabs
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require dataTables/extras/dataTables.tableTools
@@ -30,7 +31,6 @@
 
 //= require admin/departments
 //= require admin/events
-//= require admin/index
 
 //= require dashboard/check_ins
 //= require dashboard/dashboard
@@ -44,5 +44,6 @@
 //= require partials/departments
 //= require partials/user_schedules
 //= require partials/tours
+//= require partials/tabs_helper
 
 //= require turbolinks

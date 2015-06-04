@@ -3,24 +3,24 @@
 
 - @day = Day.first
 - if current_user.role != "volunteer"
-  ul#volunteer-section-tabs.nav.nav-tabs
-    li.active
-      = link_to "Active Volunteers", "#active_volunteers", data: { url: "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
-    li
-      = link_to "Inactive Volunteers", "#inactive_volunteers", data: { url: "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
-    li
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+  ul#section-tab-navigation.nav.nav-tabs role="tablist"
+    li.active role="presentation"
+      = link_to "Active Volunteers", "#active_volunteers", 'aria-controls': "active_volunteers", data: { url: "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+    li role="presentation"
+      = link_to "Inactive Volunteers", "#inactive_volunteers", 'aria-controls': "inactive_volunteers", data: { url: "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+    li role="presentation"
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", 'aria-controls': "scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
 
-  #volunteer-tabs
+  #section-tabs.tab-content
     .clearfix
-    #active_volunteers.section-tab
-    #inactive_volunteers.section-tab
-    #scheduled_volunteers.section-tab
+    #active_volunteers.tab-pane role="tabpanel"
+    #inactive_volunteers.tab-pane role="tabpanel"
+    #scheduled_volunteers.tab-pane role="tabpanel"
 - else
-  ul#volunteer-section-tabs.nav.nav-tabs
+  ul#section-tab-navigation.nav.nav-tabs
     li.active
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", 'aria-controls': "scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
 
-  #volunteer-tabs
+  #section-tabs.tab-content
     .clearfix
-    #scheduled_volunteers.section-tab
+    #scheduled_volunteers.tab-pane role="tabpanel"

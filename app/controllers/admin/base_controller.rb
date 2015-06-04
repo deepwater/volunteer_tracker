@@ -37,13 +37,6 @@ class Admin::BaseController < ApplicationController
     @volunteer_hours = service.volunteer_hours_progress(@departments.map(&:id))
   end
 
-  def list
-    respond_to do |format|
-      format.html
-      format.json { render json: UserDatatable.new(view_context) }
-    end
-  end
-
   private
 
   # TODO: Tidy up pagination on whole app
