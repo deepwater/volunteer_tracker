@@ -4,10 +4,7 @@
 .row
   .col-sm-12.subaccounts-import-form
     = link_to 'New Subaccount', new_user_subaccount_path(current_user), class: 'btn btn-primary', remote: true
-    = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
-      .inline-block
-        = file_field_tag :file, class: 'form-control'
-      = submit_tag "Import", class: 'btn btn-primary'
+    = link_to 'Import Subaccounts', "#import-modal", class: 'btn btn-primary', "data-toggle" => "modal"
 
 table.table.table-bordered.table-striped#subaccounts_list_table data-source=(user_subaccounts_url(current_user, format: :json))
   thead
@@ -19,7 +16,7 @@ table.table.table-bordered.table-striped#subaccounts_list_table data-source=(use
       th
       th
   tbody
-        
+= render "subaccounts/import_subaccount_modal"
 = render "shared/modal"
 
 coffee:

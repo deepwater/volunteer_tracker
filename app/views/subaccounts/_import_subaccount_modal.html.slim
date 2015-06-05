@@ -1,0 +1,25 @@
+.modal.fade#import-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+        h4.modal-title Import Subaccounts
+      .modal-body
+        p Please select the csv file that contains your subaccounts.
+        = form_tag import_user_subaccounts_path(current_user), multipart: true, class: 'import-subaccounts' do
+          .inline-block
+            = file_field_tag :file, class: 'form-control'
+      .modal-footer
+        button.btn.btn-default data-dismiss="modal" type="button"  Close
+        button.btn.btn-primary.modal-save type="button"  Import
+
+
+  /! /.modal-content
+  /! /.modal-dialog
+/! /.modal
+
+javascript:
+  $("#import-modal .modal-save").click(function(e){
+    $("#import-modal form").submit();
+  });
