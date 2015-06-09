@@ -31,14 +31,15 @@ class Subaccounts::Importer
         response.errors << "Wrong file type: #{params[:file].original_filename}"
       end
     else
-      response.errors << "File was not uploaded"
+      response.errors << 'File was not uploaded'
     end
   end
 
   def process_data_row(row)
     errors = {}
-    errors[:charity] = "Charity is invalid" if Charity.find_by_name(row[7]).blank?
-    errors[:abilities] = "Subaccount with no availabilities" if row.slice(9, 12).compact.blank?
+    errors[:charity] = 'Charity is invalid' if Charity.find_by_name(row[7]).blank?
+    errors[:abilities] = 'Subaccount with no availabilities' if row.slice(9, 12).try(:compact).blank?
+    row = prepare_pow!(row)
     user = build_from_row(row)
     user.skip_confirmation!
     if user.valid?
@@ -71,6 +72,11 @@ class Subaccounts::Importer
     })
   end
 
+  def prepare_pow!(row)
+    row[5].sub!(/^mailto:/, '')
+    row
+  end
+
   def add_charity_by_name(user, charity_name)
     charity = Charity.find_by_name(charity_name)
     user.charities << charity
@@ -78,7 +84,7 @@ class Subaccounts::Importer
 
   def set_availabilities(user, row)
     Day.all.each_with_index do |day, index|
-      day.user_availabilities.create(start_time: "00:00", end_time: "23:59", user_id: user.id) if row[index].present?
+      day.user_availabilities.create(start_time: '00:00', end_time: '23:59', user_id: user.id) if row[index].present?
     end
   end
 
