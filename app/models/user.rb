@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates :organisation_id, presence: true, unless: :super_admin?
   validates :username, presence: true
   validates :username, uniqueness: { scope: :organisation_id, case_sensitive: false }
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
+  validates_format_of :email, with: /\A([^@:\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates :email, presence: true, unless: :subaccount?
   validates :password, presence: true, if: :password_required_on_update?
   validates_confirmation_of :password, if: :password_required?

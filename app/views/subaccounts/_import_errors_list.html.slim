@@ -4,6 +4,7 @@
       tr
         th Username
         th Name
+        th Email
         th User Charity
         th Availability
         th
@@ -18,10 +19,9 @@
               = hidden_field_tag "data[#{index}][6]", row_with_errors[:row][6]
               = hidden_field_tag "data[#{index}][8]", row_with_errors[:row][8]
               - if row_with_errors[:errors][:username].present?
-                = row_with_errors[:errors][:username].join(', ')
+                = "#{row_with_errors[:row][2]} - #{row_with_errors[:errors][:username].join(', ')}"
                 br
                 = text_field_tag "data[#{index}][2]"
-                = row_with_errors[:row][2]
               - else
                 = row_with_errors[:row][2]
                 = hidden_field_tag "data[#{index}][2]", row_with_errors[:row][2]
@@ -29,6 +29,14 @@
               = row_with_errors[:row][0]
               br
               = row_with_errors[:row][1]
+            td
+              - if row_with_errors[:errors][:email].present?
+                = "#{row_with_errors[:row][5]} - #{row_with_errors[:errors][:email].join(', ')}"
+                br
+                = text_field_tag "data[#{index}][5]"
+              - else
+                = row_with_errors[:row][5]
+                = hidden_field_tag "data[#{index}][5]", row_with_errors[:row][5]
             td
               - if row_with_errors[:errors][:charity].present?
                 = row_with_errors[:errors][:charity]
