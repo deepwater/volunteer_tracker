@@ -73,7 +73,7 @@ class Subaccounts::Importer
   end
 
   def prepare_pow!(row)
-    row[5].sub!(/^mailto:/, '')
+    row[5].sub!(/^mailto:/, '') if row[5].present?
     row
   end
 
