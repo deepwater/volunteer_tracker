@@ -4,29 +4,41 @@
   ol.breadcrumb
     = render_breadcrumbs tag: :li, separator: ""
 
-  h3 Volunteer Managers
+  .col-sm-9
+    h3 Volunteer Managers
 
-  - if @show_action_data.department_block.volunteer_managers.count == 0
-    .alert.alert-error
-      strong Warning!
-      ' No Volunteer Managers Assigned
-    button.btn.btn-primary type="button" href="#assign_volunteer_managers" data-toggle="modal" Assign Volunteer Managers
+    - if @show_action_data.department_block.volunteer_managers.count == 0
+      .alert.alert-error
+        strong Warning!
+        ' No Volunteer Managers Assigned
+      button.btn.btn-primary type="button" href="#assign_volunteer_managers" data-toggle="modal" Assign Volunteer Managers
 
-  - else
-    table.table.table-bordered.table-striped
-      thead
-        tr
-          th Name
-          th Usernane
-          th Actions
-      tbody
-      - @show_action_data.department_block.volunteer_managers.each do |volunteer_manager|
-        tr
-          td= volunteer_manager.user.full_name
-          td= volunteer_manager.user.username
-          td
-            - if @show_action_data.volunteer_managers[volunteer_manager.user_id].present?
-              = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), confirm: 'Are you sure?', method: :delete, data: { type: "json" }, class: 'unassign-volunteer-manager btn btn-danger'
+    - else
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th Name
+            th Usernane
+            th Actions
+        tbody
+        - @show_action_data.department_block.volunteer_managers.each do |volunteer_manager|
+          tr
+            td= volunteer_manager.user.full_name
+            td= volunteer_manager.user.username
+            td
+              - if @show_action_data.volunteer_managers[volunteer_manager.user_id].present?
+                = link_to 'Unassign', dashboard_volunteer_manager_path(@show_action_data.volunteer_managers[volunteer_manager.user_id]), confirm: 'Are you sure?', method: :delete, data: { type: "json" }, class: 'unassign-volunteer-manager btn btn-danger'
+  .col-sm-3
+    ul.list-group
+      li.list-group-item
+        = "Block name - #{@show_action_data.department_block.name}"
+      li.list-group-item
+        = "Date - #{@show_action_data.department_block.day.long_date}"
+      li.list-group-item
+        = "Start time - #{@show_action_data.department_block.start_time_12}"
+      li.list-group-item
+        = "End time - #{@show_action_data.department_block.end_time_12}"
+  .clearfix
 
   h3 Scheduled Volunteers
 
