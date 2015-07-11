@@ -1,7 +1,0 @@
-$("#active_volunteers").html("<%= j(render('active', results: @results)) %>")
-
-$pagination = $("#pagination-<%= @day.safe_short_date %>")
-$pagination.empty().append("<%= j(paginate(@results, remote: true))%>")
-
-$pagination_info = $("#pagination-info-<%= @day.safe_short_date %>")
-$pagination_info.empty().append("<%= j(page_entries_info @results)%>")

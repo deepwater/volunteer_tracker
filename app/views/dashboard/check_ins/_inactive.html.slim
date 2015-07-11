@@ -1,56 +1,31 @@
 - days = Day.all
-- @inactive_items = results
 .col-sm-12
   .page-header
-    h2 Inactive / Past Volunteers
-  ul.nav.nav-tabs
-    - days.each do |day|
-      li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
+    h1 Inactive / Past Volunteers
+  ul.days-list.nav.nav-tabs role="tablist"
+    - days.each_with_index do |day, index|
+      li role="presentation" class=(index == 0  ? "active" : "")
+        = link_to "#inactive_volunteers_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
           = day.day_name
           = day.short_date
 
   .tab-content
-    - days.each do |day|
-      div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
+    - days.each_with_index do |day, index|
+      div id="inactive_volunteers_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        = link_to "#{inactive_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}.csv", remote: :true, class: "DTTT_button DTTT_button_csv btn btn-info" do
-          span Export CSV
-        .dataTables_length
-          label
-            ' Show
-            select.per_page size="1"
-              option selected="selected" value="10" 10
-              option value="25" 25
-              option value="50" 50
-              option value="100" 100
-              option value="99999" ALL
-            ' entries
-        .dataTables_filter
-          label
-            ' Search:
-            input.search type="text"
-
-        table.table.table-bordered.table-striped.check-ins-table id="inactive-check-ins-table-#{day.safe_short_date}"
+        table.table.table-bordered.table-striped data-source=(inactive_dashboard_check_ins_path(year: day[:year], month: day[:month], day: day[:mday], format: :json))
           thead
             tr
               th Username
-              th.sortable.sorting.name Name
+              th Name
               th Email
-              th.sortable.sorting.department Department
+              th Department
               th Department Block
               th Check In Date
-              th.sortable.sorting.check_in Check In Time
+              th Check In Time
               th Check Out Date
-              th.sortable.sorting.check_out Check Out Time
+              th Check Out Time
               th Hours Worked
-              th.sortable.sorting.charity Charity
+              th Charity
               th Actions
           tbody
-            = render "inactive_items", results: @inactive_items
-
-        .pagination-wrapper
-          .div id="pagination-#{day.safe_short_date}"
-            = paginate @inactive_items, remote: true
-          .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @inactive_items
