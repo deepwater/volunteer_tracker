@@ -1,69 +1,28 @@
 - days = Day.all
-- @scheduled = results
 .col-sm-12
   .page-header
     h1 Scheduled Volunteers
-  ul.nav.nav-tabs
-    - days.each do |day|
-      li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{scheduled_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
+  ul.days-list.nav.nav-tabs role="tablist"
+    - days.each_with_index do |day, index|
+      li role="presentation" class=(index == 0  ? "active" : "")
+        = link_to "#scheduled_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
           = day.day_name
           = day.short_date
 
   .tab-content
-    - days.each do |day|
-      div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
+    - days.each_with_index do |day, index|
+      div id="scheduled_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        .dataTables_length
-          label
-            ' Show
-            select.per_page size="1"
-              option selected="selected" value="10" 10
-              option value="25" 25
-              option value="50" 50
-              option value="100" 100
-            ' entries
-        .dataTables_filter
-          label
-            'Search:
-            input.search type="text"
-
-        table.table.table-bordered.table-striped.check-ins-table id="scheduled-check-ins-table-#{day.safe_short_date}"
+        table.table.table-bordered.table-striped data-source=(scheduled_dashboard_check_ins_path(year: day[:year], month: day[:month], day: day[:mday], format: :json))
           thead
             tr
-              th
-                label
-                  = check_box_tag 'check_all', '1', false, class: "check_all"
-                  ' All
               th Start Time
-              th End Time
+              th End  Time
               th Username
-              th.sortable.sorting.name Name
+              th Name
               th Email
-              th.sortable.sorting.department Department
+              th Department
               th Department Block
-              th.sortable.sorting.charity Charity
+              th Charity
               th Actions
           tbody
-            = render "scheduled_items", scheduled: @scheduled
-
-        .pagination-wrapper
-          .div id="pagination-#{day.safe_short_date}"
-            = paginate @scheduled, remote: true
-          .div id="pagination-info-#{day.safe_short_date}"
-            = page_entries_info @scheduled
-
-coffee:
-  $ ->
-    populateIds = ->
-      ids = []
-      $(".tab-content").find(".user_schedule_id:checked").each ->
-        ids.push($(this).val())
-      $('.tab-content #user_schedule_ids').val("#{ids.join(',')}")
-
-    $(document).on 'change', '.check_all', ->
-      $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
-      populateIds()
-
-    $(document).on 'change', '.user_schedule_id', ->
-      populateIds()

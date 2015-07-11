@@ -3,24 +3,70 @@
 
 - @day = Day.first
 - if current_user.role != "volunteer"
-  ul#volunteer-section-tabs.nav.nav-tabs
-    li.active
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
-    li
-      = link_to "Active Volunteers", "#active_volunteers", data: { url: "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
-    li
-      = link_to "Inactive Volunteers", "#inactive_volunteers", data: { url: "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+  ul#volunteer-section-tabs.nav.nav-tabs role="tablist"
+    li.active role="presentation"
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
+    li role="presentation"
+      = link_to "Active Volunteers", "#active_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
+    li role="presentation"
+      = link_to "Inactive Volunteers", "#inactive_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
-  #volunteer-tabs
+  .tab-content
     .clearfix
-    #scheduled_volunteers.section-tab
-    #active_volunteers.section-tab
-    #inactive_volunteers.section-tab
+    #scheduled_volunteers.tab-pane.active role="tabpanel"
+      = render partial: "scheduled"
+    #active_volunteers.tab-pane role="tabpanel"
+      = render partial: "active"
+    #inactive_volunteers.tab-pane role="tabpanel"
+      = render partial: "inactive"
 - else
-  ul#volunteer-section-tabs.nav.nav-tabs
-    li.active
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tabajax"}
+  ul#volunteer-section-tabs.nav.nav-tabs role="tablist"
+    li.active role="presentation"
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
-  #volunteer-tabs
+  .tab-content
     .clearfix
-    #scheduled_volunteers.section-tab
+    #scheduled_volunteers.tab-pane.active role="tabpanel"
+      = render partial: "scheduled"
+
+coffee:
+  $ ->
+    initDatatable = (dTable) ->
+      unless $.fn.dataTable.isDataTable(dTable)
+        dTable.dataTable
+          processing: true
+          serverSide: true
+          ajax: dTable.data('source')
+          lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+          dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+          columnDefs: [
+            targets: [ -1 ]
+            sortable: false
+          ]
+          pagingType: 'full_numbers'
+          tableTools:
+            sRowSelect: 'os'
+            sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+            aButtons: [
+              {
+                sExtends:     'collection'
+                sButtonText:  'Save to clipboard / CSV / PDF'
+                aButtons:     [ 
+                  { sExtends: 'copy', mColumns: 'sortable' }
+                  { sExtends: 'csv', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.csv" }
+                  { sExtends: 'xls', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.csv" }
+                  { sExtends: 'pdf', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.pdf" }
+                ]
+              }
+              {
+                sExtends:     'print'
+              }
+            ] 
+
+    $(window).load ->
+      $dTable = $($('.days-list li.active a').attr('href')).find('table')
+      initDatatable($dTable)
+
+    $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
+      $dTable = $($(e.target).attr('href')).find('table:first')
+      initDatatable($dTable)

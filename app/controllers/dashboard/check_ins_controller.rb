@@ -17,35 +17,26 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @service = ScheduledCheckInsService.new(as: current_user)
-    @results = @service.prepare_scheduled_data(@scope)
+    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
     respond_to do |format|
-      format.js
+      format.html
+      format.json { render json: ScheduledVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 
   def active
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @results = check_ins_service.prepare_check_ins_data(:active, @scope)
+    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
     respond_to do |format|
-      format.js
+      format.html
+      format.json { render json: ActiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 
   def inactive
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @results = check_ins_service.prepare_check_ins_data(:inactive, @scope)
+    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
     respond_to do |format|
-      format.js
-      format.csv do
-        @scope.delete(:per)
-        data = check_ins_service.prepare_check_ins_data(:inactive, @scope)
-        send_data(
-          csv_service.export("check_ins_inactive", data),
-          type: 'text/csv; charset=utf-8; header=present', filename: csv_service.filename
-        )
-      end
+      format.html
+      format.json { render json: InactiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 

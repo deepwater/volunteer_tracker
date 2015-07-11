@@ -1,7 +1,7 @@
 $ ->
   return unless $("#promote-users").length > 0
 
-  loadData = (id)->
+  loadData = (id) ->
     $block = $("##{id}")
     data =
       q: $block.find(".search-field").val()
