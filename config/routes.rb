@@ -30,16 +30,6 @@ VolunteerTracker::Application.routes.draw do
     end
     resources :events
     resources :organisations
-
-    resources :base, only: :index do
-      collection do
-        get :charity_tab
-        get :department_tab
-        get :event_tab
-        get :organisation_tab
-      end
-    end
-    match 'list' => "base#list"
     root to: 'base#index'
   end
 

@@ -1,25 +1,45 @@
 h2
   .pull-right = link_to 'New Charity', new_admin_charity_path, class: 'btn btn-primary'
   ' Charity List
-
-table.table.table-bordered.table-striped
+table.table.table-bordered.table-striped#charities_list_table data-source=(admin_charities_path(format: :json))
   thead
     tr
       th Name
       th
       th
       th Volunteer Hours Progress
-
   tbody
-    - charities.each do |charity|
-      tr
-        td= link_to charity.name, admin_charity_path(charity)
-        td= link_to 'Edit', edit_admin_charity_path(charity), remote: true
-        td= link_to 'Delete', admin_charity_path(charity), method: :delete, data: { confirm: 'Are you sure?' }
-        td= @schedules[charity.id]
 
-.pagination-wrapper
-  #pagination
-    = paginate charities, remote: true
-  #pagination-info
-    = page_entries_info charities
+coffee:
+  $ ->
+    unless $.fn.dataTable.isDataTable($('#charities_list_table'))
+      $('#charities_list_table').dataTable
+        processing: true
+        serverSide: true
+        ajax: $('#charities_list_table').data('source')
+        lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+        dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+        columnDefs: [
+          targets: [ 1, 2 ]
+          sortable: false
+        ]
+        order: [[0, 'desc']]
+        pagingType: 'full_numbers'
+        tableTools:
+          sRowSelect: 'os'
+          sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+          aButtons: [
+            {
+              sExtends:     'collection'
+              sButtonText:  'Save to clipboard / CSV / PDF'
+              aButtons:     [ 
+                { sExtends: 'copy', mColumns: 'sortable' }
+                { sExtends: 'csv', mColumns: 'sortable', sFileName: "charities-#{window.currentDate()}.csv" }
+                { sExtends: 'xls', mColumns: 'sortable', sFileName: "charities-#{window.currentDate()}.csv" }
+                { sExtends: 'pdf', mColumns: 'sortable', sFileName: "charities-#{window.currentDate()}.pdf" }
+              ]
+            }
+            {
+              sExtends:     'print'
+            }
+          ]
