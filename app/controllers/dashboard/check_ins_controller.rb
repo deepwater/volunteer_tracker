@@ -1,6 +1,4 @@
 class Dashboard::CheckInsController < DashboardController
-  DEFAULT_PER_PAGE = 10
-  before_filter :set_scope, only: [:scheduled, :active, :inactive, :manage]
   before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
@@ -17,7 +15,7 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
-    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
+    day = Day.find params[:day_id]
     respond_to do |format|
       format.html
       format.json { render json: ScheduledVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
@@ -25,7 +23,7 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def active
-    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
+    day = Day.find params[:day_id]
     respond_to do |format|
       format.html
       format.json { render json: ActiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
@@ -33,7 +31,7 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def inactive
-    day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
+    day = Day.find params[:day_id]
     respond_to do |format|
       format.html
       format.json { render json: InactiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
@@ -76,7 +74,7 @@ class Dashboard::CheckInsController < DashboardController
     @check_in = service.create(params[:check_in])
 
     respond_to do |format|
-      if @check_in.persisted?
+      if @check_in.present? && @check_in.persisted?
         format.html { redirect_to :back, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
@@ -110,7 +108,7 @@ class Dashboard::CheckInsController < DashboardController
     end
 
     respond_to do |format|
-      if @check_in.persisted?
+      if @check_in.present? && @check_in.persisted?
         format.html { redirect_to :back, notice: 'Check ins was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
@@ -134,7 +132,7 @@ class Dashboard::CheckInsController < DashboardController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.js { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -152,22 +150,6 @@ class Dashboard::CheckInsController < DashboardController
 
   private
 
-  def set_scope
-    @scope = {
-      per: (params[:per] || DEFAULT_PER_PAGE).to_i,
-      page: (params[:page] || 1).to_i,
-      q: params[:q],
-      year: params[:year],
-      month: params[:month],
-      day: params[:day],
-      order_charity: params[:order_charity],
-      order_department: params[:order_department],
-      order_name: params[:order_name],
-      order_check_in: params[:order_check_in],
-      order_check_out: params[:order_check_out]
-    }
-  end
-
   def volunteer_manager?
     redirect_to :root unless current_user.has_any_role? :volunteer_manager, :super_admin, :org_admin, :event_admin, :department_manager, :department_assistant
   end
@@ -178,9 +160,5 @@ class Dashboard::CheckInsController < DashboardController
 
   def check_ins_service
     @service ||= CheckInsService.new(as: current_user)
-  end
-
-  def csv_service
-    @csv_service ||= CsvExporterService.new
   end
 end

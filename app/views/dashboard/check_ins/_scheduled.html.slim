@@ -13,7 +13,12 @@
     - days.each_with_index do |day, index|
       div id="scheduled_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        table.table.table-bordered.table-striped data-source=(scheduled_dashboard_check_ins_path(year: day[:year], month: day[:month], day: day[:mday], format: :json))
+        = simple_form_for CheckIn.new, url: create_batch_dashboard_check_ins_path, method: :post, html: { class: 'hide' } do |f|
+          = f.input :user_schedule_id, as: :hidden, input_html: { id: 'ids' }
+          = f.input :status, as: :hidden, input_html: { value: '1' }
+          = f.button :submit, ''
+
+        table.table.table-bordered.table-striped data-source=(scheduled_dashboard_check_ins_path(day_id: day.id, format: :json)) data-table-type='scheduled'
           thead
             tr
               th Start Time

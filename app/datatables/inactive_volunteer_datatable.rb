@@ -31,7 +31,7 @@ class InactiveVolunteerDatatable < AjaxDatatablesRails::Base
         record.check_out_time.strftime("%l:%M%p"),
         content_tag(:div, record.hours_worked, class: 'hours-worked'),
         record.user_schedule.charity.present? ? record.user_schedule.charity.name : 'Not assigned',
-        action_buttons(record)
+        content_tag(:div, action_buttons(record), data: { record_id: record.id }, class: 'actions')
       ]
     end
   end

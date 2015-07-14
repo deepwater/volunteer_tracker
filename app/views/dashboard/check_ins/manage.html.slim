@@ -31,8 +31,17 @@
 
 coffee:
   $ ->
+    batchAction = (ids, tableID) ->
+      $form = $("##{tableID}_wrapper").siblings('form')
+      $form.find('#ids').val(ids.join())
+      $form.submit()
+
     initDatatable = (dTable) ->
       unless $.fn.dataTable.isDataTable(dTable)
+        buttonText = switch dTable.data('table-type')
+          when 'scheduled' then 'Check In All'
+          when 'active' then 'Check Out All'
+          else 'Check Out All'
         dTable.dataTable
           processing: true
           serverSide: true
@@ -48,6 +57,16 @@ coffee:
             sRowSelect: 'os'
             sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
             aButtons: [
+              {
+                sExtends:     'text'
+                sButtonText:  buttonText
+                fnClick:      (nButton, oConfig, oFlash) ->
+                  ids = []
+                  $("##{$(nButton).attr('aria-controls')}").find('.selected').each (i, e) =>
+                    ids.push $(e).find('.actions').data('record-id')
+                  batchAction ids, $(nButton).attr('aria-controls')
+                  return
+              }
               {
                 sExtends:     'collection'
                 sButtonText:  'Save to clipboard / CSV / PDF'
