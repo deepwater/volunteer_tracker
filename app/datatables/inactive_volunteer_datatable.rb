@@ -1,7 +1,7 @@
 class InactiveVolunteerDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view, :in_twelve_hour_time, :link_to, :dashboard_check_in_path, :simple_form_for, :button, :input, :content_tag
+  def_delegators :@view, :in_twelve_hour_time, :link_to, :dashboard_check_in_path, :simple_form_for, :button, :input, :content_tag, :check_box_tag
 
   def sortable_columns
     @sortable_columns ||= ['User.username', 'User.first_name', 'User.email', 'Department.name',
@@ -20,6 +20,7 @@ class InactiveVolunteerDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        check_box_tag('check_in_ids[]', record.id, false),
         record.user_schedule.try(:user).try(:username),
         record.user_schedule.try(:user).try(:full_name) || 'User missing',
         record.user_schedule.try(:user).try(:email),

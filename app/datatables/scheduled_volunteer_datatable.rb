@@ -1,7 +1,7 @@
 class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view, :in_twelve_hour_time, :link_to, :simple_form_for, :button, :input, :content_tag
+  def_delegators :@view, :in_twelve_hour_time, :link_to, :simple_form_for, :button, :input, :content_tag, :check_box_tag
 
   def sortable_columns
     @sortable_columns ||= ['DepartmentBlock.start_time', 'DepartmentBlock.end_time', 
@@ -20,6 +20,7 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        check_box_tag('user_schedule_ids[]', record.id, false),
         in_twelve_hour_time(record.department_block.start_time),
         in_twelve_hour_time(record.department_block.end_time),
         record.try(:user).try(:username),
