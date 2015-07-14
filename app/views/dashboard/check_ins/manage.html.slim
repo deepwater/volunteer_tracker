@@ -60,6 +60,10 @@ coffee:
               {
                 sExtends:     'text'
                 sButtonText:  buttonText
+                sButtonClass: 'btn btn-success'
+                fnInit:       (node) ->
+                  $(node).removeClass('DTTT_button')
+                  return
                 fnClick:      (nButton, oConfig, oFlash) ->
                   ids = []
                   $("##{$(nButton).attr('aria-controls')}").find('.selected').each (i, e) =>
@@ -72,9 +76,9 @@ coffee:
                 sButtonText:  'Save to clipboard / CSV / PDF'
                 aButtons:     [ 
                   { sExtends: 'copy', mColumns: 'sortable' }
-                  { sExtends: 'csv', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.csv" }
-                  { sExtends: 'xls', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.csv" }
-                  { sExtends: 'pdf', mColumns: 'sortable', sFileName: "users-#{window.currentDate()}.pdf" }
+                  { sExtends: 'csv', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.csv" }
+                  { sExtends: 'xls', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.csv" }
+                  { sExtends: 'pdf', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.pdf" }
                 ]
               }
               {
