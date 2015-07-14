@@ -126,7 +126,7 @@ class Dashboard::CheckInsController < DashboardController
     end
 
     respond_to do |format|
-      if @check_in.errors.empty?
+      if @check_in.present? && @check_in.errors.empty?
         format.html { redirect_to :back, notice: 'Check ins was successfully updated.' }
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
