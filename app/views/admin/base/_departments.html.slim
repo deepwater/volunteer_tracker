@@ -1,8 +1,7 @@
 h2
   .pull-right = link_to 'New Department', new_admin_department_path, class: 'btn btn-primary'
   ' Departments List
-
-table.table.table-bordered.table-striped
+table.table.table-bordered.table-striped#departments_list_table data-source=(admin_departments_path(format: :json))
   thead
     tr
       th Name
@@ -15,23 +14,36 @@ table.table.table-bordered.table-striped
       th
       th
   tbody
-    - departments.each do |department|
-      tr
-        td= link_to department.name, admin_department_path(department)
-        td
-          .progress
-            .progress-bar class=(get_department_usage_class(department.estimate_hours_total, department.budgeted_hours)) style="width: #{get_department_usage(department.estimate_hours_total, department.budgeted_hours)}%;"
-          ' #{department.estimate_hours_total.to_i} / #{department.budgeted_hours}
-        td
-          .progress
-            .progress-bar class=(get_department_usage_class(department.scheduled_count, department.total_slots)) style="width: #{get_department_usage(department.scheduled_count, department.total_slots)}%;"
-          ' #{department.scheduled_count} / #{department.total_slots}
-        td= volunteer_hours[department.id].to_i
-        td= link_to 'Edit', edit_admin_department_path(department), remote: true
-        td= link_to 'Delete', admin_department_path(department), method: :delete, data: { confirm: 'Are you sure?' }
 
-.pagination-wrapper
-  #pagination
-    = paginate departments, remote: true
-  #pagination-info
-    = page_entries_info departments
+coffee:
+  $ ->
+    unless $.fn.dataTable.isDataTable($('#departments_list_table'))
+      $('#departments_list_table').dataTable
+        processing: true
+        serverSide: true
+        ajax: $('#departments_list_table').data('source')
+        lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+        dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+        columnDefs: [
+          targets: [ 0 ]
+          sortable: true
+        ]
+        pagingType: 'full_numbers'
+        tableTools:
+          sRowSelect: 'os'
+          sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+          aButtons: [
+            {
+              sExtends:     'collection'
+              sButtonText:  'Save to clipboard / CSV / PDF'
+              aButtons:     [ 
+                { sExtends: 'copy', mColumns: 'sortable' }
+                { sExtends: 'csv', mColumns: 'sortable', sFileName: "departments-#{window.currentDate()}.csv" }
+                { sExtends: 'xls', mColumns: 'sortable', sFileName: "departments-#{window.currentDate()}.csv" }
+                { sExtends: 'pdf', mColumns: 'sortable', sFileName: "departments-#{window.currentDate()}.pdf" }
+              ]
+            }
+            {
+              sExtends:     'print'
+            }
+          ]

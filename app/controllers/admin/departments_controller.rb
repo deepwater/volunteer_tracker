@@ -1,18 +1,12 @@
 class Admin::DepartmentsController < Admin::BaseController
 
   def index
-    service = DepartamentService.new
-    select = OpenStruct.new(estimate_hours: true)
-    @departments = service.prepare_data(select)
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @departments }
+      format.html
+      format.json { render json: DepartmentDatatable.new(view_context) }
     end
   end
 
-  # GET /departments/1
-  # GET /departments/1.json
   def show
     @department = Department.find(params[:id])
 
@@ -29,8 +23,6 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # GET /departments/new
-  # GET /departments/new.json
   def new
     @department = Department.new
 
@@ -40,14 +32,11 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # GET /departments/1/edit
   def edit
     @department = Department.find(params[:id])
     @department_manager = DepartmentManager.new
   end
 
-  # POST /departments
-  # POST /departments.json
   def create
     @department = Department.new(params[:department])
 
@@ -62,8 +51,6 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # PUT /departments/1
-  # PUT /departments/1.json
   def update
     @department = Department.find(params[:id])
 
@@ -80,8 +67,6 @@ class Admin::DepartmentsController < Admin::BaseController
     end
   end
 
-  # DELETE /departments/1
-  # DELETE /departments/1.json
   def destroy
     @department = Department.find(params[:id])
     @department.destroy

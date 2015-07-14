@@ -1,17 +1,12 @@
 class Admin::CharitiesController < Admin::BaseController
-  # GET /charities
-  # GET /charities.json
-  def index
-    @charities = Charity.order('name')
 
+  def index
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @charities }
+      format.html
+      format.json { render json: CharityDatatable.new(view_context) }
     end
   end
 
-  # GET /charities/1
-  # GET /charities/1.json
   def show
     @charity = Charity.find(params[:id])
 
@@ -21,8 +16,6 @@ class Admin::CharitiesController < Admin::BaseController
     end
   end
 
-  # GET /charities/new
-  # GET /charities/new.json
   def new
     @charity = Charity.new
 
@@ -32,13 +25,10 @@ class Admin::CharitiesController < Admin::BaseController
     end
   end
 
-  # GET /charities/1/edit
   def edit
     @charity = Charity.find(params[:id])
   end
 
-  # POST /charities
-  # POST /charities.json
   def create
     @charity = Charity.new(params[:charity])
 
@@ -53,8 +43,6 @@ class Admin::CharitiesController < Admin::BaseController
     end
   end
 
-  # PUT /charities/1
-  # PUT /charities/1.json
   def update
     @charity = Charity.find(params[:id])
 
@@ -71,8 +59,6 @@ class Admin::CharitiesController < Admin::BaseController
     end
   end
 
-  # DELETE /charities/1
-  # DELETE /charities/1.json
   def destroy
     @charity = Charity.find(params[:id])
     @charity.destroy

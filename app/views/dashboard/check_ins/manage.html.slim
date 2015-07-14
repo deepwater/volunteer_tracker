@@ -3,7 +3,7 @@
 
 - @day = Day.first
 - if current_user.role != "volunteer"
-  ul#volunteer-section-tabs.nav.nav-tabs role="tablist"
+  ul.nav.nav-tabs role="tablist"
     li.active role="presentation"
       = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
     li role="presentation"
@@ -20,7 +20,7 @@
     #inactive_volunteers.tab-pane role="tabpanel"
       = render partial: "inactive"
 - else
-  ul#volunteer-section-tabs.nav.nav-tabs role="tablist"
+  ul.nav.nav-tabs role="tablist"
     li.active role="presentation"
       = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 

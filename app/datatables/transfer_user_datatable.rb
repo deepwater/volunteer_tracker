@@ -16,10 +16,10 @@ class TransferUserDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-          record.full_name,
-          record.email,
-          record.role,
-          "<input type='radio' name='user[master_id]' value='#{record.id}'></input>".html_safe
+        record.full_name,
+        record.email,
+        record.role,
+        "<input type='radio' name='user[master_id]' value='#{record.id}'></input>".html_safe
       ]
     end
   end
