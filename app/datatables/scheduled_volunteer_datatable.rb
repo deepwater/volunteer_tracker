@@ -1,7 +1,7 @@
 class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
-  def_delegators :@view, :in_twelve_hour_time, :link_to, :simple_form_for, :button, :input
+  def_delegators :@view, :in_twelve_hour_time, :link_to, :simple_form_for, :button, :input, :content_tag
 
   def sortable_columns
     @sortable_columns ||= ['DepartmentBlock.start_time', 'DepartmentBlock.end_time', 
@@ -28,7 +28,7 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
         link_to(record.department_block.department.name, [:dashboard, record.department_block.department]),
         link_to("#{record.department_block.name}", [:dashboard, record.department_block]),
         record.charity.present? ? record.charity.name : 'Not assigned',
-        action_buttons(record)
+        content_tag(:div, action_buttons(record), data: { record_id: record.id }, class: 'actions')
       ]
     end
   end
