@@ -10,9 +10,7 @@ class ActiveVolunteerDatatable < AjaxDatatablesRails::Base
   end
 
   def searchable_columns
-    @searchable_columns ||= ['User.username', 'User.first_name', 'User.email', 'Department.name',
-                            'DepartmentBlock.name', 'DepartmentBlock.start_time', 'DepartmentBlock.end_time',
-                            'CheckIn.created_at', 'Charity.name']
+    @searchable_columns ||= ['User.username', 'User.first_name', 'User.email', 'Charity.name']
   end
 
   private 
