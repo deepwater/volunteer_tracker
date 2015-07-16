@@ -60,12 +60,28 @@ coffee:
             aButtons: [
               {
                 sExtends: 'select_all'
-                sButtonClass: 'btn btn-success'
+                sButtonClass: 'btn btn-success select-all'
                 fnInit:       (node) ->
                   $(node).removeClass('DTTT_button')
                   return
                 fnSelect:     (nButton, oConfig, nRow) ->
                   $(nRow).find('input:checkbox').prop('checked', true)
+                  return
+                fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
+                  $('.select-all').hide()
+                  $('.select-none').show()
+
+              }
+              {
+                sExtends: 'select_none'
+                sButtonClass: 'btn btn-success select-none'
+                fnInit:       (node) ->
+                  $(node).removeClass('DTTT_button').hide()
+                  return
+                fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
+                  $("##{$(nButton).attr('aria-controls')}").find('input:checkbox').prop('checked', false).removeAttr('checked')
+                  $('.select-none').hide()
+                  $('.select-all').show()
                   return
               }
               {
