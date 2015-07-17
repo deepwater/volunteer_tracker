@@ -13,10 +13,6 @@
     - days.each_with_index do |day, index|
       div id="inactive_volunteers_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
         h3 = day.short_date_with_long_day
-        = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put, html: { class: 'hide' } do |f|
-          = f.input :id, as: :hidden, input_html: {id: 'ids'}
-          = f.input :status, as: :hidden, input_html: {value: '2'}
-          = f.button :submit, ''
 
         table.table.table-bordered.table-striped data-source=(inactive_dashboard_check_ins_path(day_id: day.id, format: :json)) data-table-type='inactive'
           thead
@@ -35,3 +31,16 @@
               th Charity
               th Actions
           tbody
+  div.modal.fade id='edit_checkout_time'
+    .modal-dialog role='document'
+      .modal-content
+        .modal-header
+          button.close aria-label="Close" data-dismiss="modal" type="button" 
+            span aria-hidden="true"  &times;
+          h4#myModalLabel.modal-title Edit Time
+        .modal-body
+          = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
+            = f.input :id, as: :hidden, input_html: { id: 'ids' }
+            = f.input :created_at, as: :string, input_html: { class: 'bootstrap-datetimepicker' }
+            = f.input :check_out_time, as: :string, input_html: { class: 'bootstrap-datetimepicker' }
+            = f.button :submit, 'Save changes', class: 'btn btn-primary'

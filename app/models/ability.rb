@@ -20,7 +20,7 @@ class Ability
       can :manage, CheckIn
     end
     if user.has_role? :volunteer_manager
-      can :manage, CheckIn if user.check_ins.where(status: "1").exists?
+      can :manage, CheckIn if user.check_ins.where(status: '1').exists?
       can :flag, CheckIn
     end
     if user.has_role? :volunteer

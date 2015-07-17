@@ -31,17 +31,32 @@
 
 coffee:
   $ ->
-    batchAction = (ids, tableID) ->
-      $form = $("##{tableID}_wrapper").siblings('form')
-      $form.find('#ids').val(ids.join())
-      $form.submit()
+    editCheckOutTimeTo = (ids, checkInDateTime, checkOutDateTime) ->
+      $modal = $('#edit_checkout_time')
+      $modal.find('#ids').val(ids)
+      $modal.find('#check_in_created_at').val(checkInDateTime)
+      $modal.find('#check_in_check_out_time').val(checkOutDateTime)
+      $modal.modal()
+      $('.bootstrap-datetimepicker').datetimepicker()
+      $('.dataTable:visible').find('tbody tr').removeClass('DTTT_selected selected')
+      $('.dataTable:visible').find('input:checkbox').prop('checked', false).removeAttr('checked')
+      false
+
+    batchAction = (ids, tableID, tableType) ->
+      if tableType == 'inactive'
+        editCheckOutTimeTo(ids.join(), moment().format('MM/DD/YYYY hh:mm A'), moment().format('MM/DD/YYYY hh:mm A'))
+      else
+        $form = $("##{tableID}_wrapper").siblings('form')
+        $form.find('#ids').val(ids.join())
+        $form.submit()
 
     initDatatable = (dTable) ->
       unless $.fn.dataTable.isDataTable(dTable)
         buttonText = switch dTable.data('table-type')
           when 'scheduled' then 'Check In All'
           when 'active' then 'Check Out All'
-          else 'Check Out All'
+          when 'inactive' then 'Edit Time All'
+          else console.log "Uexpected type of the datatable - #{dTable.data('table-type')}"
         dTable.dataTable
           processing: true
           serverSide: true
@@ -70,7 +85,7 @@ coffee:
                 fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
                   $('.select-all').hide()
                   $('.select-none').show()
-
+                  return
               }
               {
                 sExtends: 'select_none'
@@ -95,7 +110,7 @@ coffee:
                   ids = []
                   $("##{$(nButton).attr('aria-controls')}").find('.selected').each (i, e) =>
                     ids.push $(e).find('.actions').data('record-id')
-                  batchAction ids, $(nButton).attr('aria-controls')
+                  batchAction ids, $(nButton).attr('aria-controls'), dTable.data('table-type')
                   return
               }
               {
@@ -120,6 +135,14 @@ coffee:
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
       $dTable = $($(e.target).attr('href')).find('table:first')
       initDatatable($dTable)
+
+    $(document).on 'click', '.edit-time-button', (e) ->
+      $el = $(e.target)
+      checkInDateTime = $el.data('created-at')
+      checkOutDateTime = $el.data('check-out-time')
+      ids = $el.parents('.actions').data('record-id')
+      editCheckOutTimeTo(ids, checkInDateTime, checkOutDateTime)
+      false
 
     $(document).on 'click', 'table tr', (e) ->
       $trEl = $(e.target).parents('tr')

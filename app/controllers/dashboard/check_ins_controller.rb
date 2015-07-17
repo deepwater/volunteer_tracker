@@ -121,7 +121,7 @@ class Dashboard::CheckInsController < DashboardController
   def update_batch
     service = CheckInsService.new(as: current_user)
     params[:check_in][:id].split(',').each do |item|
-      @check_in = service.update(item, status: params[:check_in][:status])
+      @check_in = service.update(item, params[:check_in])
       break if @check_in.errors.present?
     end
 
@@ -131,8 +131,7 @@ class Dashboard::CheckInsController < DashboardController
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.js { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
