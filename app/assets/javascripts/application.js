@@ -35,7 +35,6 @@
 //= require dashboard/department_blocks
 //= require dashboard/fast_pass
 //= require dashboard/become_users
-//= require dashboard/flags
 //= require dashboard/user_availabilities
 
 //= require partials/department_blocks
