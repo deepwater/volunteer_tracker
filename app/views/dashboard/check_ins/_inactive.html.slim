@@ -41,6 +41,6 @@
         .modal-body
           = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
             = f.input :id, as: :hidden, input_html: { id: 'ids' }
-            = f.input :created_at, as: :string, input_html: { class: 'bootstrap-datetimepicker' }
+            = f.input :created_at, label: 'Check in time', as: :string, input_html: { class: 'bootstrap-datetimepicker' }
             = f.input :check_out_time, as: :string, input_html: { class: 'bootstrap-datetimepicker' }
             = f.button :submit, 'Save changes', class: 'btn btn-primary'
