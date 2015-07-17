@@ -85,6 +85,7 @@ coffee:
                 fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
                   $('.select-all').hide()
                   $('.select-none').show()
+                  $('.batch-action-button').show()
                   return
               }
               {
@@ -96,15 +97,21 @@ coffee:
                 fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
                   $("##{$(nButton).attr('aria-controls')}").find('input:checkbox').prop('checked', false).removeAttr('checked')
                   $('.select-none').hide()
+                  $('.batch-action-button').hide()
                   $('.select-all').show()
                   return
               }
               {
                 sExtends:     'text'
                 sButtonText:  buttonText
-                sButtonClass: 'btn btn-success'
+                sButtonClass: 'btn btn-success batch-action-button'
                 fnInit:       (node) ->
                   $(node).removeClass('DTTT_button')
+                  $(node).hide()
+                  return
+                fnSelect:     (nButton, oConfig, nRow) ->
+                  unless $(nButton).is(':visible')
+                    $(nButton).show()
                   return
                 fnClick:      (nButton, oConfig, oFlash) ->
                   ids = []
@@ -146,6 +153,10 @@ coffee:
 
     $(document).on 'click', 'table tr', (e) ->
       $trEl = $(e.target).parents('tr')
+      unless $trEl.parent('tbody').find('tr.DTTT_selected').length > 0
+        $('.select-none').hide()
+        $('.batch-action-button').hide()
+        $('.select-all').show()
       unless $trEl.hasClass('DTTT_selected')
         $trEl.find('input:checkbox').prop('checked', false).removeAttr('checked')
 
