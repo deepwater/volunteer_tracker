@@ -4,7 +4,7 @@
 - @day = Day.first
 - if current_user.role != "volunteer"
   ul.nav.nav-tabs role="tablist"
-    li.active role="presentation"
+    li role="presentation"
       = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
     li role="presentation"
       = link_to "Active Volunteers", "#active_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
@@ -13,7 +13,7 @@
 
   .tab-content
     .clearfix
-    #scheduled_volunteers.tab-pane.active role="tabpanel"
+    #scheduled_volunteers.tab-pane role="tabpanel"
       = render partial: "scheduled"
     #active_volunteers.tab-pane role="tabpanel"
       = render partial: "active"
@@ -26,7 +26,7 @@
 
   .tab-content
     .clearfix
-    #scheduled_volunteers.tab-pane.active role="tabpanel"
+    #scheduled_volunteers.tab-pane role="tabpanel"
       = render partial: "scheduled"
 
 coffee:
@@ -133,7 +133,7 @@ coffee:
               {
                 sExtends:     'print'
               }
-            ] 
+            ]
 
     $(window).load ->
       $dTable = $($('.days-list li.active a').attr('href')).find('table')
@@ -159,4 +159,5 @@ coffee:
         $('.select-all').show()
       unless $trEl.hasClass('DTTT_selected')
         $trEl.find('input:checkbox').prop('checked', false).removeAttr('checked')
+
 

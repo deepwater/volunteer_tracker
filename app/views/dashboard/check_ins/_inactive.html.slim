@@ -4,14 +4,14 @@
     h1 Inactive / Past Volunteers
   ul.days-list.nav.nav-tabs role="tablist"
     - days.each_with_index do |day, index|
-      li role="presentation" class=(index == 0  ? "active" : "")
-        = link_to "#inactive_volunteers_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
+      li role="presentation"
+        = link_to "#inactive_volunteers_day_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
           = day.day_name
           = day.short_date
 
   .tab-content
     - days.each_with_index do |day, index|
-      div id="inactive_volunteers_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
+      div id="inactive_volunteers_day_#{day.safe_short_date}" role="tabpanel" class="tab-pane"
         h3 = day.short_date_with_long_day
 
         table.table.table-bordered.table-striped data-source=(inactive_dashboard_check_ins_path(day_id: day.id, format: :json)) data-table-type='inactive'
@@ -42,5 +42,7 @@
           = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put do |f|
             = f.input :id, as: :hidden, input_html: { id: 'ids' }
             = f.input :created_at, label: 'Check in time', as: :string, input_html: { class: 'bootstrap-datetimepicker' }
+            br
+            br
             = f.input :check_out_time, as: :string, input_html: { class: 'bootstrap-datetimepicker' }
             = f.button :submit, 'Save changes', class: 'btn btn-primary'
