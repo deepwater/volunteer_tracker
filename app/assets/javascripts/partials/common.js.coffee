@@ -10,7 +10,4 @@ window.currentDate = ->
   fragments.join '-'
 
 $ ->
-  options = 
-    backToTop: true
-  $('.nav-tabs').stickyTabs options
-  return
+  $('.nav-tabs').stickyTabs()

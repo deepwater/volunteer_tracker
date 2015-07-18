@@ -69,6 +69,10 @@ coffee:
           ]
           order: [[1, 'desc']]
           pagingType: 'full_numbers'
+          initComplete: (settings, json) ->
+            if json.recordsTotal > 0
+              $('.select-all').show()
+            return
           tableTools:
             sRowSelect: 'multi'
             sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
@@ -78,6 +82,7 @@ coffee:
                 sButtonClass: 'btn btn-success select-all'
                 fnInit:       (node) ->
                   $(node).removeClass('DTTT_button')
+                  $(node).hide()
                   return
                 fnSelect:     (nButton, oConfig, nRow) ->
                   $(nRow).find('input:checkbox').prop('checked', true)
