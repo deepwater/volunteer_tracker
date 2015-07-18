@@ -58,7 +58,7 @@ class ActiveVolunteerDatatable < AjaxDatatablesRails::Base
 
     query.where(status: '1').includes(user_schedule: [:charity, :user, { department_block: :department }])
   end
-
+  
   def action_buttons(check_in)
     html = simple_form_for([:dashboard, check_in]) do |f|
       f.input(:status, as: :hidden, input_html: { value: '2' }) +

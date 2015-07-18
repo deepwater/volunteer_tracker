@@ -8,3 +8,9 @@ window.currentDate = ->
     (if day < 10 then '0' else '') + day
   ]
   fragments.join '-'
+
+$ ->
+  options = 
+    backToTop: true
+  $('.nav-tabs').stickyTabs options
+  return

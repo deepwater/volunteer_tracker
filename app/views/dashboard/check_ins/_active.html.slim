@@ -4,14 +4,14 @@
     h1 Active Volunteers
   ul.days-list.nav.nav-tabs role="tablist"
     - days.each_with_index do |day, index|
-      li role="presentation" class=(index == 0  ? "active" : "")
-        = link_to "#active_volunteers_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
+      li role="presentation"
+        = link_to "#active_volunteers_day_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
           = day.day_name
           = day.short_date
 
   .tab-content
     - days.each_with_index do |day, index|
-      div id="active_volunteers_#{day.safe_short_date}" role="tabpanel" class=(index == 0 ? "active tab-pane" : "tab-pane")
+      div id="active_volunteers_day_#{day.safe_short_date}" role="tabpanel" class="tab-pane"
         h3 = day.short_date_with_long_day
         = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put, html: { class: 'hide' } do |f|
           = f.input :id, as: :hidden, input_html: {id: 'ids'}
