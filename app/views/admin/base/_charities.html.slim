@@ -13,7 +13,7 @@ table.table.table-bordered.table-striped#charities_list_table data-source=(admin
 coffee:
   $ ->
     unless $.fn.dataTable.isDataTable($('#charities_list_table'))
-      $('#charities_list_table').dataTable
+      oTable = $('#charities_list_table').dataTable
         processing: true
         serverSide: true
         ajax: $('#charities_list_table').data('source')
@@ -43,3 +43,5 @@ coffee:
               sExtends:     'print'
             }
           ]
+
+      window.adminCharityTable = oTable

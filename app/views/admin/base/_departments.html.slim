@@ -18,7 +18,7 @@ table.table.table-bordered.table-striped#departments_list_table data-source=(adm
 coffee:
   $ ->
     unless $.fn.dataTable.isDataTable($('#departments_list_table'))
-      $('#departments_list_table').dataTable
+      oTable = $('#departments_list_table').dataTable
         processing: true
         serverSide: true
         ajax: $('#departments_list_table').data('source')
@@ -47,3 +47,5 @@ coffee:
               sExtends:     'print'
             }
           ]
+
+      window.adminDepartmentTable = oTable
