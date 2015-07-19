@@ -72,7 +72,7 @@ class Admin::DepartmentsController < Admin::BaseController
     @department.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_departments_url }
+      format.html { redirect_to admin_root_url(anchor: 'departments') }
       format.json { head :no_content }
     end
   end
