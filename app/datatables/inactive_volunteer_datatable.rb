@@ -26,8 +26,8 @@ class InactiveVolunteerDatatable < AjaxDatatablesRails::Base
         link_to(record.user_schedule.department_block.name, [:dashboard, record.user_schedule.department_block]),
         record.created_at.strftime("%b %-d"),
         record.created_at.strftime("%l:%M%p"),
-        record.check_out_time.strftime("%b %-d"),
-        record.check_out_time.strftime("%l:%M%p"),
+        record.check_out_time.try(:strftime, "%b %-d"),
+        record.check_out_time.try(:strftime, "%l:%M%p"),
         content_tag(:div, record.hours_worked, class: 'hours-worked'),
         record.user_schedule.charity.present? ? record.user_schedule.charity.name : 'Not assigned',
         content_tag(:div, action_buttons(record), data: { record_id: record.id }, class: 'actions')
