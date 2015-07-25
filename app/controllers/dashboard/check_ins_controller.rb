@@ -118,7 +118,7 @@ class Dashboard::CheckInsController < DashboardController
         format.html { redirect_to back_path, notice: 'Check ins was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, alert: (@check_in ? @check_in.errors.values.join(', ') : 'Volunteers were not selected') }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
