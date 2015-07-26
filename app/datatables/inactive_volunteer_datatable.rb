@@ -71,7 +71,7 @@ class InactiveVolunteerDatatable < AjaxDatatablesRails::Base
     end
     html
     unless ['volunteer', 'volunteer_manager'].include?(options[:user].role)
-      html += link_to('Edit Time', '#', class: 'btn btn-primary edit-time-button', style: 'margin-top:10px;', data: { created_at: check_in.created_at.strftime("%m/%d/%Y %I:%M %p"), check_out_time: check_in.check_out_time.strftime("%m/%d/%Y %I:%M %p") })
+      html += link_to('Edit Time', '#', class: 'btn btn-primary edit-time-button', style: 'margin-top:10px;', data: { created_at: check_in.created_at.strftime("%m/%d/%Y %I:%M %p"), check_out_time: check_in.check_out_time.try(:strftime, "%m/%d/%Y %I:%M %p") })
     end
     # if options[:user].role != 'volunteer'
     #   html << simple_form_for([:dashboard, Flag.new]) do |f|
