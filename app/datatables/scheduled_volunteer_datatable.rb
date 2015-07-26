@@ -55,14 +55,13 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
       query = query.where(id: day_user_schedule_ids)
     end
 
-    query.group(
+    query = query.group(
       "department_blocks.id, days.id, departments.id, users.id, charities.id, user_schedules.id"
     ).joins(
       "LEFT OUTER JOIN check_ins ON check_ins.user_schedule_id = user_schedules.id"
     ).having(
       "COUNT(check_ins.*) = 0"
     )
-
     query.includes(:charity, :user, department_block: [:day, :department])
   end
 
