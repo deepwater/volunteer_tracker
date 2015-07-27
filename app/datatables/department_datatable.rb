@@ -11,8 +11,6 @@ class DepartmentDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= [ "Department.name" ]
   end
 
-  private
-
   def data
     records.map do |record|
       [
@@ -32,6 +30,17 @@ class DepartmentDatatable < AjaxDatatablesRails::Base
     query = group_and_order(query)
     query
   end
+
+  def as_json(options = {})
+    {
+      draw: params[:draw].to_i,
+      recordsTotal: get_raw_records.count(:all).length,
+      recordsFiltered: filter_records(get_raw_records).count(:all).length,
+      data: data
+    }
+  end
+
+  private
 
   def volunteer_hours_progress(department_id)
     result = CheckIn
@@ -64,10 +73,6 @@ class DepartmentDatatable < AjaxDatatablesRails::Base
     Department.joins("LEFT OUTER JOIN department_blocks ON department_blocks.department_id = departments.id")
   end
 
-  def group_and_order(query)
-    query.group("departments.id").order("departments.name")
-  end
-
   def build_select(query)
     select_query = %w(departments.id departments.name departments.budgeted_hours)
     select_query << "SUM(department_blocks.suggested_number_of_workers) as total_slots"
@@ -82,5 +87,9 @@ class DepartmentDatatable < AjaxDatatablesRails::Base
     select_query << "SUM((SELECT COUNT(DISTINCT id) FROM user_schedules WHERE department_block_id = department_blocks.id)) as scheduled_count"
 
     query.select select_query.join(', ')
+  end
+
+  def group_and_order(query)
+    query.group("departments.id").order("departments.name")
   end
 end

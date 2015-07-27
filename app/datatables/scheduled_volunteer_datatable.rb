@@ -13,8 +13,6 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= ['User.username', 'User.first_name', 'User.email', 'Charity.name']
   end
 
-  private 
-
   def data
     records.map do |record|
       [
@@ -64,6 +62,17 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
     )
     query.includes(:charity, :user, department_block: [:day, :department])
   end
+
+  def as_json(options = {})
+    {
+      draw: params[:draw].to_i,
+      recordsTotal: get_raw_records.count(:all).length,
+      recordsFiltered: filter_records(get_raw_records).count(:all).length,
+      data: data
+    }
+  end
+
+  private
 
   def action_buttons(check_in)
     simple_form_for([:dashboard, CheckIn.new]) do |f|
