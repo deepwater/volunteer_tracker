@@ -16,12 +16,16 @@ There are 2 different application with separated DB:
 for master branch
 * `$ psql volunteer_tracker < ./db/ggf_data.psql`
 
-for event_hub branch
-* `$ psql volunteer_tracker_event_hub < ./db/eh_data.psql`
+for events-hub branch
+* `$ psql volunteer_tracker_event_hub < ./db/events-hub.psql`
+
+## Admin credentials
+
+admin@example.com // password
 
 ## Deploy to staging
 
-Staging server of master there - http://volunteer.23stages.com/ (admin credentials - admin@example.com // password)
+Staging server of master there - http://volunteer.23stages.com/
 
 Staging server of event_hub there - http://volunteer2.23stages.com/
 
