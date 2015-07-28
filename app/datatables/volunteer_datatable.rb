@@ -36,8 +36,6 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
     html_row
   end
 
-  private
-
   def data
     records.map do |record|
       html_row = html_row_from_record(record)
@@ -78,27 +76,29 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
     scope
   end
 
-  def status_of(check_in)
-    user_schedule = check_in.user_schedule
-    volunteer = user_schedule.user
-    department_block = user_schedule.department_block
-    day = department_block.day
-    schedule_start_time = day.date.utc + Time.parse(department_block.start_time).seconds_since_midnight
-    schedule_end_time = day.date.utc + Time.parse(department_block.end_time).seconds_since_midnight
-    if check_in
-      checkin_start_time = check_in.created_at.time
-      checkin_end_time = check_in.check_out_time.try(:time)
-    end
+  private
 
-    status = if checkin_end_time.blank?
-      "yellow"
-    elsif checkin_end_time > schedule_end_time
-      "red"
-    elsif checkin_start_time >= schedule_start_time
-      "green"
-    else
-      "neutral"
+    def status_of(check_in)
+      user_schedule = check_in.user_schedule
+      volunteer = user_schedule.user
+      department_block = user_schedule.department_block
+      day = department_block.day
+      schedule_start_time = day.date.utc + Time.parse(department_block.start_time).seconds_since_midnight
+      schedule_end_time = day.date.utc + Time.parse(department_block.end_time).seconds_since_midnight
+      if check_in
+        checkin_start_time = check_in.created_at.time
+        checkin_end_time = check_in.check_out_time.try(:time)
+      end
+
+      status = if checkin_end_time.blank?
+        "yellow"
+      elsif checkin_end_time > schedule_end_time
+        "red"
+      elsif checkin_start_time >= schedule_start_time
+        "green"
+      else
+        "neutral"
+      end
+      status
     end
-    status
-  end
 end

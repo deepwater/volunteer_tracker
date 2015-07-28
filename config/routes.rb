@@ -30,16 +30,6 @@ VolunteerTracker::Application.routes.draw do
     end
     resources :events
     resources :organisations
-
-    resources :base, only: :index do
-      collection do
-        get :charity_tab
-        get :department_tab
-        get :event_tab
-        get :organisation_tab
-      end
-    end
-    get 'list' => 'base#list'
     root to: 'base#index'
   end
 
@@ -57,7 +47,6 @@ VolunteerTracker::Application.routes.draw do
     # ROLES
     resources :department_assistants, only: [:create, :destroy, :restrict]
     resources :volunteer_managers, only: [:create, :destroy]
-    resources :volunteers, only: [:index]
     resources :users
 
     # TIME RELATED
@@ -95,14 +84,16 @@ VolunteerTracker::Application.routes.draw do
         post :is_accessible
       end
     end
-    
-    get 'check_ins/scheduled/:year/:month/:day' => 'check_ins#scheduled'
-    get 'check_ins/active/:year/:month/:day' => 'check_ins#active'
-    get 'check_ins/inactive/:year/:month/:day' => 'check_ins#inactive'
     get 'volunteers/:year/:month/:day' => 'volunteers#index'
 
-    get 'check_outs/fastpass' => 'check_ins#fastpass_out', as: :fastpass_check_out
-    post 'check_outs' => 'check_ins#check_out', as: :check_out
+    get 'check_ins/scheduled/:day_id' => "check_ins#scheduled"
+    get 'check_ins/active/:day_id' => "check_ins#active"
+    get 'check_ins/inactive/:day_id' => "check_ins#inactive"
+
+    get 'volunteers/:day_id' => "volunteers#index", as: :volunteers
+
+    get 'check_outs/fastpass' => "check_ins#fastpass_out", as: :fastpass_check_out
+    post 'check_outs' => "check_ins#check_out", as: :check_out
 
     resources :flags
 

@@ -2,4 +2,4 @@ li.col-sm-4
   .thumbnail
     .caption
       h4 All Volunteers
-      p = link_to "View All Volunteers", "#{dashboard_volunteers_path}/2014/7/20", class: "btn btn-block btn-primary"
+      p = link_to "View All Volunteers", dashboard_volunteers_path(day_id: @day.id), class: "btn btn-block btn-primary"

@@ -57,13 +57,13 @@ class Factories::CheckIn
   end
 
   def validate_user_check_in_existance(entity)
-    if entity.user_schedule.check_ins.where(status: '1').present?
+    if entity.user_schedule && entity.user_schedule.check_ins.where(status: '1').present?
       entity.errors.add(:created_at, :already_checked_in)
     end
   end
 
   def validate_user_check_out_existance(entity)
-    if entity.user_schedule.check_ins.where(status: '2').present?
+    if entity.user_schedule && entity.user_schedule.check_ins.where(status: '2').present?
       entity.errors.add(:created_at, :already_checked_out)
     end
   end

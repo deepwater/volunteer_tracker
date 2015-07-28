@@ -11,8 +11,6 @@ class SubaccountDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= [ "User.username", "Charity.name"]
   end
 
-  private
-
   def data
     records.map do |record|
       [

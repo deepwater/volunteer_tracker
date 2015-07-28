@@ -3,24 +3,164 @@
 
 - @day = Day.first
 - if current_user.role != "volunteer"
-  ul#section-tab-navigation.nav.nav-tabs role="tablist"
-    li.active role="presentation"
-      = link_to "Active Volunteers", "#active_volunteers", 'aria-controls': "active_volunteers", data: { url: "#{active_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+  ul.nav.nav-tabs role="tablist"
     li role="presentation"
-      = link_to "Inactive Volunteers", "#inactive_volunteers", 'aria-controls': "inactive_volunteers", data: { url: "#{inactive_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
     li role="presentation"
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", 'aria-controls': "scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+      = link_to "Active Volunteers", "#active_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
+    li role="presentation"
+      = link_to "Inactive Volunteers", "#inactive_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
-  #section-tabs.tab-content
+  .tab-content
     .clearfix
+    #scheduled_volunteers.tab-pane role="tabpanel"
+      = render partial: "scheduled"
     #active_volunteers.tab-pane role="tabpanel"
+      = render partial: "active"
     #inactive_volunteers.tab-pane role="tabpanel"
-    #scheduled_volunteers.tab-pane role="tabpanel"
+      = render partial: "inactive"
 - else
-  ul#section-tab-navigation.nav.nav-tabs
-    li.active
-      = link_to "Scheduled Volunteers", "#scheduled_volunteers", 'aria-controls': "scheduled_volunteers", data: { url: "#{scheduled_dashboard_check_ins_path}/#{@day.year}/#{@day.month}/#{@day.mday}", toggle: "tab", loaded: 0 }
+  ul.nav.nav-tabs role="tablist"
+    li.active role="presentation"
+      = link_to "Scheduled Volunteers", "#scheduled_volunteers", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
-  #section-tabs.tab-content
+  .tab-content
     .clearfix
     #scheduled_volunteers.tab-pane role="tabpanel"
+      = render partial: "scheduled"
+
+coffee:
+  $ ->
+    editCheckOutTimeTo = (ids, checkInDateTime, checkOutDateTime) ->
+      $modal = $('#edit_checkout_time')
+      $modal.find('#ids').val(ids)
+      $modal.find('#check_in_created_at').val(checkInDateTime)
+      $modal.find('#check_in_check_out_time').val(checkOutDateTime)
+      $modal.modal()
+      $('.bootstrap-datetimepicker').datetimepicker()
+      $('.dataTable:visible').find('tbody tr').removeClass('DTTT_selected selected')
+      $('.dataTable:visible').find('input:checkbox').prop('checked', false).removeAttr('checked')
+      false
+
+    batchAction = (ids, tableID, tableType) ->
+      if tableType == 'inactive'
+        editCheckOutTimeTo(ids.join(), moment().format('MM/DD/YYYY hh:mm A'), moment().format('MM/DD/YYYY hh:mm A'))
+      else
+        $form = $("##{tableID}_wrapper").siblings('form')
+        $form.find('#ids').val(ids.join())
+        $form.submit()
+
+    initDatatable = (dTable) ->
+      unless $.fn.dataTable.isDataTable(dTable)
+        buttonText = switch dTable.data('table-type')
+          when 'scheduled' then 'Check In All'
+          when 'active' then 'Check Out All'
+          when 'inactive' then 'Edit Time All'
+          else console.log "Uexpected type of the datatable - #{dTable.data('table-type')}"
+        dTable.dataTable
+          processing: true
+          serverSide: true
+          ajax: dTable.data('source')
+          lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+          dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+          columnDefs: [
+            targets: [ 0, -1 ]
+            sortable: false
+          ]
+          order: [[1, 'desc']]
+          pagingType: 'full_numbers'
+          initComplete: (settings, json) ->
+            if json.recordsTotal > 0
+              $('.select-all').show()
+            return
+          tableTools:
+            sRowSelect: 'multi'
+            sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+            aButtons: [
+              {
+                sExtends: 'select_all'
+                sButtonClass: 'btn btn-success select-all'
+                fnInit:       (node) ->
+                  $(node).removeClass('DTTT_button')
+                  $(node).hide()
+                  return
+                fnSelect:     (nButton, oConfig, nRow) ->
+                  $(nRow).find('input:checkbox').prop('checked', true)
+                  return
+                fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
+                  $('.select-all').hide()
+                  $('.select-none').show()
+                  $('.batch-action-button').show()
+                  return
+              }
+              {
+                sExtends: 'select_none'
+                sButtonClass: 'btn btn-success select-none'
+                fnInit:       (node) ->
+                  $(node).removeClass('DTTT_button').hide()
+                  return
+                fnComplete:   (nButton, oConfig, oFlash, sFlash) ->
+                  $("##{$(nButton).attr('aria-controls')}").find('input:checkbox').prop('checked', false).removeAttr('checked')
+                  $('.select-none').hide()
+                  $('.batch-action-button').hide()
+                  $('.select-all').show()
+                  return
+              }
+              {
+                sExtends:     'text'
+                sButtonText:  buttonText
+                sButtonClass: 'btn btn-success batch-action-button'
+                fnInit:       (node) ->
+                  $(node).removeClass('DTTT_button')
+                  $(node).hide()
+                  return
+                fnSelect:     (nButton, oConfig, nRow) ->
+                  unless $(nButton).is(':visible')
+                    $(nButton).show()
+                  return
+                fnClick:      (nButton, oConfig, oFlash) ->
+                  ids = []
+                  $("##{$(nButton).attr('aria-controls')}").find('.selected').each (i, e) =>
+                    ids.push $(e).find('.actions').data('record-id')
+                  batchAction ids, $(nButton).attr('aria-controls'), dTable.data('table-type')
+                  return
+              }
+              {
+                sExtends:     'collection'
+                sButtonText:  'Save to clipboard / CSV / PDF'
+                aButtons:     [ 
+                  { sExtends: 'copy', mColumns: 'sortable' }
+                  { sExtends: 'csv', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.csv" }
+                  { sExtends: 'xls', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.csv" }
+                  { sExtends: 'pdf', mColumns: 'sortable', sFileName: "#{dTable.data('table-type')}-#{window.currentDate()}.pdf" }
+                ]
+              }
+              {
+                sExtends:     'print'
+              }
+            ]
+
+    $(window).load ->
+      $dTable = $($('.days-list li.active a').attr('href')).find('table')
+      initDatatable($dTable)
+
+    $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
+      $dTable = $($(e.target).attr('href')).find('table:first')
+      initDatatable($dTable)
+
+    $(document).on 'click', '.edit-time-button', (e) ->
+      $el = $(e.target)
+      checkInDateTime = $el.data('created-at')
+      checkOutDateTime = $el.data('check-out-time')
+      ids = $el.parents('.actions').data('record-id')
+      editCheckOutTimeTo(ids, checkInDateTime, checkOutDateTime)
+      false
+
+    $(document).on 'click', 'table tr', (e) ->
+      $trEl = $(e.target).parents('tr')
+      unless $trEl.parent('tbody').find('tr.DTTT_selected').length > 0
+        $('.select-none').hide()
+        $('.batch-action-button').hide()
+        $('.select-all').show()
+      unless $trEl.hasClass('DTTT_selected')
+        $trEl.find('input:checkbox').prop('checked', false).removeAttr('checked')

@@ -1,7 +1,5 @@
 class Dashboard::CheckInsController < DashboardController
-  DEFAULT_PER_PAGE = 10
-  before_filter :set_scope, only: [:scheduled, :active, :inactive, :manage]
-  before_filter :volunteer?, only: [:scheduled, :active, :inactive]
+  before_filter :volunteer_manager?, only: [:scheduled, :active, :inactive]
   before_filter :fastpass_acessible, only: [:fastpass, :fastpass_out]
 
   def show
@@ -17,35 +15,26 @@ class Dashboard::CheckInsController < DashboardController
   end
 
   def scheduled
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @service = ScheduledCheckInsService.new(as: current_user)
-    @results = @service.prepare_scheduled_data(@scope)
+    day = Day.find params[:day_id]
     respond_to do |format|
-      format.js
+      format.html
+      format.json { render json: ScheduledVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 
   def active
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @results = check_ins_service.prepare_check_ins_data(:active, @scope)
+    day = Day.find params[:day_id]
     respond_to do |format|
-      format.js
+      format.html
+      format.json { render json: ActiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 
   def inactive
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year],params[:month],params[:day]).first
-    @results = check_ins_service.prepare_check_ins_data(:inactive, @scope)
+    day = Day.find params[:day_id]
     respond_to do |format|
-      format.js
-      format.csv do
-        @scope.delete(:per)
-        data = check_ins_service.prepare_check_ins_data(:inactive, @scope)
-        send_data(
-          csv_service.export("check_ins_inactive", data),
-          type: 'text/csv; charset=utf-8; header=present', filename: csv_service.filename
-        )
-      end
+      format.html
+      format.json { render json: InactiveVolunteerDatatable.new(view_context, { user: current_user, day: day }) }
     end
   end
 
@@ -89,16 +78,17 @@ class Dashboard::CheckInsController < DashboardController
   def create
     service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
     @check_in = service.create(params[:check_in])
+    anchor = cookies.delete(:tabs_anchor)
+    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
 
     respond_to do |format|
-      if @check_in.persisted?
+      if @check_in.present? && @check_in.persisted?
         broadcast @check_in, "check_in"
 
-        format.html { redirect_to :back, notice: 'Check in was successfully created.' }
+        format.html { redirect_to back_path, notice: 'Check in was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
-        format.js   { render "error" }
+        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -107,17 +97,18 @@ class Dashboard::CheckInsController < DashboardController
   def update
     service = CheckInsService.new(as: current_user)
     @check_in = service.update(params[:id], params[:check_in])
+    anchor = cookies.delete(:tabs_anchor)
+    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
 
     respond_to do |format|
       if @check_in.errors.empty?
         broadcast @check_in, "check_out"
 
-        format.html { redirect_to :back, notice: 'Check in was successfully updated.' }
-        format.js   { render 'successfully_updated' }
+        format.html { redirect_to back_path, notice: 'Check in was successfully updated.' }
+        format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
-        format.js   { render "error" }
+        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -130,13 +121,15 @@ class Dashboard::CheckInsController < DashboardController
       break if @check_in.errors.present?
       broadcast(@check_in, "check_in") if @check_in.errors.empty?
     end
+    anchor = cookies.delete(:tabs_anchor)
+    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
 
     respond_to do |format|
-      if @check_in.persisted?
-        format.html { redirect_to :back, notice: 'Check ins was successfully created.' }
+      if @check_in.present? && @check_in.persisted?
+        format.html { redirect_to back_path, notice: 'Check ins was successfully created.' }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -145,18 +138,20 @@ class Dashboard::CheckInsController < DashboardController
   def update_batch
     service = CheckInsService.new(as: current_user)
     params[:check_in][:id].split(',').each do |item|
-      @check_in = service.update(item, status: params[:check_in][:status])
+      @check_in = service.update(item, params[:check_in])
       break if @check_in.errors.present?
       broadcast(@check_in, "check_out") if @check_in.errors.empty?
     end
+    anchor = cookies.delete(:tabs_anchor)
+    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
 
     respond_to do |format|
-      if @check_in.errors.empty?
-        format.html { redirect_to :back, notice: 'Check ins was successfully updated.' }
-        format.js   { render 'successfully_updated' }
+      if @check_in.present? && @check_in.errors.empty?
+        format.html { redirect_to back_path, notice: 'Check ins was successfully updated.' }
+        format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { redirect_to :back, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -165,30 +160,16 @@ class Dashboard::CheckInsController < DashboardController
   def destroy
     @check_in = CheckIn.find(params[:id])
     @check_in.destroy
+    anchor = cookies.delete(:tabs_anchor)
+    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
 
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to back_path }
       format.json { head :no_content }
     end
   end
 
   private
-
-    def set_scope
-      @scope = {
-        per: (params[:per] || DEFAULT_PER_PAGE).to_i,
-        page: (params[:page] || 1).to_i,
-        q: params[:q],
-        year: params[:year],
-        month: params[:month],
-        day: params[:day],
-        order_charity: params[:order_charity],
-        order_department: params[:order_department],
-        order_name: params[:order_name],
-        order_check_in: params[:order_check_in],
-        order_check_out: params[:order_check_out]
-      }
-    end
 
     def broadcast(obj, event_type)
       super "/channels/#{configatron.faye.channels.check_ins}", \
@@ -199,8 +180,8 @@ class Dashboard::CheckInsController < DashboardController
             }
     end
 
-    def volunteer?
-      redirect_to :root if current_user.has_role? :volunteer
+    def volunteer_manager?
+      redirect_to :root unless current_user.has_any_role? :volunteer_manager, :super_admin, :org_admin, :event_admin, :department_manager, :department_assistant
     end
 
     def fastpass_acessible
@@ -209,9 +190,5 @@ class Dashboard::CheckInsController < DashboardController
 
     def check_ins_service
       @service ||= CheckInsService.new(as: current_user)
-    end
-
-    def csv_service
-      @csv_service ||= CsvExporterService.new
     end
 end

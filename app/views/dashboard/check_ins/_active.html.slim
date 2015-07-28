@@ -1,62 +1,34 @@
 - days = Day.all
 .col-sm-12
   .page-header
-    h2 Active Volunteers
-  ul.nav.nav-tabs
-    - days.each do |day|
-      li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{active_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
+    h1 Active Volunteers
+  ul.days-list.nav.nav-tabs role="tablist"
+    - days.each_with_index do |day, index|
+      li role="presentation"
+        = link_to "#active_volunteers_day_#{day.safe_short_date}", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab" do
           = day.day_name
           = day.short_date
 
   .tab-content
-    - days.each do |day|
-      div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
+    - days.each_with_index do |day, index|
+      div id="active_volunteers_day_#{day.safe_short_date}" role="tabpanel" class="tab-pane"
         h3 = day.short_date_with_long_day
-        .dataTables_length
-          label
-            ' Show
-            select.per_page size="1"
-              option selected="selected" value="10" 10
-              option value="25" 25
-              option value="50" 50
-              option value="100" 100
-            ' entries
-        .dataTables_filter
-          label
-            ' Search:
-            input.search type="text"
-
-        table.table.table-bordered.table-striped.check-ins-table id="active-check-ins-table-#{day.safe_short_date}"
+        = simple_form_for CheckIn.new, url: update_batch_dashboard_check_ins_path, method: :put, html: { class: 'hide' } do |f|
+          = f.input :id, as: :hidden, input_html: {id: 'ids'}
+          = f.input :status, as: :hidden, input_html: {value: '2'}
+          = f.button :submit, ''
+        table.table.table-bordered.table-striped data-source=(active_dashboard_check_ins_path(day_id: day.id, format: :json)) data-table-type='active'
           thead
             tr
-              th
-                label
-                  = check_box_tag 'check_all', '1', false, class: "check_all"
-                  ' All
+              th 
               th Username
-              th.sortable.sorting.name Name
+              th Name
               th Email
-              th.sortable.sorting.department Department
+              th Department
               th Department Block
               th Start Time
               th End Time
-              th.sortable.sorting.check_in Check In Time
-              th.sortable.sorting.charity Charity
+              th Check In Time
+              th Charity
               th Actions
           tbody
-            = render "active_items", results: @results
-coffee:
-  $ ->
-    populateIds = ->
-      ids = []
-      $(".tab-content").find(".check_in_id:checked").each ->
-        ids.push($(this).val())
-      $('.tab-content #check_in_ids').val("#{ids.join(',')}")
-
-    $(document).on 'change', '.check_all', ->
-      $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
-      populateIds()
-
-    $(document).on 'change', '.check_in_id', ->
-      populateIds()

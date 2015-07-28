@@ -32,7 +32,7 @@ header#header
           - if user_signed_in?
             - if current_user.has_any_role? :event_admin, :org_admin, :super_admin
               li
-                = link_to admin_root_url do
+                = link_to admin_root_url(anchor: 'users') do
                   i.icon-wrench.icon-white
                   ' Admin Panel
           li

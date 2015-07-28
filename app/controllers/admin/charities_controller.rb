@@ -1,8 +1,11 @@
 class Admin::CharitiesController < Admin::BaseController
   before_action :charity, only: [:show, :edit, :update, :destroy]
-  
+
   def index
-    @charities = Charity.order('name')
+    respond_to do |format|
+      format.html
+      format.json { render json: CharityDatatable.new(view_context) }
+    end
   end
 
   def show
@@ -44,7 +47,7 @@ class Admin::CharitiesController < Admin::BaseController
   def destroy
     @charity.destroy
     respond_to do |format|
-      format.html { redirect_to admin_charities_url, notice: 'Charity was successfully destroyed.' }
+      format.html { redirect_to admin_root_url(anchor: 'charities', notice: 'Charity was successfully destroyed.') }
       format.json { head :no_content }
     end
   end 

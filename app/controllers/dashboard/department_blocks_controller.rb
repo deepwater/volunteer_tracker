@@ -74,9 +74,11 @@
       if @department_block.save
         format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully created.' }
         format.json { render json: @department_block, status: :created, location: @department_block }
+        format.js
       else
         format.html { render action: "new" }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

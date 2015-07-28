@@ -2,61 +2,33 @@
 .col-sm-12
   .page-header
     h1 Scheduled Volunteers
-  ul.nav.nav-tabs
-    - days.each do |day|
-      li class=(day.mday == params[:day].to_i ? "active" : "")
-        = link_to "#{scheduled_dashboard_check_ins_path}/#{day.year}/#{day.month}/#{day.mday}", remote: true do
+  ul.days-list.nav.nav-tabs role='tablist'
+    - days.each_with_index do |day, index|
+      li role='presentation'
+        = link_to "#scheduled_volunteers_day_#{day.safe_short_date}", data: { toggle: 'tab' }, 'aria-controls' => 'profile', role: 'tab' do
           = day.day_name
           = day.short_date
 
   .tab-content
-    - days.each do |day|
-      div id="#{day.safe_short_date}" class=(day.mday == params[:day].to_i ? "active tab-pane" : "tab-pane")
+    - days.each_with_index do |day, index|
+      div id="scheduled_volunteers_day_#{day.safe_short_date}" role="tabpanel" class="tab-pane"
         h3 = day.short_date_with_long_day
-        .dataTables_length
-          label
-            ' Show
-            select.per_page size="1"
-              option selected="selected" value="10" 10
-              option value="25" 25
-              option value="50" 50
-              option value="100" 100
-            ' entries
-        .dataTables_filter
-          label
-            'Search:
-            input.search type="text"
+        = simple_form_for CheckIn.new, url: create_batch_dashboard_check_ins_path, method: :post, html: { class: 'hide' } do |f|
+          = f.input :user_schedule_id, as: :hidden, input_html: { id: 'ids' }
+          = f.input :status, as: :hidden, input_html: { value: '1' }
+          = f.button :submit, ''
 
-        table.table.table-bordered.table-striped.check-ins-table id="scheduled-check-ins-table-#{day.safe_short_date}"
+        table.table.table-bordered.table-striped data-source=(scheduled_dashboard_check_ins_path(day_id: day.id, format: :json)) data-table-type='scheduled'
           thead
             tr
-              th
-                label
-                  = check_box_tag 'check_all', '1', false, class: "check_all"
-                  ' All
+              th 
               th Start Time
-              th End Time
+              th End  Time
               th Username
-              th.sortable.sorting.name Name
+              th Name
               th Email
-              th.sortable.sorting.department Department
+              th Department
               th Department Block
-              th.sortable.sorting.charity Charity
+              th Charity
               th Actions
           tbody
-            = render "scheduled_items", scheduled: @results
-
-coffee:
-  $ ->
-    populateIds = ->
-      ids = []
-      $(".tab-content").find(".user_schedule_id:checked").each ->
-        ids.push($(this).val())
-      $('.tab-content #user_schedule_ids').val("#{ids.join(',')}")
-
-    $(document).on 'change', '.check_all', ->
-      $(@).parents('table').find('input:checkbox').prop('checked', $(@).is(':checked'))
-      populateIds()
-
-    $(document).on 'change', '.user_schedule_id', ->
-      populateIds()

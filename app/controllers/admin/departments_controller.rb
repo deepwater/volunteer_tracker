@@ -2,13 +2,9 @@ class Admin::DepartmentsController < Admin::BaseController
   before_action :department, only: [:show, :edit, :update, :destroy]
 
   def index
-    service = DepartmentService.new
-    select = OpenStruct.new(estimate_hours: true)
-    @departments = service.prepare_data(select)
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @departments }
+      format.html
+      format.json { render json: DepartmentDatatable.new(view_context) }
     end
   end
 
@@ -65,7 +61,7 @@ class Admin::DepartmentsController < Admin::BaseController
   def destroy
     @department.destroy
     respond_to do |format|
-      format.html { redirect_to admin_departments_url }
+      format.html { redirect_to admin_root_url(anchor: 'departments') }
       format.json { head :no_content }
     end
   end

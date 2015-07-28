@@ -2,8 +2,7 @@ class Dashboard::VolunteersController < DashboardController
   before_filter :volunteer?
 
   def index
-    # TODO: fetch day differents way for each format
-    @day = Day.where("year = ? AND month = ? AND mday = ?", params[:year], params[:month], params[:day]).first
+    @day = Day.find params[:day_id]
     respond_to do |format|
       format.html
       format.json { render json: VolunteerDatatable.new(view_context, { spectator: current_user, day: @day }) }

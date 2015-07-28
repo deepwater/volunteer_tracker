@@ -11,8 +11,6 @@ class UserDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= ["User.first_name", "User.last_name", "User.email", "User.username", "User.role", "Charity.name"]
   end
 
-  private
-
   def data
     records.map do |record|
       [
@@ -32,11 +30,13 @@ class UserDatatable < AjaxDatatablesRails::Base
     User.includes(:charities)
   end
 
-  def user_role_with_department_name(user)
-    if user.send(user.role).try(:department).present?
-      "#{user.role} (#{user.send(user.role).department.name})"
-    else
-      "#{user.role} (Not assigned to any department)"
+  private
+
+    def user_role_with_department_name(user)
+      if user.send(user.role).try(:department).present?
+        "#{user.role} (#{user.send(user.role).department.name})"
+      else
+        "#{user.role} (Not assigned to any department)"
+      end
     end
-  end
 end

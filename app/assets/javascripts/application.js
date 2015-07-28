@@ -20,6 +20,7 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
+//= require libs/jquery.cookie
 //= require libs/jquery.stickytabs
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -37,7 +38,6 @@
 //= require dashboard/department_blocks
 //= require dashboard/fast_pass
 //= require dashboard/become_users
-//= require dashboard/flags
 //= require dashboard/user_availabilities
 
 //= require partials/department_blocks

@@ -8,6 +8,7 @@ class DepartmentBlock < ActiveRecord::Base
 
   has_many :volunteer_managers
 
+  validates :name, :start_time, :end_time, presence: true
   scope :ordered_by_date, -> { order('day_id').order('start_time') }
 
   def readable_start_time

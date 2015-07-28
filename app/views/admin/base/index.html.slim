@@ -1,24 +1,20 @@
 .page-header
   h1 Admin Panel
-
-ul#section-tab-navigation.nav.nav-tabs role="tablist"
+ul.nav.nav-tabs role="tablist"
   li.active role="presentation"
-    = link_to "Users", "#users", 'aria-controls': "users", data: { toggle: "tab", loaded: 0, url: admin_users_url }
+    = link_to "Users", "#users", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
   li role="presentation"
-    = link_to "Departments", "#departments", 'aria-controls': "departments", data: { toggle: "tab", loaded: 0, url: department_tab_admin_base_index_url }
+    = link_to "Departments", "#departments", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
   li role="presentation"
-    = link_to "Charities", "#charities", 'aria-controls': "charities", data: { toggle: "tab", loaded: 0, url: charity_tab_admin_base_index_url }
-  li role="presentation"
-    = link_to "Events", "#events", 'aria-controls': "events", data: { toggle: "tab", loaded: 0, url: event_tab_admin_base_index_url }
-  li role="presentation"
-    = link_to "Organizations", "#organisations", 'aria-controls': "organisations", data: { toggle: "tab", loaded: 0, url: organisation_tab_admin_base_index_url }
+    = link_to "Charities", "#charities", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
-#section-tabs.tab-content
+.tab-content
   .clearfix
-  #users.tab-pane role="tabpanel"
+  #users.tab-pane.active role="tabpanel"
+    = render partial: "users"
   #departments.tab-pane role="tabpanel"
+    = render partial: "departments"
   #charities.tab-pane role="tabpanel"
-  #events.tab-pane role="tabpanel"
-  #organisations.tab-pane role="tabpanel"
+    = render partial: "charities"
 
 = render "shared/modal"

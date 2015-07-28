@@ -11,15 +11,13 @@ class BecomeUserDatatable < AjaxDatatablesRails::Base
     @searchable_columns ||= ["User.first_name", "User.email", "User.username", "User.role"]
   end
 
-  private
-
   def data
     records.map do |record|
       [
-          link_to(record.full_name, dashboard_become_user_path(record), remote: true),
-          record.email,
-          record.username,
-          record.role
+        link_to(record.full_name, dashboard_become_user_path(record), remote: true),
+        record.email,
+        record.username,
+        record.role
       ]
     end
   end
