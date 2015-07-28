@@ -151,7 +151,7 @@ class Dashboard::CheckInsController < DashboardController
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, alert: (@check_in ? @check_in.errors.values.join(', ') : 'Volunteers were not selected') }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
