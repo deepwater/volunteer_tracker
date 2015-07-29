@@ -28,8 +28,8 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to admin_user_path(@user), notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
+        format.html { redirect_to [:admin, @user], notice: 'User was successfully created.' }
+        format.json { render json: @user, status: :created, location: [:admin, @user] }
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class Admin::UsersController < Admin::BaseController
 
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
+        format.html { redirect_to [:admin, @user], notice: 'User was successfully updated.' }
         format.json { head :no_content }
         format.js
       else

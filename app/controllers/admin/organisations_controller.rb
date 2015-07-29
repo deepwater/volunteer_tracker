@@ -2,7 +2,10 @@ class Admin::OrganisationsController < Admin::BaseController
   before_action :organisation, only: [:show, :edit, :update, :destroy]
 
   def index
-    @organisations = Organisation.order('name')
+    respond_to do |format|
+      format.html
+      format.json { render json: OrganisationDatatable.new(view_context) }
+    end
   end
 
   def show
@@ -20,8 +23,8 @@ class Admin::OrganisationsController < Admin::BaseController
 
     respond_to do |format|
       if @organisation.save
-        format.html { redirect_to admin_organisation_path(@organisation), notice: 'Organisation was successfully created.' }
-        format.json { render json: @organisation, status: :created, location: @organisation }
+        format.html { redirect_to [:admin, @organisation], notice: 'Organization was successfully created.' }
+        format.json { render :show, status: :created, location: [:admin, @organisation] }
       else
         format.html { render action: "new" }
         format.json { render json: @organisation.errors, status: :unprocessable_entity }
@@ -32,8 +35,8 @@ class Admin::OrganisationsController < Admin::BaseController
   def update
     respond_to do |format|
       if @organisation.update_attributes(organisation_params)
-        format.html { redirect_to admin_organisation_path(@organisation), notice: 'Organisation was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to [:admin, @organisation], notice: 'Organization was successfully updated.' }
+        format.json { render :show, status: :ok, location: [:admin, @organisation] }
       else
         format.html { render action: "edit" }
         format.json { render json: @organisation.errors, status: :unprocessable_entity }
@@ -45,7 +48,7 @@ class Admin::OrganisationsController < Admin::BaseController
     @organisation.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_organisations_url }
+      format.html { redirect_to admin_root_url(anchor: 'organisations', notice: 'Organization was successfully destroyed.') }
       format.json { head :no_content }
     end
   end

@@ -23,8 +23,8 @@ class Admin::CharitiesController < Admin::BaseController
 
     respond_to do |format|
       if @charity.save
-        format.html { redirect_to @charity, notice: 'Charity was successfully created.' }
-        format.json { render :show, status: :created, location: @charity }
+        format.html { redirect_to [:admin, @charity], notice: 'Charity was successfully created.' }
+        format.json { render :show, status: :created, location: [:admin, @charity] }
       else
         format.html { render :new }
         format.json { render json: @charity.errors, status: :unprocessable_entity }
@@ -35,8 +35,8 @@ class Admin::CharitiesController < Admin::BaseController
   def update
     respond_to do |format|
       if @charity.update(charity_params)
-        format.html { redirect_to @charity, notice: 'Charity was successfully updated.' }
-        format.json { render :show, status: :ok, location: @charity }
+        format.html { redirect_to [:admin, @charity], notice: 'Charity was successfully updated.' }
+        format.json { render :show, status: :ok, location: [:admin, @charity] }
       else
         format.html { render :edit }
         format.json { render json: @charity.errors, status: :unprocessable_entity }

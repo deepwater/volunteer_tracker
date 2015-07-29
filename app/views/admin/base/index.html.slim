@@ -7,6 +7,10 @@ ul.nav.nav-tabs role="tablist"
     = link_to "Departments", "#departments", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
   li role="presentation"
     = link_to "Charities", "#charities", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
+  li role="presentation"
+    = link_to "Events", "#events", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
+  li role="presentation"
+    = link_to "Organizations", "#organisations", data: { toggle: "tab" }, "aria-controls" => "profile", role: "tab"
 
 .tab-content
   .clearfix
@@ -16,5 +20,9 @@ ul.nav.nav-tabs role="tablist"
     = render partial: "departments"
   #charities.tab-pane role="tabpanel"
     = render partial: "charities"
+  #events.tab-pane role="tabpanel"
+    = render partial: "events"
+  #organisations.tab-pane role="tabpanel"
+    = render partial: "organisations"
 
 = render "shared/modal"

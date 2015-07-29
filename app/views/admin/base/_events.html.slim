@@ -1,22 +1,46 @@
 h2
   .pull-right = link_to 'New Event', new_admin_event_path, class: 'btn btn-primary'
   ' Events List
-
-table.table.table-bordered.table-striped
+table.table.table-bordered.table-striped#events_list_table data-source=(admin_events_path(format: :json))
   thead
     tr
       th Name
       th
       th
   tbody
-    - events.each do |event|
-      tr
-        td= link_to event.name, admin_event_path(event)
-        td= link_to 'Edit', edit_admin_event_path(event)
-        td= link_to 'Delete', admin_event_path(event), method: :delete, data: { confirm: 'Are you sure?' }
 
-.pagination-wrapper
-  #pagination
-    = paginate events, remote: true
-  #pagination-info
-    = page_entries_info events
+coffee:
+  $ ->
+    unless $.fn.dataTable.isDataTable('#events_list_table')
+      oTable = $('#events_list_table').dataTable
+        processing: true
+        serverSide: true
+        ajax: $('#events_list_table').data('source')
+        lengthMenu: [[10, 25, 50, 99999], [10, 25, 50, "All"]]
+        dom: '<\'clear\'><\'row\'<\'col-sm-5\'l><\'col-sm-7\'fT>>' + '<\'row\'<\'col-sm-12\'tr>>' + '<\'row\'<\'col-sm-5\'i><\'col-sm-7\'p>>'
+        columnDefs: [
+          targets: [ 1, 2 ]
+          sortable: false
+        ]
+        order: [[0, 'desc']]
+        pagingType: 'full_numbers'
+        tableTools:
+          sRowSelect: 'os'
+          sSwfPath: "//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf"
+          aButtons: [
+            {
+              sExtends:     'collection'
+              sButtonText:  'Save to clipboard / CSV / PDF'
+              aButtons:     [ 
+                { sExtends: 'copy', mColumns: 'sortable' }
+                { sExtends: 'csv', mColumns: 'sortable', sFileName: "events-#{window.currentDate()}.csv" }
+                { sExtends: 'xls', mColumns: 'sortable', sFileName: "events-#{window.currentDate()}.csv" }
+                { sExtends: 'pdf', mColumns: 'sortable', sFileName: "events-#{window.currentDate()}.pdf" }
+              ]
+            }
+            {
+              sExtends:     'print'
+            }
+          ]
+
+      window.adminEventTable = oTable

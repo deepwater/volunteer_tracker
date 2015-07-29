@@ -1,0 +1,23 @@
+//  Select the elements for re-use
+$modal = $('.edit-modal');
+$title = $modal.find('.modal-title');
+$body = $modal.find('.modal-body');
+
+// Set the title of the modal to an instance-relevant title
+title = 'Editing Event';
+
+// Render the form and store in a variable
+body = '<%= j render "form" %>';
+
+// Set the modal's title and body to the above values
+$title.html(title);
+$body.html(body);
+
+// Hide the submit button (it'd be a duplicate) and make the form remote
+$body.find('input[type="submit"]').hide();
+$body.find('form').attr('data-remote', 'true');
+$body.find('.input-daterange').datepicker({ format: 'yyyy-mm-dd' });
+
+// Display the modal
+$modal.modal();
+

@@ -1,4 +1,8 @@
 .page-header
   h1 = @event.name
 
-= render 'form'
+= link_to 'Back', admin_root_url(anchor: 'events'), class: 'btn btn-default'
+'
+= link_to 'Edit', edit_admin_event_path(@event), class: 'btn btn-primary'
+'
+= link_to 'Delete', admin_event_path(@event), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }

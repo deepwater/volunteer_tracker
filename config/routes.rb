@@ -23,13 +23,13 @@ VolunteerTracker::Application.routes.draw do
     resources :users
     resources :charities
     resources :departments
+    resources :events
+    resources :organisations
     resources :department_managers
     resources :department_assistants do
       member { post :restrict_blocks }
       member { get :show_modal }
     end
-    resources :events
-    resources :organisations
     root to: 'base#index'
   end
 

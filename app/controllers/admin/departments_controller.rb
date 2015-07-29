@@ -35,8 +35,8 @@ class Admin::DepartmentsController < Admin::BaseController
 
     respond_to do |format|
       if @department.save
-        format.html { redirect_to admin_department_path(@department), notice: 'Department was successfully created.' }
-        format.json { render json: @department, status: :created, location: @department }
+        format.html { redirect_to [:admin, @department], notice: 'Department was successfully created.' }
+        format.json { render json: @department, status: :created, location: [:admin, @department] }
       else
         format.html { render action: "new" }
         format.json { render json: @department.errors, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class Admin::DepartmentsController < Admin::BaseController
   def update
     respond_to do |format|
       if @department.update_attributes(department_params)
-        format.html { redirect_to admin_department_path(@department), notice: 'Department was successfully updated.' }
+        format.html { redirect_to [:admin, @department], notice: 'Department was successfully updated.' }
         format.json { head :no_content }
         format.js
       else
