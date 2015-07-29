@@ -11,13 +11,11 @@
 
 ### Import DB
 
-There are 2 different application with separated DB:
-
-for master branch
-* `$ psql volunteer_tracker < ./db/ggf_data.psql`
-
-for events-hub branch
 * `$ psql volunteer_tracker_event_hub < ./db/events-hub.psql`
+
+## Run server
+
+* `$ bin/rails server`
 
 ## Admin credentials
 

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.2'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 
 gem 'configatron'
 gem 'data_migrate'
@@ -56,6 +56,7 @@ group :development do
   gem 'capistrano-rbenv', '1.0.5', require: false
   gem 'byebug'
   gem 'spring'
+  gem 'thin'
   gem 'web-console'
 end
 
