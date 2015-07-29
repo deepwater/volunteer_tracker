@@ -31,7 +31,6 @@
 //= require partials/common
 
 //= require admin/departments
-//= require admin/events
 
 //= require dashboard/check_ins
 //= require dashboard/dashboard

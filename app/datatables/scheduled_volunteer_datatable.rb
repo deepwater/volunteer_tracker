@@ -60,7 +60,8 @@ class ScheduledVolunteerDatatable < AjaxDatatablesRails::Base
     ).having(
       "COUNT(check_ins.*) = 0"
     )
-    query.includes(:charity, :user, department_block: [:day, :department])
+    # TODO: find out why includes returns "Rails PG::UndefinedTable: ERROR: missing FROM-clause entry for table" error
+    query.joins(:charity, :user, department_block: [:day, :department])
   end
 
   def as_json(options = {})
