@@ -12,9 +12,10 @@ role :app, dns_name                          # This may be the same as your `Web
 role :db,  dns_name, primary: true           # This is where Rails migrations will run
 
 set :deploy_to, "/data/#{application}"
+set :deploy_via, :copy
 
 set :rails_env, 'staging'
-set :branch, 'event_hub'
+set :branch, 'events-hub'
 set :use_sudo, false
 
 set :user, 'volunteer2'
