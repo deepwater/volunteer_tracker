@@ -51,7 +51,7 @@ class Admin::UsersController < Admin::BaseController
         format.json { head :no_content }
         format.js
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
         format.js
       end

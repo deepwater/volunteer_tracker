@@ -37,9 +37,11 @@ class Admin::OrganisationsController < Admin::BaseController
       if @organisation.update_attributes(organisation_params)
         format.html { redirect_to [:admin, @organisation], flash: { success: 'Organization was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @organisation] }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @organisation.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

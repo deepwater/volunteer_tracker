@@ -35,11 +35,13 @@ class Admin::CharitiesController < Admin::BaseController
   def update
     respond_to do |format|
       if @charity.update(charity_params)
-        format.html { redirect_to [:admin, @charity], flash: { success: 'Charity was successfully updated.' } }
+        format.html { redirect_to admin_root_url(anchor: 'charities'), flash: { success: 'Charity was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @charity] }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @charity.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

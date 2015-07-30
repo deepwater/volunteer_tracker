@@ -41,9 +41,11 @@ class Admin::EventsController < Admin::BaseController
       if @event.errors.empty?
         format.html { redirect_to [:admin, @event], flash: { success: 'Event was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @event] }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
