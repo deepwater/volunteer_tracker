@@ -65,7 +65,7 @@ class Dashboard::CheckInsController < DashboardController
     if @check_in.is_a? String
       render json: { errors: [*@check_in] }
     else
-      broadcast @check_in, "check_out"
+      broadcast @check_in, 'check_out'
       render json: { user_data: FastPassPresenter.new.for_json(@check_in) }
     end
   end
@@ -79,16 +79,16 @@ class Dashboard::CheckInsController < DashboardController
     service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
     @check_in = service.create(params[:check_in])
     anchor = cookies.delete(:tabs_anchor)
-    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
+    back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
     respond_to do |format|
       if @check_in.present? && @check_in.persisted?
-        broadcast @check_in, "check_in"
+        broadcast @check_in, 'check_in'
 
-        format.html { redirect_to back_path, notice: 'Check in was successfully created.' }
+        format.html { redirect_to back_path, flash: { success: 'Check in was successfully created.' } }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, flash: { alert: @check_in.errors.values.join(', ') } }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -98,17 +98,17 @@ class Dashboard::CheckInsController < DashboardController
     service = CheckInsService.new(as: current_user)
     @check_in = service.update(params[:id], params[:check_in])
     anchor = cookies.delete(:tabs_anchor)
-    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
+    back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
     respond_to do |format|
       if @check_in.errors.empty?
-        broadcast @check_in, "check_out"
+        broadcast @check_in, 'check_out'
 
-        format.html { redirect_to back_path, notice: 'Check in was successfully updated.' }
+        format.html { redirect_to back_path, flash: { success: 'Check in was successfully updated.' } }
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, flash: { alert: @check_in.errors.values.join(', ') } }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -119,17 +119,17 @@ class Dashboard::CheckInsController < DashboardController
     params[:check_in][:user_schedule_id].split(',').each do |item|
       @check_in = service.create(user_schedule_id: item, status: params[:check_in][:status])
       break if @check_in.errors.present?
-      broadcast(@check_in, "check_in") if @check_in.errors.empty?
+      broadcast(@check_in, 'check_in') if @check_in.errors.empty?
     end
     anchor = cookies.delete(:tabs_anchor)
-    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
+    back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
     respond_to do |format|
       if @check_in.present? && @check_in.persisted?
-        format.html { redirect_to back_path, notice: 'Check ins was successfully created.' }
+        format.html { redirect_to back_path, flash: { success: 'Check ins was successfully created.' } }
         format.json { render json: { user_data: FastPassPresenter.new.for_json(@check_in) } }
       else
-        format.html { redirect_to back_path, alert: @check_in.errors.values.join(', ') }
+        format.html { redirect_to back_path, flash: { alert: @check_in.errors.values.join(', ') } }
         format.json { render json: { errors: FastPassPresenter.new.errors_for_json(@check_in) } }
       end
     end
@@ -140,18 +140,18 @@ class Dashboard::CheckInsController < DashboardController
     params[:check_in][:id].split(',').each do |item|
       @check_in = service.update(item, params[:check_in])
       break if @check_in.errors.present?
-      broadcast(@check_in, "check_out") if @check_in.errors.empty?
+      broadcast(@check_in, 'check_out') if @check_in.errors.empty?
     end
     anchor = cookies.delete(:tabs_anchor)
-    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
+    back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
     respond_to do |format|
       if @check_in.present? && @check_in.errors.empty?
-        format.html { redirect_to back_path, notice: 'Check ins was successfully updated.' }
+        format.html { redirect_to back_path, flash: { success: 'Check ins was successfully updated.' } }
         format.js { render 'successfully_updated' }
         format.json { head :no_content }
       else
-        format.html { redirect_to back_path, alert: (@check_in ? @check_in.errors.values.join(', ') : 'Volunteers were not selected') }
+        format.html { redirect_to back_path, flash: { alert: (@check_in ? @check_in.errors.values.join(', ') : 'Volunteers were not selected') } }
         format.json { render json: @check_in.errors, status: :unprocessable_entity }
       end
     end
@@ -161,7 +161,7 @@ class Dashboard::CheckInsController < DashboardController
     @check_in = CheckIn.find(params[:id])
     @check_in.destroy
     anchor = cookies.delete(:tabs_anchor)
-    back_path = (request.referer && anchor) ? request.referer + "#" + anchor : :back
+    back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
     respond_to do |format|
       format.html { redirect_to back_path }

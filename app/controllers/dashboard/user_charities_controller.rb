@@ -10,7 +10,7 @@ class Dashboard::UserCharitiesController < ApplicationController
 
   def create
     @user = params[:user_id].present? ? User.find(params[:user_id]) : current_user
-  	UserCharity.where(:user_id => @user.id).delete_all
+  	UserCharity.where(user_id: @user.id).delete_all
 
     @user_charity = UserCharity.new(params[:user_charity])
     

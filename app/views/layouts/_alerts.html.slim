@@ -1,5 +1,5 @@
 - flash.each do |type, message|
-  .alert.alert-dismissable class=(flash_class(type))
+  .alert.alert-dismissable class=(bootstrap_class_for(type))
     = link_to '#', class: 'close', data: { dismiss: 'alert' } do
       ' &times;
     = message

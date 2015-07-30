@@ -46,22 +46,22 @@ class Dashboard::DepartmentsController < DashboardController
   end
 
   private
+    # TODO: implement via datatables
+    def prepare_scope
+      @scope = {
+        per: (params[:per] || DEFAULT_PER_PAGE).to_i,
+        page: (params[:page] || 1).to_i,
+        order_name: params[:order_name],
+        order_role: params[:order_role],
+        q: params[:q]
+      }
+    end
 
-  def prepare_scope
-    @scope = {
-      per: (params[:per] || DEFAULT_PER_PAGE).to_i,
-      page: (params[:page] || 1).to_i,
-      order_name: params[:order_name],
-      order_role: params[:order_role],
-      q: params[:q]
-    }
-  end
+    def service
+      @service ||= DepartmentService.new(as: current_user)
+    end
 
-  def service
-    @service ||= DepartmentService.new(as: current_user)
-  end
-
-  def load_department
-    @department = Department.find(params[:id])
-  end
+    def load_department
+      @department = Department.find(params[:id])
+    end
 end

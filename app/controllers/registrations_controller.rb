@@ -23,10 +23,10 @@ class RegistrationsController < Devise::RegistrationsController
     else
       if request.format.try(:js?)
         respond_to do |format|
-          format.js { render "users/edit" }
+          format.js { render 'users/edit' }
         end
       else
-        render "edit"
+        render 'edit'
       end
     end
   end

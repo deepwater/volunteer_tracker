@@ -11,7 +11,7 @@ html
     .container-fluid
       .row
         .col-sm-12
-          = render "layouts/alerts"
+          = flash_messages
           = yield
 
   = render "layouts/ga"

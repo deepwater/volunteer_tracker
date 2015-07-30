@@ -1,5 +1,5 @@
 class Dashboard::FlagsController < DashboardController
-
+  # TODO: find out do we still need flags
   def index
     @flags = Flag.all
 
@@ -36,10 +36,10 @@ class Dashboard::FlagsController < DashboardController
 
     respond_to do |format|
       if @flag.save
-        format.html { redirect_to :back, notice: 'Flag was successfully created.' }
+        format.html { redirect_to :back, flash: { success: 'Flag was successfully created.' } }
         format.json { render json: @flag, status: :created, location: @flag }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @flag.errors, status: :unprocessable_entity }
       end
     end
@@ -50,7 +50,7 @@ class Dashboard::FlagsController < DashboardController
 
     respond_to do |format|
       if @flag.update_attributes(params[:flag])
-        format.html { redirect_to :back, notice: 'Flag was successfully updated.' }
+        format.html { redirect_to :back, flash: { success: 'Flag was successfully updated.' } }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

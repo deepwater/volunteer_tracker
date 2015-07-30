@@ -37,10 +37,10 @@ class UserCharitiesController < ApplicationController
 
     respond_to do |format|
       if @user_charity.save
-        format.html { redirect_to @user_charity, notice: 'User charity was successfully created.' }
+        format.html { redirect_to @user_charity, flash: { success: 'User charity was successfully created.' } }
         format.json { render json: @user_charity, status: :created, location: @user_charity }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @user_charity.errors, status: :unprocessable_entity }
       end
     end
@@ -51,10 +51,10 @@ class UserCharitiesController < ApplicationController
 
     respond_to do |format|
       if @user_charity.update_attributes(params[:user_charity])
-        format.html { redirect_to @user_charity, notice: 'User charity was successfully updated.' }
+        format.html { redirect_to @user_charity, flash: { success: 'User charity was successfully updated.' } }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @user_charity.errors, status: :unprocessable_entity }
       end
     end

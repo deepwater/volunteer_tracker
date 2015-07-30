@@ -17,7 +17,7 @@
     raise ActionController::RoutingError.new('Not Found') unless can?(:manage, department_block) || current_user.has_role?(:department_assistant, department_block)
 
     add_breadcrumb "Dashboard", dashboard_index_path
-    add_breadcrumb department_block.department.name,  dashboard_department_path(department_block.department,anchor: department_block.day.safe_short_date)
+    add_breadcrumb department_block.department.name,  dashboard_department_path(department_block.department, anchor: department_block.day.safe_short_date)
     add_breadcrumb department_block.name, [:dashboard, department_block]
 
     # TODO: implement all this stuff with native datatables capabilities
@@ -72,11 +72,11 @@
 
     respond_to do |format|
       if @department_block.save
-        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully created.' }
+        format.html { redirect_to ('/dashboard/departments/' + @department_block.department.id.to_s + '#' + @department_block.day.safe_short_date), flash: { success: 'Department block was successfully created.' } }
         format.json { render json: @department_block, status: :created, location: @department_block }
         format.js
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
         format.js
       end
@@ -88,11 +88,11 @@
 
     respond_to do |format|
       if @department_block.update_attributes(params[:department_block])
-        format.html { redirect_to ("/dashboard/departments/" + @department_block.department.id.to_s + "#" + @department_block.day.safe_short_date), notice: 'Department block was successfully updated.' }
+        format.html { redirect_to ('/dashboard/departments/' + @department_block.department.id.to_s + '#' + @department_block.day.safe_short_date), flash: { success: 'Department block was successfully updated.' } }
         format.json { head :no_content }
         format.js
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @department_block.errors, status: :unprocessable_entity }
         format.js
       end
@@ -112,7 +112,7 @@
       new_record.save
     end
 
-    redirect_to ("/dashboard/departments/" + @department.id.to_s + "#" + @day_to_copy_to.safe_short_date), notice: 'Department blocks were successfully copied.'
+    redirect_to ('/dashboard/departments/' + @department.id.to_s + '#' + @day_to_copy_to.safe_short_date), flash: { success: 'Department blocks were successfully copied.' }
 
   end
 
@@ -121,13 +121,13 @@
     @department_block.destroy
 
     respond_to do |format|
-      format.html { redirect_to dashboard_department_url(@department_block.department) }
+      format.html { redirect_to [dashboard:, @department_block.department] }
       format.json { head :no_content }
     end
   end
 
   def export
-
+    # TODO: find out do we still need this
     day=DateTime.new(params[:year].to_i,params[:month].to_i,params[:day].to_i)
     department=Department.find(params[:id].to_i)
 

@@ -23,7 +23,7 @@ class Admin::CharitiesController < Admin::BaseController
 
     respond_to do |format|
       if @charity.save
-        format.html { redirect_to [:admin, @charity], notice: 'Charity was successfully created.' }
+        format.html { redirect_to [:admin, @charity], flash: { success: 'Charity was successfully created.' } }
         format.json { render :show, status: :created, location: [:admin, @charity] }
       else
         format.html { render :new }
@@ -35,7 +35,7 @@ class Admin::CharitiesController < Admin::BaseController
   def update
     respond_to do |format|
       if @charity.update(charity_params)
-        format.html { redirect_to [:admin, @charity], notice: 'Charity was successfully updated.' }
+        format.html { redirect_to [:admin, @charity], flash: { success: 'Charity was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @charity] }
       else
         format.html { render :edit }
@@ -47,7 +47,7 @@ class Admin::CharitiesController < Admin::BaseController
   def destroy
     @charity.destroy
     respond_to do |format|
-      format.html { redirect_to admin_root_url(anchor: 'charities', notice: 'Charity was successfully destroyed.') }
+      format.html { redirect_to admin_root_url(anchor: 'charities'), flash: { success: 'Charity was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end 

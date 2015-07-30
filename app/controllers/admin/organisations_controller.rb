@@ -23,7 +23,7 @@ class Admin::OrganisationsController < Admin::BaseController
 
     respond_to do |format|
       if @organisation.save
-        format.html { redirect_to [:admin, @organisation], notice: 'Organization was successfully created.' }
+        format.html { redirect_to [:admin, @organisation], flash: { success: 'Organization was successfully created.' } }
         format.json { render :show, status: :created, location: [:admin, @organisation] }
       else
         format.html { render action: "new" }
@@ -35,7 +35,7 @@ class Admin::OrganisationsController < Admin::BaseController
   def update
     respond_to do |format|
       if @organisation.update_attributes(organisation_params)
-        format.html { redirect_to [:admin, @organisation], notice: 'Organization was successfully updated.' }
+        format.html { redirect_to [:admin, @organisation], flash: { success: 'Organization was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @organisation] }
       else
         format.html { render action: "edit" }
@@ -48,7 +48,7 @@ class Admin::OrganisationsController < Admin::BaseController
     @organisation.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_root_url(anchor: 'organisations', notice: 'Organization was successfully destroyed.') }
+      format.html { redirect_to admin_root_url(anchor: 'organisations'), flash: { success: 'Organization was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end

@@ -41,11 +41,11 @@ class SubaccountsController < ApplicationController
     @subaccount.skip_confirmation!
     respond_to do |format|
       if @subaccount.save
-        format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully created.' }
+        format.html { redirect_to user_subaccount_path(current_user, @subaccount), flash: { success: 'Subaccount was successfully created.' } }
         format.json { render json: @subaccount, status: :created, location: @subaccount }
         format.js
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @subaccount.errors, status: :unprocessable_entity }
         format.js
       end
@@ -57,10 +57,10 @@ class SubaccountsController < ApplicationController
     @subaccount.skip_reconfirmation!
     respond_to do |format|
       if @subaccount.update_attributes(params[:user])
-        format.html { redirect_to user_subaccount_path(current_user, @subaccount), notice: 'Subaccount was successfully updated.' }
+        format.html { redirect_to user_subaccount_path(current_user, @subaccount), flash: { success: 'Subaccount was successfully updated.' } }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @subaccount.errors, status: :unprocessable_entity }
       end
     end
@@ -82,11 +82,11 @@ class SubaccountsController < ApplicationController
     @response = service.import(params)
 
     if @response.not_valid_rows.present?
-      flash.now[:alert] = "We need a few corrections from you in order to fully import your list..."
+      flash.now[:alert] = 'We need a few corrections from you in order to fully import your list...'
     elsif @response.errors.present?
-      redirect_to user_subaccounts_url(current_user), alert: "#{@response.errors.join(' ,')}"
+      redirect_to user_subaccounts_url(current_user), flash: { alert: "#{@response.errors.join(' ,')}" }
     else
-      redirect_to user_subaccounts_url(current_user), notice: "#{@response.created_count} subaccounts imported."
+      redirect_to user_subaccounts_url(current_user), flash: { success: "#{@response.created_count} subaccounts imported." }
     end
   end
 

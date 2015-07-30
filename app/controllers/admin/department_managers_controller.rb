@@ -13,7 +13,7 @@ class Admin::DepartmentManagersController < Admin::BaseController
 
     respond_to do |format|
       if @department_manager.save
-        format.html { redirect_to admin_department_path(@department_manager.department), notice: 'Department Manager was successfully created.' }
+        format.html { redirect_to [:admin, department], flash: { success: 'Department Manager was successfully created.' } }
         format.json { render json: @department_manager, status: :created, location: @department_manager }
       else
         format.html { render action: "new" }

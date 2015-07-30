@@ -27,7 +27,7 @@ class Dashboard::UserSchedulesController < ApplicationController
         format.json { render json: { template: render_to_string("dashboard/user_schedules/show.json")} }
         format.html do
           redirect_to dashboard_department_block_path(@user_schedule.department_block, params[:scope]),
-            notice: 'User schedule was successfully created.'
+            flash: { success: 'User schedule was successfully created.' }
         end
       else
         format.html { redirect_to :back, alert: @user_schedule.errors.full_messages.join(', ') }
@@ -41,10 +41,10 @@ class Dashboard::UserSchedulesController < ApplicationController
 
     respond_to do |format|
       if @user_schedule.update_attributes(params[:user_schedule])
-        format.html { redirect_to [:dashboard, @user_schedule], notice: 'User Schedule was successfully updated.' }
+        format.html { redirect_to [:dashboard, @user_schedule], flash: { success: 'User Schedule was successfully updated.' } }
         format.json { head :no_content }
       else
-        format.html { redirect_to :back, alert: @user_schedule.errors.full_messages.join(', ') }
+        format.html { redirect_to :back, flash: { alert: @user_schedule.errors.full_messages.join(', ') } }
         format.json { render json: @user_schedule.errors, status: :unprocessable_entity }
       end
     end

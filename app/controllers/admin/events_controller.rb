@@ -24,7 +24,7 @@ class Admin::EventsController < Admin::BaseController
 
     respond_to do |format|
       if @event.persisted?
-        format.html { redirect_to [:admin, @event], notice: 'Event was successfully created.' }
+        format.html { redirect_to [:admin, @event], flash: { success: 'Event was successfully created.' } }
         format.json { render :show, status: :created, location: [:admin, @event] }
       else
         format.html { render :new }
@@ -39,7 +39,7 @@ class Admin::EventsController < Admin::BaseController
 
     respond_to do |format|
       if @event.errors.empty?
-        format.html { redirect_to [:admin, @event], notice: 'Event was successfully updated.' }
+        format.html { redirect_to [:admin, @event], flash: { success: 'Event was successfully updated.' } }
         format.json { render :show, status: :ok, location: [:admin, @event] }
       else
         format.html { render :edit }
@@ -52,7 +52,7 @@ class Admin::EventsController < Admin::BaseController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_root_url(anchor: 'events', notice: 'Event was successfully destroyed.') }
+      format.html { redirect_to admin_root_url(anchor: 'events'), flash: { success: 'Event was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end

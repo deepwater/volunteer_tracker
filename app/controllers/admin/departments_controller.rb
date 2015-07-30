@@ -35,7 +35,7 @@ class Admin::DepartmentsController < Admin::BaseController
 
     respond_to do |format|
       if @department.save
-        format.html { redirect_to [:admin, @department], notice: 'Department was successfully created.' }
+        format.html { redirect_to [:admin, @department], flash: { success: 'Department was successfully created.' } }
         format.json { render json: @department, status: :created, location: [:admin, @department] }
       else
         format.html { render action: "new" }
@@ -47,7 +47,7 @@ class Admin::DepartmentsController < Admin::BaseController
   def update
     respond_to do |format|
       if @department.update_attributes(department_params)
-        format.html { redirect_to [:admin, @department], notice: 'Department was successfully updated.' }
+        format.html { redirect_to [:admin, @department], flash: { success: 'Department was successfully updated.' } }
         format.json { head :no_content }
         format.js
       else
@@ -61,7 +61,7 @@ class Admin::DepartmentsController < Admin::BaseController
   def destroy
     @department.destroy
     respond_to do |format|
-      format.html { redirect_to admin_root_url(anchor: 'departments') }
+      format.html { redirect_to admin_root_url(anchor: 'departments'), flash: { success: 'Department was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end

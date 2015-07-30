@@ -5,10 +5,10 @@ class Dashboard::DepartmentAssistantsController < DashboardController
 
     respond_to do |format|
       if @department_assistant.save
-        format.html { redirect_to dashboard_department_path(@department_assistant.department), notice: 'Department Assistant was successfully created.' }
+        format.html { redirect_to [:dashboard, @department_assistant.department], flash: { success: 'Department Assistant was successfully created.' } }
         format.json { render json: @department_assistant, status: :created, location: @department_assistant }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @department_assistant.errors, status: :unprocessable_entity }
       end
     end
