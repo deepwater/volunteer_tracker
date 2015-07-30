@@ -30,7 +30,7 @@ class Dashboard::UserSchedulesController < ApplicationController
             flash: { success: 'User schedule was successfully created.' }
         end
       else
-        format.html { redirect_to :back, alert: @user_schedule.errors.full_messages.join(', ') }
+        format.html { redirect_to :back, error: @user_schedule.errors.full_messages.join(', ') }
         format.json { render json: @user_schedule.errors, status: :unprocessable_entity }
       end
     end
@@ -44,7 +44,7 @@ class Dashboard::UserSchedulesController < ApplicationController
         format.html { redirect_to [:dashboard, @user_schedule], flash: { success: 'User Schedule was successfully updated.' } }
         format.json { head :no_content }
       else
-        format.html { redirect_to :back, flash: { alert: @user_schedule.errors.full_messages.join(', ') } }
+        format.html { redirect_to :back, flash: { error: @user_schedule.errors.full_messages.join(', ') } }
         format.json { render json: @user_schedule.errors, status: :unprocessable_entity }
       end
     end

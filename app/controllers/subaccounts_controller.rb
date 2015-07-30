@@ -84,7 +84,7 @@ class SubaccountsController < ApplicationController
     if @response.not_valid_rows.present?
       flash.now[:alert] = 'We need a few corrections from you in order to fully import your list...'
     elsif @response.errors.present?
-      redirect_to user_subaccounts_url(current_user), flash: { alert: "#{@response.errors.join(' ,')}" }
+      redirect_to user_subaccounts_url(current_user), flash: { error: "#{@response.errors.join(' ,')}" }
     else
       redirect_to user_subaccounts_url(current_user), flash: { success: "#{@response.created_count} subaccounts imported." }
     end

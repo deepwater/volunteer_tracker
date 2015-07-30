@@ -9,7 +9,7 @@ class Dashboard::UsersController < DashboardController
         format.html { redirect_to :back, flash: { success: 'User was successfully updated.' } }
         format.json { head :no_content }
       else
-        format.html { redirect_to :back, flash: { alert: "User can't be #{params[:user][:role]}" } }
+        format.html { redirect_to :back, flash: { error: "User can't be #{params[:user][:role]}" } }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
