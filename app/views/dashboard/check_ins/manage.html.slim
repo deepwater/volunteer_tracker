@@ -30,7 +30,7 @@
       = render partial: "scheduled"
 
 coffee:
-  $ ->
+  ready = ->
     editCheckOutTimeTo = (ids, checkInDateTime, checkOutDateTime) ->
       $modal = $('#edit_checkout_time')
       $modal.find('#ids').val(ids)
@@ -56,7 +56,7 @@ coffee:
           when 'scheduled' then 'Check In All'
           when 'active' then 'Check Out All'
           when 'inactive' then 'Edit Time All'
-          else console.log "Uexpected type of the datatable - #{dTable.data('table-type')}"
+
         dTable.dataTable
           processing: true
           serverSide: true
@@ -140,9 +140,8 @@ coffee:
               }
             ]
 
-    $(window).load ->
-      $dTable = $($('.days-list li.active a').attr('href')).find('table')
-      initDatatable($dTable)
+    $dTable = $($('.days-list li.active a').attr('href')).find('table')
+    initDatatable($dTable)
 
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
       $dTable = $($(e.target).attr('href')).find('table:first')
@@ -164,3 +163,6 @@ coffee:
         $('.select-all').show()
       unless $trEl.hasClass('DTTT_selected')
         $trEl.find('input:checkbox').prop('checked', false).removeAttr('checked')
+
+  $(document).ready(ready)
+  $(document).on('page:load', ready)
