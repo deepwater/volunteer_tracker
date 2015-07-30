@@ -45,6 +45,7 @@ gem 'bootstrap-timepicker-rails'
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails'
 gem 'breadcrumbs_on_rails'
+gem 'nprogress-rails'
 
 # CUSTOM JS
 gem 'sweet-alert' # Custom alerts

@@ -27,6 +27,8 @@
 //= require dataTables/extras/dataTables.tableTools
 //= require sweet-alert
 //= require sweet-alert-confirm
+//= require nprogress
+//= require nprogress-turbolinks
 
 //= require partials/common
 
