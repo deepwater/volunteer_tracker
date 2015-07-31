@@ -9,11 +9,11 @@ development:
 
 staging:
   <<: *defaults
-  database: volunteer_tracker_staging
+  database: volunteer_tracker_event_hub_staging
 
 production:
   <<: *defaults
-  database: volunteer_tracker_production
+  database: volunteer_tracker_event_hub_production
 
 test:
   <<: *defaults
