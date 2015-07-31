@@ -60,7 +60,7 @@ class Dashboard::CheckInsController < DashboardController
 
   def check_out
     service = CheckInsService.new(as: current_user)
-    @check_in = service.check_out(params[:check_in]["user_schedule_id"])
+    @check_in = service.check_out(check_in_params[:user_schedule_id])
 
     if @check_in.is_a? String
       render json: { errors: [*@check_in] }
@@ -77,7 +77,7 @@ class Dashboard::CheckInsController < DashboardController
 
   def create
     service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
-    @check_in = service.create(params[:check_in])
+    @check_in = service.create(check_in_params)
     anchor = cookies.delete(:tabs_anchor)
     back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
@@ -96,7 +96,7 @@ class Dashboard::CheckInsController < DashboardController
 
   def update
     service = CheckInsService.new(as: current_user)
-    @check_in = service.update(params[:id], params[:check_in])
+    @check_in = service.update(params[:id], check_in_params)
     anchor = cookies.delete(:tabs_anchor)
     back_path = (request.referer && anchor) ? request.referer + '#' + anchor : :back
 
@@ -116,8 +116,8 @@ class Dashboard::CheckInsController < DashboardController
 
   def create_batch
     service = CheckInsService.new(as: current_user, fastpass: params[:fastpass].present?)
-    params[:check_in][:user_schedule_id].split(',').each do |item|
-      @check_in = service.create(user_schedule_id: item, status: params[:check_in][:status])
+    check_in_params[:user_schedule_id].split(',').each do |item|
+      @check_in = service.create(user_schedule_id: item, status: check_in_params[:status])
       break if @check_in.errors.present?
       broadcast(@check_in, 'check_in') if @check_in.errors.empty?
     end
@@ -137,8 +137,8 @@ class Dashboard::CheckInsController < DashboardController
 
   def update_batch
     service = CheckInsService.new(as: current_user)
-    params[:check_in][:id].split(',').each do |item|
-      @check_in = service.update(item, params[:check_in])
+    check_in_params[:id].split(',').each do |item|
+      @check_in = service.update(item, check_in_params)
       break if @check_in.errors.present?
       broadcast(@check_in, 'check_out') if @check_in.errors.empty?
     end
@@ -190,5 +190,9 @@ class Dashboard::CheckInsController < DashboardController
 
     def check_ins_service
       @service ||= CheckInsService.new(as: current_user)
+    end
+
+    def check_in_params
+      params.require(:check_in).permit!
     end
 end

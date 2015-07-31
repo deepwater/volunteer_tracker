@@ -54,7 +54,7 @@ class ActiveVolunteerDatatable < AjaxDatatablesRails::Base
       query = query.where(user_schedule_id: day_user_schedule_ids)
     end
 
-    query.where(status: '1').includes(user_schedule: [:charity, :user, { department_block: :department }])
+    query.where(status: '1').joins(user_schedule: [:charity, :user, { department_block: :department }])
   end
 
   private 

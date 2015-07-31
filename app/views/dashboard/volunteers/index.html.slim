@@ -40,6 +40,10 @@ coffee:
         ]
         tableTools:
           aButtons: false
+        initComplete: (settings, json) ->
+          $("##{settings.sTableId}").find('tbody tr').each (i, e) =>
+            colorizeElement($(e))
+          return
 
     # FIXME: move this hack to css
     $('#volunteers_list_table_length').hide()
@@ -73,7 +77,7 @@ coffee:
         default:
           bgColor = "#f9f9f9";
       }
-      el.find("td").css("background-color", bgColor);
+      el.css("background-color", bgColor);
     }
 
     window.faye = new Faye.Client('#{configatron.faye.url}');

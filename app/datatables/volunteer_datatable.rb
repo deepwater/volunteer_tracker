@@ -58,7 +58,7 @@ class VolunteerDatatable < AjaxDatatablesRails::Base
                    .joins({ user_schedules: :department_block })
                    .where("department_blocks.day_id = ?", options[:day].id).pluck(:id)
 
-    scope = CheckIn.includes( { user_schedule: [ :charity, { department_block: :department } ] }, :user)
+    scope = CheckIn.joins( { user_schedule: [ :charity, { department_block: :department } ] }, :user)
            .where("department_blocks.day_id = ?", options[:day].id)
            .where("check_ins.user_id IN (#{user_ids.join(',')})")
 
