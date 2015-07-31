@@ -10,4 +10,4 @@ window.currentDate = ->
   fragments.join '-'
 
 $ ->
-  $('.nav-tabs').stickyTabs()
+  $('.nav-tabs:not(.fake-tabs)').stickyTabs()

@@ -2,10 +2,10 @@
 .col-sm-12
   .page-header
     h1 Volunteers List
-  ul.days-list.nav.nav-tabs role='tablist'
+  ul.nav.nav-tabs.fake-tabs
     - days.each do |day|
-      li class=(day.id == params[:day_id].to_i ? 'active' : '') role='presentation'
-        = link_to dashboard_volunteers_path(day_id: day.id), data: { toggle: 'tab' }, 'aria-controls' => 'profile', role: 'tab' do
+      li class=(day.id == params[:day_id].to_i ? 'active' : '')
+        = link_to dashboard_volunteers_path(day_id: day.id) do
           = day.day_name
           = day.short_date
   br
