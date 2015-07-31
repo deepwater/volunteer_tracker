@@ -22,4 +22,4 @@ set :user, 'volunteer2'
 set :password, 'PQTUV6sdfyF2qm9'
 set :port, 22
 
-set(:rbenv_ruby_version, '2.1.5')
+set(:rbenv_ruby_version, '2.2.2')
