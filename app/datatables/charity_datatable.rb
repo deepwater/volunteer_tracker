@@ -19,7 +19,7 @@ class CharityDatatable < AjaxDatatablesRails::Base
         link_to(record.name, admin_charity_path(record)),
         link_to('Edit', edit_admin_charity_path(record), remote: true),
         link_to('Delete', admin_charity_path(record), method: :delete, data: { confirm: 'Are you sure?' }),
-        volunteer_hours_progress(record)
+        volunteer_hours_progress(record.id)
       ]
     end
   end
@@ -28,13 +28,13 @@ class CharityDatatable < AjaxDatatablesRails::Base
     Charity
   end
 
-  def volunteer_hours_progress(charity)
-    progress = UserSchedule.where(charity_id: charity.id)
+  def volunteer_hours_progress(charity_id)
+    result = UserSchedule
+      .where(charity_id: charity_id)
       .joins("LEFT OUTER JOIN check_ins ON check_ins.user_schedule_id = user_schedules.id")
       .where("check_ins.status = '2'")
       .select("user_schedules.charity_id, SUM(extract(epoch from (check_ins.check_out_time - check_ins.created_at))) as total_seconds")
       .group("user_schedules.charity_id").inject({}) { |h, o| h.merge!({o.charity_id => o.total_seconds.to_i/3600}) }
-    html = progress.present? ? progress : ''
-    html
+    result[charity_id].to_i
   end
 end
