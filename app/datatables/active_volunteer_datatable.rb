@@ -56,6 +56,9 @@ class ActiveVolunteerDatatable < AjaxDatatablesRails::Base
       query = query.where(user_schedule_id: day_user_schedule_ids)
     end
 
+    checked_out_schedules = CheckIn.where(status: '2').joins(:user_schedule).pluck('user_schedules.id')
+    query = query.where('user_schedule_id NOT IN (?)', checked_out_schedules)
+
     query.where(status: '1').includes(user_schedule: [:charity, :user, { department_block: :department }])
   end
   
