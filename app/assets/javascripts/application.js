@@ -14,10 +14,12 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 
+//= require underscore
 //= require bootstrap
+//= require moment
+//= require bootstrap3-calendar
 //= require bootstrap-timepicker
 //= require bootstrap-datepicker/core
-//= require moment
 //= require bootstrap-datetimepicker
 //= require libs/bootstrap-tour
 //= require libs/jquery.cookie

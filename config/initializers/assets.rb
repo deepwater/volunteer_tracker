@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( libs/DYMO.Label.Framework.latest.js )
+Rails.application.config.assets.precompile += %w( libs/DYMO.Label.Framework.latest.js bootstrap3-calendar.css bootstrap3-calendar.js )

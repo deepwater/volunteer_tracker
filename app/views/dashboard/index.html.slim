@@ -33,6 +33,8 @@ ul.thumbnails.nav
     = render "dashboard/dashboard_modules/volunteers"
   - unless current_user.has_any_role? :super_admin, :org_admin, :event_admin, :department_manager
     = render "dashboard/dashboard_modules/past_assignments"
+  - if current_user.has_any_role? :super_admin, :org_admin, :event_admin
+    = render "dashboard/dashboard_modules/calendar"
 
 = render "shared/modal"
 

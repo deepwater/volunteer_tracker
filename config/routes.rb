@@ -71,6 +71,10 @@ VolunteerTracker::Application.routes.draw do
       end
     end
 
+    resources :events do
+      get :calendar, on: :collection
+    end
+
     resources :check_ins do
       collection do
         get :scheduled

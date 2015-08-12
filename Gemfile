@@ -12,7 +12,7 @@ gem 'newrelic_rpm'
 gem 'faye'
 
 gem 'devise'
-gem 'cancan'
+gem 'cancancan', '~> 1.10'
 gem 'rolify'
 
 gem 'roo'
@@ -48,8 +48,12 @@ gem 'breadcrumbs_on_rails'
 gem 'nprogress-rails'
 
 # CUSTOM JS
-gem 'sweet-alert' # Custom alerts
-gem 'sweet-alert-confirm' # Override default Rails UJS confirms
+gem 'sweet-alert'
+gem 'sweet-alert-confirm'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap3-calendar'
+end
 
 group :development do
   gem 'quiet_assets'
