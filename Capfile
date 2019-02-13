@@ -1,6 +1,12 @@
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
-load "deploy/assets"
+# Load DSL and Setup Up Stages
+require 'capistrano/setup'
+require 'capistrano/deploy'
 
-Dir['lib/capistrano/recipes/*.rb'].each { |plugin| load(plugin) }
+require 'capistrano/rails'
+require 'capistrano/bundler'
+require 'capistrano/rbenv_install'
+require 'capistrano/puma'
+install_plugin Capistrano::Puma
 
-load 'config/deploy' # remove this line to skip loading any of the default tasks
+# Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
