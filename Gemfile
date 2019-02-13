@@ -69,6 +69,6 @@ group :assets do
 	gem 'sass-rails', '3.2.6'
 	gem 'coffee-rails', '~> 3.2.1'
 	gem 'uglifier', '>= 1.0.3'
-	gem 'therubyracer', '0.12.1', platforms: :ruby, require: 'v8'
+	gem 'therubyracer'
   gem 'turbo-sprockets-rails3', '0.3.11'
 end
