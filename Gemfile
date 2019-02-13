@@ -64,6 +64,7 @@ end
 
 group :production, :staging do
   gem 'rollbar', '~> 1.2.7'
+  gem 'puma'
 end
 
 group :assets do

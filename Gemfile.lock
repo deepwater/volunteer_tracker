@@ -154,6 +154,7 @@ GEM
       websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
     public_suffix (3.0.3)
+    puma (3.11.4)
     rack (1.4.7)
     rack-cache (1.8.0)
       rack (>= 0.4)
@@ -305,6 +306,7 @@ DEPENDENCIES
   newrelic_rpm (= 3.7.1.182)
   pg (= 0.17.1)
   poltergeist (= 1.6.0)
+  puma
   rails (= 3.2.20)
   rolify (= 3.4.0)
   rollbar (~> 1.2.7)
