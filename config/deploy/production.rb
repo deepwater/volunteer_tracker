@@ -20,6 +20,7 @@ set :branch,          'production'
 set :pg_database, 'volunteer_tracker'
 set :pg_username, ENV.fetch("POSTGRES_USER")
 set :pg_password, ENV.fetch("POSTGRES_PASSWORD")
+set :pg_without_sudo, true
 
 
 namespace :deploy do
