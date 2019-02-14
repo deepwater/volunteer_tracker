@@ -33,6 +33,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'breadcrumbs_on_rails', '2.3.0'
 gem 'puma'
 
+gem 'rbnacl'
+
 # CUSTOM JS
 gem 'sweet-alert' # Custom alerts
 gem 'sweet-alert-confirm' # Override default Rails UJS confirms

@@ -195,6 +195,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    rbnacl (3.4.0)
+      ffi
     rdoc (3.12.2)
       json (~> 1.4)
     ref (2.0.0)
@@ -326,6 +328,7 @@ DEPENDENCIES
   poltergeist (= 1.6.0)
   puma
   rails (= 3.2.20)
+  rbnacl
   rolify (= 3.4.0)
   rollbar (~> 1.2.7)
   roo (~> 2.0.0)
