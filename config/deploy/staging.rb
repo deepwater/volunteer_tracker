@@ -18,8 +18,8 @@
 server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
 set :branch,          'staging'
 set :pg_database, 'volunteer_tracker'
-set :pg_username, <%= ENV.fetch("POSTGRES_USER") %>
-set :pg_password, <%= ENV.fetch("POSTGRES_PASSWORD") %>
+set :pg_username, ENV.fetch("POSTGRES_USER")
+set :pg_password, ENV.fetch("POSTGRES_PASSWORD")
 
 namespace :deploy do
     desc "Make sure local git is in sync with remote."
