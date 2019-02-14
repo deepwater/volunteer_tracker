@@ -16,6 +16,7 @@ role :db,  %w{deploy@example.com}
 # used to set extended properties on the server.
 
 server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+set :branch,          'staging'
 
 
 # Custom SSH Options

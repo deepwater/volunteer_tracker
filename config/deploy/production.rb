@@ -16,6 +16,7 @@
 # used to set extended properties on the server.
 
 server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
+set :branch,          'deployable' # remove after testing deploys and merged to master, so master branch is deployed
 
 
 # Custom SSH Options
