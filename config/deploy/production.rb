@@ -16,8 +16,21 @@
 # used to set extended properties on the server.
 
 server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
-set :branch,          'deployable' # remove after testing deploys and merged to master, so master branch is deployed
+set :branch,          'production' 
 
+
+namespace :deploy do
+    desc "Make sure local git is in sync with remote."
+    task :check_revision do
+      on roles(:app) do
+        unless `git rev-parse HEAD` == `git rev-parse origin/master`
+          puts "WARNING: HEAD is not the same as origin/master"
+          puts "Run `git push` to sync changes."
+          exit
+        end
+      end
+    end
+end
 
 # Custom SSH Options
 # ==================
