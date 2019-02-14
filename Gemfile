@@ -34,6 +34,7 @@ gem 'breadcrumbs_on_rails', '2.3.0'
 gem 'puma'
 
 gem 'rbnacl'
+gem 'bcrypt_pbkdf'
 
 # CUSTOM JS
 gem 'sweet-alert' # Custom alerts
