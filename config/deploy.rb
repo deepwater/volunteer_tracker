@@ -32,7 +32,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 set :branch,          'deployable' # remove after testing deploys and merged to master, so master branch is deployed
 
-set :rbenv_ruby, File.read('.ruby-version').strip
+set :rbenv_ruby, 'ruby 2.1.5p273'
 
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
