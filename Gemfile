@@ -39,14 +39,15 @@ gem 'sweet-alert-confirm' # Override default Rails UJS confirms
 
 group :development do
   gem 'letter_opener', '1.2.0'
-	gem 'capistrano', '~> 3.2.1'
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv', '~> 2.0' # required
-  gem 'capistrano-rbenv-install', '~> 1.2.0'
-  gem 'capistrano-bundler'
-  gem 'capistrano3-puma'
 	gem 'byebug', '3.5.1'
   gem 'thin', '1.5.1'
+  gem 'capistrano', '~> 3.2.1'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv-install'
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma'
+  gem 'capistrano-rake', require: false
 end
 
 group :development, :test do

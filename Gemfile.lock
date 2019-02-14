@@ -60,6 +60,8 @@ GEM
     capistrano-rails (1.4.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rake (0.2.0)
+      capistrano (>= 3.0)
     capistrano-rbenv (2.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
@@ -294,8 +296,9 @@ DEPENDENCIES
   capistrano (~> 3.2.1)
   capistrano-bundler
   capistrano-rails
-  capistrano-rbenv (~> 2.0)
-  capistrano-rbenv-install (~> 1.2.0)
+  capistrano-rake
+  capistrano-rbenv
+  capistrano-rbenv-install
   capistrano3-puma
   capybara (= 2.4.4)
   coffee-rails (~> 3.2.1)
