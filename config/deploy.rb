@@ -10,8 +10,6 @@ set :repo_url, 'git@github.com:deepwater/volunteer_tracker.git'
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/var/www/volunteertracker.io/html'
 
-server '134.209.8.31', port: 22, roles: [:web, :app, :db], primary: true
-
 set :user,            'devop1'
 set :puma_threads,    [4, 16]
 set :puma_workers,    5
