@@ -1,0 +1,19 @@
+defaults: &defaults
+  adapter: postgresql
+  encoding: utf8
+  database: volunteer_tracker
+  host: 127.0.0.1
+
+development:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+  database: volunteer_tracker_staging
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  database: volunteer_tracker_test
