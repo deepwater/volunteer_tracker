@@ -15,7 +15,7 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
 set :branch,          'staging'
 
 namespace :deploy do
