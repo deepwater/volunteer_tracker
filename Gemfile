@@ -20,9 +20,9 @@ gem 'slim', '2.0.2'
 gem 'kaminari', '0.15.1'
 gem 'simple_form', '2.1.1'
 
-gem 'jquery-rails', '3.0.1'
-gem 'jquery-ui-rails', '4.0.3'
-gem 'jquery-datatables-rails', '3.3.0'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'jquery-datatables-rails'
 gem 'ajax-datatables-rails', '0.3.0'
 
 gem 'bootstrap-sass', '3.1.1.1'
