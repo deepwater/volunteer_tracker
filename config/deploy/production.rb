@@ -17,14 +17,7 @@
 
 server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
 set :branch,          'production' 
-set :pg_database, 'volunteer_tracker'
-set :pg_host, 'volunteertracker.io'
-set :pg_username, ENV.fetch("POSTGRES_USER")
-set :pg_password, ENV.fetch("POSTGRES_PASSWORD")
-set :pg_without_sudo, true
-set :pg_extensions, ['citext','hstore']
-set :pg_encoding, 'UTF-8'
-set :pg_pool, '100'
+
 
 
 namespace :deploy do
