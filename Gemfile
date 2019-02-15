@@ -70,9 +70,6 @@ group :production do
 	gem 'memcachier', '0.0.2'
 end
 
-# group :production, :staging do
-#   gem 'rollbar', '~> 1.2.7'
-# end
 
 group :assets do
 	gem 'sass-rails', '3.2.6'
