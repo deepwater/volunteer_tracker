@@ -20,9 +20,9 @@ gem 'slim', '2.0.2'
 gem 'kaminari', '0.15.1'
 gem 'simple_form', '2.1.1'
 
-gem 'jquery-rails', '3.0.1'
-gem 'jquery-ui-rails', '4.0.3'
-gem 'jquery-datatables-rails', '3.3.0'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'jquery-datatables-rails'
 gem 'ajax-datatables-rails', '0.3.0'
 
 gem 'bootstrap-sass', '3.1.1.1'
@@ -31,6 +31,10 @@ gem 'bootstrap-timepicker-rails', '0.1.3'
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'breadcrumbs_on_rails', '2.3.0'
+gem 'puma'
+
+gem 'rbnacl'
+gem 'bcrypt_pbkdf'
 
 # CUSTOM JS
 gem 'sweet-alert' # Custom alerts
@@ -38,10 +42,15 @@ gem 'sweet-alert-confirm' # Override default Rails UJS confirms
 
 group :development do
   gem 'letter_opener', '1.2.0'
-	gem 'capistrano', '2.15.5', require: false
-	gem 'capistrano-rbenv', '1.0.5', require: false
 	gem 'byebug', '3.5.1'
   gem 'thin', '1.5.1'
+  gem 'capistrano'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rbenv'
+  gem 'capistrano-rbenv-install'
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma'
+  gem 'capistrano-rake', require: false
 end
 
 group :development, :test do
@@ -61,9 +70,6 @@ group :production do
 	gem 'memcachier', '0.0.2'
 end
 
-group :production, :staging do
-  gem 'rollbar', '~> 1.2.7'
-end
 
 group :assets do
 	gem 'sass-rails', '3.2.6'

@@ -1,22 +1,61 @@
-require 'capistrano-rbenv'
+# Simple Role Syntax
+# ==================
+# Supports bulk-adding hosts to roles, the primary server in each group
+# is considered to be the first unless any hosts have the primary
+# property set.  Don't declare `role :all`, it's a meta role.
 
-set :dns_name, "162.243.66.189"
+# role :app, %w{deploy@example.com}
+# role :web, %w{deploy@example.com}
+# role :db,  %w{deploy@example.com}
 
-set :application, "volunteer"
-set :repository,  "git@github.com:deepwater/volunteer_tracker.git"
 
-role :web, dns_name                          # Your HTTP server, Apache/etc
-role :app, dns_name                          # This may be the same as your `Web` server
-role :db,  dns_name, primary: true           # This is where Rails migrations will run
+# Extended Server Syntax
+# ======================
+# This can be used to drop a more detailed server definition into the
+# server list. The second argument is a, or duck-types, Hash and is
+# used to set extended properties on the server.
 
-set :deploy_to, "/data/#{application}"
+server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
+set :branch,          'production' 
+set :stage,           :production
 
-set :rails_env, 'production'
-set :branch, 'production'
-set :use_sudo, false
 
-set :user, 'ninja'
-set :password, 'B8M6GCTwpPpgVx'
-set :port, 22
 
-set(:rbenv_ruby_version, '2.1.0')
+namespace :deploy do
+    desc "Make sure local git is in sync with remote."
+    task :check_revision do
+      on roles(:app) do
+        unless `git rev-parse HEAD` == `git rev-parse origin/master`
+          puts "WARNING: HEAD is not the same as origin/master"
+          puts "Run `git push` to sync changes."
+          exit
+        end
+      end
+    end
+end
+
+# Custom SSH Options
+# ==================
+# You may pass any option but keep in mind that net/ssh understands a
+# limited set of options, consult[net/ssh documentation](http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start).
+#
+# Global options
+# --------------
+#  set :ssh_options, {
+#    keys: %w(/home/rlisowski/.ssh/id_rsa),
+#    forward_agent: false,
+#    auth_methods: %w(password)
+#  }
+#
+# And/or per server (overrides global)
+# ------------------------------------
+# server 'example.com',
+#   user: 'user_name',
+#   roles: %w{web app},
+#   ssh_options: {
+#     user: 'user_name', # overrides user setting above
+#     keys: %w(/home/user_name/.ssh/id_rsa),
+#     forward_agent: false,
+#     auth_methods: %w(publickey password)
+#     # password: 'please use keys'
+#   }
