@@ -1,3 +1,6 @@
+require 'capistrano/ext/multistage'
+require 'bundler/capistrano'
+
 # config valid only for Capistrano 3.1
 lock '3.11.0'
 
@@ -18,6 +21,12 @@ set :puma_workers,    5
 set :pty,             true
 set :use_sudo,        false
 set :deploy_via,      :remote_cache
+
+set :stages, %w(staging production)
+set :default_stage, "staging"
+set :keep_releases, 5
+set :scm, :git
+
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
