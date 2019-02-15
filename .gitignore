@@ -7,3 +7,4 @@ tmp/
 public/system/**/*
 public/assets
 .idea
+config/database.yml
