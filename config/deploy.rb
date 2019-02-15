@@ -1,4 +1,3 @@
-require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 
 # config valid only for Capistrano 3.1
