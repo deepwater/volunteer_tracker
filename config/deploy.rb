@@ -17,7 +17,6 @@ set :puma_workers,    5
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false
-set :deploy_via,      :remote_cache
 
 set :stages, %w(staging production)
 set :default_stage, "staging"
