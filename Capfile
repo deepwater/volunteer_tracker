@@ -1,3 +1,6 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+load "deploy/assets"
+
 # Load DSL and Setup Up Stages
 require 'capistrano/setup'
 
