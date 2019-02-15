@@ -17,7 +17,6 @@ set :puma_workers,    5
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false
-set :deploy_via,      :remote_cache
 
 set :stages, %w(staging production)
 set :default_stage, "staging"
@@ -37,8 +36,15 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 set :rbenv_ruby, '2.1.5'
 
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_map_bins, %w{rake gem bundle ruby rails puma pumactl}
 set :rbenv_roles, :all # default value
+
+# Default value for :linked_files is []
+set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+
+# Default value for linked_dirs is []
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'

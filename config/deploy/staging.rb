@@ -16,7 +16,7 @@
 # used to set extended properties on the server.
 
 server '134.209.8.31', user: 'devop1', roles:[:web, :app, :db], my_property: :my_value
-set :branch,          'production' 
+set :branch,          'staging' 
 set :stage,           :staging
 
 

@@ -1,27 +1,27 @@
-@import 'jquery.ui.all';
+@import 'jquery.ui.all.css';
 
 @import 'bootstrap';
 
-@import 'bootstrap-timepicker';
-@import 'bootstrap-datepicker';
-@import 'bootstrap-datetimepicker';
+@import 'bootstrap-timepicker.css';
+@import 'bootstrap-datepicker.css';
+@import 'bootstrap-datetimepicker.css';
 
-@import 'libs/bootstrap-tour';
+@import 'libs/bootstrap-tour.css';
 
-@import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap';
-@import 'dataTables/extras/dataTables.tableTools';
-@import  'sweet-alert';
-@import 'partials/datatables';
+@import 'dataTables/bootstrap/3/jquery.dataTables.bootstrap.css';
+@import 'dataTables/extras/dataTables.tableTools.css';
+@import  'sweet-alert.css';
+@import 'partials/datatables.css';
 
-@import 'partials/layout';
-@import 'partials/theme';
-@import 'partials/devise';
-@import 'partials/admin';
-@import 'partials/dashboard';
-@import 'partials/department_blocks';
-@import 'partials/user_schedules';
-@import 'partials/users';
-@import 'partials/subaccounts';
-@import 'dashboard/check_ins';
-@import 'dashboard/departments';
-@import 'dashboard/user_availabilities';
+@import 'partials/layout.css';
+@import 'partials/theme.css';
+@import 'partials/devise.css';
+@import 'partials/admin.css';
+@import 'partials/dashboard.css';
+@import 'partials/department_blocks.css';
+@import 'partials/user_schedules.css';
+@import 'partials/users.css';
+@import 'partials/subaccounts.css';
+@import 'dashboard/check_ins.css';
+@import 'dashboard/departments.css';
+@import 'dashboard/user_availabilities.css';
